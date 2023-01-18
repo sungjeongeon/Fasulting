@@ -1,8 +1,10 @@
 package com.fasulting.demo.customer.user.controller;
 
 import com.fasulting.demo.customer.user.db.entity.User;
+import com.fasulting.demo.customer.user.request.UserRegisterReq;
 import com.fasulting.demo.customer.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,10 +61,20 @@ public class UserController {
         return null; // fail OR success
     }
 
+    // test
+    @GetMapping("/get")
+    public ResponseEntity<?> Get() {
+        log.info("get요청입니다.");
+        return null;
+    }
+
     // 5. 회원가입
     // userDto: DB user table 다 넣은
     @PostMapping("/regist")
-    public ResponseEntity<?> Join(@RequestBody User user) {
+    public ResponseEntity<?> userRegister(@RequestBody UserRegisterReq userInfo) {
+        log.info("userRegister - Call");
+
+        userService.userRegister(userInfo);
         return null; // fail OR success
     }
 

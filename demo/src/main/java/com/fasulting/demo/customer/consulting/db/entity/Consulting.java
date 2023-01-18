@@ -1,5 +1,7 @@
 package com.fasulting.demo.customer.consulting.db.entity;
 
+import com.fasulting.demo.customer.review.db.entity.Review;
+import com.fasulting.demo.customer.user.db.entity.User;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,19 +19,6 @@ public class Consulting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int consultingId;
 
-    @Column(name = "ps_id")
-    private int psId;
-
-//    외래키
-//    @Column(name = "user_id")
-//    private int userId;
-//
-//    @Column(name = "review_id")
-//    private int reviewId;
-//
-//    @Column(name = "sub_category_id")
-//    private int subCategoryId;
-
     @Column(name = "consulting_confirm")
     private String consultingConfirm;
 
@@ -37,5 +26,20 @@ public class Consulting {
     private String consultingNotification;
 
     // table과 관계 설정
+    //    외래키
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "review_id")
+    private Review review;
+
+//    @ManyToOne
+//    @JoinColumn(name = "sub_category_id")
+//    private SubCategory subCategory;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "ps_id")
+//    private Ps ps;
 }

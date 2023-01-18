@@ -1,5 +1,6 @@
 package com.fasulting.demo.customer.review.db.entity;
 
+import com.fasulting.demo.customer.user.db.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +27,14 @@ public class Review {
     private String reviewIsAccused;
 
     // 외래키
-    // 회원 id
+    // 회원 id - 단방향
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     // 병원 id
+//    @ManyToOne
+//    @JoinColumn(name = "ps_id")
+//    private Ps ps;
 
 }

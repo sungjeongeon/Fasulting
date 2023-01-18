@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+// 논의 필요한 Entity
+
 @Entity
 @Getter
 @Setter
