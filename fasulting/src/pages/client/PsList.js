@@ -1,7 +1,11 @@
+import HospitalList from "../../components/HospitalList";
+import SubCategoryList from "../../components/SubCategoryList";
+
 function PsList() {
   return (
     <div>
-      <h1>PsList</h1>
+      <SubCategoryList />
+      <HospitalList />
     </div>
   );
 }
