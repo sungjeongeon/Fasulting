@@ -1,39 +1,45 @@
-.navbar {
+.header {
   position: relative;
   width: 90rem;
   height: 4.06rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .logo {
   position: absolute;
   width: 10.56rem;
   height: 3.13rem;
-  left: 14rem;
+  /* left: 14rem; */
   top: 0.5rem;
 }
 
+.ml {
+  margin-left: auto;
+}
+
 .login {
-  left: 72rem;
+  left: 60rem;
   top: 0.5rem;
 }
 
 .register {
-  left: 77rem;
+  left: 65rem;
   top: 0.5rem;
 }
 
 .reserve {
-  left: 66.4rem;
+  left: 51.5rem;
   top: 0.5rem;
 }
 
 .mypage {
-  left: 71.7rem;
+  left: 57rem;
   top: 0.5rem;
 }
 
 .greeting {
-  left: 77rem;
+  left: 63rem;
   /* top: 0.1rem; */
 }
 
