@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import { Card } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -32,11 +31,10 @@ function LoginCard() {
                 alignItems: 'center',
             }}
             >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            </Avatar>
             <Typography component="h1" variant="h5">
                 로그인
             </Typography>
+            <Card style={{padding: '40px'}}>
             <Box component="form" noValidate sx={{ mt: 1 }}>
                 <FormControl>
                     <RadioGroup
@@ -54,6 +52,7 @@ function LoginCard() {
                 fullWidth
                 id="email"
                 name="email"
+                label="이메일 주소"
                 autoComplete="email"
                 autoFocus/>
                     <Link href="#" variant="body2">
@@ -90,6 +89,7 @@ function LoginCard() {
                 </Grid>
                 </Grid>
             </Box>
+            </Card>
             </Box>
         </Container>
         </ThemeProvider>

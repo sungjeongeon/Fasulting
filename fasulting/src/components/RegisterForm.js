@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Avatar,
   Button,
-  CssBaseline,
   TextField,
   FormControl,
   FormControlLabel,
@@ -10,10 +8,10 @@ import {
   FormHelperText,
   Grid,
   Box,
+  Card,
   Typography,
   Container,
 } from '@mui/material/';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styled from 'styled-components';
 
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
@@ -29,7 +27,6 @@ const Boxs = styled(Box)`
 `;
 
 const RegisterCard = () => {
-  const theme = createTheme();
   const [checked, setChecked] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordState, setPasswordState] = useState('');
@@ -118,9 +115,7 @@ const RegisterCard = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -129,10 +124,10 @@ const RegisterCard = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }} />
           <Typography component="h1" variant="h5">
             회원가입
           </Typography>
+        <Card style={{padding: '40px'}}>
           <Boxs component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <FormControl component="fieldset" variant="standard">
               <Grid container spacing={2}>
@@ -209,7 +204,7 @@ const RegisterCard = () => {
                 <Grid item xs={12}>
                   <FormControlLabel
                     control={<Checkbox onChange={handleAgree} color="primary" />}
-                    label="회원가입 약관에 동의합니다."
+                    label="개인정보제공동의"
                   />
                 </Grid>
               </Grid>
@@ -225,9 +220,9 @@ const RegisterCard = () => {
             </FormControl>
             {/* <FormHelperTexts>{registerError}</FormHelperTexts> */}
           </Boxs>
+          </Card>
         </Box>
-      </Container>
-    </ThemeProvider>
+    </Container>
   );
 };
 
