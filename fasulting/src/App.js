@@ -8,6 +8,7 @@ import Register from "./pages/client/Register";
 import Reserve from "./pages/client/Reserve";
 import Mypage from "./pages/client/Mypage";
 import Detail from "./pages/client/Detail";
+import MyActivity from "./pages/client/MyActivity";
 import { Container } from "@mui/system";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@emotion/react";
@@ -55,8 +56,10 @@ function App() {
               <Route path="/detail/:id" element={<Detail />} />
               {/* 나의 예약 */}
               <Route path="/reserve" element={<Reserve />} />
-              {/* 나의 활동 */}
+              {/* 나의 정보 */}
               <Route path="/mypage" element={<Mypage />} />
+              {/* 나의 활동 */}
+              <Route path="/myactivity" element={<MyActivity />} />
               {/* 메인 */}
               <Route path="/" element={<Home />} />
             </Routes>
