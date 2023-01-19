@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function HospitalListItem({ hospital }) {
   const navigate = useNavigate();
   const onClick = () => {
-    navigate(`detail/${hospital.ps_id}`);
+    navigate(`/detail/${hospital.ps_id}`);
   };
   return (
     <div className={styles.outerDiv} onClick={onClick}>
@@ -20,8 +20,12 @@ function HospitalListItem({ hospital }) {
           </p>
           <p className={styles.name}>{hospital.ps_name}</p>
           <p className={styles.intro}>{hospital.ps_intro}</p>
-          {hospital.sub_category_id.map((sub) => {
-            return <button className={styles.subCategory}># {sub}</button>;
+          {hospital.sub_category_id.map((sub, index) => {
+            return (
+              <button key={index} className={styles.subCategory}>
+                # {sub}
+              </button>
+            );
           })}
         </div>
         {/* 오른쪽 */}
