@@ -26,7 +26,7 @@ function LoginCard() {
                 alignItems: 'center',
             }}
             >
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h4">
                 로그인
             </Typography>
             <Card style={{padding: '40px'}}>
@@ -72,15 +72,14 @@ function LoginCard() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                style={{color: 'white'}}
                 >
                 로그인
                 </Button>
                 <Grid container>
                 <Grid item>
-                    아직 아이디가 없으신가요?
-                    <Link href="#" variant="body2">
-                    {"병원 로그인 | 회원 로그인"}
-                    </Link>
+                    아직 아이디가 없으신가요?<br />
+                    <Link to={"/resister"}>회원가입</Link>
                 </Grid>
                 </Grid>
             </Box>

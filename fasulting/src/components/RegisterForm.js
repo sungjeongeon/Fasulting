@@ -120,7 +120,7 @@ const RegisterCard = () => {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h4">
             회원가입
           </Typography>
         <Card style={{padding: '40px'}}>
