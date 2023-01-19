@@ -1,9 +1,9 @@
-import LoginCard from "../../components/LoginCard";
+import LoginForm from "../../components/LoginForm";
 
 function Login() {
   return (
-    <div>
-      <LoginCard></LoginCard>
+    <div style={{backgroundColor: '#E5F3F5'}}>
+      <LoginForm></LoginForm>
     </div>
   );
 }

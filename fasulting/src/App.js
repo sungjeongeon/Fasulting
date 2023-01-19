@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import FindPw from "./pages/client/FindPw";
@@ -7,11 +8,13 @@ import PsList from "./pages/client/PsList";
 import Register from "./pages/client/Register";
 import Reserve from "./pages/client/Reserve";
 import Mypage from "./pages/client/Mypage";
+import { Container } from "@mui/system";
 
 function App() {
   return (
     <Router>
       <Header />
+      <Container maxWidth="lg">
       <Routes>
         {/* 비밀번호 찾기 */}
         <Route path="/findpw" element={<FindPw />} />
@@ -28,6 +31,7 @@ function App() {
         {/* 나의 활동 */}
         <Route path="/mypage" element={<Mypage />} />
       </Routes>
+      </Container>
     </Router>
   );
 }
