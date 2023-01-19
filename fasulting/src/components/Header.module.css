@@ -1,52 +1,40 @@
 .navbar {
-  position: absolute;
-  width: 1440px;
-  height: 65px;
-  left: 0px;
-  top: 0px;
+  position: relative;
+  width: 90rem;
+  height: 4.06rem;
 }
 
 .logo {
   position: absolute;
-  width: 169.23px;
-  height: 50px;
-  left: 224px;
-  top: 7px;
+  width: 10.56rem;
+  height: 3.13rem;
+  left: 14rem;
+  top: 0.5rem;
 }
 
 .login {
-  width: 42px;
-  height: 13px;
-  left: calc(50% - 42px/2 + 386px);
-  top: calc(50% - 13px/2 - 479.5px);
+  left: 72rem;
+  top: 0.5rem;
 }
 
 .register {
-  width: 57px;
-  height: 13px;
-  left: calc(50% - 57px/2 + 464.5px);
-  top: calc(50% - 13px/2 - 479.5px);
+  left: 77rem;
+  top: 0.5rem;
 }
 
 .reserve {
-  width: 117px;
-  height: 40px;
-  left: calc(50% - 117px/2 + 200.5px);
-  top: 12px;
+  left: 66.4rem;
+  top: 0.5rem;
 }
 
 .mypage {
-  width: 117px;
-  height: 40px;
-  left: 968px;
-  top: 12px;
+  left: 71.7rem;
+  top: 0.5rem;
 }
 
 .greeting {
-  width: 117px;
-  height: 40px;
-  left: 1000px;
-  top: 12px;
+  left: 77rem;
+  /* top: 0.1rem; */
 }
 
 .common {
@@ -54,13 +42,19 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  display: flex;
+  font-size: 1rem;
+  line-height: 1.18rem;
+  /* display: flex;
   align-items: center;
-  text-align: center;
-
+  text-align: center; */
+  
   /* 3 */
-
+  
   color: #7C7877;
 }
+
+/* 
+.text {
+  width: 7.31rem;
+  height: 2.50rem;
+} */
