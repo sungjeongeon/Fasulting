@@ -6,6 +6,7 @@
 
 .outerDiv {
   display: flex;
+  width: 62rem;
 }
 
 .address {

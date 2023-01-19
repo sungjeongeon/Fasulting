@@ -8,5 +8,4 @@ root.render(
     {/* 본문 */}
     <App />
   </React.StrictMode>
-
 );
