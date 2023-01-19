@@ -1,6 +1,6 @@
 import React from "react";
 import HospitalListItem from "./HospitalListItem";
-// import styles from "./SubCategoryList.module.css";
+import styles from "./HospitalList.module.css";
 
 function HospitalList() {
   // 임시 data

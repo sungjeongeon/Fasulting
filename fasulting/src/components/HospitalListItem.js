@@ -1,14 +1,23 @@
 import React from "react";
 import styles from "./HospitalListItem.module.css";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { useNavigate } from "react-router-dom";
 
 function HospitalListItem({ hospital }) {
+  const navigate = useNavigate();
+  const onClick = () => {
+    navigate(`detail/${hospital.ps_id}`);
+  };
   return (
-    <div>
+    <div className={styles.outerDiv} onClick={onClick}>
       <div className={styles.hr}></div>
-      <div className={styles.outerDiv}>
+      <div className={styles.innerDiv}>
         {/* 왼쪽 */}
         <div>
-          <p className={styles.address}>{hospital.ps_address}</p>
+          <p className={styles.address}>
+            <LocationOnIcon />
+            {hospital.ps_address}
+          </p>
           <p className={styles.name}>{hospital.ps_name}</p>
           <p className={styles.intro}>{hospital.ps_intro}</p>
           {hospital.sub_category_id.map((sub) => {

@@ -1,15 +1,22 @@
 .hr {
   background-color: gray;
-  width: 62rem;
+  /* width: 62rem; */
   height: 0.06rem;
 }
 
 .outerDiv {
+  margin: 0px;
+  /* width: 62rem; */
+}
+.innerDiv {
   display: flex;
-  width: 62rem;
+  justify-content: space-between;
+  /* width: 62rem; */
 }
 
 .address {
+  height: 1.68rem;
+  margin-bottom: 0.875rem;
   font-style: normal;
   font-weight: 600;
   font-size: 0.81rem;
@@ -19,7 +26,13 @@
   color: #7c7877;
 }
 
+.address p {
+  line-height: 1.68rem;
+}
+
 .name {
+  margin-top: 0px;
+  margin-bottom: 0.875rem;
   font-style: normal;
   font-weight: 700;
   font-size: 1.38rem;
@@ -27,6 +40,8 @@
 }
 
 .intro {
+  margin-top: 0px;
+  margin-bottom: 0.875rem;
   font-style: normal;
   font-weight: 400;
   font-size: 0.88px;
@@ -34,8 +49,10 @@
 }
 
 .subCategory {
-  margin-left: 0.31rem;
-  margin-right: 0.31rem;
+  margin-top: 0px;
+  margin-bottom: 0.875rem;
+  margin-left: 0rem;
+  margin-right: 0.62rem;
   background-color: #f0e5de;
   width: 5rem;
   height: 1.88rem;
@@ -54,10 +71,14 @@
 .img {
   width: 5.63rem;
   height: 5.63rem;
+  margin: auto;
+  margin-top: 1.5rem;
   background-color: gray;
+  border-radius: 0.3125rem;
 }
 
 .rating {
+  margin-right: 1.5rem;
   font-style: normal;
   font-weight: 700;
   font-size: 0.88rem;
