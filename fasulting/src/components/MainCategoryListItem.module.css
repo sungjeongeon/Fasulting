@@ -1,0 +1,11 @@
+.mainctg {
+  display: inline-block;
+  text-align: center;
+  margin-left: 0.6rem;
+  margin-right: 0.6rem;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
