@@ -21,7 +21,7 @@ function HospitalList() {
       ],
       ps_profile_img: "src",
       total_rating_result: 3.0,
-      totla_rating_count: 30,
+      total_rating_count: 30,
     },
     {
       ps_id: 2,
@@ -31,13 +31,13 @@ function HospitalList() {
       sub_category_id: ["쌍커풀", "콧볼축소", "코끝", "입꼬리", "보톡스"],
       ps_profile_img: "src",
       total_rating_result: 3.0,
-      totla_rating_count: 30,
+      total_rating_count: 30,
     },
   ];
   return (
     <div>
-      {HospitalList.map((hospital, index) => (
-        <HospitalListItem hospital={hospital} key={index} />
+      {HospitalList.map((hospital) => (
+        <HospitalListItem key={hospital.ps_id.toString()} hospital={hospital} />
       ))}
     </div>
   );

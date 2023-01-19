@@ -22,7 +22,7 @@ function HospitalListItem({ hospital }) {
           <p className={styles.rating}>
             <span>★</span>
             {hospital.total_rating_result.toFixed(1)} | 관련 후기{" "}
-            {hospital.totla_rating_count}개
+            {hospital.total_rating_count}개
           </p>
         </div>
       </div>
