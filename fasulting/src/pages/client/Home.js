@@ -1,7 +1,7 @@
 import Banner from "../../components/Banner";
-import MainCategoryList from "../../components/MainCategoryList";
+import MainCategoryList from "../../components/Category/MainCategoryList";
 import { Container } from "@mui/system";
-import ReviewList from "../../components/ReviewList";
+import ReviewList from "../../components/List/ReviewList";
 
 function Home() {
   return (

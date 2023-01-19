@@ -1,4 +1,4 @@
-import LoginForm from "../../components/LoginForm";
+import LoginForm from "../../components/User/LoginForm";
 import { Container } from "@mui/system";
 import { makeStyles } from "@mui/styles";
 

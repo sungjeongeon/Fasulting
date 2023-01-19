@@ -1,4 +1,4 @@
-import RegisterForm from "../../components/RegisterForm";
+import RegisterForm from "../../components/User/RegisterForm";
 import { Container } from "@mui/system";
 import { makeStyles } from "@mui/styles";
 
