@@ -15,7 +15,7 @@ function Header() {
         <div>
           <p className={`${styles.reserve} ${styles.common}`}><Link to={"/reserve"} style={{textDecoration: "none"}}>나의 예약</Link></p>
           <p className={`${styles.mypage} ${styles.common}`}><Link to={"/mypage"} style={{textDecoration: "none"}}>나의 활동</Link></p>
-          <p className={`${styles.greeting} ${styles.common}`}>반갑습니다!</p>
+          <p className={`${styles.greeting} ${styles.common}`}>username님<br/>반갑습니다!</p>
         </div>
         : 
         <div>
