@@ -5,11 +5,10 @@ import { useState } from "react";
 
 function Header() {
   // 로그인 여부에 따라, nav bar 링크가 달라지므로 state 이용
-  const [login, setLogin] = useState(true)
+  const [login, setLogin] = useState(false)
 
   return (
     <div>
-      <h1>Header</h1>
       <div className={styles.navbar}>
         <img className={styles.logo} src="assets/images/fasulting_logo.png" alt="logo"/>
         {login ? 

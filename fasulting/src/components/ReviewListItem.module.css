@@ -1,0 +1,26 @@
+.pl {
+  padding-left: 1.2rem;
+}
+.whitespace_h {
+  padding-top: 0.7rem;
+  line-height: 1.6rem;
+}
+.mr {
+  margin-right: 0.4rem;
+}
+.mr2 {
+  margin-right: 0.8rem;
+}
+.color {
+  color: #7C7877;
+}
+.bold {
+  font-weight: bold;
+}
+.flex {
+  display: flex;
+}
+
+.contentbox {
+  height: 3rem;
+}
