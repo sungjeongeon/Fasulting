@@ -39,7 +39,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline>
-        <Container fixed maxWidth="lg">
+        <Container fixed disableGutters="true" maxWidth="lg">
           <Router>
             <Header />
             <Routes>
