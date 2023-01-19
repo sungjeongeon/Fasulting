@@ -10,17 +10,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 
-
-const theme = createTheme();
-
 function LoginCard() {
     return (
-        <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
@@ -31,7 +26,7 @@ function LoginCard() {
                 alignItems: 'center',
             }}
             >
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h4">
                 로그인
             </Typography>
             <Card style={{padding: '40px'}}>
@@ -77,22 +72,20 @@ function LoginCard() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                style={{color: 'white'}}
                 >
                 로그인
                 </Button>
                 <Grid container>
                 <Grid item>
-                    아직 아이디가 없으신가요?
-                    <Link href="#" variant="body2">
-                    {"병원 로그인 | 회원 로그인"}
-                    </Link>
+                    아직 아이디가 없으신가요?<br />
+                    <Link to={"/resister"}>회원가입</Link>
                 </Grid>
                 </Grid>
             </Box>
             </Card>
             </Box>
         </Container>
-        </ThemeProvider>
   );
 }
 
