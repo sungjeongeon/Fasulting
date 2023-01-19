@@ -39,27 +39,29 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline>
-        <Router>
-          <Header />
-          <Routes>
-            {/* 비밀번호 찾기 */}
-            <Route path="/findpw" element={<FindPw />} />
-            {/* 로그인 */}
-            <Route path="/login" element={<Login />} />
-            {/* 병원리스트 */}
-            <Route path="/pslist" element={<PsList />} />
-            {/* 회원가입 */}
-            <Route path="/register" element={<Register />} />
-            {/* 상세페이지 */}
-            <Route path="/detail/:id" element={<Detail />} />
-            {/* 나의 예약 */}
-            <Route path="/reserve" element={<Reserve />} />
-            {/* 나의 활동 */}
-            <Route path="/mypage" element={<Mypage />} />
-            {/* 메인 */}
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </Router>
+        <Container fixed maxWidth="lg">
+          <Router>
+            <Header />
+            <Routes>
+              {/* 비밀번호 찾기 */}
+              <Route path="/findpw" element={<FindPw />} />
+              {/* 로그인 */}
+              <Route path="/login" element={<Login />} />
+              {/* 병원리스트 */}
+              <Route path="/pslist" element={<PsList />} />
+              {/* 회원가입 */}
+              <Route path="/register" element={<Register />} />
+              {/* 상세페이지 */}
+              <Route path="/detail/:id" element={<Detail />} />
+              {/* 나의 예약 */}
+              <Route path="/reserve" element={<Reserve />} />
+              {/* 나의 활동 */}
+              <Route path="/mypage" element={<Mypage />} />
+              {/* 메인 */}
+              <Route path="/" element={<Home />} />
+            </Routes>
+          </Router>
+        </Container>
       </CssBaseline>
     </ThemeProvider>
   );
