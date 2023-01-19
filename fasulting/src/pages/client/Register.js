@@ -1,10 +1,23 @@
 import RegisterForm from "../../components/RegisterForm";
+import { Container } from "@mui/system";
+import { makeStyles } from "@mui/styles";
 
+const useStyles = makeStyles(() => ({
+  container: {
+    backgroundColor: '#E5F3F5',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+  },
+}))
 function Register() {
+  const classes = useStyles();
   return (
-    <div style={{backgroundColor: '#E5F3F5'}}>
-      <h1>Register</h1>
-      <RegisterForm/>
+    <div className={classes.container}>
+      <Container maxWidth="lg">
+        <RegisterForm/>
+      </Container>
     </div>
   );
 }
