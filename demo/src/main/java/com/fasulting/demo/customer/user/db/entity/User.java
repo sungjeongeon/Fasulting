@@ -2,7 +2,9 @@ package com.fasulting.demo.customer.user.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -12,14 +14,29 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.util.Date;
 
+// 새로 추가할 때 save
+// 아니면 그냥 setter
+
 @Entity
 @Getter
 @Setter
-@DynamicInsert
-@DynamicUpdate
+@DynamicInsert // 변경된 필드만 적용
+@DynamicUpdate // 변경된 필드만 적용
+@NoArgsConstructor
+@ToString
 @Table(name = "user")
 public class User {
 
+    public User(String userEmail, String userPassword, String userBirth, String userGender, String userName, String userPhone, String userNation, String userNationCode) {
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.userBirth = userBirth;
+        this.userGender = userGender;
+        this.userName = userName;
+        this.userPhone = userPhone;
+        this.userNation = userNation;
+        this.userNationCode = userNationCode;
+    }
 
     @Id
     @Column(name = "user_id")
@@ -33,7 +50,7 @@ public class User {
     private String userPassword;
 
     @Column(name = "user_birth")
-    private Date userBirth;
+    private String userBirth;
 
     @Column(name = "user_gender")
     private String userGender;

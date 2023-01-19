@@ -1,28 +1,20 @@
-package com.fasulting.demo.customer.user.request;
+package com.fasulting.demo.customer.user.response;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Date;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class UserRegisterReq {
+@ToString
+public class UserInfoResp {
 
     private String userEmail;
-
-    private String userPassword;
-
     private String userName;
-
     private String userBirth;
-
-    private String userGender;
-
     private String userNation;
-
+    private String userGender;
     private String userPhone;
-
     private String userNationCode;
 
 }
