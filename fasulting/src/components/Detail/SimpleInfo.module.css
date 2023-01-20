@@ -1,0 +1,57 @@
+.profileImg {
+  position: absolute;
+  top: 18rem;
+  width: 7.5rem;
+  height: 7.5rem;
+  margin: 0px;
+  background-color: black;
+  border-radius: 0.3rem;
+}
+
+.nameAndLikeDiv {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8rem;
+  margin-bottom: 0.8125rem;
+  margin-right: 2.93rem;
+}
+
+.name {
+  margin: 0px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #000000;
+}
+
+.address {
+  display: flex;
+  margin-bottom: 0.8rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.88rem;
+  align-items: center;
+  color: #7c7877;
+}
+
+.subCategory {
+  margin-top: 0px;
+  margin-bottom: 0.4rem;
+  margin-left: 0rem;
+  margin-right: 0.62rem;
+  background-color: #f0e5de;
+  width: 5rem;
+  height: 1.88rem;
+  border: 0;
+  outline: 0;
+  font-size: 0.75rem;
+  border-radius: 1.25rem;
+  font-family: "Inter";
+  align-items: center;
+  text-align: center;
+  line-height: 1.88rem;
+  color: black;
+  font-weight: 400;
+}

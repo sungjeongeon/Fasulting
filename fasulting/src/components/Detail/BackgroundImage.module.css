@@ -1,0 +1,8 @@
+.backgroundImg {
+  position: absolute;
+  left: 0;
+  width: 100vw;
+  height: 18rem;
+  background-color: gray;
+  opacity: 50%;
+}
