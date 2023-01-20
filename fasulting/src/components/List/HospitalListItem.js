@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./HospitalListItem.module.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import TagIcon from "@mui/icons-material/Tag";
 import { useNavigate } from "react-router-dom";
 
 function HospitalListItem({ hospital }) {
@@ -23,7 +24,7 @@ function HospitalListItem({ hospital }) {
           {hospital.sub_category_id.map((sub, index) => {
             return (
               <button key={index} className={styles.subCategory}>
-                # {sub}
+                <TagIcon sx={{ fontSize: 12 }} /> {sub}
               </button>
             );
           })}
