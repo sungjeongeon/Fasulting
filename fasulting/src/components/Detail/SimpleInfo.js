@@ -26,7 +26,6 @@ function SimpleInfo() {
   const [liked, setLiked] = useState(false);
   const onClick = (e) => {
     setLiked((current) => !current);
-    console.log(e.target.value);
   };
   return (
     <div>

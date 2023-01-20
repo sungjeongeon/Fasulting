@@ -1,0 +1,22 @@
+.title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.06rem;
+  color: #000000;
+}
+
+.iconTextDiv {
+  display: flex;
+  margin-bottom: 0.8rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.88rem;
+  align-items: center;
+  color: #7c7877;
+}
+
+.iconTextDiv p {
+  margin-left: 0.68rem;
+}

@@ -19,7 +19,9 @@ function Detail() {
         <Grid xs={12} style={{ height: "15rem" }}></Grid>
         <Grid xs={9}>
           <SimpleInfo />
+          <hr />
           <HospitalInfo />
+          <hr />
         </Grid>
         <Grid xs={3}>
           <ReserveCard />
