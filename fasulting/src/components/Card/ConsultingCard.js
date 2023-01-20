@@ -22,17 +22,17 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   }
 }));
 
-export default function ConsultingCard({consult}) {
+function ConsultingCard({consult}) {
   return (
     <Card sx={{ maxWidth: 275 }}>
       <CardContent>
-        <Typography variant="h5" component="div">
-            아이디병원
+        <Typography variant="h6" component="div">
+            {consult.ps_name}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            쌍커풀
+            {consult.sub_category_name}
         </Typography>
-        <Typography variant="body2" color='primary'>2023. 01. 20 (금) 15시 30분</Typography>
+        <Typography variant="body2">{consult.calender_id}</Typography>
         
         <BorderLinearProgress variant="determinate" value={50} />
       </CardContent>
@@ -43,3 +43,5 @@ export default function ConsultingCard({consult}) {
     </Card>
   );
 }
+
+export default ConsultingCard;

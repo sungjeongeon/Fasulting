@@ -8,11 +8,13 @@ import Register from "./pages/client/Register";
 import Reserve from "./pages/client/Reserve";
 import Mypage from "./pages/client/Mypage";
 import Detail from "./pages/client/Detail";
-import MyActivity from "./pages/client/MyActivity";
+import MyActivity from "./pages/client/MyActivity.js";
 import { Container } from "@mui/system";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
+import MyReservation from "./pages/client/MyReservation";
+import MyEstimate from "./pages/client/MyReservation";
 
 const theme = createTheme({
   palette: {
@@ -40,7 +42,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline>
-        <Container fixed disableGutters="true" maxWidth="lg">
+        <Container fixed disableGutters={true} maxWidth="lg">
           <Router>
             <Header />
             <Routes>
@@ -55,11 +57,13 @@ function App() {
               {/* 상세페이지 */}
               <Route path="/detail/:id" element={<Detail />} />
               {/* 나의 예약 */}
-              <Route path="/reserve" element={<Reserve />} />
+              <Route path="/myreservation" element={<MyReservation />} />
               {/* 나의 정보 */}
               <Route path="/mypage" element={<Mypage />} />
               {/* 나의 활동 */}
               <Route path="/myactivity" element={<MyActivity />} />
+              {/* 나의 견적서 */}
+              <Route path="/myestimate" element={<MyEstimate />} />
               {/* 메인 */}
               <Route path="/" element={<Home />} />
             </Routes>

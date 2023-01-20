@@ -1,8 +1,11 @@
-import ConsultingCard from "../../components/Card/ConsultingCard";
-
+import FavoriteCardList from "../../components/Card/FavoriteCardList";
+import ReviewList from "../../components/List/ReviewList";
 function MyActivity() {
     return (
-        <ConsultingCard />
+        <>
+        <FavoriteCardList />
+        <ReviewList />
+        </>
     )
 }
 export default MyActivity;

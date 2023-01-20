@@ -1,44 +1,37 @@
 import ConsultingCard from "./ConsultingCard";
+import { Typography } from "@mui/material";
+import { Box } from "@material-ui/core";
 
 function ConsultingCardList() {
     const consulting = [
         {
-            user : {
-                user_id : "id1"	
-            },
-            ps : {
-                ps_id : "psid1",
-            },
-            sub_category : {
-                sub_category_name : "쌍커풀"
-            },
-            reservation : {
-                    calender_id : "2020.12.30 10시 25분",
-            }
+            user_id : 1,
+            ps_id : 1,
+            ps_name : "아이디 병원",
+            sub_category_name : "쌍커풀",
+            calender_id : "2020.12.30 10시 25분",
 	    },
         {
-            user : {
-                user_id : "id2"	
-            },
-            ps : {
-                ps_id : "psid2",
-            },
-            sub_category : {
-                sub_category_name : "콧볼축소"
-            },
-            reservation : {
-                    calender_id : "2022.01.31 12시 30분",
-            }
+            user_id : 2,
+            ps_id : 2,
+            ps_name : "더페이스 병원",
+            sub_category_name : "콧볼축소",
+            calender_id : "2022.01.31 12시 30분",
 	    },
 
     ]
     return (
-        <div>
-            {consulting.map((consult) => (
-                <ConsultingCard key={consult.ps.ps_id.toString()} 
-                    consult={consult}/>
-            ))}
-        </div>
+        <>
+        <Typography variant="h5">진행중인 예약</Typography>
+        <Box sx={{ display: 'flex' }}>
+        {consulting.map((consult) => (
+            <ConsultingCard 
+                key={consult.ps_id.toString()} 
+                consult={consult}
+            />
+        ))}
+        </Box>
+        </>
     )
 }
 export default ConsultingCardList;
