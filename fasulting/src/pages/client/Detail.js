@@ -7,6 +7,8 @@ import Grid from "@mui/material/Unstable_Grid2";
 import BackgroundImage from "../../components/Detail/BackgroundImage";
 import SimpleInfo from "../../components/Detail/SimpleInfo";
 import HospitalInfo from "../../components/Detail/HospitalInfo";
+import DoctorCardList from "../../components/Card/DoctorCardList";
+import ReviewInfo from "../../components/Detail/ReviewInfo";
 
 function Detail() {
   // const { id } = useParams();
@@ -22,6 +24,9 @@ function Detail() {
           <hr />
           <HospitalInfo />
           <hr />
+          <DoctorCardList />
+          <hr />
+          <ReviewInfo />
         </Grid>
         <Grid xs={3}>
           <ReserveCard />

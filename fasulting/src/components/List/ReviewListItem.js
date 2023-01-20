@@ -1,44 +1,50 @@
-import React from "react";
-import propTypes from "prop-types"
-import styles from "./ReviewListItem.module.css"
+import React, { useEffect } from "react";
+import propTypes from "prop-types";
+import styles from "./ReviewListItem.module.css";
+import StarIcon from "@mui/icons-material/Star";
+import { useLocation } from "react-router-dom";
 
-function ReviewListItem({userid, content, date, hospital, subcategory, rating}) {
+function ReviewListItem({
+  username,
+  content,
+  date,
+  hospital,
+  subcategory,
+  rating,
+}) {
+  // 현재 path가 detail이면 병원이름 보여주지 않음
+  const isDetail =
+    useLocation().pathname.slice(1, 7) === "detail" ? true : false;
+
   return (
-    <div className={styles.pl}>
-      <div className={`${styles.pl} ${styles.whitespace_h}`}>
-        <div className={styles.bold}>
-          {userid.substr(0,4)+'****'}
-        </div>
-        <div className={styles.flex}>
-          <span className={styles.mr2}>★{rating.toFixed(1)}</span>
-          <div className={`${styles.color} ${styles.bold}`}>
-            <span className={styles.mr}>{hospital}</span>
-            <span className={styles.mr}>|</span>
-            {subcategory.map((sub, index) => (
-              <span className={styles.mr} key={index}>{sub} </span>
-              ))}
-          </div>
-        </div>
-        <div className={styles.contentbox}>
-          {content}
-        </div>
-        <div>
-          {date}
-        </div>
+    <div>
+      <p className={styles.name}>{username.charAt(0) + "**"}</p>
+      <div className={styles.oneLine}>
+        <StarIcon sx={{ fontSize: 18, color: "#EECC51" }} />
+        <p className={styles.rating}>{rating.toFixed(1)}</p>
+        {isDetail ? null : <p className={styles.gray}>{hospital}</p>}
+        {isDetail ? null : <p className={styles.gray}>|</p>}
+        {subcategory.map((sub, index) => (
+          <p key={index} className={styles.gray}>
+            {sub}
+          </p>
+        ))}
       </div>
-      <div><hr/></div>
+      <p className={styles.content}>{content}</p>
+      <p className={styles.date}>{date}</p>
+      <hr />
     </div>
-  )
+  );
 }
 
 ReviewListItem.propTypes = {
-  userid: propTypes.string.isRequired,
+  username: propTypes.string.isRequired,
   content: propTypes.string.isRequired,
   date: propTypes.string.isRequired,
   // date: propTypes.instanceOf(Date).isRequired,
   hospital: propTypes.string.isRequired,
   subcategory: propTypes.arrayOf(propTypes.string.isRequired),
-  rating: propTypes.number.isRequired
-}
+  rating: propTypes.number.isRequired,
+};
 
-export default ReviewListItem
+export default ReviewListItem;

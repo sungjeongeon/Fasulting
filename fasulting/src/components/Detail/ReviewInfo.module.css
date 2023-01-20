@@ -1,0 +1,30 @@
+.title {
+  margin-bottom: 0.88rem;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.06rem;
+
+  color: #000000;
+}
+
+.oneLine {
+  display: flex;
+}
+
+.score {
+  margin: 8px 10px 0 0;
+  font-weight: 600;
+  font-size: 1.88rem;
+  color: #000000;
+}
+
+.star {
+}
+
+.reviewCount {
+  margin: 0 0 2.5rem 0;
+}
+
+.body {
+  margin-left: 1.06rem;
+}

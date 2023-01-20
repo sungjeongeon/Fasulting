@@ -4,6 +4,7 @@ import styles from "./SimpleInfo.module.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import TagIcon from "@mui/icons-material/Tag";
+import { IconButton } from "@mui/material";
 
 function SimpleInfo() {
   const ps_name = "더성형외과의원";
@@ -24,7 +25,7 @@ function SimpleInfo() {
   ];
   // liked(좋아요 상태) t/f
   const [liked, setLiked] = useState(false);
-  const onClick = (e) => {
+  const onClick = () => {
     setLiked((current) => !current);
   };
   return (
@@ -36,19 +37,13 @@ function SimpleInfo() {
         <p className={styles.name}>{ps_name}</p>
         {/* 하트(좋아요/취소) */}
         {/* [liked] t/f 에 따라 빨강/회색 */}
-        {liked ? (
-          <FavoriteIcon
-            fontSize="large"
-            sx={{ color: "#e64c3c" }}
-            onClick={onClick}
-          />
-        ) : (
-          <FavoriteIcon
-            fontSize="large"
-            sx={{ color: "#d9d4cf" }}
-            onClick={onClick}
-          />
-        )}
+        <IconButton color="error" aria-label="favorite" onClick={onClick}>
+          {liked ? (
+            <FavoriteIcon fontSize="large" sx={{ color: "#e64c3c" }} />
+          ) : (
+            <FavoriteIcon fontSize="large" sx={{ color: "#d9d4cf" }} />
+          )}
+        </IconButton>
       </div>
       {/* 주소 */}
       <div className={styles.address}>

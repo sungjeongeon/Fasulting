@@ -21,27 +21,29 @@ function HospitalInfo() {
   return (
     <div>
       <p className={styles.title}>병원 정보</p>
-      <div className={styles.iconTextDiv}>
-        <LocationOnIcon color="primary" sx={{ fontSize: 28 }} />
-        <p>{hospital.ps_address}</p>
+      <div className={styles.bodyMargin}>
+        <div className={styles.iconTextDiv}>
+          <LocationOnIcon color="primary" sx={{ fontSize: 28 }} />
+          <p>{hospital.ps_address}</p>
+        </div>
+        <div className={styles.iconTextDiv}>
+          <LocalPhoneRoundedIcon color="primary" sx={{ fontSize: 28 }} />
+          <p>{hospital.ps_number}</p>
+        </div>
+        <div className={styles.iconTextDiv}>
+          <MailOutlineRoundedIcon color="primary" sx={{ fontSize: 28 }} />
+          <p>{hospital.ps_email}</p>
+        </div>
+        <div className={styles.iconTextDiv}>
+          <LinkIcon color="primary" sx={{ fontSize: 28 }} />
+          <p>{hospital.ps_homepage}</p>
+        </div>
+        <div className={styles.iconTextDiv}>
+          <AccessTimeIcon color="primary" sx={{ fontSize: 28 }} />
+          <p>운영 시간</p>
+        </div>
+        <p>{hospital.ps_time}</p>
       </div>
-      <div className={styles.iconTextDiv}>
-        <LocalPhoneRoundedIcon color="primary" sx={{ fontSize: 28 }} />
-        <p>{hospital.ps_number}</p>
-      </div>
-      <div className={styles.iconTextDiv}>
-        <MailOutlineRoundedIcon color="primary" sx={{ fontSize: 28 }} />
-        <p>{hospital.ps_email}</p>
-      </div>
-      <div className={styles.iconTextDiv}>
-        <LinkIcon color="primary" sx={{ fontSize: 28 }} />
-        <p>{hospital.ps_homepage}</p>
-      </div>
-      <div className={styles.iconTextDiv}>
-        <AccessTimeIcon color="primary" sx={{ fontSize: 28 }} />
-        <p>운영 시간</p>
-      </div>
-      <p>{hospital.ps_time}</p>
     </div>
   );
 }

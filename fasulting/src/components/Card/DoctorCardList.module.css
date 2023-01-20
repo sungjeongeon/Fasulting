@@ -1,0 +1,12 @@
+.title {
+  font-weight: 700;
+  font-size: 1.06rem;
+  margin-bottom: 1.5rem;
+
+  color: #000000;
+}
+
+.cardList {
+  display: flex;
+  margin: 0 1.38rem 1.56rem 1.06rem;
+}
