@@ -7,11 +7,10 @@ import com.fasulting.demo.customer.user.response.UserInfoResp;
 public interface UserService {
 
     boolean userRegister(UserRegisterReq userRegisterInfo); // 회원가입
-    boolean SendEmailCode(String userEmail); // 비밀번호 인증코드 날리기
     boolean ResetPassword(UserBasicInfoReq userResetInfo); // 비밀번호 재설정
-    UserInfoResp GetUserInfo(int userId); // 회원 정보 조회
+    UserInfoResp GetUserInfo(int userSeq); // 회원 정보 조회
     boolean DupleEmail(String userEmail); // 회원 이메일 중복 확인
-    boolean EditUserInfo(int id, EditUserInfoReq userInfo); // 회원 정보 수정
+    boolean EditUserInfo(int userSeq, EditUserInfoReq userInfo); // 회원 정보 수정
     boolean WidrawUser(WithdrawReq userInfo); //회원 탈퇴
     boolean CheckPassword(CheckPasswordReq userInfo);
 

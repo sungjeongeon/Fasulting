@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 public class WithdrawReq {
 
-    private int userId;
+    private int userSeq;
 
 }

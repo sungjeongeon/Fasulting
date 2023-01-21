@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     // passwordEncoder
 
-    // 1. 회원 가입
+    // 회원 가입
     @Override
     public boolean userRegister(UserRegisterReq userRegisterInfo) {
         User user = new User();
@@ -42,20 +42,6 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    // 2. 입력 이메일로 인증 코드 보내기
-    @Override
-    public boolean SendEmailCode(String userEmail) {
-        
-        if(userRepository.findUserByUserEmail(userEmail).isPresent()) {
-            
-            // 인증코드 보내는 로직
-            return true;
-        }
-        
-        else {
-            return false;
-        }
-    }
 
     // 비밀번호 수정 (재설정)
     @Override
@@ -101,14 +87,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean DupleEmail(String userEmail) {
         if(userRepository.findUserByUserEmail(userEmail).isPresent()) {
-            log.info("중복");
-            // return 중복임
+            log.info("회원 이메일 중복");
+            return false;
         }
         else {
-            log.info("중복 아님");
-            // return 중복 아님^^
+            log.info("회원 이메일 중복 아님");
+            return true;
         }
-        return false;
     }
 
     // 회원 정보 수정
@@ -124,8 +109,6 @@ public class UserServiceImpl implements UserService {
                 user.setUserPhone(userInfo.getUserPhone());
 
             userRepository.save(user);
-
-            log.info(user.toString());
         }
 
         return false;
@@ -134,13 +117,9 @@ public class UserServiceImpl implements UserService {
     // 회원 탈퇴
     @Override
     public boolean WidrawUser(WithdrawReq userInfo) {
-        if(userRepository.findById(userInfo.getUserId()).isPresent()) {
-            User user = userRepository.findById(userInfo.getUserId()).get();
-
+        if(userRepository.findById(userInfo.getUserSeq()).isPresent()) {
+            User user = userRepository.findById(userInfo.getUserSeq()).get();
             user.setUserValidation("N");
-
-            log.info(user.toString());
-
             return true;
         }
 
@@ -151,12 +130,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean CheckPassword(CheckPasswordReq userInfo) {
 
-        if(userRepository.findById(userInfo.getId()).isPresent()) {
-            String userPassword = userRepository.findById(userInfo.getId()).get().getUserPassword();
-            if(userPassword.equals(userInfo.getPassword())) {
-                log.info("일치함");
+        if(userRepository.findById(userInfo.getUserSeq()).isPresent()) {
+            String userPassword = userRepository.findById(userInfo.getUserSeq()).get().getUserPassword();
+            if(userPassword.equals(userInfo.getUserPassword())) {
+                return true;
             }
-            return true;
         }
 
         return false;

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class CheckPasswordReq {
 
-    private int id;
-    private String password;
+    private int userSeq;
+    private String userPassword;
 
 }

@@ -1,17 +1,15 @@
 package com.fasulting.demo.customer.user.controller;
 
+import com.fasulting.demo.common.ResponseBody;
 import com.fasulting.demo.customer.user.db.entity.User;
 import com.fasulting.demo.customer.user.request.*;
+import com.fasulting.demo.customer.user.service.UserEmailService;
 import com.fasulting.demo.customer.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Random;
 
 
 // >> Spring Security - Filter
@@ -30,157 +28,188 @@ import java.util.Random;
 @CrossOrigin("*") // 수정
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final UserEmailService userEmailService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserEmailService userEmailService) {
         this.userService = userService;
+        this.userEmailService = userEmailService;
     }
 
-    // 1. 로그인 - jwt
-    // userDto: email, password
+    /**
+     * 1. 로그인 - jwt
+     * @param user
+     * userEmail & userPassword
+     * @return
+     * userSeq
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         return null; // response: userid (DB table 안의)
     }
 
-    // 2. 로그아웃 - jwt
-    @GetMapping("/logout/{userId}")
-    public ResponseEntity<?> logout(@PathVariable int userId) {
+    /**
+     * 2. 로그아웃 - jwt
+     * @param userSeq
+     * @return fail OR success
+     */
+    @GetMapping("/logout/{userSeq}")
+    public ResponseEntity<?> logout(@PathVariable int userSeq) {
         return null; // fail OR successs
     }
 
-    // 3. 비밀번호 수정 - 이메일 입력
-    @GetMapping("/{userEmail}")
-    public ResponseEntity<?> SendEmailCode(@PathVariable String userEmail) {
+    /**
+     * 3. 이메일 인증 코드 발송 (회원 가입)
+     * @param userEmail
+     * @return success OR fail
+     * success: 회원 가입 인증 코드 메일 발송 완료
+     * fail: 메일 발송 불발
+     * @throws Exception
+     */
+    @GetMapping("/regist/{userEmail}")
+    public ResponseEntity<? extends ResponseBody> RegistSendEmailCode(@PathVariable String userEmail) throws Exception {
         log.info("SendEmailCode - Call");
 
-        // 1. 이메일 중복 확인
-        // 2. 인증 코드 보내는 로직 들어가야 함 => 서비스로 ^^
-        if(userService.SendEmailCode(userEmail)){
-            Random random = new Random();
-            int authCode = random.nextInt(4589362) + 49311;
-
-            String from = "0613minjeong@gmail.com";
-            String to = userEmail;
-            String title = "fasulting 회원 가입 인증 메일입니다.";
-            String content = "fasulting과 함께 해주셔서 감사합니다." +
-                    "<br><br>" +
-                    "인증 번호는 " + authCode + "입니다." +
-                    "<br>" +
-                    "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
-
-            //
-
-            // return success
-        }
-        else {
-            // return fail
-        }
-
-        return null; // fail OR success
+        String code = userEmailService.sendRegistCodeMessage(userEmail);
+        log.info("인증코드: " + code);
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
     }
 
-    // 이메일 전송 메소드
-    public void mailSend(String from, String to, String title, String content) {
-        MimeMessage message
+    /**
+     * 3-1. 이메일 인증 코드 발송 (비밀번호 재설정)
+     * @param userEmail
+     * @return success OR fail
+     * success: 회원 가입 인증 코드 메일 발송 완료
+     * fail: 메일 발송 불발
+     * @throws Exception
+     */
+    @GetMapping("/reset/{userEmail}")
+    public ResponseEntity<? extends ResponseBody> ResetSendEmailCode(@PathVariable String userEmail) throws Exception {
+        log.info("SendEmailCode - Call");
+
+        String code = userEmailService.sendResetCodeMessage(userEmail);
+        log.info("인증코드: " + code);
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
     }
 
-    // 4. 비밀번호 수정 - 재설정 - 비밀번호만 update
-    // userDto: email, password
+    /**
+     * 4. 비밀번호 수정 - 재설정 - 비밀번호만 update
+     * @param userResetInfo
+     * @return success OR fail
+     * success: 가입 성공
+     * fail: 가입 실패
+     */
     @PatchMapping("/reset")
     public ResponseEntity<?> RestPassword(@RequestBody UserBasicInfoReq userResetInfo) {
         log.info("Reset Password - Call");
 
         if(userService.ResetPassword(userResetInfo)){
             log.info("성공");
-            // return true
-        }
-        else {
-            // return false
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
         }
 
-        return null; // fail OR success
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
-    // 5. 회원가입
-    // userDto: DB user table 다 넣은
+    /**
+     * 5. 회원가입
+     * @param userInfo
+     * @return successs OF fail
+     * success: 성공, fail: 실패
+     */
     @PostMapping("/regist")
     public ResponseEntity<?> userRegister(@RequestBody UserRegisterReq userInfo) {
         log.info("userRegister - Call");
 
-        userService.userRegister(userInfo);
-        return null; // fail OR success
+        if(userService.userRegister(userInfo)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
+    
 
-    // 6. 회원가입 - 이메일 중복 확인
+    /**
+     * 6. 회원가입 - 이메일 중복 확인
+     * @param userEmail
+     * @return fail or success 
+     * fail: userEmail 중복
+     * sucess: userEmail 중복 아님
+     */
     @GetMapping("/duple/{userEmail}")
     public ResponseEntity<?> DupleEmail(@PathVariable String userEmail) {
         log.info("Duple Email - Call");
         if(userService.DupleEmail(userEmail)) {
-            // return 중복임
+            // 이메일 중복
+            return ResponseEntity.status(409).body(ResponseBody.create(409, "fail"));
         }
 
         // userEmail & DB userEmail 비교
-        return null; // fail OR success
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "success")); 
     }
-
-    // 7. 회원 정보 조회
-    @GetMapping("/info/{userId}")
-    public ResponseEntity<?> GetUserInfo(@PathVariable int userId) {
-        log.info("GetUserInfo - Call");
-
-        if(userService.GetUserInfo(userId) != null){
-            log.info(userService.GetUserInfo(userId).toString());
-            // return 회원 정보
-        }
-
-        return null; // user객체 (회원 정보 다 들어있는)
-    }
-
-    // 8. 회원 정보 수정
-    // userDto: name, phone
 
     /**
-     *
-     * @param userId 유저 아이디
-     * @param userInfo 유저 인포
-     * @return
+     * 7. 회원 정보 조회
+     * @param userSeq
+     * @return 회원 정보 OR fail
      */
-    @PutMapping("/edit/{user_id}")
-    public ResponseEntity<?> EditUserInfo(@PathVariable("user_id") int userId, @RequestBody EditUserInfoReq userInfo) {
+    @GetMapping("/info/{userId}")
+    public ResponseEntity<?> GetUserInfo(@PathVariable int userSeq) {
+        log.info("GetUserInfo - Call");
 
-        log.info("EditUser - Call");
+        // 로그인 했는지 검사 필요
 
-        if(userService.EditUserInfo(userId, userInfo)) {
-            // return 성공
-        }
-
-        return null; // fail
+        return ResponseEntity.status(200).body(userService.GetUserInfo(userSeq));
     }
 
-    // 9. 회원 탈퇴
-    // userDto: id
+    /**
+     * 8. 회원 정보 수정
+     * @param userSeq 유저 아이디
+     * @param userInfo 유저 인포 (userName, userPassword)
+     * @return success OR fail
+     */
+    @PutMapping("/edit/{user_id}")
+    public ResponseEntity<?> EditUserInfo(@PathVariable("user_id") int userSeq, @RequestBody EditUserInfoReq userInfo) {
+        log.info("EditUser - Call");
+
+        // 로그인 했는지 검사 필요
+
+        if(userService.EditUserInfo(userSeq, userInfo)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
+
+    /**
+     * 9. 회원 탈퇴
+     * @param userInfo (userSeq)
+     * @return success OR fail
+     */
     @PatchMapping("/withdraw")
     public ResponseEntity<?> WithdrawUser(@RequestBody WithdrawReq userInfo) {
         log.info("Withdraw - Call");
 
+        // 로그인 했는지 검사 필요
+
         if(userService.WidrawUser(userInfo)) {
-            // return 성공
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
         }
-        return null; // fail OR success
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
-    // 10. 보안 - 비밀번호 확인 (로그인 상태에서)
-    // userDto: id, password
+    /**
+     * 10. 보안 - 비밀번호 확인 (로그인 상태에서)
+     * DB table 안의 기존 비밀 번호 & 새로 설정한 비밀번호 비교
+     * @param userInfo (userSeq, userPassword)
+     * @return success OR fail
+     */
     @PostMapping("/passcheck")
     public ResponseEntity<?> CheckPassword(@RequestBody CheckPasswordReq userInfo) {
-        // DB table 안의 기존 비밀 번호 & 새로 설정한 비밀번호 비교
-
+        // 로그인 했는지 검사 필요
         if(userService.CheckPassword(userInfo)) {
-            // return 성공
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
         }
-        return null; // fail OR success
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -195,15 +224,15 @@ public class UserController {
     }
 
     // 12. 즐겨찾기 추가
-    // userDto: userId, psId
+    // userDto: userSeq, psId
     @PostMapping("/favorite")
     public ResponseEntity<?> AddFavorite(@RequestBody User user) {
         return null; // fail OR success
     }
 
     // 13. 즐겨찿기 조회
-    @GetMapping("/favorite/{userId}")
-    public ResponseEntity<?> FavoriteList(@PathVariable int userId) {
+    @GetMapping("/favorite/{userSeq}")
+    public ResponseEntity<?> FavoriteList(@PathVariable int userSeq) {
         return null; // favorite 객체 리스트
     }
 
