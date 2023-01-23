@@ -15,6 +15,7 @@ import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import MyReservation from "./pages/client/MyReservation";
 import MyEstimate from "./pages/client/MyReservation";
+import ModalTest from"./pages/client/ModalTest";
 
 const theme = createTheme({
   palette: {
@@ -66,6 +67,8 @@ function App() {
               <Route path="/myestimate" element={<MyEstimate />} />
               {/* 메인 */}
               <Route path="/" element={<Home />} />
+              {/* 모달 테스트용 페이지욤.. */}
+              <Route path="/test" element={<ModalTest/>}/>
             </Routes>
           </Router>
         </Container>

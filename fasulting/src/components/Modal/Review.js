@@ -10,8 +10,9 @@ function Review({ModalStateChange}) {
       <div className={styles.modalbox}>
         <div className={styles.mt}>
           <div className={`${styles.center} ${styles.twoline}`}>
-            <Typography component="legend" sx={{ fontWeight: 'bold' }}>이 상담에 대한 리뷰를 남겨주세요.</Typography>
+            <Typography component="legend" sx={{ fontWeight: 'bold' , color: '#7C7877' }}>이 상담에 대한 리뷰를 남겨주세요.</Typography>
             <Rating name="no-value" value={value} precision={0.5} 
+              sx={{ marginTop: '0.5rem' }}
               onChange={(event, newValue) => {
                 setValue(newValue);
               }}
@@ -22,6 +23,7 @@ function Review({ModalStateChange}) {
               <textarea placeholder=
               "전문의의 태도 등 상담 내용에 대한 솔직한 리뷰를 남겨주세요.&#13;&#10;견적 비용을 공개하거나 근거 없는 악성 비방을 남길 경우 삭제될 수 있습니다.&#13;&#10;제출 후 리뷰는 수정 / 삭제할 수 없으니 신중하게 작성해주세요."
               className={`${styles.inputbox} ${styles.mt}`}
+              style={{ padding: '0.5rem 1rem'}}
               ></textarea>
             </form>
             <div className={styles.center}>

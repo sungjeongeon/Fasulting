@@ -1,0 +1,39 @@
+.background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.before {
+  background: #D9D4CF;
+  border-radius: 0.3rem;
+  border: none;
+  color: #7C7877;
+  font-size: 0.85rem;
+  font-weight: bold;
+  width: 12rem;
+  height: 2.5rem;
+  margin-top: 2rem;
+}
+
+.after {
+  background: #72A1A6;
+  border-radius: 0.3rem;
+  border: none;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: bold;
+  width: 12rem;
+  height: 2.5rem;
+  margin-top: 2rem;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
