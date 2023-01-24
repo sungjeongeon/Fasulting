@@ -10,7 +10,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import styles from "./AddCategory.module.css";
 
-export default function NestedList() {
+export default function AddCategory({ModalStateChange2}) {
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
   const [open3, setOpen3] = React.useState(false);
@@ -73,6 +73,7 @@ export default function NestedList() {
         </ListSubheader>
       }
     >
+      <div>
       <ListItemButton onClick={handleClick1}>
         <ListItemText primary="눈 성형" />
         {open1 ? <ExpandLess /> : <ExpandMore />}
@@ -123,7 +124,7 @@ export default function NestedList() {
           </ListItemButton>
         </List>
       </Collapse>
-
+      </div>
       <ListItemButton onClick={handleClick2}>
         <ListItemText primary="코 성형" />
         {open2 ? <ExpandLess /> : <ExpandMore />}
@@ -365,11 +366,13 @@ export default function NestedList() {
       <div className={styles.center}>
         { serviceAdd === 0 ? <button
           className={styles.before}
+          onClick={ModalStateChange2}
           >
           서비스를 등록해주세요
         </button> :
         <button
         className={styles.after}
+        onClick={ModalStateChange2}
         >
         {serviceAdd}개 서비스 추가
         </button>

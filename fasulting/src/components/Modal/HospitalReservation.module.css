@@ -1,0 +1,128 @@
+.background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modalbox {
+  /* 모달창 크기 */
+  width: 28.5rem;
+  height: 30rem;
+  border-radius: 1rem;
+
+  /* 최상단 위치 */
+  z-index: 999;
+  
+  /* 중앙 배치 */
+  /* top, bottom, left, right 는 브라우저 기준으로 작동한다. */
+  /* translate는 본인의 크기 기준으로 작동한다. */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+
+  /* 모달창 디자인 */
+  background-color: white;
+}
+
+.confirm {
+  margin-top: 2rem;
+}
+
+.mx {
+  margin-left: 0.3rem;
+  margin-right: 0.5rem;
+}
+.mr {
+  margin-right: 1rem;
+}
+.mt {
+  margin-top: 0.7rem;
+}
+.mb {
+  margin-bottom: 1.2rem;
+}
+.nomt {
+  margin-top: 0;
+}
+.span {
+  margin-left: 0.3rem;
+}
+.spancol {
+  margin-bottom: 0.2rem;
+}
+
+
+.flexcol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.flexrow {
+  width: 60%;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  font-size: 1.1rem;
+}
+.flextop {
+  width: 60%;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: baseline;
+  font-size: 1.1rem;
+}
+
+.hospital {
+  font-size: 1.5rem;
+  margin: 0.7rem 0;
+}
+
+.line {
+  width: 75%;
+  height: 0.15rem;
+  background: #D9D9D9;
+}
+
+.color {
+  color: #72A1A6;
+  font-weight: bold;
+}
+
+.warning {
+  width: 75%;
+  color: #E56565;
+  font-weight: bold;
+  /* text-align: center; */
+  word-break: keep-all;
+}
+
+.yet {
+  background: #D9D4CF;
+  width: 9rem;
+  height: 2rem;
+  border-radius: 0.625rem;
+
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.okay {
+  background: #72A1A6;
+  width: 9rem;
+  height: 2rem;
+  border-radius: 0.625rem;
+
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
