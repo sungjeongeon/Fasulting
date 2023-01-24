@@ -44,6 +44,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
+// 여기 위로는 수정 X (MUI 코드) ==============================
 export default function ReserveCard() {
   const [expanded, setExpanded] = React.useState("panel1");
 
@@ -51,9 +52,12 @@ export default function ReserveCard() {
     setExpanded(newExpanded ? panel : false);
   };
 
+  console.log(expanded);
   return (
     <div className={styles.outerDiv}>
+      {/* 날짜 선택 구간 */}
       <div className={styles.dateDiv}>날짜</div>
+      {/* 시간 선택 구간 */}
       <Accordion
         expanded={expanded === "panel1"}
         onChange={handleChange("panel1")}
@@ -67,9 +71,17 @@ export default function ReserveCard() {
             malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
             dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
             lacus ex, sit amet blandit leo lobortis eget.
+            <button
+              onClick={() => {
+                setExpanded("panel2");
+              }}
+            >
+              버튼
+            </button>
           </Typography>
         </AccordionDetails>
       </Accordion>
+      {/* 상담항목 선택 구간 */}
       <Accordion
         expanded={expanded === "panel2"}
         onChange={handleChange("panel2")}
