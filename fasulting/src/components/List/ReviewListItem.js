@@ -12,9 +12,9 @@ function ReviewListItem({
   subcategory,
   rating,
 }) {
-  // 현재 path가 detail이면 병원이름 보여주지 않음
+  // 현재 path가 detail이거나 (병원)mypage 이면 병원이름 보여주지 않음
   const isDetail =
-    useLocation().pathname.slice(1, 7) === "detail" ? true : false;
+    useLocation().pathname.slice(1, 7) === "detail" || "mypage" ? true : false;
 
   return (
     <div>

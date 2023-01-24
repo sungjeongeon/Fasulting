@@ -6,7 +6,7 @@ import Login from "./pages/client/Login";
 import PsList from "./pages/client/PsList";
 import Register from "./pages/client/Register";
 import Reserve from "./pages/client/Reserve";
-import Mypage from "./pages/client/Mypage";
+import MypageCl from "./pages/client/MypageCl";
 import Detail from "./pages/client/Detail";
 import MyActivity from "./pages/client/MyActivity.js";
 import { Container } from "@mui/system";
@@ -15,7 +15,8 @@ import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import MyReservation from "./pages/client/MyReservation";
 import MyEstimate from "./pages/client/MyReservation";
-import ModalTest from"./pages/client/ModalTest";
+import ModalTest from "./pages/client/ModalTest";
+import MypageHo from "./pages/hospital/MypageHo";
 
 const theme = createTheme({
   palette: {
@@ -47,6 +48,7 @@ function App() {
           <Router>
             <Header />
             <Routes>
+              {/* ========= client ========== */}
               {/* 비밀번호 찾기 */}
               <Route path="/findpw" element={<FindPw />} />
               {/* 로그인 */}
@@ -60,15 +62,17 @@ function App() {
               {/* 나의 예약 */}
               <Route path="/myreservation" element={<MyReservation />} />
               {/* 나의 정보 */}
-              <Route path="/mypage" element={<Mypage />} />
+              <Route path="/mypagecl" element={<MypageCl />} />
               {/* 나의 활동 */}
               <Route path="/myactivity" element={<MyActivity />} />
               {/* 나의 견적서 */}
               <Route path="/myestimate" element={<MyEstimate />} />
+              {/* ========= hospital ========== */}
+              <Route path="/mypageho" element={<MypageHo />} />
               {/* 메인 */}
               <Route path="/" element={<Home />} />
               {/* 모달 테스트용 페이지욤.. */}
-              <Route path="/test" element={<ModalTest/>}/>
+              <Route path="/test" element={<ModalTest />} />
             </Routes>
           </Router>
         </Container>

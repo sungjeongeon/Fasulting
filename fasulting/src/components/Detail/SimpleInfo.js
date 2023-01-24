@@ -51,15 +51,13 @@ function SimpleInfo() {
         <p>{ps_address}</p>
       </div>
       {/* 수술 분야 (세부) */}
-      <p>
-        {sub_category.map((sub, index) => {
-          return (
-            <button key={index} className={styles.subCategory}>
-              <TagIcon sx={{ fontSize: 12 }} /> {sub}
-            </button>
-          );
-        })}
-      </p>
+      {sub_category.map((sub, index) => {
+        return (
+          <button key={index} className={styles.subCategory}>
+            <TagIcon sx={{ fontSize: 12 }} /> {sub}
+          </button>
+        );
+      })}
     </div>
   );
 }

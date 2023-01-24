@@ -1,0 +1,53 @@
+.titleDiv {
+  display: flex;
+  margin-top: 1.06rem;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0 0 0.94rem 0.94rem;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.06rem;
+}
+
+.btn {
+  width: 1.81rem;
+  height: 1.63rem;
+  line-height: 1.63rem;
+}
+.btnTextGreen {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.88rem;
+
+  color: #72a1a6;
+}
+.btnTextRed {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.88rem;
+
+  color: #e64c3c;
+}
+
+.content {
+  margin-left: 1.25rem;
+  margin-right: 1.5rem;
+  width: 90%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: #7c7877;
+}
+.content input {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.88rem;
+
+  color: #7c7877;
+}
+
+.hr {
+  margin-top: 1.44rem;
+}

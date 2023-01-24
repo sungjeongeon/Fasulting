@@ -1,0 +1,53 @@
+.titleDiv {
+  display: flex;
+  margin-top: 1.06rem;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0 0 0.94rem 0.94rem;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.06rem;
+}
+
+.btn {
+  width: 1.81rem;
+  height: 1.63rem;
+  line-height: 1.63rem;
+}
+.btnTextGreen {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.88rem;
+
+  color: #72a1a6;
+}
+
+.subCategory {
+  margin-top: 0px;
+  margin-bottom: 0.4rem;
+  margin-left: 0rem;
+  margin-right: 0.62rem;
+  background-color: #f0e5de;
+  width: 5rem;
+  height: 1.88rem;
+  border: 0;
+  outline: 0;
+  font-size: 0.75rem;
+  border-radius: 1.25rem;
+  font-family: "Inter";
+  align-items: center;
+  text-align: center;
+  line-height: 1.88rem;
+  color: black;
+  font-weight: 400;
+}
+
+.subDiv {
+  margin-left: 1.25rem;
+}
+
+.hr {
+  margin-top: 1.44rem;
+}

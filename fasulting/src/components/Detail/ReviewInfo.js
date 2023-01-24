@@ -4,6 +4,7 @@ import styles from "./ReviewInfo.module.css";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
+import Rating from "@mui/material/Rating";
 
 function ReviewInfo() {
   // 별점 평균
@@ -32,16 +33,6 @@ function ReviewInfo() {
     },
   ];
 
-  const displayStar = (idx) => {
-    const value = totalScore - idx;
-    if (value <= 0) {
-      return <StarBorderIcon sx={{ fontSize: "30px", color: "#EECC51" }} />;
-    } else if (value >= 1) {
-      return <StarIcon sx={{ fontSize: "30px", color: "#EECC51" }} />;
-    } else {
-      return <StarHalfIcon sx={{ fontSize: "30px", color: "#EECC51" }} />;
-    }
-  };
   return (
     <div>
       <p className={styles.title}>리뷰</p>
@@ -54,15 +45,18 @@ function ReviewInfo() {
           <div>
             {/* 별 5개 */}
             <div className={styles.star}>
-              {displayStar(0)}
-              {displayStar(1)}
-              {displayStar(2)}
-              {displayStar(3)}
-              {displayStar(4)}
+              <Rating
+                name="half-rating"
+                defaultValue={totalScore}
+                precision={0.5}
+                size="large"
+                readOnly
+              />
             </div>
             <p className={styles.reviewCount}>{totalCount} 개의 리뷰</p>
           </div>
         </div>
+        <hr />
         {tempdata.map((review) => (
           <ReviewListItem
             key={review.id}
