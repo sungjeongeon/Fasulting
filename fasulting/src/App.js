@@ -15,12 +15,10 @@ import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import MyReservation from "./pages/client/MyReservation";
 import MyEstimate from "./pages/client/MyReservation";
-<<<<<<< HEAD
 import ModalTest from "./pages/client/ModalTest";
 import MypageHo from "./pages/hospital/MypageHo";
-=======
 import PsRegister from "./pages/hospital/PsRegister";
->>>>>>> af41df8e53a29557acf4e87e135a7ad1d959a447
+
 
 const theme = createTheme({
   palette: {
