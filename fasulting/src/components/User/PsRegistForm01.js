@@ -177,7 +177,7 @@ const validationSchema = yup.object({
     .required("비밀번호를 재입력해주세요."),
 });
 
-export default function LoginForm() {
+export default function PsRegistForm01() {
   const formik = useFormik({
     initialValues: {
       email: "",

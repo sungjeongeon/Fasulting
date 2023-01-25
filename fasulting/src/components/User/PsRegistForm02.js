@@ -1,142 +1,131 @@
-import React, { useState } from "react";
+import React from "react";
+import ReactDOM from "react-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import {
-  Button,
-  TextField,
+  Container,
+  Box,
   Typography,
+  Card,
   FormControl,
-  FormHelperText,
-  Grid,
-} from "@mui/material/";
-import styled from "styled-components";
-import { Link } from "@material-ui/core";
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Button,
+  Link,
+} from "@mui/material";
+import { CssBaseline } from "@mui/material";
 
-// mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
-const FormHelperTexts = styled(FormHelperText)`
-  width: 100%;
-  padding-left: 16px;
-  font-weight: 700 !important;
-  color: #d32f2f !important;
-`;
+const validationSchema = yup.object({
+  psname: yup,
+  psprofile: yup,
+  psintro: yup,
+  psaddress: yup,
+  psnumber: yup,
+  pshomepage: yup,
+});
 
-const RegisterCard = () => {
-  const [checked, setChecked] = useState(false);
-  const [emailError, setEmailError] = useState("");
-  const [passwordState, setPasswordState] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-
-  const handleAgree = (event) => {
-    setChecked(event.target.checked);
-  };
-
-  const onhandlePost = async (data) => {
-    const { email, name, password } = data;
-    // const postData = { email, name, password };
-
-    // post
-    //     await axios
-    //       .post('/member/join', postData)
-    //       .then(function (response) {
-    //         console.log(response, '성공');
-    //         history.push('/login');
-    //       })
-    //       .catch(function (err) {
-    //         console.log(err);
-    //         setRegisterError('회원가입에 실패하였습니다. 다시한번 확인해 주세요.');
-    //       });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const data = new FormData(e.currentTarget);
-    const joinData = {
-      email: data.get("email"),
-      password: data.get("password"),
-      rePassword: data.get("rePassword"),
-      name: data.get("name"),
-      birth: data.get("birth"),
-      phone: data.get("phone"),
-    };
-    const { email, password, rePassword } = joinData;
-
-    // 이메일 유효성 체크
-    const emailRegex =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    if (!emailRegex.test(email))
-      setEmailError("올바른 이메일 형식이 아닙니다.");
-    else setEmailError("");
-
-    // 비밀번호 유효성 체크
-    const passwordRegex =
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    if (!passwordRegex.test(password))
-      setPasswordState(
-        "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!"
-      );
-    else setPasswordState("");
-
-    // 비밀번호 같은지 체크
-    if (password !== rePassword)
-      setPasswordError("비밀번호가 일치하지 않습니다.");
-    else setPasswordError("");
-
-    if (
-      emailRegex.test(email) &&
-      passwordRegex.test(password) &&
-      password === rePassword &&
-      checked
-    ) {
-      onhandlePost(joinData);
-    }
-  };
+export default function PsRegistForm02() {
+  const formik = useFormik({
+    initialValues: {
+      psname: "",
+      psprofile: "",
+      psintro: "",
+      psaddress: "",
+      psnumber: "",
+      pshomepage: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   return (
-    <>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField
-            required
-            autoFocus
-            fullWidth
-            type="text"
-            id="psname"
-            name="psname"
-            label="병원명"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            type="text"
-            id="psintro"
-            name="psintro"
-            label="병원 소개"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            type="text"
-            id="psaddress"
-            name="psaddress"
-            label="병원 주소"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            type="number"
-            id="psnumber"
-            name="psnumber"
-            label="병원 전화번호"
-          />
-        </Grid>
-      </Grid>
-      <Link href="#" variant="body2">
-        일반 회원으로 가입하시나요?
-      </Link>
-    </>
+    <form onSubmit={formik.handleSubmit}>
+      <Box noValidate ml={5} mr={5}>
+        <Typography marginTop={2}>병원명</Typography>
+        <TextField
+          fullWidth
+          id="psname"
+          name="psname"
+          label="병원명을 검색해주세요."
+          value={formik.values.psname}
+          onChange={formik.handleChange}
+          margin="normal"
+          error={formik.touched.psname && Boolean(formik.errors.psname)}
+          helperText={formik.touched.psname ? formik.errors.psname : ""}
+        />
+        <Typography marginTop={2}>병원 프로필</Typography>
+        <TextField
+          fullWidth
+          id="psprofile"
+          name="psprofile"
+          label="프로필 사진을 업로드해주세요."
+          type="psprofile"
+          value={formik.values.psprofile}
+          onChange={formik.handleChange}
+          margin="normal"
+          error={formik.touched.psprofile && Boolean(formik.errors.psprofile)}
+          helperText={formik.touched.psprofile ? formik.errors.psprofile : ""}
+        />
+        <Typography marginTop={2}>병원 소개</Typography>
+        <TextField
+          fullWidth
+          id="psintro"
+          name="psintro"
+          label="병원을 한줄로 소개해주세요."
+          type="password"
+          value={formik.values.psintro}
+          onChange={formik.handleChange}
+          margin="normal"
+          error={formik.touched.psintro && Boolean(formik.errors.psintro)}
+          helperText={formik.touched.psintro ? formik.errors.psintro : ""}
+        />
+        <Typography marginTop={2}>병원 주소</Typography>
+        <TextField
+          fullWidth
+          id="psaddress"
+          name="psaddress"
+          label="병원 주소를 입력해주세요."
+          type="text"
+          value={formik.values.psaddress}
+          onChange={formik.handleChange}
+          margin="normal"
+          error={formik.touched.psaddress && Boolean(formik.errors.psaddress)}
+          helperText={formik.touched.psaddress ? formik.errors.psaddress : ""}
+        />
+        <Typography marginTop={2}>병원 전화번호</Typography>
+        <TextField
+          fullWidth
+          id="psnumber"
+          name="psnumber"
+          label="병원 전화번호"
+          type="password"
+          value={formik.values.psnumber}
+          onChange={formik.handleChange}
+          margin="normal"
+          error={formik.touched.psnumber && Boolean(formik.errors.psnumber)}
+          helperText={formik.touched.psnumber ? formik.errors.psnumber : ""}
+        />
+        <Typography marginTop={2}>병원 홈페이지 주소</Typography>
+        <TextField
+          fullWidth
+          id="pshomepage"
+          name="pshomepage"
+          label="병원 홈페이지 주소"
+          type="password"
+          value={formik.values.pshomepage}
+          onChange={formik.handleChange}
+          margin="normal"
+          error={formik.touched.pshomepage && Boolean(formik.errors.pshomepage)}
+          helperText={formik.touched.pshomepage ? formik.errors.pshomepage : ""}
+        />
+        <Link href="#" variant="body2">
+          일반 회원으로 가입하시나요?
+        </Link>
+      </Box>
+    </form>
   );
-};
-
-export default RegisterCard;
+}
