@@ -5,7 +5,6 @@ import com.fasulting.demo.customer.user.dto.reqDto.*;
 import com.fasulting.demo.customer.user.service.UserEmailService;
 import com.fasulting.demo.customer.user.service.UserService;
 import com.fasulting.demo.entity.UserEntity;
-import com.fasulting.demo.ps.ps.request.CheckPasswordReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +68,7 @@ public class UserController {
      */
     @GetMapping("/regist/{email}")
     public ResponseEntity<?> registSendEmailCode(@PathVariable String email){
-        log.info("SendEmailCode - Call");
+        log.info("regist - sendEmailCode - Call");
 
         String code = null;
         try {
@@ -95,7 +94,7 @@ public class UserController {
      */
     @GetMapping("/reset/{email}")
     public ResponseEntity<? extends ResponseBody> ResetSendEmailCode(@PathVariable String email){
-        log.info("SendEmailCode - Call");
+        log.info("reset - sendEmailCode - Call");
 
         String code = null;
         try {
@@ -116,7 +115,7 @@ public class UserController {
      */
     @PatchMapping("/reset")
     public ResponseEntity<?> restPassword(@RequestBody UserWithoutSeqReq userInfo) {
-        log.info("Reset Password - Call");
+        log.info("reset Password - Call");
 
         if(userService.resetPassword(userInfo)){
             log.info("성공");
@@ -170,7 +169,7 @@ public class UserController {
      */
     @GetMapping("/info/{seq}")
     public ResponseEntity<?> getUserInfo(@PathVariable Long seq) {
-        log.info("GetUserInfo - Call");
+        log.info("getUserInfo - Call");
 
         // 로그인 했는지 검사 필요
 
@@ -184,7 +183,7 @@ public class UserController {
      */
     @PutMapping("/edit")
     public ResponseEntity<?> editUserInfo(@RequestBody UserSeqReq userInfo) {
-        log.info("EditUser - Call");
+        log.info("editUser - Call");
 
         // 로그인 했는지 검사 필요
 
@@ -201,7 +200,7 @@ public class UserController {
      */
     @PatchMapping("/withdraw")
     public ResponseEntity<?> withdrawUser(@RequestBody UserSeqReq userInfo) {
-        log.info("Withdraw - Call");
+        log.info("withdraw - Call");
 
         // 로그인 했는지 검사 필요
 

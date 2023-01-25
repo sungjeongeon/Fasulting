@@ -4,7 +4,6 @@ import com.fasulting.demo.customer.user.dto.reqDto.*;
 import com.fasulting.demo.customer.user.repository.UserRepository;
 import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
 import com.fasulting.demo.entity.UserEntity;
-import com.fasulting.demo.ps.ps.request.CheckPasswordReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -134,9 +133,9 @@ public class UserServiceImpl implements UserService {
     public boolean checkPassword(UserSeqReq userInfo) {
 
         if(userRepository.findById(userInfo.getSeq()).isPresent()) {
-            String userPassword = userRepository.findById(userInfo.getSeq()).get().getPassword();
+            String password = userRepository.findById(userInfo.getSeq()).get().getPassword();
 
-            if(userPassword.equals(userInfo.getPassword())) {
+            if(password.equals(userInfo.getPassword())) {
                 return true;
             }
         }

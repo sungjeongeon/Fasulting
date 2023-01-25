@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    // 1. Email로 user_id 찾기
+    // 1. email로 User 찾기
     // jpql
     // CRUD
     Optional<UserEntity> findUserByEmail(@Param("email") String email);
