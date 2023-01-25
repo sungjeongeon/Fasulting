@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ReviewListItem from "../List/ReviewListItem";
 import styles from "./ReviewInfo.module.css";
 import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
 import { useLocation } from "react-router-dom";
+import ReviewReport from "../Modal/ReviewReport";
 
 function ReviewInfo() {
   // 별점 평균
@@ -39,6 +40,10 @@ function ReviewInfo() {
   const isHospitalPage =
     useLocation().pathname.slice(1, 9) === "mypageho" ? true : false;
 
+  // 모달
+  const [ModalOpen, setModalOpen] = useState(false)
+  const ModalStateChange = () => setModalOpen((current) => !current)
+  
   return (
     <div>
       <p className={styles.title}>리뷰</p>
@@ -72,9 +77,14 @@ function ReviewInfo() {
                   className={styles.btn}
                   color="error"
                   value={review.id}
+                  onClick={ModalStateChange}
                 >
-                  <p className={styles.btnTextRed}>신고</p>
+                <p className={styles.btnTextRed}>신고</p>
                 </Button>
+                {ModalOpen && 
+                    <ReviewReport
+                      ModalStateChange={ModalStateChange}
+                  />}
               </div>
             ) : null}
 

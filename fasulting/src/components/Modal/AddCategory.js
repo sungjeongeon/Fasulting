@@ -4,7 +4,7 @@ import List from '@mui/material/List';
 import styles from "./AddCategory.module.css";
 import AddCategoryListItem from './AddCategoryListItem';
 
-export default function AddCategory({ModalStateChange2}) {
+export default function AddCategory({ModalStateChange}) {
   // 카테고리 데이터 생성 
   const categorylists = [
     {
@@ -107,13 +107,13 @@ export default function AddCategory({ModalStateChange2}) {
       <div className={styles.center}>
         { serviceAdd === 0 ? <button
           className={styles.before}
-          onClick={ModalStateChange2}
+          onClick={ModalStateChange}
           >
           서비스를 등록해주세요
         </button> :
         <button
         className={styles.after}
-        onClick={ModalStateChange2}
+        onClick={ModalStateChange}
         >
         {serviceAdd}개 서비스 추가
         </button>

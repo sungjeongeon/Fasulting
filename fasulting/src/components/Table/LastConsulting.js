@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,6 +13,7 @@ import Button from "@mui/material/Button";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useNavigate } from "react-router-dom";
+import Review from "../Modal/Review"
 
 const lastconsulting = [
   {
@@ -59,6 +61,10 @@ export default function LastConsulting() {
     navigate("/myestimate");
   };
 
+  // 모달창
+  const [ModalOpen, setModalOpen] = useState(false)
+  const ModalStateChange = () => setModalOpen((current) => !current)
+    
   return (
     <>
       <Typography variant="h5">지난 예약</Typography>
@@ -87,9 +93,13 @@ export default function LastConsulting() {
                 <TableCell>{lastconsult.sub_category_name}</TableCell>
                 <TableCell>{lastconsult.consulting_time}</TableCell>
                 <TableCell>
-                  <Button variant="outlined" startIcon={<AssignmentIcon />}>
+                  <Button variant="outlined" startIcon={<AssignmentIcon />} onClick={ModalStateChange}>
                     리뷰작성
                   </Button>
+                  {ModalOpen && 
+                  <Review
+                    ModalStateChange={ModalStateChange}
+                  />}
                 </TableCell>
                 <TableCell>
                   <Button

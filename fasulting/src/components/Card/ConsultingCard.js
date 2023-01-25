@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -8,6 +9,8 @@ import LinearProgress, {
   linearProgressClasses
 } from "@mui/material/LinearProgress";
 import { styled } from "@mui/material/styles";
+import Cancel from "../Modal/Cancel"
+
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -23,6 +26,10 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 function ConsultingCard({consult}) {
+  // 모달창
+  const [ModalOpen, setModalOpen] = useState(false)
+  const ModalStateChange = () => setModalOpen((current) => !current)
+  
   return (
     <Card sx={{ maxWidth: 275 }}>
       <CardContent>
@@ -37,7 +44,12 @@ function ConsultingCard({consult}) {
         <BorderLinearProgress variant="determinate" value={50} />
       </CardContent>
       <CardActions >
-        <Button variant="outlined" color="error">예약취소</Button>
+        <Button variant="outlined" color="error" onClick={ModalStateChange}>예약취소</Button>
+        {ModalOpen &&
+        <Cancel
+          ModalStateChange={ModalStateChange}
+        />
+        }
         <Button variant="contained" style={{color: 'white'}}>상담입장</Button>
       </CardActions>
     </Card>

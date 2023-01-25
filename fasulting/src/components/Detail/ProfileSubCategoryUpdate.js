@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./ProfileSubCategoryUpdate.module.css";
 import TagIcon from "@mui/icons-material/Tag";
 import Button from "@mui/material/Button";
-import NestedList from "../Modal/AddCategory";
+import AddCategory from "../Modal/AddCategory";
 
 function ProfileSubCategoryUpdate({ sub_category }) {
   const [modal, setModal] = useState(false);
@@ -18,6 +18,10 @@ function ProfileSubCategoryUpdate({ sub_category }) {
         <Button variant="text" className={styles.btn} onClick={onClick}>
           <p className={styles.btnTextGreen}>수정</p>
         </Button>
+        {modal && 
+        <AddCategory 
+          ModalStateChange={onClick}
+        />}
       </div>
       <div className={styles.subDiv}>
         {sub_category.map((sub, index) => {
@@ -29,7 +33,6 @@ function ProfileSubCategoryUpdate({ sub_category }) {
         })}
       </div>
       <hr className={styles.hr} />
-      {modal ? <NestedList /> : null}
     </div>
   );
 }

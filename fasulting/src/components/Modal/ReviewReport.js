@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "./ReviewReport.module.css"
 
-function ReviewReport({ModalStateChange5}) {
+function ReviewReport({ModalStateChange}) {
   return (
     <div className={styles.background}>
       <div className={styles.modalbox}>
@@ -12,8 +12,8 @@ function ReviewReport({ModalStateChange5}) {
             <p>하시겠습니까?</p>
           </div>
           <div className={styles.center}>
-            <button className={`${styles.yes} ${styles.font} ${styles.center}`} onClick={ModalStateChange5} value="yes">신고</button>
-            <button className={`${styles.no} ${styles.font} ${styles.center}`} onClick={ModalStateChange5} value="no">취소</button>
+            <button className={`${styles.yes} ${styles.font} ${styles.center}`} onClick={ModalStateChange} value="yes">신고</button>
+            <button className={`${styles.no} ${styles.font} ${styles.center}`} onClick={ModalStateChange} value="no">취소</button>
           </div>
         </div>
       </div>
