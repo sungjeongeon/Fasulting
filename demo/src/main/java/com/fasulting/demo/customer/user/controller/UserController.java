@@ -1,12 +1,12 @@
 package com.fasulting.demo.customer.user.controller;
 
 import com.fasulting.demo.common.ResponseBody;
-import com.fasulting.demo.customer.user.db.entity.User;
-import com.fasulting.demo.customer.user.request.*;
+import com.fasulting.demo.customer.user.dto.reqDto.*;
 import com.fasulting.demo.customer.user.service.UserEmailService;
 import com.fasulting.demo.customer.user.service.UserService;
+import com.fasulting.demo.entity.UserEntity;
+import com.fasulting.demo.ps.ps.request.CheckPasswordReq;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,35 +45,43 @@ public class UserController {
      * userSeq
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody UserWithoutSeqReq user) {
         return null; // response: userid (DB table 안의)
     }
 
     /**
      * 2. 로그아웃 - jwt
-     * @param userSeq
+     * @param seq
      * @return fail OR success
      */
-    @GetMapping("/logout/{userSeq}")
-    public ResponseEntity<?> logout(@PathVariable int userSeq) {
+    @GetMapping("/logout/{seq}")
+    public ResponseEntity<?> logout(@PathVariable Long seq) {
         return null; // fail OR successs
     }
 
     /**
      * 3. 이메일 인증 코드 발송 (회원 가입)
-     * @param userEmail
+     * @param email
      * @return success OR fail
      * success: 회원 가입 인증 코드 메일 발송 완료
      * fail: 메일 발송 불발
      * @throws Exception
      */
-    @GetMapping("/regist/{userEmail}")
-    public ResponseEntity<? extends ResponseBody> RegistSendEmailCode(@PathVariable String userEmail) throws Exception {
+    @GetMapping("/regist/{email}")
+    public ResponseEntity<?> registSendEmailCode(@PathVariable String email){
         log.info("SendEmailCode - Call");
 
-        String code = userEmailService.sendRegistCodeMessage(userEmail);
+        String code = null;
+        try {
+            code = userEmailService.sendRegistCodeMessage(email);
+
+        } catch (Exception e) {
+
+            log.info(e.getMessage());
+        }
+
         log.info("인증코드: " + code);
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
+        return ResponseEntity.status(200).body("success");
     }
 
     /**
@@ -95,16 +103,16 @@ public class UserController {
 
     /**
      * 4. 비밀번호 수정 - 재설정 - 비밀번호만 update
-     * @param userResetInfo
+     * @param userInfo
      * @return success OR fail
      * success: 가입 성공
      * fail: 가입 실패
      */
     @PatchMapping("/reset")
-    public ResponseEntity<?> RestPassword(@RequestBody UserBasicInfoReq userResetInfo) {
+    public ResponseEntity<?> restPassword(@RequestBody UserWithoutSeqReq userInfo) {
         log.info("Reset Password - Call");
 
-        if(userService.ResetPassword(userResetInfo)){
+        if(userService.resetPassword(userInfo)){
             log.info("성공");
             return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
         }
@@ -119,7 +127,7 @@ public class UserController {
      * success: 성공, fail: 실패
      */
     @PostMapping("/regist")
-    public ResponseEntity<?> userRegister(@RequestBody UserRegisterReq userInfo) {
+    public ResponseEntity<?> userRegister(@RequestBody UserWithoutSeqReq userInfo) {
         log.info("userRegister - Call");
 
         if(userService.userRegister(userInfo)) {
@@ -131,15 +139,15 @@ public class UserController {
 
     /**
      * 6. 회원가입 - 이메일 중복 확인
-     * @param userEmail
+     * @param email
      * @return fail or success 
      * fail: userEmail 중복
      * sucess: userEmail 중복 아님
      */
-    @GetMapping("/duple/{userEmail}")
-    public ResponseEntity<?> DupleEmail(@PathVariable String userEmail) {
+    @GetMapping("/duple/{email}")
+    public ResponseEntity<?> checkEmail(@PathVariable String email) {
         log.info("Duple Email - Call");
-        if(userService.DupleEmail(userEmail)) {
+        if(userService.checkEmail(email)) {
             // 이메일 중복
             return ResponseEntity.status(409).body(ResponseBody.create(409, "fail"));
         }
@@ -150,16 +158,16 @@ public class UserController {
 
     /**
      * 7. 회원 정보 조회
-     * @param userSeq
+     * @param seq
      * @return 회원 정보 OR fail
      */
-    @GetMapping("/info/{userId}")
-    public ResponseEntity<?> GetUserInfo(@PathVariable int userSeq) {
+    @GetMapping("/info/{seq}")
+    public ResponseEntity<?> getUserInfo(@PathVariable Long seq) {
         log.info("GetUserInfo - Call");
 
         // 로그인 했는지 검사 필요
 
-        return ResponseEntity.status(200).body(userService.GetUserInfo(userSeq));
+        return ResponseEntity.status(200).body(userService.getUserInfo(seq));
     }
 
     /**
@@ -168,13 +176,13 @@ public class UserController {
      * @param userInfo 유저 인포 (userName, userPassword)
      * @return success OR fail
      */
-    @PutMapping("/edit/{user_id}")
-    public ResponseEntity<?> EditUserInfo(@PathVariable("user_id") int userSeq, @RequestBody EditUserInfoReq userInfo) {
+    @PutMapping("/edit/{seq}")
+    public ResponseEntity<?> editUserInfo(@PathVariable("seq") Long seq, @RequestBody UserSeqReq userInfo) {
         log.info("EditUser - Call");
 
         // 로그인 했는지 검사 필요
 
-        if(userService.EditUserInfo(userSeq, userInfo)) {
+        if(userService.editUserInfo(seq, userInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
@@ -186,12 +194,12 @@ public class UserController {
      * @return success OR fail
      */
     @PatchMapping("/withdraw")
-    public ResponseEntity<?> WithdrawUser(@RequestBody WithdrawReq userInfo) {
+    public ResponseEntity<?> withdrawUser(@RequestBody UserSeqReq userInfo) {
         log.info("Withdraw - Call");
 
         // 로그인 했는지 검사 필요
 
-        if(userService.WidrawUser(userInfo)) {
+        if(userService.withdrawUser(userInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
@@ -204,9 +212,9 @@ public class UserController {
      * @return success OR fail
      */
     @PostMapping("/passcheck")
-    public ResponseEntity<?> CheckPassword(@RequestBody CheckPasswordReq userInfo) {
+    public ResponseEntity<?> checkPassword(@RequestBody UserSeqReq userInfo) {
         // 로그인 했는지 검사 필요
-        if(userService.CheckPassword(userInfo)) {
+        if(userService.checkPassword(userInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
@@ -217,7 +225,7 @@ public class UserController {
     // 11. 보안 - 인증코드 확인 (수정, 가입)
     // userDto: email
     @PostMapping("/access")
-    public ResponseEntity<?> AccessCode(@RequestBody User user) {
+    public ResponseEntity<?> accessCode(@RequestBody UserSeqReq userInfo) {
         // 이메일 인증 코드 & Server에서 전송한 이메일 코드 일치 여부 확인
 
         return null; // fail OR success
@@ -226,13 +234,13 @@ public class UserController {
     // 12. 즐겨찾기 추가
     // userDto: userSeq, psId
     @PostMapping("/favorite")
-    public ResponseEntity<?> AddFavorite(@RequestBody User user) {
+    public ResponseEntity<?> addFavorite(@RequestBody UserSeqReq userInfo) {
         return null; // fail OR success
     }
 
     // 13. 즐겨찿기 조회
-    @GetMapping("/favorite/{userSeq}")
-    public ResponseEntity<?> FavoriteList(@PathVariable int userSeq) {
+    @GetMapping("/favorite/{seq}")
+    public ResponseEntity<?> favoriteList(@PathVariable Long seq) {
         return null; // favorite 객체 리스트
     }
 

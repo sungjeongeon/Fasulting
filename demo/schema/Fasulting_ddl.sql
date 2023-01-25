@@ -2,7 +2,7 @@ CREATE TABLE `user` (
 	`seq`	BIGINT	NOT NULL,
 	`email`	VARCHAR(255)	NOT NULL,
 	`password`	VARCHAR(255)	NOT NULL,
-	`birth`	DATETIME	NOT NULL,
+	`birth`	VARCHAR(255)	NOT NULL,
 	`gender`	VARCHAR(1)	NOT NULL	COMMENT 'M or F',
 	`number`	VARCHAR(255)	NOT NULL,
 	`nation`	VARCHAR(255)	NOT NULL,

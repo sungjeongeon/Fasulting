@@ -1,14 +1,15 @@
 package com.fasulting.demo.customer.user.service;
 
-import com.fasulting.demo.customer.user.db.entity.User;
-import com.fasulting.demo.customer.user.db.repository.UserRepository;
-import com.fasulting.demo.customer.user.request.*;
-import com.fasulting.demo.customer.user.response.UserInfoResp;
+import com.fasulting.demo.customer.user.dto.reqDto.*;
+import com.fasulting.demo.customer.user.repository.UserRepository;
+import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
+import com.fasulting.demo.entity.UserEntity;
+import com.fasulting.demo.ps.ps.request.CheckPasswordReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Service
 @Slf4j
@@ -21,21 +22,17 @@ public class UserServiceImpl implements UserService {
 
     // 회원 가입
     @Override
-    public boolean userRegister(UserRegisterReq userRegisterInfo) {
-        User user = new User();
-
-//        StringBuilder sb = new StringBuilder();
-//        sb.append(userRegisterInfo.getUserBirth()).insert(4, "-").insert(7, "-");
-
-        user.setUserEmail(userRegisterInfo.getUserEmail());
-        user.setUserPassword(userRegisterInfo.getUserPassword()); // encode 필요
-        user.setUserGender(userRegisterInfo.getUserGender());
-        user.setUserNation(userRegisterInfo.getUserNation());
-        user.setUserNationCode(userRegisterInfo.getUserNationCode());
-        user.setUserPhone(userRegisterInfo.getUserPhone());
-        user.setUserBirth(userRegisterInfo.getUserBirth());
-        user.setUserName(userRegisterInfo.getUserName());
-
+    public boolean userRegister(UserWithoutSeqReq userInfo) {
+        UserEntity user = UserEntity.builder()
+                .email(userInfo.getEmail())
+                .password(userInfo.getPassword())
+                .name(userInfo.getName())
+                .gender(userInfo.getGender())
+                .nation(userInfo.getNation())
+                .nationCode(userInfo.getNationCode())
+                .number(userInfo.getNumber())
+                .birth(userInfo.getBirth())
+                .build();
 
         userRepository.save(user);
 
@@ -45,15 +42,16 @@ public class UserServiceImpl implements UserService {
 
     // 비밀번호 수정 (재설정)
     @Override
-    public boolean ResetPassword(UserBasicInfoReq userResetInfo) {
+    public boolean resetPassword(UserWithoutSeqReq userInfo) {
 
-        if(userRepository.findUserByUserEmail(userResetInfo.getUserEmail()).isPresent()) {
+        if(userRepository.findUserByEmail(userInfo.getEmail()).isPresent()) {
             // userEmail이 있다면
-            User user = userRepository.findUserByUserEmail(userResetInfo.getUserEmail()).get();
+            UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).get();
 
-            log.info(userResetInfo.getUserPassword());
+            log.info(userInfo.getPassword());
+
             // password update
-            user.setUserPassword(userResetInfo.getUserPassword());
+            user.builder().password(userInfo.getPassword()).build();
 
             userRepository.save(user);
 
@@ -65,48 +63,49 @@ public class UserServiceImpl implements UserService {
 
     // 회원 정보 조회
     @Override
-    public UserInfoResp GetUserInfo(int userId) {
-        if(userRepository.findById(userId).isPresent()) {
-            User user = userRepository.findById(userId).get();
+    public UserInfoResp getUserInfo(Long seq) {
+        if(userRepository.findById(seq).isPresent()) {
+            UserEntity user = userRepository.findById(seq).get();
+
             UserInfoResp userInfo = new UserInfoResp();
 
-            userInfo.setUserBirth(user.getUserEmail());
-            userInfo.setUserEmail(user.getUserEmail());
-            userInfo.setUserGender(user.getUserGender());
-            userInfo.setUserNation(user.getUserNation());
-            userInfo.setUserPhone(user.getUserPhone());
-            userInfo.setUserName(user.getUserName());
-            userInfo.setUserNationCode(user.getUserNationCode());
+            userInfo.setBirth(user.getBirth());
+            userInfo.setEmail(user.getEmail());
+            userInfo.setGender(user.getGender());
+            userInfo.setNation(user.getNation());
+            userInfo.setPhone(user.getNumber());
+            userInfo.setName(user.getName());
+            userInfo.setNationCode(user.getNationCode());
 
             return userInfo;
         }
         return null;
     }
 
-    // 회원 이메일 중복 확인
+    // 회원 이메일 조회 및 중복 확인
     @Override
-    public boolean DupleEmail(String userEmail) {
-        if(userRepository.findUserByUserEmail(userEmail).isPresent()) {
-            log.info("회원 이메일 중복");
-            return false;
+    public boolean checkEmail(String email) {
+        if(userRepository.findUserByEmail(email).isPresent()) {
+            log.info("회원 이메일 존재");
+            return true;
         }
         else {
-            log.info("회원 이메일 중복 아님");
-            return true;
+            log.info("회원 이메일 존재하지 않음");
+            return false;
         }
     }
 
     // 회원 정보 수정
     @Override
-    public boolean EditUserInfo(int id, EditUserInfoReq userInfo) {
+    public boolean editUserInfo(Long seq, UserSeqReq userInfo) {
 
-        if(userRepository.findById(id).isPresent()) {
-            User user = userRepository.findById(id).get();
+        if(userRepository.findById(seq).isPresent()) {
+            UserEntity user = userRepository.findById(seq).get();
 
-            if(userInfo.getUserName() != null)
-                user.setUserName(userInfo.getUserName());
-            if(userInfo.getUserPhone() != null)
-                user.setUserPhone(userInfo.getUserPhone());
+            if(userInfo.getName() != null)
+                user.builder().name(userInfo.getName()).build();
+            if(userInfo.getNumber() != null)
+                user.builder().number(userInfo.getNumber()).build();
 
             userRepository.save(user);
         }
@@ -116,23 +115,30 @@ public class UserServiceImpl implements UserService {
 
     // 회원 탈퇴
     @Override
-    public boolean WidrawUser(WithdrawReq userInfo) {
-        if(userRepository.findById(userInfo.getUserSeq()).isPresent()) {
-            User user = userRepository.findById(userInfo.getUserSeq()).get();
-            user.setUserValidation("N");
+    public boolean withdrawUser(UserSeqReq userInfo) {
+        if(userRepository.findById(userInfo.getSeq()).isPresent()) {
+            UserEntity user = userRepository.findById(userInfo.getSeq()).get();
+
+            user.builder()
+                    .delYn("Y")
+                    .delBy("user_" + userInfo.getSeq())
+                    .delDate(LocalDateTime.now())
+                    .build();
+
             return true;
         }
 
         return false;
     }
 
-    // 비밀번호 중복 확인
+    // 비밀번호 확인
     @Override
-    public boolean CheckPassword(CheckPasswordReq userInfo) {
+    public boolean checkPassword(UserSeqReq userInfo) {
 
-        if(userRepository.findById(userInfo.getUserSeq()).isPresent()) {
-            String userPassword = userRepository.findById(userInfo.getUserSeq()).get().getUserPassword();
-            if(userPassword.equals(userInfo.getUserPassword())) {
+        if(userRepository.findById(userInfo.getSeq()).isPresent()) {
+            String userPassword = userRepository.findById(userInfo.getSeq()).get().getPassword();
+
+            if(userPassword.equals(userInfo.getPassword())) {
                 return true;
             }
         }

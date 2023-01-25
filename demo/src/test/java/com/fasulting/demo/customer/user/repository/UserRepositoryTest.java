@@ -1,8 +1,6 @@
-package com.fasulting.demo.customer.user.db.repository;
+package com.fasulting.demo.customer.user.repository;
 
-import com.fasulting.demo.customer.user.db.entity.User;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AssertionsKt;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,8 +8,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

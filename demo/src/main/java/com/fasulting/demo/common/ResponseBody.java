@@ -2,7 +2,7 @@ package com.fasulting.demo.common;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.coyote.Response;
+
 
 @Getter
 @Setter

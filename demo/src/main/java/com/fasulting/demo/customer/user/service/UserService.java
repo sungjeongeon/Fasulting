@@ -1,17 +1,19 @@
 package com.fasulting.demo.customer.user.service;
 
-import com.fasulting.demo.customer.user.db.entity.User;
-import com.fasulting.demo.customer.user.request.*;
-import com.fasulting.demo.customer.user.response.UserInfoResp;
+import com.fasulting.demo.customer.user.dto.reqDto.*;
+import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
+import com.fasulting.demo.ps.ps.request.CheckPasswordReq;
 
 public interface UserService {
 
-    boolean userRegister(UserRegisterReq userRegisterInfo); // 회원가입
-    boolean ResetPassword(UserBasicInfoReq userResetInfo); // 비밀번호 재설정
-    UserInfoResp GetUserInfo(int userSeq); // 회원 정보 조회
-    boolean DupleEmail(String userEmail); // 회원 이메일 중복 확인
-    boolean EditUserInfo(int userSeq, EditUserInfoReq userInfo); // 회원 정보 수정
-    boolean WidrawUser(WithdrawReq userInfo); //회원 탈퇴
-    boolean CheckPassword(CheckPasswordReq userInfo);
+    boolean userRegister(UserWithoutSeqReq userRegisterInfo); // 회원가입
+    boolean resetPassword(UserWithoutSeqReq userResetInfo); // 비밀번호 재설정
 
+    UserInfoResp getUserInfo(Long seq); // 회원 정보 조회
+    boolean editUserInfo(Long seq, UserSeqReq userInfo); // 회원 정보 수정
+    boolean withdrawUser(UserSeqReq userInfo); //회원 탈퇴
+    boolean checkPassword(UserSeqReq userInfo); // 비밀번호 확인(로그인 상태에서)
+
+
+    boolean checkEmail(String userEmail); // 회원 이메일 조회 및 중복 확인
 }
