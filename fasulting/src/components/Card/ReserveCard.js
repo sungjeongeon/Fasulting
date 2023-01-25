@@ -119,7 +119,6 @@ export default function ReserveCard() {
           type="submit"
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
-          style={{ color: "white" }}
         >
           에약하기
         </Button>
