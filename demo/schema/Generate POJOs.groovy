@@ -58,7 +58,7 @@ def generate(out, className, fields, table) {
     out.println "@Entity"
     out.println "@Builder"
     out.println "@Getter"
-    out.println "@Setter"
+//    out.println "@Setter"
     out.println "@DynamicInsert // Apply changed fields only"
     out.println "@DynamicUpdate // Apply changed fields only"
     out.println "@ToString"
