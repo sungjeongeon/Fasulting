@@ -1,11 +1,12 @@
 .titleDiv {
   display: flex;
   margin-top: 1.06rem;
+  margin-bottom: 1.25rem;
   justify-content: space-between;
 }
 
 .title {
-  margin: 0 0 0.94rem 0.94rem;
+  margin: 0 0 0 0.94rem;
   font-style: normal;
   font-weight: 700;
   font-size: 1.06rem;

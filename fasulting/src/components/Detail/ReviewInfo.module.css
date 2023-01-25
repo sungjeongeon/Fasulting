@@ -28,3 +28,26 @@
 .body {
   margin-left: 1.06rem;
 }
+
+.btn {
+  width: 1.81rem;
+  height: 1.63rem;
+  line-height: 1.63rem;
+}
+.btnTextRed {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.88rem;
+  pointer-events: none;
+  color: #e64c3c;
+}
+
+.reviewList {
+  position: relative;
+}
+
+.claimBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

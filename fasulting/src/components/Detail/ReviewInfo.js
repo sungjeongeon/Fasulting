@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReviewListItem from "../List/ReviewListItem";
 import styles from "./ReviewInfo.module.css";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
 import Rating from "@mui/material/Rating";
+import Button from "@mui/material/Button";
+import { useLocation } from "react-router-dom";
 
 function ReviewInfo() {
   // 별점 평균
@@ -32,6 +31,13 @@ function ReviewInfo() {
       rating: 4.0,
     },
   ];
+  // 신고 버튼 누르면 해당 review id 넘버 받아옴 (e.target.value)
+  const reviewClaim = (e) => {
+    console.log(e.target.value);
+  };
+
+  const isHospitalPage =
+    useLocation().pathname.slice(1, 9) === "mypageho" ? true : false;
 
   return (
     <div>
@@ -58,15 +64,29 @@ function ReviewInfo() {
         </div>
         <hr />
         {tempdata.map((review) => (
-          <ReviewListItem
-            key={review.id}
-            username={review.name}
-            content={review.content}
-            date={review.date}
-            hospital={review.hospital}
-            subcategory={review.subcategory}
-            rating={review.rating}
-          />
+          <div key={review.id} className={styles.reviewList}>
+            {isHospitalPage ? (
+              <div className={styles.claimBtn} onClick={reviewClaim}>
+                <Button
+                  variant="text"
+                  className={styles.btn}
+                  color="error"
+                  value={review.id}
+                >
+                  <p className={styles.btnTextRed}>신고</p>
+                </Button>
+              </div>
+            ) : null}
+
+            <ReviewListItem
+              username={review.name}
+              content={review.content}
+              date={review.date}
+              hospital={review.hospital}
+              subcategory={review.subcategory}
+              rating={review.rating}
+            />
+          </div>
         ))}
       </div>
     </div>

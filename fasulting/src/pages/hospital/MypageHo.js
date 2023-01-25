@@ -12,6 +12,7 @@ import ReviewInfo from "../../components/Detail/ReviewInfo";
 import ProfileImageUpdate from "../../components/Detail/ProfileImageUpdate";
 import ProfileUpdateForm from "../../components/Detail/ProfileUpdateForm";
 import ProfileSubCategoryUpdate from "../../components/Detail/ProfileSubCategoryUpdate";
+import ProfileDoctorUpdate from "../../components/Detail/ProfileDoctorUpdate";
 
 function MypageHo() {
   const hospital = {
@@ -29,6 +30,23 @@ function MypageHo() {
       "코끝",
       "입꼬리",
       "보톡스",
+    ],
+    ps_doctors: [
+      {
+        id: 1,
+        name: "김의사",
+        main_category: "안면윤곽",
+      },
+      {
+        id: 2,
+        name: "이의사",
+        main_category: "쁘띠",
+      },
+      {
+        id: 3,
+        name: "권의사",
+        main_category: "안티에이징",
+      },
     ],
   };
   return (
@@ -49,6 +67,7 @@ function MypageHo() {
           />
           {/* 운영시간 */}
           <ProfileSubCategoryUpdate sub_category={hospital.sub_category_id} />
+          <ProfileDoctorUpdate doctors={hospital.ps_doctors} />
           <ReviewInfo />
         </Grid>
         <Grid xs={3}></Grid>

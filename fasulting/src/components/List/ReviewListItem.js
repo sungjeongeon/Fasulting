@@ -13,7 +13,7 @@ function ReviewListItem({
   rating,
 }) {
   // 현재 path가 detail이거나 (병원)mypage 이면 병원이름 보여주지 않음
-  const isDetail =
+  const displayHospital =
     useLocation().pathname.slice(1, 7) === "detail" || "mypage" ? true : false;
 
   return (
@@ -22,8 +22,8 @@ function ReviewListItem({
       <div className={styles.oneLine}>
         <StarIcon sx={{ fontSize: 18, color: "#EECC51" }} />
         <p className={styles.rating}>{rating.toFixed(1)}</p>
-        {isDetail ? null : <p className={styles.gray}>{hospital}</p>}
-        {isDetail ? null : <p className={styles.gray}>|</p>}
+        {displayHospital ? null : <p className={styles.gray}>{hospital}</p>}
+        {displayHospital ? null : <p className={styles.gray}>|</p>}
         {subcategory.map((sub, index) => (
           <p key={index} className={styles.gray}>
             {sub}
