@@ -47,6 +47,11 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 // 여기 위로는 수정 X (MUI 코드) ==============================
 export default function ReserveCard() {
+  // MUL modal 코드
+  const [expanded, setExpanded] = React.useState("panel1");
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
   // 임시 data
   const operating = [
     { id: 1, year: 2023, month: 1, day: 25, day_of_week: 2, hour: 1 },
@@ -59,18 +64,15 @@ export default function ReserveCard() {
     { id: 8, year: 2023, month: 1, day: 26, day_of_week: 3, hour: 3 },
   ];
   // ==========================================================
-  const [expanded, setExpanded] = React.useState("panel1");
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
+  const getTimeTable = (a) => {
+    console.log(a);
   };
-
-  const clickEvent = () => console.log("누름");
   return (
     <div className={styles.outerDiv}>
       {/* 날짜 선택 구간 */}
       <div className={styles.dateDiv}>
-        <ReserveCardDateItem _onClick={clickEvent} />
+        <ReserveCardDateItem getTimeTable={getTimeTable} />
       </div>
       {/* 시간 선택 구간 */}
       <Accordion
@@ -115,11 +117,7 @@ export default function ReserveCard() {
       </Accordion>
 
       <div className={styles.footerDiv}>
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
+        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
           에약하기
         </Button>
       </div>
