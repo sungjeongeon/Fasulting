@@ -111,8 +111,8 @@ public class UserController {
      * 4. 비밀번호 수정 - 재설정 - 비밀번호만 update
      * @param userInfo
      * @return success OR fail
-     * success: 가입 성공
-     * fail: 가입 실패
+     * success: 재설정 성공
+     * fail: 재설정 실패
      */
     @PatchMapping("/reset")
     public ResponseEntity<?> restPassword(@RequestBody UserWithoutSeqReq userInfo) {
@@ -120,10 +120,11 @@ public class UserController {
 
         if(userService.resetPassword(userInfo)){
             log.info("성공");
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        // 회원 수정 실패
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
 
     /**
@@ -137,29 +138,29 @@ public class UserController {
         log.info("userRegister - Call");
 
         if(userService.userRegister(userInfo)) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
     
 
     /**
-     * 6. 회원가입 - 이메일 중복 확인
+     * 6. 회원가입 - 이메일 조회 및 확인
      * @param email
      * @return fail or success 
-     * fail: userEmail 중복
-     * sucess: userEmail 중복 아님
+     * fail: email 존재
+     * sucess: email 존재 하지 않음
      */
-    @GetMapping("/duple/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<?> checkEmail(@PathVariable String email) {
-        log.info("Duple Email - Call");
+        log.info("check Email - Call");
         if(userService.checkEmail(email)) {
-            // 이메일 중복
-            return ResponseEntity.status(409).body(ResponseBody.create(409, "fail"));
+            // 이메일 존재
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "존재하는 이메일입니다."));
         }
 
         // userEmail & DB userEmail 비교
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success")); 
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "존재하지 않는 이메일입니다."));
     }
 
     /**
@@ -178,18 +179,17 @@ public class UserController {
 
     /**
      * 8. 회원 정보 수정
-     * @param seq 유저 아이디
      * @param userInfo 유저 인포 (userName, userPassword)
      * @return success OR fail
      */
-    @PutMapping("/edit/{seq}")
-    public ResponseEntity<?> editUserInfo(@PathVariable("seq") Long seq, @RequestBody UserSeqReq userInfo) {
+    @PutMapping("/edit")
+    public ResponseEntity<?> editUserInfo(@RequestBody UserSeqReq userInfo) {
         log.info("EditUser - Call");
 
         // 로그인 했는지 검사 필요
 
-        if(userService.editUserInfo(seq, userInfo)) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
+        if(userService.editUserInfo(userInfo.getSeq(), userInfo)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
@@ -206,7 +206,7 @@ public class UserController {
         // 로그인 했는지 검사 필요
 
         if(userService.withdrawUser(userInfo)) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
@@ -219,11 +219,14 @@ public class UserController {
      */
     @PostMapping("/passcheck")
     public ResponseEntity<?> checkPassword(@RequestBody UserSeqReq userInfo) {
+        log.info("checkPassword - Call");
         // 로그인 했는지 검사 필요
         if(userService.checkPassword(userInfo)) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
+            // 비밀 번호 같음
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        // 비밀번호 다름
+        return ResponseEntity.status(500).body(ResponseBody.create(200, "fail"));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
