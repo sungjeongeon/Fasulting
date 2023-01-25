@@ -1,6 +1,6 @@
 package com.fasulting.demo.admin.review.controller;
 
-import com.fasulting.demo.admin.review.service.ReviewService;
+import com.fasulting.demo.admin.review.service.AdminReviewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequestMapping("/review")
 @CrossOrigin("*")
-public class ReviewController {
+public class AdminReviewController {
 
-    private ReviewService reviewService;
+    private AdminReviewService adminReviewService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService) {
-        this.reviewService = reviewService;
+    public AdminReviewController(AdminReviewService adminReviewService) {
+        this.adminReviewService = adminReviewService;
     }
 
     /**

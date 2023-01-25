@@ -1,4 +1,4 @@
 package com.fasulting.demo.admin.review.service;
 
-public interface ReviewService {
+public interface AdminReviewService {
 }

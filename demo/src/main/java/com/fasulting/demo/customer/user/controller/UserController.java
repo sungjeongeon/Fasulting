@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 // >> Spring Security - Filter
 // >> Interceptor
 
-// >> id: DB table id
+// >> seq: DB table seq
 // >> email: user email id
 
 // userDto request 객체로 고치기
@@ -78,6 +78,7 @@ public class UserController {
         } catch (Exception e) {
 
             log.info(e.getMessage());
+            return ResponseEntity.status(400).body(ResponseBody.create(400, "success"));
         }
 
         log.info("인증코드: " + code);
@@ -86,17 +87,22 @@ public class UserController {
 
     /**
      * 3-1. 이메일 인증 코드 발송 (비밀번호 재설정)
-     * @param userEmail
+     * @param email
      * @return success OR fail
      * success: 회원 가입 인증 코드 메일 발송 완료
      * fail: 메일 발송 불발
      * @throws Exception
      */
-    @GetMapping("/reset/{userEmail}")
-    public ResponseEntity<? extends ResponseBody> ResetSendEmailCode(@PathVariable String userEmail) throws Exception {
+    @GetMapping("/reset/{email}")
+    public ResponseEntity<? extends ResponseBody> ResetSendEmailCode(@PathVariable String email){
         log.info("SendEmailCode - Call");
 
-        String code = userEmailService.sendResetCodeMessage(userEmail);
+        String code = null;
+        try {
+            code = userEmailService.sendResetCodeMessage(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         log.info("인증코드: " + code);
         return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
     }
@@ -172,7 +178,7 @@ public class UserController {
 
     /**
      * 8. 회원 정보 수정
-     * @param userSeq 유저 아이디
+     * @param seq 유저 아이디
      * @param userInfo 유저 인포 (userName, userPassword)
      * @return success OR fail
      */
