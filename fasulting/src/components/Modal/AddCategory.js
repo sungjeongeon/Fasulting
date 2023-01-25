@@ -1,51 +1,72 @@
 import * as React from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import styles from "./AddCategory.module.css";
+import AddCategoryListItem from './AddCategoryListItem';
 
 export default function AddCategory({ModalStateChange2}) {
-  const [open1, setOpen1] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
-  const [open3, setOpen3] = React.useState(false);
-  const [open4, setOpen4] = React.useState(false);
-  const [open5, setOpen5] = React.useState(false);
-  const [open6, setOpen6] = React.useState(false);
-  const [open7, setOpen7] = React.useState(false);
-  const [open8, setOpen8] = React.useState(false);
+  // 카테고리 데이터 생성 
+  const categorylists = [
+    {
+      id: 'eye',
+      ctg: '눈 성형',
+      sublists: [
+        '쌍커풀', '눈매교정', '안검하수', '트임성형', '눈썹거상', '지방제거', '눈밑지방 재배치'
+      ],
+    },
+    {
+      id: 'nose',
+      ctg: '코 성형',
+      sublists: [
+        '콧대 성형', '콧등 성형', '코끝 성형', '비중격 수술', '콧볼 축소', '이물질 제거술'
+      ],
+    },
+    {
+      id: 'petit',
+      ctg: '쁘띠',
+      sublists: [
+        '보톡스', '필러', '동안주사', '물광주사'
+      ],
+    },
+    {
+      id: 'antiaging',
+      ctg: '안티에이징',
+      sublists: [
+        '리프팅', '주름', '상안검 / 하안검', '다크서클', '지방이식', '안면거상술'
+      ],
+    },
+    {
+      id: 'contour',
+      ctg: '안면윤곽',
+      sublists: [
+        '사각턱', '광대', '턱끝', '이마', '양악'
+      ],
+    },
+    {
+      id: 'hair',
+      ctg: '모발이식',
+      sublists: [
+        '절개', '비절개'
+      ],
+    },
+    {
+      id: 'men',
+      ctg: '남자 성형',
+      sublists: [
+        '눈 성형', '코 성형', '안면윤곽'
+      ],
+    },
+    {
+      id: 'reoperation',
+      ctg: '재수술',
+      sublists: [
+        '눈 성형', '코 성형', '안면윤곽'
+      ],
+    },
+  ]
 
+  // 상태관리 필요 (컴포넌트마다 계산해야 하기 때문) => 리덕스 다시 공부하고 수정
   const [serviceAdd, setServiceAdd] = React.useState(0)
-
-  const handleClick1 = () => {
-    setOpen1(!open1);
-  };
-  const handleClick2 = () => {
-    setOpen2(!open2);
-  };
-  const handleClick3 = () => {
-    setOpen3(!open3);
-  };
-  const handleClick4 = () => {
-    setOpen4(!open4);
-  };
-  const handleClick5 = () => {
-    setOpen5(!open5);
-  };
-  const handleClick6 = () => {
-    setOpen6(!open6);
-  };
-  const handleClick7 = () => {
-    setOpen7(!open7);
-  };
-  const handleClick8 = () => {
-    setOpen8(!open8);
-  };
 
   return (
     <div className={styles.background}>
@@ -73,295 +94,15 @@ export default function AddCategory({ModalStateChange2}) {
         </ListSubheader>
       }
     >
-      <div>
-      <ListItemButton onClick={handleClick1}>
-        <ListItemText primary="눈 성형" />
-        {open1 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open1} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="쌍꺼풀" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="눈매교정" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="안검하수" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="트임성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="눈썹거상" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="지방제거" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="눈밑지방 재배치" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-      </div>
-      <ListItemButton onClick={handleClick2}>
-        <ListItemText primary="코 성형" />
-        {open2 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open2} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="콧대 성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="콧등 성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="코끝 성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="비중격 수술" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="콧볼 축소" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="이물질 제거술" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-
-      <ListItemButton onClick={handleClick3}>
-        <ListItemText primary="쁘띠 성형" />
-        {open3 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open3} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="보톡스" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="필러" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="동안주사" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="물광주사" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-
-      <ListItemButton onClick={handleClick4}>
-        <ListItemText primary="안티에이징" />
-        {open4 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open4} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="리프팅" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="주름 성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="상안검 / 하안검" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="다크서클" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="지방이식" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="안면거상술" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-
-      <ListItemButton onClick={handleClick5}>
-        <ListItemText primary="안면윤곽" />
-        {open5 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open5} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="사각턱" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="광대" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="턱끝 성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="이마 성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="양악 성형" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-
-      <ListItemButton onClick={handleClick6}>
-        <ListItemText primary="모발이식" />
-        {open6 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open6} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="절개" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="비절개" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-
-      <ListItemButton onClick={handleClick7}>
-        <ListItemText primary="남자 성형" />
-        {open7 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open7} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="눈 성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="코 성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="안면윤곽" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-
-
-      <ListItemButton onClick={handleClick8}>
-        <ListItemText primary="재수술" />
-        {open8 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open8} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="눈 성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="코 성형" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <SubdirectoryArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText primary="안면윤곽" />
-          </ListItemButton>
-        </List>
-      </Collapse>
+      {categorylists.map((item, index) => {
+        return (
+          <AddCategoryListItem
+          key={index}
+          id={item.id}
+          ctg={item.ctg}
+          sublists={item.sublists}
+          />
+        )})}
 
       <div className={styles.center}>
         { serviceAdd === 0 ? <button

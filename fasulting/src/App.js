@@ -15,13 +15,18 @@ import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import MyReservation from "./pages/client/MyReservation";
 import MyEstimate from "./pages/client/MyReservation";
+<<<<<<< HEAD
 import ModalTest from "./pages/client/ModalTest";
 import MypageHo from "./pages/hospital/MypageHo";
+=======
+import PsRegister from "./pages/hospital/PsRegister";
+>>>>>>> af41df8e53a29557acf4e87e135a7ad1d959a447
 
 const theme = createTheme({
   palette: {
     primary: {
       main: "#72A1A6",
+      contrastText: "#fff",
     },
     side: {
       main: "#E5F3F5",
@@ -53,10 +58,13 @@ function App() {
               <Route path="/findpw" element={<FindPw />} />
               {/* 로그인 */}
               <Route path="/login" element={<Login />} />
+
               {/* 병원리스트 */}
               <Route path="/pslist" element={<PsList />} />
               {/* 회원가입 */}
               <Route path="/register" element={<Register />} />
+              {/* 병원 회원가입 */}
+              <Route path="/psregist" element={<PsRegister />} />
               {/* 상세페이지 */}
               <Route path="/detail/:id" element={<Detail />} />
               {/* 나의 예약 */}
