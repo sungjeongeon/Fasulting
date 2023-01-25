@@ -7,6 +7,7 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import styles from "./ReserveCard.module.css";
+import ReserveCardDateItem from "./ReserveCardDateItem";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -46,17 +47,31 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 // 여기 위로는 수정 X (MUI 코드) ==============================
 export default function ReserveCard() {
+  // 임시 data
+  const operating = [
+    { id: 1, year: 2023, month: 1, day: 25, day_of_week: 2, hour: 1 },
+    { id: 2, year: 2023, month: 1, day: 25, day_of_week: 2, hour: 2 },
+    { id: 3, year: 2023, month: 1, day: 25, day_of_week: 2, hour: 5 },
+    { id: 4, year: 2023, month: 1, day: 25, day_of_week: 2, hour: 9 },
+    { id: 5, year: 2023, month: 1, day: 25, day_of_week: 2, hour: 11 },
+    { id: 6, year: 2023, month: 1, day: 25, day_of_week: 2, hour: 13 },
+    { id: 7, year: 2023, month: 1, day: 25, day_of_week: 2, hour: 14 },
+    { id: 8, year: 2023, month: 1, day: 26, day_of_week: 3, hour: 3 },
+  ];
+  // ==========================================================
   const [expanded, setExpanded] = React.useState("panel1");
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  console.log(expanded);
+  const clickEvent = () => console.log("누름");
   return (
     <div className={styles.outerDiv}>
       {/* 날짜 선택 구간 */}
-      <div className={styles.dateDiv}>날짜</div>
+      <div className={styles.dateDiv}>
+        <ReserveCardDateItem _onClick={clickEvent} />
+      </div>
       {/* 시간 선택 구간 */}
       <Accordion
         expanded={expanded === "panel1"}
