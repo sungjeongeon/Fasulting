@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ReserveCardCategoryItem.module.css";
 
-function ReserveCardCategoryItem() {
+function ReserveCardCategoryItem({ getConsultItem }) {
   const categoryList = [
     { id: 0, sub: [] },
     {
@@ -63,28 +63,39 @@ function ReserveCardCategoryItem() {
     },
   ];
 
-  const [selected, setSelected] = useState(0);
+  const [selectedMain, setSelectedMain] = useState(0);
   const [subCategory, setSubCategory] = useState([]);
   const [selectedSub, setSelectedSub] = useState([]);
+  const [showWarning, setShowWarning] = useState(false);
 
   const selectMain = (id) => {
-    setSelected(id);
+    setSelectedMain(id);
     setSubCategory(categoryList[id].sub);
     setSelectedSub([]);
   };
 
   // 해당 id 값이 이미 배열에 있으면 빼고, 없으면 더한다.
   const selectSub = (id) => {
-    console.log(selectedSub);
-    // 더했을 떄, 3개가 넘으면 경고문구 띄운다.
+    // 선택 3개 이상 경고문구 리셋(showWarning = false)
+    setShowWarning(false);
     if (selectedSub.includes(id)) {
       // id값 이미 배열에 있으면 (제거)
       setSelectedSub((current) => current.filter((resist) => resist !== id));
     } else if (selectedSub.length === 3) {
+      // 더했을 떄, 3개가 넘으면 경고문구 띄운다.
+      setShowWarning(true);
     } else {
       setSelectedSub((current) => [...current, id]);
     }
   };
+
+  useEffect(() => {
+    const consultItem = {
+      main: selectedMain,
+      sub: selectedSub,
+    };
+    getConsultItem(consultItem);
+  }, [selectedMain, selectedSub]);
 
   return (
     <div>
@@ -92,7 +103,9 @@ function ReserveCardCategoryItem() {
         {categoryList.slice(1).map((c) => (
           <div
             key={c.id}
-            className={selected === c.id ? styles.mainSelected : styles.main}
+            className={
+              selectedMain === c.id ? styles.mainSelected : styles.main
+            }
             onClick={() => selectMain(c.id)}
           >
             <img className={styles.img} src={c.src} alt={c.text} />
@@ -100,8 +113,13 @@ function ReserveCardCategoryItem() {
           </div>
         ))}
       </div>
-      <hr />
-      <p>상세항목 (최대 3개)</p>
+      {subCategory.length > 0 ? <hr /> : null}
+      {subCategory.length > 0 ? (
+        <p className={styles.subTitle}>상세항목 (최대 3개)</p>
+      ) : null}
+      {showWarning ? (
+        <p className={styles.warning}>※ 최대 3개까지 선택해주세요.</p>
+      ) : null}
       <div className={styles.outerDiv}>
         {subCategory.map((s) => (
           <div
@@ -109,8 +127,9 @@ function ReserveCardCategoryItem() {
             className={
               selectedSub.includes(s.id) ? styles.subSelected : styles.sub
             }
+            onClick={() => selectSub(s.id)}
           >
-            <p onClick={() => selectSub(s.id)}>{s.name}</p>
+            <p>{s.name}</p>
           </div>
         ))}
       </div>

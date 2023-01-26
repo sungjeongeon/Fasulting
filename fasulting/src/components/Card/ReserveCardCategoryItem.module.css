@@ -35,6 +35,14 @@
   color: #7c7877;
 }
 
+.warning {
+  color: #ff5454;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 0.7rem;
+  margin-top: 0;
+}
+
 .sub {
   height: 1.5rem;
   background: #e5f3f5;
@@ -50,6 +58,7 @@
   text-align: center;
 
   color: #000000;
+  cursor: pointer;
 }
 
 .subSelected {
@@ -67,4 +76,14 @@
   text-align: center;
 
   color: #ffffff;
+  cursor: pointer;
+}
+
+.subTitle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.75rem;
+  margin-bottom: 0.3rem;
+
+  color: #7c7877;
 }

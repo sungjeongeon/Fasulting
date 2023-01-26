@@ -11,6 +11,37 @@
   height: 100px;
 }
 
-.footerDiv {
+/* .footerDiv {
   height: 13.75rem;
+  vertical-align: bottom;
+} */
+.inFooterDiv {
+  margin-top: 5rem;
+  margin-bottom: 0;
+}
+
+.inFooterDiv button {
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.agree {
+  margin: 0 0 0 0.63rem;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 0.88rem;
+
+  color: #72a1a6;
+}
+
+.checkBox {
+  display: flex;
+  margin-right: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.5rem;
+
+  color: #414750;
 }
