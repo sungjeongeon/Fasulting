@@ -130,7 +130,7 @@ function ReserveCardTimeItem({ times, getReserveTime }) {
 
   return (
     <div>
-      <p>오전</p>
+      <p className={styles.noon}>오전</p>
       {timeTable.slice(0, 6).map((t) => {
         return (
           <button
@@ -151,7 +151,7 @@ function ReserveCardTimeItem({ times, getReserveTime }) {
           </button>
         );
       })}
-      <p>오후</p>
+      <p className={styles.noon}>오후</p>
       {timeTable.slice(6, 22).map((t) => {
         return (
           <button

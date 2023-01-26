@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ReserveCardDateItem.module.css";
 
-function ReserveCardDateItem({ getTimeTable }) {
+function ReserveCardDateItem({ getDate }) {
   const [thisWeek, setThisWeek] = useState([]);
   // 오늘 ~ 7 일 data 생성 (렌더링 시 최초 1회만 실행) -> thisWeek state에 저장
   useEffect(() => {
@@ -43,7 +43,7 @@ function ReserveCardDateItem({ getTimeTable }) {
     const idx = thisWeek.indexOf(date);
     setSelected(idx);
     // 부모 component로 선택한 date 정보 보내줌
-    getTimeTable(date);
+    getDate(date);
   };
 
   return (

@@ -6,6 +6,7 @@ import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
 import styles from "./ReserveCard.module.css";
 import ReserveCardDateItem from "./ReserveCardDateItem";
 import ReserveCardTimeItem from "./ReserveCardTimeItem";
@@ -48,6 +49,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 // 여기 위로는 수정 X (MUI 코드) ==============================
 export default function ReserveCard() {
   // MUL modal 코드
@@ -68,15 +70,19 @@ export default function ReserveCard() {
   ];
   // ==========================================================
 
-  // 선택된 일자 정보 (서버에 넘길 것)
+  // 선택된 일자 + 상담 항목 정보 (서버에 넘길 것)
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
   const [day, setDay] = useState(0);
   const [hour, setHour] = useState(-1);
+  const [consultItem, setConsultItem] = useState([]);
+  const [isAgree, setIsAgree] = useState(false);
   // 사용자 선택 날짜로 필터링된 운영시간 Array (시간선택 component에 넘길 것)
   const [operatingByDate, setOperingByDate] = useState([]);
 
-  const getTimeTable = (date) => {
+  const getDate = (date) => {
+    // 하위항목 리셋 (선택하다가 날짜 바꿨을 때)
+    setHour(-1);
     // submit 할 state에 날짜 값 저장
     setYear(date.year);
     setMonth(date.month);
@@ -98,14 +104,25 @@ export default function ReserveCard() {
     setExpanded("panel2");
   };
 
+  const getConsultItem = (i) => {
+    setConsultItem(i);
+  };
+
+  const getAgree = () => {
+    setIsAgree((current) => !current);
+  };
+  // 예약 관련 정보 제출 -> 서버
   const reservate = () => {
-    console.log(year, month, day, hour);
+    console.log(
+      `${year}년 ${month}월 ${day}일 시간${hour} 동의여부 ${isAgree}`
+    );
+    console.log(consultItem);
   };
   return (
     <div className={styles.outerDiv}>
       {/* 날짜 선택 구간 */}
       <div className={styles.dateDiv}>
-        <ReserveCardDateItem getTimeTable={getTimeTable} />
+        <ReserveCardDateItem getDate={getDate} />
       </div>
       {/* 시간 선택 구간 */}
       <Accordion
@@ -131,16 +148,24 @@ export default function ReserveCard() {
           <Typography>상담 항목</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ReserveCardCategoryItem />
+          <ReserveCardCategoryItem getConsultItem={getConsultItem} />
         </AccordionDetails>
       </Accordion>
 
-      <div className={styles.footerDiv}>
+      <div className={styles.inFooterDiv}>
+        <p className={styles.agree}>개인정보 제공 동의</p>
+        <div className={styles.checkBox}>
+          <Checkbox {...label} onClick={getAgree} />
+          <p>
+            예약 진행, 고객 상담, 고객 관리 및 고객 문의를 위해 예약자 이름,
+            예약자 휴대폰 번호를 수집하여 해당 병원 업체에 제공함에 동의합니다.
+          </p>
+        </div>
         <Button
           onClick={reservate}
           type="submit"
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 3, mb: 2, fontWeight: 600 }}
         >
           에약하기
         </Button>
