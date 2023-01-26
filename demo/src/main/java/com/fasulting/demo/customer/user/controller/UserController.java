@@ -1,10 +1,8 @@
 package com.fasulting.demo.customer.user.controller;
 
-import com.fasulting.demo.common.ResponseBody;
+import com.fasulting.demo.resp.ResponseBody;
 import com.fasulting.demo.customer.user.dto.reqDto.*;
-import com.fasulting.demo.customer.user.service.UserEmailService;
 import com.fasulting.demo.customer.user.service.UserService;
-import com.fasulting.demo.entity.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +26,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final UserEmailService userEmailService;
 
     @Autowired
-    public UserController(UserService userService, UserEmailService userEmailService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userEmailService = userEmailService;
     }
 
     /**
@@ -56,54 +52,6 @@ public class UserController {
     @GetMapping("/logout/{seq}")
     public ResponseEntity<?> logout(@PathVariable Long seq) {
         return null; // fail OR successs
-    }
-
-    /**
-     * 3. 이메일 인증 코드 발송 (회원 가입)
-     * @param email
-     * @return success OR fail
-     * success: 회원 가입 인증 코드 메일 발송 완료
-     * fail: 메일 발송 불발
-     * @throws Exception
-     */
-    @GetMapping("/regist/{email}")
-    public ResponseEntity<?> registSendEmailCode(@PathVariable String email){
-        log.info("regist - sendEmailCode - Call");
-
-        String code = null;
-        try {
-            code = userEmailService.sendRegistCodeMessage(email);
-
-        } catch (Exception e) {
-
-            log.info(e.getMessage());
-            return ResponseEntity.status(400).body(ResponseBody.create(400, "success"));
-        }
-
-        log.info("인증코드: " + code);
-        return ResponseEntity.status(200).body("success");
-    }
-
-    /**
-     * 3-1. 이메일 인증 코드 발송 (비밀번호 재설정)
-     * @param email
-     * @return success OR fail
-     * success: 회원 가입 인증 코드 메일 발송 완료
-     * fail: 메일 발송 불발
-     * @throws Exception
-     */
-    @GetMapping("/reset/{email}")
-    public ResponseEntity<? extends ResponseBody> ResetSendEmailCode(@PathVariable String email){
-        log.info("reset - sendEmailCode - Call");
-
-        String code = null;
-        try {
-            code = userEmailService.sendResetCodeMessage(email);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        log.info("인증코드: " + code);
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "sueccess"));
     }
 
     /**
@@ -226,17 +174,6 @@ public class UserController {
         }
         // 비밀번호 다름
         return ResponseEntity.status(500).body(ResponseBody.create(200, "fail"));
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////
-
-    // 11. 보안 - 인증코드 확인 (수정, 가입)
-    // userDto: email
-    @PostMapping("/access")
-    public ResponseEntity<?> accessCode(@RequestBody UserSeqReq userInfo) {
-        // 이메일 인증 코드 & Server에서 전송한 이메일 코드 일치 여부 확인
-
-        return null; // fail OR success
     }
 
     // 12. 즐겨찾기 추가

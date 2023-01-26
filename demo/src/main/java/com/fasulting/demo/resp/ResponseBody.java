@@ -1,4 +1,4 @@
-package com.fasulting.demo.common;
+package com.fasulting.demo.resp;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,9 +23,7 @@ public class ResponseBody {
 
     public static ResponseBody create(Integer statusCode, String message, Object responseObj){
 
-        ResponseBody body  = new ResponseBody();
-        body.setMessage(message);
-        body.setStatusCode(statusCode);
+        ResponseBody body = ResponseBody.create(statusCode, message);
         body.setResponseObj(responseObj);
 
         return  body;

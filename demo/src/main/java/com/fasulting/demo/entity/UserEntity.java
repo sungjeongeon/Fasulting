@@ -1,11 +1,9 @@
 package com.fasulting.demo.entity;
 
 import javax.persistence.*;
-
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,14 +13,14 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "user")
-public class UserEntity /*extends BaseEntity*/ {
+public class UserEntity extends BaseEntity {
 
    	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "seq")
 	private Long seq;
 
-	@Column(name = "email")
+   	@Column(name = "email")
 	private String email;
 
    	@Column(name = "password")
@@ -56,6 +54,21 @@ public class UserEntity /*extends BaseEntity*/ {
    	@Column(name = "del_yn")
 	private String delYn;
 
+	@Builder
+	public UserEntity(String email, String password, String birth, String gender, String number, String nation, String nationCode, String name, LocalDateTime delDate, String delBy, String delYn) {
+		this.email = email;
+		this.password = password;
+		this.birth = birth;
+		this.gender = gender;
+		this.number = number;
+		this.nation = nation;
+		this.nationCode = nationCode;
+		this.name = name;
+		this.delDate = delDate;
+		this.delBy = delBy;
+		this.delYn = delYn;
+	}
+
 	public void updateUserEntity(String name, String number) {
 		this.name = name;
 		this.number = number;
@@ -70,21 +83,4 @@ public class UserEntity /*extends BaseEntity*/ {
 	public void resetPassword(String password) {
 		this.password = password;
 	}
-
-	@Builder
-	public UserEntity(String email, String password, String birth, String gender, String number,
-					  String nation, String nationCode, String name, LocalDateTime delDate, String delBy, String delYn) {
-		this.email = email;
-		this.password = password;
-		this.birth = birth;
-		this.gender = gender;
-		this.number = number;
-		this.nation = nation;
-		this.nationCode = nationCode;
-		this.name = name;
-		this.delDate = delDate;
-		this.delBy = delBy;
-		this.delYn = delYn;
-	}
-
 }

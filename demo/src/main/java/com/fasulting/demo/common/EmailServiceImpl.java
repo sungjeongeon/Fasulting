@@ -1,13 +1,12 @@
-package com.fasulting.demo.customer.user.service;
+package com.fasulting.demo.common;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -20,7 +19,7 @@ import java.util.Random;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class UserEmailServiceImpl implements UserEmailService{
+public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
 
@@ -32,6 +31,7 @@ public class UserEmailServiceImpl implements UserEmailService{
 
     /**
      * 보낼 메일 생성
+     *
      * @param to: 보낼 메일 주소
      * @return: 보낼 이메일, 인증 번호 등이 담긴 content를 담은 객체 msg
      */
@@ -53,21 +53,21 @@ public class UserEmailServiceImpl implements UserEmailService{
         content.append("</head>");
         content.append("<body>");
         content.append(
-                " <div" 																																																	+
-                        "	style=\"font-family: 'Apple SD Gothic Neo', 'sans-serif' !important; width: 400px; height: 600px; border-top: 4px solid #E5F3F5; margin: 100px auto; padding: 30px 0; box-sizing: border-box;\">"		+
-                        "	<h1 style=\"margin: 0; padding: 0 5px; font-size: 28px; font-weight: 400;\">"																															+
-                        "		<span style=\"font-size: 15px; margin: 0 0 10px 3px;\">Fasulting</span><br />"																													+
-                        "		<span style=\"color: #72A1A6\">메일인증</span> 안내입니다."																																				+
-                        "	</h1>\n"																																																+
-                        "	<p style=\"font-size: 16px; line-height: 26px; margin-top: 50px; padding: 0 5px;\">"																													+
-                        to																																																+
-                        "		님 안녕하세요.<br />"																																													+
-                        "		Fasulting에 가입해 주셔서 진심으로 감사드립니다.<br />"																																						+
-                        "		아래 <b style=\"color: #72A1A6\">'인증코드'</b> 를 입력하여 회원가입을 완료해 주세요.<br />"																													+
+                " <div" +
+                        "	style=\"font-family: 'Apple SD Gothic Neo', 'sans-serif' !important; width: 400px; height: 600px; border-top: 4px solid #E5F3F5; margin: 100px auto; padding: 30px 0; box-sizing: border-box;\">" +
+                        "	<h1 style=\"margin: 0; padding: 0 5px; font-size: 28px; font-weight: 400;\">" +
+                        "		<span style=\"font-size: 15px; margin: 0 0 10px 3px;\">Fasulting</span><br />" +
+                        "		<span style=\"color: #72A1A6\">메일인증</span> 안내입니다." +
+                        "	</h1>\n" +
+                        "	<p style=\"font-size: 16px; line-height: 26px; margin-top: 50px; padding: 0 5px;\">" +
+                        to +
+                        "		님 안녕하세요.<br />" +
+                        "		Fasulting에 가입해 주셔서 진심으로 감사드립니다.<br />" +
+                        "		아래 <b style=\"color: #72A1A6\">'인증코드'</b> 를 입력하여 회원가입을 완료해 주세요.<br />" +
                         "		감사합니다. <br /> <br />" +
                         " <b style=\"color: #72A1A6; font-size: 28px;\";>" + code + "</b>" +
                         "	</p>" +
-                        "	<div style=\"border-top: 1px solid #E5F3F5; padding: 5px;\"></div>"																																		+
+                        "	<div style=\"border-top: 1px solid #E5F3F5; padding: 5px;\"></div>" +
                         " </div>"
         );
         content.append("</body>");
@@ -98,21 +98,21 @@ public class UserEmailServiceImpl implements UserEmailService{
         content.append("</head>");
         content.append("<body>");
         content.append(
-                " <div" 																																																	+
-                        "	style=\"font-family: 'Apple SD Gothic Neo', 'sans-serif' !important; width: 400px; height: 600px; border-top: 4px solid #E5F3F5; margin: 100px auto; padding: 30px 0; box-sizing: border-box;\">"		+
-                        "	<h1 style=\"margin: 0; padding: 0 5px; font-size: 28px; font-weight: 400;\">"																															+
-                        "		<span style=\"font-size: 15px; margin: 0 0 10px 3px;\">Fasulting</span><br />"																													+
-                        "		<span style=\"color: #72A1A6\">비밀번호 재설정</span> 안내입니다."																																				+
-                        "	</h1>\n"																																																+
-                        "	<p style=\"font-size: 16px; line-height: 26px; margin-top: 50px; padding: 0 5px;\">"																													+
-                        to																																																+
-                        "		님 안녕하세요.<br />"																																													+
-                        "		비밀번호 재설정을 위해<br />"																																						+
-                        "		아래 <b style=\"color: #72A1A6\">'인증코드'</b> 를 입력하여 주세요.<br />"																													+
+                " <div" +
+                        "	style=\"font-family: 'Apple SD Gothic Neo', 'sans-serif' !important; width: 400px; height: 600px; border-top: 4px solid #E5F3F5; margin: 100px auto; padding: 30px 0; box-sizing: border-box;\">" +
+                        "	<h1 style=\"margin: 0; padding: 0 5px; font-size: 28px; font-weight: 400;\">" +
+                        "		<span style=\"font-size: 15px; margin: 0 0 10px 3px;\">Fasulting</span><br />" +
+                        "		<span style=\"color: #72A1A6\">비밀번호 재설정</span> 안내입니다." +
+                        "	</h1>\n" +
+                        "	<p style=\"font-size: 16px; line-height: 26px; margin-top: 50px; padding: 0 5px;\">" +
+                        to +
+                        "		님 안녕하세요.<br />" +
+                        "		비밀번호 재설정을 위해<br />" +
+                        "		아래 <b style=\"color: #72A1A6\">'인증코드'</b> 를 입력하여 주세요.<br />" +
                         "		감사합니다. <br /> <br />" +
                         " <b style=\"color: #72A1A6; font-size: 28px;\";>" + code + "</b>" +
                         "	</p>" +
-                        "	<div style=\"border-top: 1px solid #E5F3F5; padding: 5px;\"></div>"																																		+
+                        "	<div style=\"border-top: 1px solid #E5F3F5; padding: 5px;\"></div>" +
                         " </div>"
         );
         content.append("</body>");
@@ -130,7 +130,7 @@ public class UserEmailServiceImpl implements UserEmailService{
         StringBuffer key = new StringBuffer();
         Random rand = new Random();
 
-        for(int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) {
             key.append((rand.nextInt(10)));
         }
 
@@ -139,6 +139,7 @@ public class UserEmailServiceImpl implements UserEmailService{
 
     /**
      * 메일 발송
+     *
      * @param to: 보낼 메일 주소
      * @return: 인증 코드를 서버로 리턴
      */
@@ -148,7 +149,7 @@ public class UserEmailServiceImpl implements UserEmailService{
 
         try {
             javaMailSender.send(msg);
-        } catch(MailException e) {
+        } catch (MailException e) {
             e.printStackTrace();
             throw new IllegalArgumentException();
         }
@@ -162,7 +163,7 @@ public class UserEmailServiceImpl implements UserEmailService{
 
         try {
             javaMailSender.send(msg);
-        } catch(MailException e) {
+        } catch (MailException e) {
             e.printStackTrace();
             throw new IllegalArgumentException();
         }

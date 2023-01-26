@@ -1,7 +1,6 @@
 package com.fasulting.demo.ps.ps.service;
 
 import com.fasulting.demo.entity.PsEntity;
-import com.fasulting.demo.entity.UserEntity;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
 import com.fasulting.demo.ps.ps.dto.respDto.PsInfoResp;

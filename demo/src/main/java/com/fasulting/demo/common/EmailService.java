@@ -1,6 +1,6 @@
-package com.fasulting.demo.ps.ps.service;
+package com.fasulting.demo.common;
 
-public interface PsEmailService {
+public interface EmailService {
 
     String sendRegistCodeMessage(String to) throws Exception;
     String sendResetCodeMessage(String to) throws Exception;
