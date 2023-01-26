@@ -4,6 +4,9 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles(() => ({
   container: {
+    position: "absolute",
+    left: "0",
+    width: "100vw",
     backgroundColor: "#E5F3F5",
     display: "flex",
     justifyContent: "center",
