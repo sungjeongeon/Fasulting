@@ -4,19 +4,23 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles(() => ({
   container: {
-    backgroundColor: '#E5F3F5',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
+    position: "absolute",
+    left: "0",
+    width: "100vw",
+    backgroundColor: "#E5F3F5",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
   },
-}))
+}));
+
 function Register() {
   const classes = useStyles();
   return (
     <div className={classes.container}>
       <Container maxWidth="lg">
-        <RegisterForm/>
+        <RegisterForm />
       </Container>
     </div>
   );

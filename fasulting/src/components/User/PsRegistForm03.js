@@ -60,7 +60,7 @@ export default function PsRegistForm03() {
           fullWidth
           id="psregistration"
           name="psregistration"
-          label="병원 사업자 등록번호."
+          label="병원 사업자 등록번호를 입력해주세요."
           type="psregistration"
           value={formik.values.psregistration}
           onChange={formik.handleChange}
@@ -92,6 +92,11 @@ export default function PsRegistForm03() {
               ? formik.errors.psregistrationimg
               : ""
           }
+        />
+        <input
+          type="file"
+          accept="image/jpg, image/png, image/jpeg"
+          onChange={(e) => console.log(e.target.files[0])}
         />
         <Typography marginTop={2}>가능한 수술 카테고리</Typography>
         <TextField

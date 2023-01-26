@@ -192,23 +192,25 @@ export default function PsRegistForm01() {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Box noValidate sx={{ mt: 1 }}>
+      <Box noValidate ml={5} mr={5}>
+        <Typography sx={{ mt: 2, fontWeight: "bold" }}>이메일</Typography>
         <TextField
           fullWidth
           id="email"
           name="email"
-          label="이메일 입력"
+          label="이메일을 입력해주세요."
           value={formik.values.email}
           onChange={formik.handleChange}
           margin="normal"
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email ? formik.errors.email : ""}
         />
+        <Typography sx={{ mt: 2, fontWeight: "bold" }}>패스워드</Typography>
         <TextField
           fullWidth
           id="password"
           name="password"
-          label="패스워드 입력"
+          label="패스워드를 입력해주세요."
           type="password"
           value={formik.values.password}
           onChange={formik.handleChange}
@@ -216,11 +218,14 @@ export default function PsRegistForm01() {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password ? formik.errors.password : ""}
         />
+        <Typography sx={{ mt: 2, fontWeight: "bold" }}>
+          패스워드 확인
+        </Typography>
         <TextField
           fullWidth
           id="repassword"
           name="repassword"
-          label="패스워드 재입력"
+          label="패스워드를 재입력해주세요."
           type="password"
           value={formik.values.repassword}
           onChange={formik.handleChange}
@@ -228,7 +233,7 @@ export default function PsRegistForm01() {
           error={formik.touched.repassword && Boolean(formik.errors.repassword)}
           helperText={formik.touched.repassword ? formik.errors.repassword : ""}
         />
-        <Link href="#" variant="body2">
+        <Link href="/register" variant="body2">
           일반 회원으로 가입하시나요?
         </Link>
       </Box>

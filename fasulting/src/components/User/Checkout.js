@@ -23,7 +23,7 @@ function getStepContent(step) {
     case 1:
       return <PsRegistForm02 />;
     case 2:
-      return;
+      return <PsRegistForm03 />;
     default:
       throw new Error("Unknown step");
   }

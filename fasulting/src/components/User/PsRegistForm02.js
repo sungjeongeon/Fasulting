@@ -16,6 +16,7 @@ import {
   Link,
 } from "@mui/material";
 import { CssBaseline } from "@mui/material";
+import styles from "./Form.module.css";
 
 const validationSchema = yup.object({
   psname: yup,
@@ -45,19 +46,20 @@ export default function PsRegistForm02() {
   return (
     <form onSubmit={formik.handleSubmit}>
       <Box noValidate ml={5} mr={5}>
-        <Typography marginTop={2}>병원명</Typography>
+        <Typography sx={{ mt: 2, fontWeight: "bold" }}>병원명</Typography>
         <TextField
           fullWidth
           id="psname"
           name="psname"
-          label="병원명을 검색해주세요."
+          label="병원장 이름을 입력해주세요."
+          type="text"
           value={formik.values.psname}
           onChange={formik.handleChange}
           margin="normal"
           error={formik.touched.psname && Boolean(formik.errors.psname)}
           helperText={formik.touched.psname ? formik.errors.psname : ""}
         />
-        <Typography marginTop={2}>병원 프로필</Typography>
+        <Typography sx={{ mt: 2, fontWeight: "bold" }}>병원 프로필</Typography>
         <TextField
           fullWidth
           id="psprofile"
@@ -70,7 +72,7 @@ export default function PsRegistForm02() {
           error={formik.touched.psprofile && Boolean(formik.errors.psprofile)}
           helperText={formik.touched.psprofile ? formik.errors.psprofile : ""}
         />
-        <Typography marginTop={2}>병원 소개</Typography>
+        <Typography sx={{ mt: 2, fontWeight: "bold" }}>병원 소개</Typography>
         <TextField
           fullWidth
           id="psintro"
@@ -83,7 +85,7 @@ export default function PsRegistForm02() {
           error={formik.touched.psintro && Boolean(formik.errors.psintro)}
           helperText={formik.touched.psintro ? formik.errors.psintro : ""}
         />
-        <Typography marginTop={2}>병원 주소</Typography>
+        <Typography sx={{ mt: 2, fontWeight: "bold" }}>병원 주소</Typography>
         <TextField
           fullWidth
           id="psaddress"
@@ -96,12 +98,14 @@ export default function PsRegistForm02() {
           error={formik.touched.psaddress && Boolean(formik.errors.psaddress)}
           helperText={formik.touched.psaddress ? formik.errors.psaddress : ""}
         />
-        <Typography marginTop={2}>병원 전화번호</Typography>
+        <Typography sx={{ mt: 2, fontWeight: "bold" }}>
+          병원 전화번호
+        </Typography>
         <TextField
           fullWidth
           id="psnumber"
           name="psnumber"
-          label="병원 전화번호"
+          label="병원 전화번호를 입력해주세요."
           type="password"
           value={formik.values.psnumber}
           onChange={formik.handleChange}
@@ -109,12 +113,14 @@ export default function PsRegistForm02() {
           error={formik.touched.psnumber && Boolean(formik.errors.psnumber)}
           helperText={formik.touched.psnumber ? formik.errors.psnumber : ""}
         />
-        <Typography marginTop={2}>병원 홈페이지 주소</Typography>
+        <Typography sx={{ mt: 2, fontWeight: "bold" }}>
+          병원 홈페이지 주소
+        </Typography>
         <TextField
           fullWidth
           id="pshomepage"
           name="pshomepage"
-          label="병원 홈페이지 주소"
+          label="병원 홈페이지 주소가 있다면 입력해주세요."
           type="password"
           value={formik.values.pshomepage}
           onChange={formik.handleChange}
@@ -122,9 +128,6 @@ export default function PsRegistForm02() {
           error={formik.touched.pshomepage && Boolean(formik.errors.pshomepage)}
           helperText={formik.touched.pshomepage ? formik.errors.pshomepage : ""}
         />
-        <Link href="#" variant="body2">
-          일반 회원으로 가입하시나요?
-        </Link>
       </Box>
     </form>
   );
