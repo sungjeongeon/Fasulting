@@ -1,8 +1,7 @@
 .mainctg {
   display: inline-block;
   text-align: center;
-  margin-left: 0.6rem;
-  margin-right: 0.6rem;
+  margin: 0.4rem;
 }
 
 .center {
@@ -10,8 +9,12 @@
   justify-content:center;
 }
 
-img {
-  width: 60px;
-  height: 60px;
+.imgsmall {
+  width: 3.2rem;
+  height: 3.2rem;
   margin: auto;
+}
+
+.font {
+  font-size: 0.65rem;
 }
