@@ -9,6 +9,8 @@ import Button from "@mui/material/Button";
 import styles from "./ReserveCard.module.css";
 import ReserveCardDateItem from "./ReserveCardDateItem";
 import ReserveCardTimeItem from "./ReserveCardTimeItem";
+import MainCategoryListSmall from "../Category/MainCategoryListSmall";
+import ReserveCardCategoryItem from "./ReserveCardCategoryItem";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -129,12 +131,7 @@ export default function ReserveCard() {
           <Typography>상담 항목</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <ReserveCardCategoryItem />
         </AccordionDetails>
       </Accordion>
 
