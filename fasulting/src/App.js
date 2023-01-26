@@ -14,7 +14,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import MyReservation from "./pages/client/MyReservation";
-import MyEstimate from "./pages/client/MyReservation";
+import MyEstimate from "./pages/client/MyEstimate";
 import ModalTest from "./pages/client/ModalTest";
 import MypageHo from "./pages/hospital/MypageHo";
 import PsRegister from "./pages/hospital/PsRegister";
