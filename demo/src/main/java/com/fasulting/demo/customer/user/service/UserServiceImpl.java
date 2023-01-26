@@ -4,10 +4,10 @@ import com.fasulting.demo.customer.user.dto.reqDto.*;
 import com.fasulting.demo.customer.user.repository.UserRepository;
 import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
 import com.fasulting.demo.entity.UserEntity;
-import com.fasulting.demo.ps.ps.request.CheckPasswordReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
 
     // 비밀번호 수정 (재설정)
+    @Transactional
     @Override
     public boolean resetPassword(UserWithoutSeqReq userInfo) {
 
@@ -51,10 +52,7 @@ public class UserServiceImpl implements UserService {
             log.info(userInfo.getPassword());
 
             // password update
-            user.builder().password(userInfo.getPassword()).build();
-
-            userRepository.save(user);
-
+            user.resetPassword(userInfo.getPassword());
             return true;
         }
 
@@ -97,17 +95,19 @@ public class UserServiceImpl implements UserService {
 
     // 회원 정보 수정
     @Override
+    @Transactional
     public boolean editUserInfo(Long seq, UserSeqReq userInfo) {
 
         if(userRepository.findById(seq).isPresent()) {
             UserEntity user = userRepository.findById(seq).get();
 
+            log.info(userInfo.toString());
             if(userInfo.getName() != null)
-                user.builder().name(userInfo.getName()).build();
+                user.updateUserEntity(userInfo.getName(), user.getNumber());
             if(userInfo.getNumber() != null)
-                user.builder().number(userInfo.getNumber()).build();
+                user.updateUserEntity(user.getName(), userInfo.getNumber());
 
-            userRepository.save(user);
+            return true;
         }
 
         return false;
@@ -115,15 +115,12 @@ public class UserServiceImpl implements UserService {
 
     // 회원 탈퇴
     @Override
+    @Transactional
     public boolean withdrawUser(UserSeqReq userInfo) {
         if(userRepository.findById(userInfo.getSeq()).isPresent()) {
             UserEntity user = userRepository.findById(userInfo.getSeq()).get();
 
-            user.builder()
-                    .delYn("Y")
-                    .delBy("user_" + userInfo.getSeq())
-                    .delDate(LocalDateTime.now())
-                    .build();
+            user.withdrawlUser("y", "user_" + userInfo.getSeq(), LocalDateTime.now());
 
             return true;
         }
@@ -136,9 +133,9 @@ public class UserServiceImpl implements UserService {
     public boolean checkPassword(UserSeqReq userInfo) {
 
         if(userRepository.findById(userInfo.getSeq()).isPresent()) {
-            String userPassword = userRepository.findById(userInfo.getSeq()).get().getPassword();
+            String password = userRepository.findById(userInfo.getSeq()).get().getPassword();
 
-            if(userPassword.equals(userInfo.getPassword())) {
+            if(password.equals(userInfo.getPassword())) {
                 return true;
             }
         }

@@ -2,7 +2,6 @@ package com.fasulting.demo.customer.user.service;
 
 import com.fasulting.demo.customer.user.dto.reqDto.*;
 import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
-import com.fasulting.demo.ps.ps.request.CheckPasswordReq;
 
 public interface UserService {
 
@@ -15,5 +14,5 @@ public interface UserService {
     boolean checkPassword(UserSeqReq userInfo); // 비밀번호 확인(로그인 상태에서)
 
 
-    boolean checkEmail(String userEmail); // 회원 이메일 조회 및 중복 확인
+    boolean checkEmail(String email); // 회원 이메일 조회 및 중복 확인
 }

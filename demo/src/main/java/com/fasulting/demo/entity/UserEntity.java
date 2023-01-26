@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "user")
-public class UserEntity extends BaseEntity {
+public class UserEntity /*extends BaseEntity*/ {
 
    	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +55,21 @@ public class UserEntity extends BaseEntity {
 
    	@Column(name = "del_yn")
 	private String delYn;
+
+	public void updateUserEntity(String name, String number) {
+		this.name = name;
+		this.number = number;
+	}
+
+	public void withdrawlUser(String delYn, String delBy, LocalDateTime delDate) {
+		this.delYn = delYn;
+		this.delBy = delBy;
+		this.delDate = delDate;
+	}
+
+	public void resetPassword(String password) {
+		this.password = password;
+	}
 
 	@Builder
 	public UserEntity(String email, String password, String birth, String gender, String number,
