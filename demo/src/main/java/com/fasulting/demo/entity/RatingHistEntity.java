@@ -2,6 +2,7 @@ package com.fasulting.demo.entity;
 
 import javax.persistence.*;
 import lombok.*;
+import org.apache.catalina.User;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import java.math.BigDecimal;
@@ -23,25 +24,19 @@ public class RatingHistEntity extends BaseEntity {
 	private Long seq;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long consultingSeq;
+	@OneToOne
+	@JoinColumn(referencedColumnName = "seq", name = "consulting_seq")
+	private ConsultingEntity consulting;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long psSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "ps_seq")
+	private PsEntity ps;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long userSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
+	private UserEntity user;
 
 	/**최초 평가 후 평점 적용
 평가마다 평점 업데이트*/

@@ -22,25 +22,19 @@ public class ReservationEntity extends BaseEntity {
 	private Long seq;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long reservationSeq;
+	@OneToOne
+	@JoinColumn(referencedColumnName = "seq", name = "reservation_seq")
+	private ReservationCalEntity reservationCal;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long psSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "ps_seq")
+	private PsEntity ps;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long userSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
+	private UserEntity user;
 
    	@Column(name = "del_date")
 	private LocalDateTime delDate;

@@ -1,6 +1,8 @@
 package com.fasulting.demo.entity;
 
 import javax.persistence.*;
+import javax.print.Doc;
+
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -19,19 +21,15 @@ public class DoctorMainEntity extends BaseEntity implements Serializable {
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long doctorSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "doctor_seq")
+	private DoctorEntity doctor;
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long mainSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "main_seq")
+	private MainCategoryEntity mainCategory;
 
 
 }

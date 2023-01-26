@@ -1,6 +1,8 @@
 package com.fasulting.demo.entity;
 
 import javax.persistence.*;
+
+import com.fasulting.demo.customer.user.dto.reqDto.UserSeqReq;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -21,18 +23,14 @@ public class FavoriteEntity extends BaseEntity {
 	private Long seq;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long psSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "ps_seq")
+	private PsEntity ps;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long userSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
+	private UserEntity user;
 
 
 }

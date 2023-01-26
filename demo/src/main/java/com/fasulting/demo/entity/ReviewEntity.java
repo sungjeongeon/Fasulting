@@ -22,32 +22,24 @@ public class ReviewEntity extends BaseEntity {
 	private Long seq;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long consultingSeq;
+	@OneToOne
+	@JoinColumn(referencedColumnName = "seq", name = "consulting_seq")
+	private ConsultingEntity consulting;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long ratingHistSeq;
+	@OneToOne
+	@JoinColumn(referencedColumnName = "seq", name = "rating_hist_seq")
+	private RatingHistEntity ratingHistSeq;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long psSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "ps_seq")
+	private PsEntity ps;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long userSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
+	private UserEntity user;
 
    	@Column(name = "content")
 	private String content;

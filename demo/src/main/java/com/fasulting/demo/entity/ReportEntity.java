@@ -21,11 +21,9 @@ public class ReportEntity extends BaseEntity {
 	private Long seq;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long consultingSeq;
+	@OneToOne
+	@JoinColumn(referencedColumnName = "seq", name = "consulting_seq")
+	private ConsultingEntity consulting;
 
 	/**서버에 저장된 비포 사진 경로*/
    	@Column(name = "before_img")

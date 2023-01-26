@@ -19,19 +19,15 @@ public class UserTokenEntity extends BaseEntity implements Serializable {
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long userSeq;
+	@OneToOne
+	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
+	private UserEntity user;
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long tokenSeq;
+	@OneToOne
+	@JoinColumn(referencedColumnName = "seq", name = "token_seq")
+	private TokenEntity token;
 
 
 }
