@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -54,10 +55,11 @@ public class PsController {
      * @return fail or success
      */
     @PostMapping("/regist")
-    public ResponseEntity<?> psRegister(@RequestBody PsWithoutSeqReq psInfo) {
+    public ResponseEntity<?> psRegister(@RequestPart(value = "data") PsWithoutSeqReq psInfo, @RequestPart(value = "profileImg",required = false) MultipartFile profileImg,
+                                        @RequestPart(value = "registrationImg", required = true) MultipartFile registrationImg) {
         log.info("psRegister - Call");
 
-        if(psService.psRegister(psInfo)) {
+        if(psService.psRegister(psInfo, profileImg, registrationImg)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));

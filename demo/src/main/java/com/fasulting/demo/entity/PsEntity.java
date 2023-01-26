@@ -103,7 +103,7 @@ public class PsEntity extends BaseEntity {
 	}
 
 	public void updatePsEntity(PsSeqReq psInfo) {
-		this.profileImg = psInfo.getProfileImg();
+//		this.profileImg = psInfo.getProfileImg();
 		this.number = psInfo.getNumber();
 		this.intro = psInfo.getIntro();
 		this.homepage = psInfo.getHomepage();

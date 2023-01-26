@@ -8,9 +8,13 @@ import com.fasulting.demo.ps.ps.repository.PsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -19,9 +23,51 @@ public class PsServiceImpl implements PsService {
     @Autowired
     private PsRepository psRepository;
 
+    private final String domain = "https://localhost:8080/resources/upload/";
+
     // 병원 회원 가입
     @Override
-    public boolean psRegister(PsWithoutSeqReq psInfo) {
+    public boolean psRegister(PsWithoutSeqReq psInfo, MultipartFile profileImgFile, MultipartFile registrationImgFile) {
+
+        String profileImgUrl = null;
+
+        if(profileImgFile != null && !profileImgFile.isEmpty()) {
+            // 파일 중복명 방지 uuid 생성
+            UUID uuid = UUID.randomUUID();
+
+            String dirPath = "/var/webapps/upload/ps_profile";
+            File folder = new File(dirPath);
+            if(!folder.exists()) folder.mkdirs(); // 폴더 생성
+
+            String profileImgSaveUrl = uuid + "_" + profileImgFile.getOriginalFilename();
+            File file = new File(folder.getAbsolutePath() + "/" + profileImgSaveUrl); // profileImgSaveUrl 경로 이용해서 폴더 만듬
+            try {
+                profileImgFile.transferTo(file); // 이미지 최종 경로로 보내줘서 저장
+                profileImgUrl = profileImgSaveUrl;
+
+            } catch (IOException e) {
+                log.info(e.getMessage());
+            }
+        }
+
+        String registrationImgUrl = null;
+        if(registrationImgFile != null && !registrationImgFile.isEmpty()) {
+            String dirPath = "/var/webapps/upload/ps_registration";
+            File folder = new File(dirPath);
+            if(!folder.exists()) folder.mkdirs(); // 폴더 생성
+
+            // 파일 중복명 방지 uuid 생성
+            UUID uuid = UUID.randomUUID();
+            String registrationImgSaveUrl = uuid + "_" + registrationImgFile.getOriginalFilename();
+            File file = new File(folder.getAbsolutePath() + "/" + registrationImgSaveUrl);
+            try {
+                registrationImgFile.transferTo(file);
+                registrationImgUrl = registrationImgSaveUrl;
+
+            } catch (IOException e) {
+                log.info(e.getMessage());
+            }
+        }
 
         PsEntity ps = PsEntity.builder().email(psInfo.getEmail())
                 .password(psInfo.getPassword())
@@ -29,11 +75,11 @@ public class PsServiceImpl implements PsService {
                 .address(psInfo.getAddress())
                 .zipcode(psInfo.getZipcode())
                 .registration(psInfo.getRegistration())
-                .registrationImg(psInfo.getRegistrationImg())
+                .registrationImg(registrationImgUrl)
                 .number(psInfo.getNumber())
                 .director(psInfo.getDirector())
                 .homepage(psInfo.getHomepage())
-                .profileImg(psInfo.getProfileImg())
+                .profileImg(profileImgUrl)
                 .intro(psInfo.getIntro())
                 .build();
 

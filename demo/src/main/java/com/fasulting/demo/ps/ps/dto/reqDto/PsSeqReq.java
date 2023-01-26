@@ -2,6 +2,7 @@ package com.fasulting.demo.ps.ps.dto.reqDto;
 
 import com.fasulting.demo.resp.Doctor;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
