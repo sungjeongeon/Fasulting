@@ -7,11 +7,11 @@ import ReviewList from "../../components/List/ReviewList";
 function Home() {
   return (
     <div>
-      <Banner/>
+      <Banner />
       <Container maxidth="lg">
-      <MainCategoryList/>
+        <MainCategoryList />
       </Container>
-      <ReviewList/>
+      <ReviewList />
     </div>
   );
 }

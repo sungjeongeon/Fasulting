@@ -1,22 +1,12 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import {
-  Container,
-  Box,
-  Typography,
-  Card,
-  TextField,
-  Button,
-  Link,
-  FormControlLabel,
-  Checkbox,
-  FormGroup,
-} from "@mui/material";
-import { CssBaseline } from "@mui/material";
+import { Typography, TextField, Button, Link, Checkbox } from "@mui/material";
 import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
 import styles from "./Form.module.css";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/bootstrap.css";
+
 const validationSchema = yup.object({
   email: yup
     .string()
@@ -72,13 +62,10 @@ export default function RegisterForm() {
   return (
     <>
       <div className={styles.formwrapper}>
-        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-          회원가입
-        </Typography>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.inputForm}>
             <div className={styles.inputItem}>
-              <div className={styles.label}>이메일</div>
+              <div className={styles.labelFirst}>이메일</div>
               <TextField
                 fullWidth
                 placeholder="id@fasulting.com"
@@ -157,7 +144,7 @@ export default function RegisterForm() {
               </div> */}
             <div className={styles.inputItem}>
               <div className={styles.label}>휴대폰 번호</div>
-              <TextField
+              {/* <TextField
                 fullWidth
                 id="phone"
                 name="phone"
@@ -167,6 +154,13 @@ export default function RegisterForm() {
                 onChange={formik.handleChange}
                 error={formik.touched.phone && Boolean(formik.errors.phone)}
                 helperText={formik.touched.phone ? formik.errors.phone : ""}
+              /> */}
+              <PhoneInput
+                fullWidth="true"
+                placeholder="(+82) 010-1234-5678"
+                defaultCountry="so"
+                value={formik.values.phone}
+                onChange={formik.handleChange}
               />
             </div>
             <div className={styles.inputItem}>
@@ -199,7 +193,11 @@ export default function RegisterForm() {
             >
               회원가입
             </Button>
-            <Link href="/psregist" variant="body2">
+            <Link
+              href="/psregist"
+              variant="body2"
+              className={styles.flexCenter}
+            >
               의사로 회원가입 하시나요?
             </Link>
           </div>

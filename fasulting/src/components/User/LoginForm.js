@@ -1,12 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import {
-  Container,
-  Box,
   Typography,
-  Card,
   FormControl,
   FormControlLabel,
   Radio,
@@ -15,7 +11,6 @@ import {
   Button,
   Link,
 } from "@mui/material";
-import { CssBaseline } from "@mui/material";
 import styles from "./Form.module.css";
 
 const validationSchema = yup.object({
