@@ -8,7 +8,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -44,17 +43,17 @@ const lastconsulting = [
   },
 ];
 
-const useStyles = makeStyles({
-  root: {
-    "& .MuiTableCell-head": {
-      color: "#72A1A6",
-      fontWeight: "bold",
-    },
-  },
-});
+// const useStyles = makeStyles({
+//   root: {
+//     "& .MuiTableCell-head": {
+//       color: "#72A1A6",
+//       fontWeight: "bold",
+//     },
+//   },
+// });
 
 export default function LastConsulting() {
-  const classes = useStyles();
+  // const classes = useStyles();
   const navigate = useNavigate();
 
   const pgEstimate = () => {
@@ -70,7 +69,8 @@ export default function LastConsulting() {
       <Typography variant="h5">지난 예약</Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead className={classes.root}>
+          {/* <TableHead className={classes.root}> */}
+          <TableHead>
             <TableRow>
               <TableCell>병원명</TableCell>
               <TableCell>견적</TableCell>

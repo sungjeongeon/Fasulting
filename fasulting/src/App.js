@@ -10,7 +10,8 @@ import MypageCl from "./pages/client/MypageCl";
 import Detail from "./pages/client/Detail";
 import MyActivity from "./pages/client/MyActivity.js";
 import { Container } from "@mui/system";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import * as React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import MyReservation from "./pages/client/MyReservation";
@@ -18,7 +19,10 @@ import MyEstimate from "./pages/client/MyEstimate";
 import ModalTest from "./pages/client/ModalTest";
 import MypageHo from "./pages/hospital/MypageHo";
 import PsRegister from "./pages/hospital/PsRegister";
+<<<<<<< HEAD
 import axios from "axios";
+=======
+>>>>>>> cd4b90a212309135a94354f5ac3946474b96d566
 
 const theme = createTheme({
   palette: {
@@ -46,7 +50,8 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline>
+      <React.Fragment>
+        <CssBaseline />
         <Container fixed disableGutters={true} maxWidth="lg">
           <Router>
             <Header />
@@ -82,7 +87,7 @@ function App() {
             </Routes>
           </Router>
         </Container>
-      </CssBaseline>
+      </React.Fragment>
     </ThemeProvider>
   );
 }
