@@ -23,50 +23,43 @@ public class PsServiceImpl implements PsService {
     @Autowired
     private PsRepository psRepository;
 
+    // 배포할 때 경로 바꾸기
+    private final String dirPath = "C:/fasulting/ps/files/";
+
     private final String domain = "https://localhost:8080/resources/upload/";
+
+    private String uploadFile(UUID uuid, MultipartFile imgFile, String imgUrl) {
+        File folder = new File(dirPath);
+        if(!folder.exists()) folder.mkdirs(); // 폴더 생성
+
+        String imgSaveUrl = uuid + "_" + imgFile.getOriginalFilename();
+        File file = new File(dirPath + File.separator + imgSaveUrl); // profileImgSaveUrl 경로 이용해서 폴더 만듬
+        try {
+            imgFile.transferTo(file); // 이미지 최종 경로로 보내줘서 저장
+            return dirPath + imgSaveUrl;
+        } catch (IOException e) {
+            log.info(e.getMessage());
+        }
+        return null;
+    }
 
     // 병원 회원 가입
     @Override
     public boolean psRegister(PsWithoutSeqReq psInfo, MultipartFile profileImgFile, MultipartFile registrationImgFile) {
 
         String profileImgUrl = null;
-
         if(profileImgFile != null && !profileImgFile.isEmpty()) {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            String dirPath = "/var/webapps/upload/ps_profile";
-            File folder = new File(dirPath);
-            if(!folder.exists()) folder.mkdirs(); // 폴더 생성
-
-            String profileImgSaveUrl = uuid + "_" + profileImgFile.getOriginalFilename();
-            File file = new File(folder.getAbsolutePath() + "/" + profileImgSaveUrl); // profileImgSaveUrl 경로 이용해서 폴더 만듬
-            try {
-                profileImgFile.transferTo(file); // 이미지 최종 경로로 보내줘서 저장
-                profileImgUrl = profileImgSaveUrl;
-
-            } catch (IOException e) {
-                log.info(e.getMessage());
-            }
+            profileImgUrl = uploadFile(uuid, profileImgFile, null);
         }
 
         String registrationImgUrl = null;
         if(registrationImgFile != null && !registrationImgFile.isEmpty()) {
-            String dirPath = "/var/webapps/upload/ps_registration";
-            File folder = new File(dirPath);
-            if(!folder.exists()) folder.mkdirs(); // 폴더 생성
-
-            // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
-            String registrationImgSaveUrl = uuid + "_" + registrationImgFile.getOriginalFilename();
-            File file = new File(folder.getAbsolutePath() + "/" + registrationImgSaveUrl);
-            try {
-                registrationImgFile.transferTo(file);
-                registrationImgUrl = registrationImgSaveUrl;
 
-            } catch (IOException e) {
-                log.info(e.getMessage());
-            }
+            registrationImgUrl = uploadFile(uuid, registrationImgFile, null);
         }
 
         PsEntity ps = PsEntity.builder().email(psInfo.getEmail())
@@ -141,6 +134,8 @@ public class PsServiceImpl implements PsService {
             psInfo.setRegistration(ps.getRegistration());
             psInfo.setRegistrationImg(ps.getRegistrationImg());
 
+            log.info(ps.getRegistrationImg());
+
             // doctor
             // main, sub category
 
@@ -152,13 +147,21 @@ public class PsServiceImpl implements PsService {
     // 병원 회원 정보 수정
     @Override
     @Transactional
-    public boolean editPsInfo(PsSeqReq psInfo) {
+    public boolean editPsInfo(PsSeqReq psInfo, MultipartFile profileImgFile) {
         Long seq = psInfo.getSeq();
         if(psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
 
+            String profileImgUrl = null;
+            if(profileImgFile != null && !profileImgFile.isEmpty()) {
+                // 파일 중복명 방지 uuid 생성
+                UUID uuid = UUID.randomUUID();
+
+                profileImgUrl = uploadFile(uuid, profileImgFile, null);
+            }
+
             log.info(psInfo.toString());
-            ps.updatePsEntity(psInfo);
+            ps.updatePsEntity(psInfo, profileImgUrl);
 
             return true;
         }

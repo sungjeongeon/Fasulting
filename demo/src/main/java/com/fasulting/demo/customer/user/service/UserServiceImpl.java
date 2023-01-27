@@ -94,24 +94,24 @@ public class UserServiceImpl implements UserService {
     }
 
     // 회원 정보 수정
-    @Override
-    @Transactional
-    public boolean editUserInfo(Long seq, UserSeqReq userInfo) {
-
-        if(userRepository.findById(seq).isPresent()) {
-            UserEntity user = userRepository.findById(seq).get();
-
-            log.info(userInfo.toString());
-            if(userInfo.getName() != null)
-                user.updateUserEntity(userInfo.getName(), user.getNumber());
-            if(userInfo.getNumber() != null)
-                user.updateUserEntity(user.getName(), userInfo.getNumber());
-
-            return true;
-        }
-
-        return false;
-    }
+//    @Override
+//    @Transactional
+//    public boolean editUserInfo(Long seq, UserSeqReq userInfo) {
+//
+//        if(userRepository.findById(seq).isPresent()) {
+//            UserEntity user = userRepository.findById(seq).get();
+//
+//            log.info(userInfo.toString());
+//            if(userInfo.getName() != null)
+//                user.updateUserEntity(userInfo.getName(), user.getNumber());
+//            if(userInfo.getNumber() != null)
+//                user.updateUserEntity(user.getName(), userInfo.getNumber());
+//
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     // 회원 탈퇴
     @Override

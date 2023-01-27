@@ -55,11 +55,11 @@ public class PsController {
      * @return fail or success
      */
     @PostMapping("/regist")
-    public ResponseEntity<?> psRegister(@RequestPart(value = "data") PsWithoutSeqReq psInfo, @RequestPart(value = "profileImg",required = false) MultipartFile profileImg,
-                                        @RequestPart(value = "registrationImg", required = true) MultipartFile registrationImg) {
+    public ResponseEntity<?> psRegister(@RequestPart(value = "ps") PsWithoutSeqReq psInfo, @RequestPart(value = "profileImg",required = false) MultipartFile profileImgFile,
+                                        @RequestPart(value = "registrationImg", required = true) MultipartFile registrationImgFile) {
         log.info("psRegister - Call");
 
-        if(psService.psRegister(psInfo, profileImg, registrationImg)) {
+        if(psService.psRegister(psInfo, profileImgFile, registrationImgFile)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
@@ -104,13 +104,15 @@ public class PsController {
      * @return success OR fail
      */
     @PutMapping("/edit")
-    public ResponseEntity<?> editPsInfo(@RequestBody PsSeqReq psInfo) {
+    public ResponseEntity<?> editPsInfo(@RequestPart(value = "ps") PsSeqReq psInfo,
+                                        @RequestPart(value = "profileImg",required = false) MultipartFile profileImgFile) {
 
         log.info("ps editPs - Call");
 
         // 로그인 했는지 검사 필요
 
-        if(psService.editPsInfo(psInfo)) {
+        if(psService.editPsInfo(psInfo, profileImgFile)) {
+
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));

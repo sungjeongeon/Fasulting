@@ -129,17 +129,17 @@ public class UserController {
      * @param userInfo 유저 인포 (userName, userPassword)
      * @return success OR fail
      */
-    @PutMapping("/edit")
-    public ResponseEntity<?> editUserInfo(@RequestBody UserSeqReq userInfo) {
-        log.info("editUser - Call");
-
-        // 로그인 했는지 검사 필요
-
-        if(userService.editUserInfo(userInfo.getSeq(), userInfo)) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-        }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
-    }
+//    @PutMapping("/edit")
+//    public ResponseEntity<?> editUserInfo(@RequestBody UserSeqReq userInfo) {
+//        log.info("editUser - Call");
+//
+//        // 로그인 했는지 검사 필요
+//
+//        if(userService.editUserInfo(userInfo.getSeq(), userInfo)) {
+//            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+//        }
+//        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+//    }
 
     /**
      * 9. 회원 탈퇴

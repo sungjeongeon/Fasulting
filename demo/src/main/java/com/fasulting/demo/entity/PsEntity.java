@@ -102,11 +102,12 @@ public class PsEntity extends BaseEntity {
 		this.delYn = delYn;
 	}
 
-	public void updatePsEntity(PsSeqReq psInfo) {
+	public void updatePsEntity(PsSeqReq psInfo, String profileImg) {
 //		this.profileImg = psInfo.getProfileImg();
 		this.number = psInfo.getNumber();
 		this.intro = psInfo.getIntro();
 		this.homepage = psInfo.getHomepage();
+		this.profileImg = profileImg;
 		// doctor
 		// main, sub
 	}
