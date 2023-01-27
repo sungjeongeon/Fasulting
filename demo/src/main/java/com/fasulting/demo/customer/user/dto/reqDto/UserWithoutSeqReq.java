@@ -18,8 +18,6 @@ public class UserWithoutSeqReq {
 
     private String birth;
 
-    private String gender;
-
     private String nation;
 
     private String number;

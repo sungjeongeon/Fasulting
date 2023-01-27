@@ -29,10 +29,6 @@ public class UserEntity extends BaseEntity {
    	@Column(name = "birth")
 	private String birth;
 
-	/**M or F*/
-   	@Column(name = "gender")
-	private String gender;
-
    	@Column(name = "number")
 	private String number;
 
@@ -55,11 +51,10 @@ public class UserEntity extends BaseEntity {
 	private String delYn;
 
 	@Builder
-	public UserEntity(String email, String password, String birth, String gender, String number, String nation, String nationCode, String name, LocalDateTime delDate, String delBy, String delYn) {
+	public UserEntity(String email, String password, String birth, String number, String nation, String nationCode, String name, LocalDateTime delDate, String delBy, String delYn) {
 		this.email = email;
 		this.password = password;
 		this.birth = birth;
-		this.gender = gender;
 		this.number = number;
 		this.nation = nation;
 		this.nationCode = nationCode;

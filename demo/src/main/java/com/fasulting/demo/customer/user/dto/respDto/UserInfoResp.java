@@ -13,7 +13,6 @@ public class UserInfoResp {
     private String name;
     private String birth;
     private String nation;
-    private String gender;
     private String phone;
     private String nationCode;
 

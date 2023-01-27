@@ -439,7 +439,6 @@ CREATE TABLE IF NOT EXISTS `user` (
     `email` varchar(255) NOT NULL,
     `password` varchar(255) NOT NULL,
     `birth` VARCHAR(255) NOT NULL,
-    `gender` varchar(1) NOT NULL COMMENT 'M or F',
     `number` varchar(255) NOT NULL,
     `nation` varchar(255) NOT NULL,
     `nation_code` varchar(255) NOT NULL,
