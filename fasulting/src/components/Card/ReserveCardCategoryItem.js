@@ -35,31 +35,37 @@ function ReserveCardCategoryItem({ getConsultItem }) {
       id: 3,
       src: "/assets/images/3_petit.png",
       text: "쁘띠",
+      sub: [],
     },
     {
       id: 4,
       src: "/assets/images/4_facial.png",
       text: "안티에이징",
+      sub: [],
     },
     {
       id: 5,
       src: "/assets/images/5_antiaging.png",
       text: "안면윤곽",
+      sub: [],
     },
     {
       id: 6,
       src: "/assets/images/6_hair.png",
       text: "모발이식",
+      sub: [],
     },
     {
       id: 7,
       src: "/assets/images/7_man.png",
       text: "맨즈",
+      sub: [],
     },
     {
       id: 8,
       src: "/assets/images/8_revision.png",
       text: "재수술",
+      sub: [],
     },
   ];
 

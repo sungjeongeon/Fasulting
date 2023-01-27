@@ -13,6 +13,7 @@ import ProfileImageUpdate from "../../components/Detail/ProfileImageUpdate";
 import ProfileUpdateForm from "../../components/Detail/ProfileUpdateForm";
 import ProfileSubCategoryUpdate from "../../components/Detail/ProfileSubCategoryUpdate";
 import ProfileDoctorUpdate from "../../components/Detail/ProfileDoctorUpdate";
+import ProfileTimeUpdate from "../../components/Detail/ProfileTimeUpdate";
 
 function MypageHo() {
   const hospital = {
@@ -65,7 +66,7 @@ function MypageHo() {
             title={"홈페이지"}
             content={hospital.ps_homepage}
           />
-          {/* 운영시간 */}
+          <ProfileTimeUpdate />
           <ProfileSubCategoryUpdate sub_category={hospital.sub_category_id} />
           <ProfileDoctorUpdate doctors={hospital.ps_doctors} />
           <ReviewInfo />

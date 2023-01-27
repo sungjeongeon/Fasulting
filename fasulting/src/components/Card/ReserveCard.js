@@ -59,14 +59,14 @@ export default function ReserveCard() {
   };
   // 임시 data
   const operating = [
-    { id: 1, year: 2023, month: 1, day: 26, day_of_week: 2, hour: 1 },
-    { id: 2, year: 2023, month: 1, day: 26, day_of_week: 2, hour: 2 },
-    { id: 3, year: 2023, month: 1, day: 26, day_of_week: 2, hour: 5 },
-    { id: 4, year: 2023, month: 1, day: 26, day_of_week: 2, hour: 9 },
-    { id: 5, year: 2023, month: 1, day: 26, day_of_week: 2, hour: 11 },
-    { id: 6, year: 2023, month: 1, day: 26, day_of_week: 2, hour: 13 },
-    { id: 7, year: 2023, month: 1, day: 26, day_of_week: 2, hour: 14 },
-    { id: 8, year: 2023, month: 1, day: 27, day_of_week: 3, hour: 3 },
+    { id: 2, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 2 },
+    { id: 3, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 5 },
+    { id: 1, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 1 },
+    { id: 4, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 9 },
+    { id: 5, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 11 },
+    { id: 6, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 13 },
+    { id: 7, year: 2023, month: 1, day: 28, day_of_week: 6, hour: 14 },
+    { id: 8, year: 2023, month: 1, day: 28, day_of_week: 6, hour: 3 },
   ];
   // ==========================================================
 

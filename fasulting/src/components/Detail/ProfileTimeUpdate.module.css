@@ -1,0 +1,30 @@
+.titleDiv {
+  display: flex;
+  margin-top: 1.06rem;
+  margin-bottom: 1.25rem;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0 0 0 0.94rem;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.06rem;
+}
+
+.btn {
+  width: 1.81rem;
+  height: 1.63rem;
+  line-height: 1.63rem;
+}
+.btnTextGreen {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.88rem;
+
+  color: #72a1a6;
+}
+
+.hr {
+  margin-top: 1.44rem;
+}
