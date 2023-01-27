@@ -157,7 +157,6 @@ import {
   Button,
   Link,
 } from "@mui/material";
-import { CssBaseline } from "@mui/material";
 
 const validationSchema = yup.object({
   email: yup

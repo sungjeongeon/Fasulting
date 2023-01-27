@@ -14,6 +14,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PsRegistForm01 from "./PsRegistForm01";
 import PsRegistForm02 from "./PsRegistForm02";
 import PsRegistForm03 from "./PsRegistForm03";
+import FormikStepper from "formik-stepper";
+
 const steps = ["개인 정보", "병원 관련 등록", "병원 인증"];
 
 function getStepContent(step) {
