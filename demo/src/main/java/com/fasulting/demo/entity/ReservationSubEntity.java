@@ -15,23 +15,19 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "reservation_sub")
-public class ReservationSubEntity extends BaseEntity implements Serializable {
+public class ReservationSubEntity extends BaseEntity implements Serializable{
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long reservationSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "resrvation_seq")
+	private ReservationEntity reservation;
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long subSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "sub_seq")
+	private SubCategoryEntity subCategory;
 
 
 }

@@ -1,6 +1,8 @@
 package com.fasulting.demo.entity;
 
 import javax.persistence.*;
+
+import antlr.Token;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -15,23 +17,19 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "ps_token")
-public class PsTokenEntity extends BaseEntity implements Serializable {
+public class PsTokenEntity extends BaseEntity implements Serializable{
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long psSeq;
+	@OneToOne
+	@JoinColumn(referencedColumnName = "seq", name = "ps_seq")
+	private PsEntity ps;
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long tokenSeq;
+	@OneToOne
+	@JoinColumn(referencedColumnName = "seq", name = "token_seq")
+	private TokenEntity token;
 
 
 }

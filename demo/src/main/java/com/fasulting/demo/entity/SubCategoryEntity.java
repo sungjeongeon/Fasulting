@@ -21,11 +21,9 @@ public class SubCategoryEntity extends BaseEntity {
 	private Long seq;
 
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long mainSeq;
+	@ManyToOne
+	@JoinColumn(referencedColumnName = "seq", name = "main_seq")
+	private MainCategoryEntity mainCategory;
 
 	/**- 쌍커풀, 눈매교정, 트임, 눈밑성형, 재수술
 - 콧대, 코끝 성형, 콧불 축소, 재수술

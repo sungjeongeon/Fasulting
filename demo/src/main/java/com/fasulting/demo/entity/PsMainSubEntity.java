@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
 
+// 필요한 테이블일깡
 @Entity
 //@Builder
 @Getter
@@ -19,27 +20,21 @@ public class PsMainSubEntity extends BaseEntity implements Serializable {
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long psSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "ps_seq")
+	private PsEntity ps;
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long mainSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "main_seq")
+	private MainCategoryEntity mainCategory;
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long subSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "sub_seq")
+	private SubCategoryEntity subCategory;
 
 
 }

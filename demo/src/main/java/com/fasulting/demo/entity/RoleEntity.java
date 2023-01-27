@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.io.Serializable;
+
 @Entity
 //@Builder
 @Getter
@@ -13,15 +15,13 @@ import org.hibernate.annotations.DynamicUpdate;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "role")
-public class RoleEntity extends BaseEntity {
+public class RoleEntity extends BaseEntity implements Serializable {
 
 	@Id
    	/** FK setting */
-	// @ManyToOne
-	// @OneToMany
-	// @JsonBackReference
-	// @JoinColumn(name = "", updatable = false, insertable = false)
-	private Long userSeq;
+	@OneToOne
+	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
+	private UserEntity userSeq;
 
 	/**admin or user*/
    	@Column(name = "authority")
