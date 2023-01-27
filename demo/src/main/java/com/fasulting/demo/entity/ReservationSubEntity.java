@@ -15,7 +15,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "reservation_sub")
-public class ReservationSubEntity extends BaseEntity implements Serializable {
+public class ReservationSubEntity extends BaseEntity implements Serializable{
 
 	@Id
    	/** FK setting */

@@ -17,7 +17,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "ps_token")
-public class PsTokenEntity extends BaseEntity implements Serializable {
+public class PsTokenEntity extends BaseEntity implements Serializable{
 
 	@Id
    	/** FK setting */

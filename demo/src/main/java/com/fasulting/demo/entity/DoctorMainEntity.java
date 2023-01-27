@@ -1,8 +1,8 @@
 package com.fasulting.demo.entity;
 
 import javax.persistence.*;
-import javax.print.Doc;
 
+import com.fasulting.demo.entity.compositeId.DoctorMainId;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -16,8 +16,9 @@ import java.io.Serializable;
 @DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@IdClass(DoctorMainId.class)
 @Table (name = "doctor_main")
-public class DoctorMainEntity extends BaseEntity implements Serializable {
+public class DoctorMainEntity extends BaseEntity implements Serializable{
 
 	@Id
    	/** FK setting */

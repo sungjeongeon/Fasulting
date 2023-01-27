@@ -15,13 +15,13 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "review_sub")
-public class ReviewSubEntity extends BaseEntity implements Serializable {
+public class ReviewSubEntity extends BaseEntity implements Serializable{
 
 	@Id
    	/** FK setting */
 	@ManyToOne
 	@JoinColumn(referencedColumnName = "seq", name = "review_seq")
-	private ReviewEntity reviewSeq;
+	private ReviewEntity review;
 
 	@Id
    	/** FK setting */

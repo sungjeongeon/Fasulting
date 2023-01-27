@@ -15,7 +15,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "ps_main")
-public class PsMainEntity extends BaseEntity implements Serializable {
+public class PsMainEntity extends BaseEntity implements Serializable{
 
 	@Id
    	/** FK setting */
