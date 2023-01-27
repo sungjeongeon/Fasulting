@@ -1,6 +1,6 @@
 import FavoriteCard from "./FavoriteCard";
 import { Typography } from "@mui/material";
-import { Box } from "@material-ui/core";
+// import Box from "@mui/material/Box";
 import { Stack } from "@mui/system";
 function FavoriateCardList() {
   const favorite = [
