@@ -1,7 +1,8 @@
 import React from "react"
 import styles from "./AddDoctor.module.css"
 import MainCategoryListSmall from "../Category/MainCategoryListSmall"
-import CancelPresentationOutlinedIcon from '@mui/icons-material/CancelPresentationOutlined';
+import DisabledByDefaultOutlinedIcon from '@mui/icons-material/DisabledByDefaultOutlined';
+
 
 function AddDoctor({ModalStateChange}) {
   const basicsrc = "../../assets/images/doctorBasic.png"
@@ -12,7 +13,7 @@ function AddDoctor({ModalStateChange}) {
         <div className={styles.inside}>
           <div className={styles.nav}>
             <span className={styles.title}>의사등록</span>
-            <CancelPresentationOutlinedIcon
+            <DisabledByDefaultOutlinedIcon
               fontSize="large"
               onClick={ModalStateChange}
               color="action"

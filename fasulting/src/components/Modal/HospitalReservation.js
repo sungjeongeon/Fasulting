@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styles from "./HospitalReservation.module.css"
+import DisabledByDefaultOutlinedIcon from '@mui/icons-material/DisabledByDefaultOutlined';
 
 function HospitalReservation({ModalStateChange4}) {
   const [open, setOpen] = useState(false)
@@ -22,6 +23,12 @@ function HospitalReservation({ModalStateChange4}) {
       <div className={styles.modalbox}>
         <div className={styles.flexcol}>
           <h2 className={styles.confirm}>예약 확인</h2>
+          <DisabledByDefaultOutlinedIcon
+            fontSize="large"
+            onClick={ModalStateChange4}
+            color="action"
+            className={styles.back}
+          />
           <p className={`${styles.color} ${styles.hospital}`}>{ReservationManage.name}</p>
           <div className={styles.line}></div>
           <div className={`${styles.flexrow} ${styles.mt}`}>

@@ -2,11 +2,20 @@ import React from "react";
 import styles from "./Header.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import Dropdown from "./Dropdown";
+import Paper from '@mui/material/Paper';
+
 
 function Header() {
   // 로그인 여부에 따라, nav bar 링크가 달라지므로 state 이용
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(true);
   const nowpath = useLocation().pathname;
+
+  // 드롭다운 클릭 state
+  const [open, setOpen] = useState(false)
+  const openState = () => setOpen((current) => !current)
 
   return (
     <div>
@@ -20,35 +29,48 @@ function Header() {
         </Link>
         {login ? (
           <div>
-            <p className={`${styles.reserve} ${styles.common}`}>
-              <Link to={"/reserve"} style={{ textDecoration: "none" }}>
+            <div className={`${styles.reserve} ${styles.common}`}>
+              <Link to={"/myreservation"} style={{ textDecoration: "none" }}
+                className={nowpath === "/myreservation" ? styles.activate : styles.notactivate}
+              >
                 나의 예약
               </Link>
-            </p>
-            <p className={`${styles.mypage} ${styles.common}`}>
-              <Link to={"/mypage"} style={{ textDecoration: "none" }}>
+            </div>
+            <div className={`${styles.mypage} ${styles.common}`}>
+              <Link to={"/myactivity"} style={{ textDecoration: "none" }}
+                className={nowpath === "/myactivity" ? styles.activate : styles.notactivate}
+              >
                 나의 활동
               </Link>
-            </p>
-            <p className={`${styles.greeting} ${styles.common}`}>
-              username님
-              <br />
-              반갑습니다!
-            </p>
+            </div>
+            <div className={`${styles.greeting} ${styles.common}`}
+              onClick={openState}
+            >
+              <div>
+                <span className={styles.activate}>username</span>
+                <span>님</span><br />
+                <span className={styles.center}>반갑습니다!
+                  <div className={styles.btn}>
+                    { open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon /> } 
+                  </div>
+                </span>
+              </div>
+              { open && <Dropdown />}
+            </div>
           </div>
         ) : // 로그인이나 회원가입 페이지로 갔을 때는 logo 제외 안보이게끔
         nowpath === "/login" || nowpath === "/register" ? null : (
           <div>
-            <p className={`${styles.login} ${styles.common}`}>
+            <div className={`${styles.login} ${styles.common}`}>
               <Link to={"/login"} style={{ textDecoration: "none" }}>
                 로그인
               </Link>
-            </p>
-            <p className={`${styles.register} ${styles.common}`}>
+            </div>
+            <div className={`${styles.register} ${styles.common}`}>
               <Link to={"/register"} style={{ textDecoration: "none" }}>
                 회원가입
               </Link>
-            </p>
+            </div>
           </div>
         )}
       </div>

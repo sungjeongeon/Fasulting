@@ -41,6 +41,8 @@
 .greeting {
   left: 63rem;
   /* top: 0.1rem; */
+  cursor: pointer;
+  /* margin: 1rem; */
 }
 
 .common {
@@ -50,17 +52,39 @@
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.18rem;
-  /* display: flex;
-  align-items: center;
-  text-align: center; */
-  
-  /* 3 */
-  
+  margin-top: 1rem;
+
   color: #7C7877;
 }
 
-/* 
-.text {
-  width: 7.31rem;
-  height: 2.50rem;
-} */
+.activate {
+  color: #72A1A6;
+  font-weight: bold;
+}
+
+.notactivate {
+  color: #7C7877;
+  /* font-weight: bold; */
+}
+
+.flex {
+  display: flex;
+  align-items: flex-end;
+}
+
+
+.center {
+  display: flex;
+  align-items: center;
+}
+
+.btn {
+  margin-left: 0.3rem;
+}
+
+.shadow {
+  box-shadow: 0 5px 25px 0 rgb(0 0 0 / 12%);
+  /* padding: 1rem; */
+  background: #fff;
+  z-index: 99;
+}

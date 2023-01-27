@@ -28,7 +28,7 @@ function Reservation({ModalStateChange3}) {
             <span className={styles.span}>({ReservationConfirm.day_of_week})</span>
             <span className={styles.span}>{ReservationConfirm.reserve_time}</span>
           </div>
-          <div className={styles.flextop}>
+          <div className={`${styles.flextop} ${styles.mb}`}>
             <p className={`${styles.color} ${styles.mr} ${styles.nomt}`}>상담 항목</p>
             <div>
             {ReservationConfirm.sub_category_list.map((ctg) => {
@@ -40,15 +40,20 @@ function Reservation({ModalStateChange3}) {
             )})}
             </div>
           </div>
-          <div className={`${styles.warninggray} ${styles.mb} ${styles.confirm}`}>
+          <div className={`${styles.warninggray} ${styles.mb} ${styles.mt}`}>
           성형 부작용에 대한 법적 책임은 페이설팅에게 없으며 병원과 충분한 상담 후 신중한 결정 하시길 바랍니다.
           </div>
           <div className={`${styles.warningred} ${styles.mb}`}>
           “ 섣부른 선택이 평생 상처로 이어질 수 있습니다 ”
           </div>
-          <button className={styles.okay} onClick={ModalStateChange3}>
-            확인
-          </button>
+          <div className={styles.flexbtn}>
+            <button className={styles.okay} onClick={ModalStateChange3}>
+              확인
+            </button>
+            <button className={styles.back} onClick={ModalStateChange3}>
+              취소
+            </button>
+          </div>
         </div>
       </div>
     </div>

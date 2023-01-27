@@ -1,0 +1,16 @@
+.box {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.7rem;
+  margin-bottom: 0;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+}
+
+.font {
+  font-size: 0.8rem;
+  margin-left: 0.4rem;
+}

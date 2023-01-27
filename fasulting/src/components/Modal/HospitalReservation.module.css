@@ -126,3 +126,9 @@
   font-size: 0.9rem;
   font-weight: bold;
 }
+
+.back {
+  position: absolute;
+  top: 6%;
+  left: 80%;
+}

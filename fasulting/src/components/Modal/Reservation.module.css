@@ -32,6 +32,7 @@
 
 .confirm {
   margin-top: 2rem;
+  margin-bottom: 0.7rem;
 }
 
 .mx {
@@ -96,6 +97,7 @@
   width: 75%;
   color: #B7B7B7;
   font-weight: bold;
+  font-size: 0.89rem;
   text-align: center;
 }
 
@@ -103,17 +105,39 @@
   width: 75%;
   color: #E56565;
   font-weight: bold;
+  font-size: 0.92rem;
   text-align: center;
 }
 
 .okay {
   background: #72A1A6;
-  width: 9rem;
+  width: 8rem;
   height: 2rem;
   border-radius: 0.625rem;
+  margin-top: 0.3rem;
 
   border: none;
   color: white;
   font-size: 0.9rem;
   font-weight: bold;
+}
+
+.back {
+  background: #D9D4CF;
+  width: 8rem;
+  height: 2rem;
+  border-radius: 0.625rem;
+  margin-top: 0.3rem;
+  
+  border: none;
+  color: #7C7877;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+
+.flexbtn {
+  display: flex;
+  width: 65%;
+  justify-content: space-between;
 }

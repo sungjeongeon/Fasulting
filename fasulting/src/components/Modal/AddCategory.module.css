@@ -41,3 +41,9 @@
 .color {
   background: #72A1A6;
 }
+
+.back {
+  position: absolute;
+  top: 20%;
+  left: 90%;
+}
