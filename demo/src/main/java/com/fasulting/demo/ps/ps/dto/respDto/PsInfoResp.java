@@ -1,6 +1,6 @@
 package com.fasulting.demo.ps.ps.dto.respDto;
 
-import com.fasulting.demo.resp.Doctor;
+import com.fasulting.demo.ps.ps.dto.reqDto.Doctor;
 import lombok.Data;
 
 import java.util.List;

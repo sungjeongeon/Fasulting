@@ -45,7 +45,10 @@ public class PsServiceImpl implements PsService {
 
     // 병원 회원 가입
     @Override
-    public boolean psRegister(PsWithoutSeqReq psInfo, MultipartFile profileImgFile, MultipartFile registrationImgFile) {
+    public boolean psRegister(PsWithoutSeqReq psInfo) {
+
+        MultipartFile profileImgFile = psInfo.getProfileImg();
+        MultipartFile registrationImgFile = psInfo.getRegistrationImg();
 
         String profileImgUrl = null;
         if(profileImgFile != null && !profileImgFile.isEmpty()) {
@@ -147,8 +150,9 @@ public class PsServiceImpl implements PsService {
     // 병원 회원 정보 수정
     @Override
     @Transactional
-    public boolean editPsInfo(PsSeqReq psInfo, MultipartFile profileImgFile) {
+    public boolean editPsInfo(PsSeqReq psInfo) {
         Long seq = psInfo.getSeq();
+        MultipartFile profileImgFile = psInfo.getProfileImg();
         if(psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
 
