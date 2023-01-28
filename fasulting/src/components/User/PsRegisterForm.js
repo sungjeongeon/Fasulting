@@ -5,6 +5,7 @@ import { TextField, Button, Link, Checkbox } from "@mui/material";
 import styles from "./Form.module.css";
 
 import { FormikStepper, FormikStep } from "formik-stepper";
+import { Field, Form, Formik, FormikConfig, FormikValues } from "formik";
 
 const validationSchema = yup.object({
   email: yup
@@ -61,120 +62,119 @@ export default function PsRegisterForm() {
 
   return (
     <>
-      <div className={styles.formwrapper}>
-        <form onSubmit={formik.handleSubmit}>
-          <FormikStepper
-            onSumit={formik.onSubmit}
-            nextButton={{ label: "Step" }}
-            prevButton={{ label: "Back" }}
-          >
-            {/* First Step */}
-            <FormikStep label="Personal Data">
-              <div className={styles.inputItem}>
-                <div className={styles.labelFirst}>이메일</div>
-                <TextField
-                  fullWidth
-                  placeholder="id@fasulting.com"
-                  name="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email ? formik.errors.email : ""}
-                />
-              </div>
-              <div className={styles.inputItem}>
-                <div className={styles.label}>비밀번호</div>
-                <TextField
-                  fullWidth
-                  name="password"
-                  placeholder="숫자+영문자+특수문자 조합으로 8자리 이상"
-                  type="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.password && Boolean(formik.errors.password)
-                  }
-                  helperText={
-                    formik.touched.password ? formik.errors.password : ""
-                  }
-                />
-              </div>
-              <div className={styles.inputItem}>
-                <div className={styles.label}>비밀번호 확인</div>
-                <TextField
-                  fullWidth
-                  id="repassword"
-                  name="repassword"
-                  placeholder="비밀번호를 다시 입력해주세요."
-                  type="password"
-                  value={formik.values.repassword}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.repassword &&
-                    Boolean(formik.errors.repassword)
-                  }
-                  helperText={
-                    formik.touched.repassword ? formik.errors.repassword : ""
-                  }
-                />
-              </div>
-            </FormikStep>
-            {/* Second Step */}
-            <FormikStep>
-              <div className={styles.inputItem}>
-                <div className={styles.labelFirst}>이메일</div>
-                <TextField
-                  fullWidth
-                  placeholder="id@fasulting.com"
-                  name="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email ? formik.errors.email : ""}
-                />
-              </div>
-              <div className={styles.inputItem}>
-                <div className={styles.label}>비밀번호</div>
-                <TextField
-                  fullWidth
-                  name="password"
-                  placeholder="숫자+영문자+특수문자 조합으로 8자리 이상"
-                  type="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.password && Boolean(formik.errors.password)
-                  }
-                  helperText={
-                    formik.touched.password ? formik.errors.password : ""
-                  }
-                />
-              </div>
-              <div className={styles.inputItem}>
-                <div className={styles.label}>비밀번호 확인</div>
-                <TextField
-                  fullWidth
-                  id="repassword"
-                  name="repassword"
-                  placeholder="비밀번호를 다시 입력해주세요."
-                  type="password"
-                  value={formik.values.repassword}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.repassword &&
-                    Boolean(formik.errors.repassword)
-                  }
-                  helperText={
-                    formik.touched.repassword ? formik.errors.repassword : ""
-                  }
-                />
-              </div>
-            </FormikStep>
-            {/* Third Step */}
-            <FormikStep></FormikStep>
-          </FormikStepper>
-        </form>
-      </div>
+      <FormikStepper /// Accept all Formik props
+        onSubmit={formik.handleSubmit} /// onSubmit Function
+        orientation="vertical"
+        labelsColor="secondary" /// The text label color can be root variables or css => #fff
+        withStepperLine /// false as default and If it is false, it hides stepper line
+        nextBtnLabel="step" /// Next as default
+        prevBtnLabel="return" /// Prev as default
+        submitBtnLabel="Done" /// Submit as default
+        nextBtnColor="primary" /// as default and The color can be root variables or css => #fff
+        prevBtnColor="danger" /// as default and The color can be root variables or css => #fff
+        submitBtnColor="success" /// as default and The color can be root variables or css => #fff
+      >
+        {/* First Step */}
+        <FormikStep
+          label="Profile Info" /// The text label of Step
+          withIcons="fa fa-user" // to add icon into the circle must add icon as class Name like Fontawesome
+          withNumbers /// If true, it hides the icon and shows the step number
+          iconColor="white" /// The color can be root variables or css => #fff
+          circleColor="danger" /// The color can be root variables or css => #fff
+        >
+          <div className={styles.inputItem}>
+            <div className={styles.labelFirst}>이메일</div>
+            <TextField
+              fullWidth
+              placeholder="id@fasulting.com"
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email ? formik.errors.email : ""}
+            />
+          </div>
+          <div className={styles.inputItem}>
+            <div className={styles.label}>비밀번호</div>
+            <TextField
+              fullWidth
+              name="password"
+              placeholder="숫자+영문자+특수문자 조합으로 8자리 이상"
+              type="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password ? formik.errors.password : ""}
+            />
+          </div>
+          <div className={styles.inputItem}>
+            <div className={styles.label}>비밀번호 확인</div>
+            <TextField
+              fullWidth
+              id="repassword"
+              name="repassword"
+              placeholder="비밀번호를 다시 입력해주세요."
+              type="password"
+              value={formik.values.repassword}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.repassword && Boolean(formik.errors.repassword)
+              }
+              helperText={
+                formik.touched.repassword ? formik.errors.repassword : ""
+              }
+            />
+          </div>
+        </FormikStep>
+        {/* Second Step */}
+        <FormikStep>
+          {/* <div className={styles.inputItem}>
+            <div className={styles.labelFirst}>이메일</div>
+            <TextField
+              fullWidth
+              placeholder="id@fasulting.com"
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email ? formik.errors.email : ""}
+            />
+          </div>
+          <div className={styles.inputItem}>
+            <div className={styles.label}>비밀번호</div>
+            <TextField
+              fullWidth
+              name="password"
+              placeholder="숫자+영문자+특수문자 조합으로 8자리 이상"
+              type="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password ? formik.errors.password : ""}
+            />
+          </div>
+          <div className={styles.inputItem}>
+            <div className={styles.label}>비밀번호 확인</div>
+            <TextField
+              fullWidth
+              id="repassword"
+              name="repassword"
+              placeholder="비밀번호를 다시 입력해주세요."
+              type="password"
+              value={formik.values.repassword}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.repassword && Boolean(formik.errors.repassword)
+              }
+              helperText={
+                formik.touched.repassword ? formik.errors.repassword : ""
+              }
+            />
+          </div> */}
+        </FormikStep>
+        {/* Third Step */}
+        <FormikStep></FormikStep>
+      </FormikStepper>
     </>
   );
 }

@@ -1,6 +1,5 @@
 import Stepper from "../../components/User/Stepper";
 import { Container } from "@mui/system";
-import PsRegisterForm from "../../components/User/PsRegisterForm";
 
 // const useStyles = makeStyles(() => ({
 //   container: {
@@ -20,7 +19,7 @@ function Register() {
     <div>
       {/* <div className={classes.container}> */}
       <Container maxWidth="lg">
-        <PsRegisterForm />
+        <Stepper />
       </Container>
     </div>
   );

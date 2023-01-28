@@ -19,10 +19,6 @@ import MyEstimate from "./pages/client/MyEstimate";
 import ModalTest from "./pages/client/ModalTest";
 import MypageHo from "./pages/hospital/MypageHo";
 import PsRegister from "./pages/hospital/PsRegister";
-<<<<<<< HEAD
-import axios from "axios";
-=======
->>>>>>> cd4b90a212309135a94354f5ac3946474b96d566
 
 const theme = createTheme({
   palette: {
