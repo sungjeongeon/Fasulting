@@ -156,6 +156,12 @@ export default function RegisterForm() {
                 helperText={formik.touched.phone ? formik.errors.phone : ""}
               /> */}
               <PhoneInput
+                inputStyle={{
+                  width: "464px",
+                  "&:focus": {
+                    borderColor: "#03b2cb",
+                  },
+                }}
                 fullWidth="true"
                 placeholder="(+82) 010-1234-5678"
                 defaultCountry="so"

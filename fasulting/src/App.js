@@ -20,8 +20,6 @@ import ModalTest from "./pages/client/ModalTest";
 import MypageHo from "./pages/hospital/MypageHo";
 import MyReservationHo from "./pages/hospital/MyReservationHo";
 import PsRegister from "./pages/hospital/PsRegister";
-import axios from "axios";
-
 
 const theme = createTheme({
   palette: {

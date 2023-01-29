@@ -157,85 +157,56 @@ import {
   Button,
   Link,
 } from "@mui/material";
+import styles from "./Form.module.css";
+import InputField from "./InputField";
 
-const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email("올바른 이메일 주소를 입력해주세요.")
-    .required("이메일을 입력해주세요."),
-  password: yup
-    .string()
-    .matches(
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/,
-      "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요."
-    )
-    .required("비밀번호를 입력해주세요."),
-  repassword: yup
-    .string()
-    .oneOf([yup.ref("password")], "비밀번호가 일치하지 않습니다.")
-    .required("비밀번호를 재입력해주세요."),
-});
-
-export default function PsRegistForm01() {
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-      repassword: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
+export default function PsRegistForm01(props) {
+  const {
+    formField: { email, password, repassword },
+  } = props;
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <Box noValidate ml={5} mr={5}>
-        <Typography sx={{ mt: 2, fontWeight: "bold" }}>이메일</Typography>
-        <TextField
+    <>
+      <div className={styles.inputItem}>
+        <div className={styles.labelFirst}>이메일</div>
+        <InputField
           fullWidth
-          id="email"
-          name="email"
-          label="이메일을 입력해주세요."
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          margin="normal"
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email ? formik.errors.email : ""}
+          placeholder="id@fasulting.com"
+          // name="email"
+          // value={formik.values.email}
+          // onChange={formik.handleChange}
+          // error={formik.touched.email && Boolean(formik.errors.email)}
+          // helperText={formik.touched.email ? formik.errors.email : ""}
+          name={email.name}
         />
-        <Typography sx={{ mt: 2, fontWeight: "bold" }}>패스워드</Typography>
-        <TextField
+      </div>
+      <div className={styles.inputItem}>
+        <div className={styles.label}>비밀번호</div>
+        <InputField
           fullWidth
-          id="password"
-          name="password"
-          label="패스워드를 입력해주세요."
           type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          margin="normal"
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password ? formik.errors.password : ""}
+          placeholder="숫자+영문자+특수문자 조합으로 8자리 이상"
+          // type="password"
+          // value={formik.values.password}
+          // onChange={formik.handleChange}
+          // error={formik.touched.password && Boolean(formik.errors.password)}
+          // helperText={formik.touched.password ? formik.errors.password : ""}
         />
-        <Typography sx={{ mt: 2, fontWeight: "bold" }}>
-          패스워드 확인
-        </Typography>
-        <TextField
+      </div>
+      <div className={styles.inputItem}>
+        <div className={styles.label}>비밀번호 확인</div>
+        <InputField
           fullWidth
           id="repassword"
           name="repassword"
-          label="패스워드를 재입력해주세요."
-          type="password"
-          value={formik.values.repassword}
-          onChange={formik.handleChange}
-          margin="normal"
-          error={formik.touched.repassword && Boolean(formik.errors.repassword)}
-          helperText={formik.touched.repassword ? formik.errors.repassword : ""}
+          placeholder="비밀번호를 다시 입력해주세요."
+          // type="password"
+          // value={formik.values.repassword}
+          // onChange={formik.handleChange}
+          // error={formik.touched.repassword && Boolean(formik.errors.repassword)}
+          // helperText={formik.touched.repassword ? formik.errors.repassword : ""}
         />
-        <Link href="/register" variant="body2">
-          일반 회원으로 가입하시나요?
-        </Link>
-      </Box>
-    </form>
+      </div>
+    </>
   );
 }

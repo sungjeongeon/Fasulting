@@ -14,16 +14,23 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PsRegistForm01 from "./PsRegistForm01";
 import PsRegistForm02 from "./PsRegistForm02";
 import PsRegistForm03 from "./PsRegistForm03";
+
 import FormikStepper from "formik-stepper";
+import { Formik, Form } from "formik";
+
+import validationSchema from "./FormModel/validationSchema";
+import formInitialValues from "./FormModel/formInitialValues";
+import checkoutFormModel from "./FormModel/checkoutFormModel";
 
 const steps = ["개인 정보", "병원 관련 등록", "병원 인증"];
+const { formId, formField } = checkoutFormModel;
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <PsRegistForm01 />;
+      return <PsRegistForm01 formField={formField} />;
     case 1:
-      return <PsRegistForm02 />;
+      return <PsRegistForm02 formField={formField} />;
     case 2:
       return <PsRegistForm03 />;
     default:
@@ -35,14 +42,29 @@ const theme = createTheme();
 
 export default function PsRegist() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const currentValidationSchema = validationSchema[activeStep];
+  const isLastStep = activeStep === steps.length - 1;
 
-  const handleNext = () => {
+  async function _submitForm(values, actions) {
+    alert(JSON.stringify(values, null, 2));
+    actions.setSubmitting(false);
+
     setActiveStep(activeStep + 1);
-  };
+  }
 
-  const handleBack = () => {
+  function _handleSubmit(values, actions) {
+    if (isLastStep) {
+      _submitForm(values, actions);
+    } else {
+      setActiveStep(activeStep + 1);
+      actions.setTouched({});
+      actions.setSubmitting(false);
+    }
+  }
+
+  function _handleBack() {
     setActiveStep(activeStep - 1);
-  };
+  }
 
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
@@ -65,37 +87,40 @@ export default function PsRegist() {
             </Step>
           ))}
         </Stepper>
-        {activeStep === steps.length ? (
-          <React.Fragment>
-            <Typography variant="h5" gutterBottom>
-              Thank you for your order.
-            </Typography>
-            <Typography variant="subtitle1">
-              Your order number is #2001539. We have emailed your order
-              confirmation, and will send you an update when your order has
-              shipped.
-            </Typography>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            {getStepContent(activeStep)}
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              {activeStep !== 0 && (
-                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                  Back
-                </Button>
-              )}
+        <React.Fragment>
+          {activeStep === steps.length ? (
+            <PsRegistForm01 />
+          ) : (
+            <Formik
+              initialValues={formInitialValues}
+              validationSchema={currentValidationSchema}
+              onSubmit={_handleSubmit}
+            >
+              {({ isSubmitting }) => (
+                <Form id={formId}>
+                  {getStepContent(activeStep)}
 
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                sx={{ mt: 3, ml: 1 }}
-              >
-                {activeStep === steps.length - 1 ? "Place order" : "Next"}
-              </Button>
-            </Box>
-          </React.Fragment>
-        )}
+                  <div>
+                    {activeStep !== 0 && (
+                      <Button onClick={_handleBack}>Back</Button>
+                    )}
+                    <div>
+                      <Button
+                        disabled={isSubmitting}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                      >
+                        {isLastStep ? "Place order" : "Next"}
+                      </Button>
+                      {isSubmitting}
+                    </div>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          )}
+        </React.Fragment>
       </Paper>
     </Container>
   );
