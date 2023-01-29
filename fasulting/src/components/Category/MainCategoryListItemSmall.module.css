@@ -1,15 +1,12 @@
 .mainctg {
-  display: inline-block;
+  display: block;
   text-align: center;
   margin: 0.4rem;
 }
 
-.center {
+.imgsmall {
   display: flex;
   justify-content:center;
-}
-
-.imgsmall {
   width: 3.2rem;
   height: 3.2rem;
   margin: auto;
@@ -17,4 +14,15 @@
 
 .font {
   font-size: 0.65rem;
+}
+
+.mainSelected {
+  width: 4rem;
+  height: 4.8rem;
+  text-align: center;
+  /* margin: 2px 1px 5px 1px; */
+  padding: 2px 2px 2px 2px;
+
+  background: #e5f3f5;
+  border-radius: 20px;
 }

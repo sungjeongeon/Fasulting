@@ -12,6 +12,7 @@ import ReserveCardDateItem from "./ReserveCardDateItem";
 import ReserveCardTimeItem from "./ReserveCardTimeItem";
 import MainCategoryListSmall from "../Category/MainCategoryListSmall";
 import ReserveCardCategoryItem from "./ReserveCardCategoryItem";
+import Reservation from "../Modal/Reservation";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -118,6 +119,11 @@ export default function ReserveCard() {
     );
     console.log(consultItem);
   };
+
+  // 예약하기 클릭 시 모달 창
+  const [ModalOpen, setModalOpen] = useState(false)
+  const ModalStateChange = () => setModalOpen((current) => !current)
+
   return (
     <div className={styles.outerDiv}>
       {/* 날짜 선택 구간 */}
@@ -162,13 +168,24 @@ export default function ReserveCard() {
           </p>
         </div>
         <Button
-          onClick={reservate}
+          onClick={ModalStateChange}
           type="submit"
           variant="contained"
           sx={{ mt: 3, mb: 2, fontWeight: 600 }}
         >
           에약하기
         </Button>
+        {
+          ModalOpen && 
+          <Reservation
+            year={year}
+            month={month}
+            day={day}
+            hour={hour}
+            consultItem={consultItem}
+            ModalStateChange={ModalStateChange}
+          />
+        }
       </div>
     </div>
   );

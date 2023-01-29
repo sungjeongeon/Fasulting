@@ -11,6 +11,7 @@
   width: 10.56rem;
   height: 3.13rem;
   /* left: 14rem; */
+  left: 0%;
   top: 0.5rem;
 }
 
@@ -19,30 +20,32 @@
 }
 
 .login {
-  left: 60rem;
+  left: 82.5%;
   top: 0.5rem;
 }
 
 .register {
-  left: 65rem;
+  left: 90%;
   top: 0.5rem;
 }
 
 .reserve {
-  left: 51.5rem;
+  position: absolute;
+  left: 72.3%;
   top: 0.5rem;
 }
 
-.mypage {
-  left: 57rem;
+.myactivity {
+  position: absolute;
+  left: 79.8%;
   top: 0.5rem;
 }
 
 .greeting {
-  left: 63rem;
-  /* top: 0.1rem; */
+  position: absolute;
+  left: 89%;
   cursor: pointer;
-  /* margin: 1rem; */
+  box-sizing: border-box;
 }
 
 .common {
@@ -53,9 +56,8 @@
   font-size: 1rem;
   line-height: 1.18rem;
   margin-top: 1rem;
-
-  color: #7C7877;
 }
+
 
 .activate {
   color: #72A1A6;
@@ -76,15 +78,21 @@
 .center {
   display: flex;
   align-items: center;
+  margin-top: 0.2rem;
 }
 
 .btn {
   margin-left: 0.3rem;
 }
 
-.shadow {
-  box-shadow: 0 5px 25px 0 rgb(0 0 0 / 12%);
-  /* padding: 1rem; */
-  background: #fff;
-  z-index: 99;
+.mypageho {
+  position: absolute;
+  left: 71.5%;
+  top: 0.5rem;
+}
+
+.manage {
+  position: absolute;
+  left: 80%;
+  top: 0.5rem;
 }

@@ -1,17 +1,17 @@
 import { useState } from "react";
 // import Review from "../../components/Modal/Review"
-import AddDoctor from "../../components/Modal/AddDoctor"
+// import AddDoctor from "../../components/Modal/AddDoctor"
 // import AddCategory from "../../components/Modal/AddCategory"
-import Reservation from "../../components/Modal/Reservation"
+// import Reservation from "../../components/Modal/Reservation"
 import HospitalReservation from "../../components/Modal/HospitalReservation"
 // import ReviewReport from "../../components/Modal/ReviewReport"
 
 
 function ModalTest() {
   // 모달창 임시 테스트
-  const [ModalOpen, setModalOpen] = useState(false)
+  // const [ModalOpen, setModalOpen] = useState(false)
   // 모달창 열기, 닫기 상태 변경
-  const ModalStateChange = () => setModalOpen((current) => !current)
+  // const ModalStateChange = () => setModalOpen((current) => !current)
   
   // 병원 카테고리 추가 모달창 테스트
   // const [ModalOpen2, setModalOpen2] = useState(false)
@@ -20,9 +20,9 @@ function ModalTest() {
   
 
   // 사용자 예약확인
-  const [ModalOpen3, setModalOpen3] = useState(false)
+  // const [ModalOpen3, setModalOpen3] = useState(false)
   // 모달창 열기, 닫기 상태 변경
-  const ModalStateChange3 = () => setModalOpen3((current) => !current)
+  // const ModalStateChange3 = () => setModalOpen3((current) => !current)
 
   // 병원 측 예약 확인
   const [ModalOpen4, setModalOpen4] = useState(false)
@@ -36,14 +36,14 @@ function ModalTest() {
 
   return (
     <div>
-      <h1>ModalTest</h1>
+      {/* <h1>ModalTest</h1>
       <button onClick={ModalStateChange}>
         모달창 테스트
       </button>
       {ModalOpen && 
       <AddDoctor 
         ModalStateChange={ModalStateChange}
-      />}
+      />} */}
 
       {/* <hr/>
       <button onClick={ModalStateChange2}>
@@ -54,14 +54,14 @@ function ModalTest() {
           ModalStateChange2={ModalStateChange2}
       />} */}
 
-      <hr/>
+      {/* <hr/>
       <button onClick={ModalStateChange3}>
         예약 확정
       </button>
       {ModalOpen3 && 
         <Reservation
           ModalStateChange3={ModalStateChange3}
-      />}
+      />} */}
 
       <hr/>
       <button onClick={ModalStateChange4}>

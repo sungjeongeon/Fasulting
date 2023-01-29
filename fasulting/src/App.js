@@ -18,11 +18,10 @@ import MyReservation from "./pages/client/MyReservation";
 import MyEstimate from "./pages/client/MyEstimate";
 import ModalTest from "./pages/client/ModalTest";
 import MypageHo from "./pages/hospital/MypageHo";
+import MyReservationHo from "./pages/hospital/MyReservationHo";
 import PsRegister from "./pages/hospital/PsRegister";
-<<<<<<< HEAD
 import axios from "axios";
-=======
->>>>>>> cd4b90a212309135a94354f5ac3946474b96d566
+
 
 const theme = createTheme({
   palette: {
@@ -61,13 +60,10 @@ function App() {
               <Route path="/findpw" element={<FindPw />} />
               {/* 로그인 */}
               <Route path="/login" element={<Login />} />
-
               {/* 병원리스트 */}
               <Route path="/pslist" element={<PsList />} />
               {/* 회원가입 */}
               <Route path="/register" element={<Register />} />
-              {/* 병원 회원가입 */}
-              <Route path="/psregist" element={<PsRegister />} />
               {/* 상세페이지 */}
               <Route path="/detail/:id" element={<Detail />} />
               {/* 나의 예약 */}
@@ -77,9 +73,17 @@ function App() {
               {/* 나의 활동 */}
               <Route path="/myactivity" element={<MyActivity />} />
               {/* 나의 견적서 */}
-              <Route path="/myestimate" element={<MyEstimate />} />
+              <Route path="/myestimate/:id" element={<MyEstimate />} />
+
               {/* ========= hospital ========== */}
+              {/* 병원 회원가입 */}
+              <Route path="/psregist" element={<PsRegister />} />
+              {/* 병원 마이페이지 */}
               <Route path="/mypageho" element={<MypageHo />} />
+              {/* 병원 예약관리 */}
+              <Route path="/myreservationho" element={<MyReservationHo />} />
+
+
               {/* 메인 */}
               <Route path="/" element={<Home />} />
               {/* 모달 테스트용 페이지욤.. */}

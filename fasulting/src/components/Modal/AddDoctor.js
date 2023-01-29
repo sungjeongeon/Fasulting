@@ -6,7 +6,7 @@ import DisabledByDefaultOutlinedIcon from '@mui/icons-material/DisabledByDefault
 
 function AddDoctor({ModalStateChange}) {
   const basicsrc = "../../assets/images/doctorBasic.png"
-  
+
   return (
     <div className={styles.background}>
       <div className={styles.modalbox}>

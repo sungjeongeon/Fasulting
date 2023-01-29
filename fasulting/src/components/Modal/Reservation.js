@@ -1,7 +1,8 @@
 import React from 'react'
 import styles from "./Reservation.module.css"
+import propTypes from "prop-types"
 
-function Reservation({ModalStateChange3}) {
+function Reservation({year, month, day, hour, consultItem, ModalStateChange}) {
   // 임시 data
   const ReservationConfirm = 
     {
@@ -24,7 +25,9 @@ function Reservation({ModalStateChange3}) {
           <div className={styles.line}></div>
           <div className={`${styles.flexrow} ${styles.mt}`}>
             <p className={`${styles.color} ${styles.mr}`}>예약 일정</p>
-            <span>{ReservationConfirm.reserve_date}</span>
+            <span>{year}.</span>
+            <span className={styles.span}>{month}.</span>
+            <span className={styles.span}>{day}.</span>
             <span className={styles.span}>({ReservationConfirm.day_of_week})</span>
             <span className={styles.span}>{ReservationConfirm.reserve_time}</span>
           </div>
@@ -47,10 +50,10 @@ function Reservation({ModalStateChange3}) {
           “ 섣부른 선택이 평생 상처로 이어질 수 있습니다 ”
           </div>
           <div className={styles.flexbtn}>
-            <button className={styles.okay} onClick={ModalStateChange3}>
+            <button className={styles.okay} onClick={ModalStateChange}>
               확인
             </button>
-            <button className={styles.back} onClick={ModalStateChange3}>
+            <button className={styles.back} onClick={ModalStateChange}>
               취소
             </button>
           </div>
@@ -58,6 +61,15 @@ function Reservation({ModalStateChange3}) {
       </div>
     </div>
   )
+}
+
+Reservation.propTypes = {
+  year: propTypes.number.isRequired,
+  month: propTypes.number.isRequired, 
+  day: propTypes.number.isRequired, 
+  hour: propTypes.number, 
+  // consultItem: propTypes.objectOf([main: string), 
+  ModalStateChange: propTypes.func.isRequired,
 }
 
 export default Reservation

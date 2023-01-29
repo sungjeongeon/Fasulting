@@ -56,8 +56,9 @@ export default function LastConsulting() {
   // const classes = useStyles();
   const navigate = useNavigate();
 
-  const pgEstimate = () => {
-    navigate("/myestimate");
+  const pgEstimate = (id) => {
+    // navigate("/myestimate");
+    navigate(`/myestimate/${id}`);
   };
 
   // 모달창
@@ -107,7 +108,7 @@ export default function LastConsulting() {
                     variant="contained"
                     style={{ color: "white" }}
                     startIcon={<BorderColorIcon />}
-                    onClick={pgEstimate}
+                    onClick={() => {pgEstimate(lastconsult.ps_id)}}
                   >
                     견적상세
                   </Button>

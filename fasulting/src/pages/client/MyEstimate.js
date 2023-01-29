@@ -4,6 +4,7 @@ import HospitalInfo from "../../components/Detail/HospitalInfo";
 import BeforeAfterCard from "../../components/Card/BeforeAfterCard";
 
 function MyEstimate() {
+  // 견적서 id 받아오기
   return (
     <Container maxidth="lg">
       <div style={{ display: 'flex' }}>

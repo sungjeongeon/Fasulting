@@ -1,8 +1,15 @@
 .box {
+  position: absolute;
+  width: 145px;
+  left: -15%;
   list-style: none;
   padding-left: 0;
   margin-top: 0.7rem;
   margin-bottom: 0;
+  padding: 1rem;
+  box-shadow: 0 5px 25px 0 rgb(0 0 0 / 12%);
+  background: #fff;
+  z-index: 99;
 }
 
 .center {
@@ -13,4 +20,5 @@
 .font {
   font-size: 0.8rem;
   margin-left: 0.4rem;
+  color: #7C7877;
 }
