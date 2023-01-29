@@ -84,7 +84,7 @@ export default function PsRegisterForm() {
         >
           <div className={styles.inputItem}>
             <div className={styles.labelFirst}>이메일</div>
-            <TextField
+            <InputField
               fullWidth
               placeholder="id@fasulting.com"
               name="email"
