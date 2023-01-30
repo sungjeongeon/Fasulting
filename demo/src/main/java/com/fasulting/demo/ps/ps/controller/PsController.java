@@ -1,5 +1,6 @@
 package com.fasulting.demo.ps.ps.controller;
 
+import com.fasulting.demo.ps.ps.dto.reqDto.Test;
 import com.fasulting.demo.resp.ResponseBody;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,6 +56,14 @@ public class PsController {
         return null; // fail OR successs
     }
 
+    @PostMapping("/test")
+    public ResponseEntity<?> psTest(@ModelAttribute Test test) {
+
+        log.info(test.getName());
+        log.info(test.getFile().getOriginalFilename());
+        return null;
+    }
+
 
     /**
      * 3. 병원 계정 가입
@@ -64,6 +74,10 @@ public class PsController {
     @ApiOperation(value = "병원 계정 회원 가입", notes = "병원 기본 정보, 전문의 리스트 기입하여 회원 가입")
     public ResponseEntity<?> psRegister(@ModelAttribute @ApiParam(value = "회원 가입 정보", required = true) PsWithoutSeqReq psInfo) {
         log.info("psRegister - Call");
+
+        log.info(psInfo.toString());
+        log.info(psInfo.getRegistrationImg().getOriginalFilename());
+        log.info(psInfo.getDoctorList().toString());
 
         if(psService.psRegister(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));

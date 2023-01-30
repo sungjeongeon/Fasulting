@@ -14,8 +14,8 @@ public class Doctor {
 
     @ApiModelProperty(value = "전문의 이름", example="성정언웅")
     private String name;
-    @ApiModelProperty(value = "전문의 카테고리 리스트")
-    private List<String> subCategoryList;
+    @ApiModelProperty(value = "전문의 전문 분야")
+    private String mainCategory;
 
     @ApiModelProperty(value = "전문의 이미지 파일")
     private MultipartFile img;

@@ -1,11 +1,13 @@
 package com.fasulting.demo.ps.ps.service;
 
-import com.fasulting.demo.entity.PsEntity;
+import com.fasulting.demo.entity.*;
+import com.fasulting.demo.ps.ps.dto.reqDto.Doctor;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
 import com.fasulting.demo.ps.ps.dto.respDto.PsInfoResp;
-import com.fasulting.demo.ps.ps.repository.PsRepository;
+import com.fasulting.demo.ps.ps.repository.*;
 import lombok.extern.slf4j.Slf4j;
+import org.jboss.jandex.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +16,8 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,6 +26,18 @@ public class PsServiceImpl implements PsService {
 
     @Autowired
     private PsRepository psRepository;
+    @Autowired
+    private DoctorRepository doctorRepository;
+    @Autowired
+    private MainCategoryRepository mainRepository;
+    @Autowired
+    private SubCategoryRepository subRepository;
+    @Autowired
+    private PsMainRepository psMainRepository;;
+    @Autowired
+    private PsMainSubRepository psMainSubRepository;
+    @Autowired
+    private DoctorMainRepository doctorMainRepository;
 
     // 배포할 때 경로 바꾸기
     private final String dirPath = "C:/fasulting/ps/files/";
@@ -47,6 +63,7 @@ public class PsServiceImpl implements PsService {
     @Override
     public boolean psRegister(PsWithoutSeqReq psInfo) {
 
+        /////////////// 병원 저장 ///////////////
         MultipartFile profileImgFile = psInfo.getProfileImg();
         MultipartFile registrationImgFile = psInfo.getRegistrationImg();
 
@@ -59,6 +76,7 @@ public class PsServiceImpl implements PsService {
         }
 
         String registrationImgUrl = null;
+
         if(registrationImgFile != null && !registrationImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
@@ -79,10 +97,68 @@ public class PsServiceImpl implements PsService {
                 .intro(psInfo.getIntro())
                 .build();
 
-        // 병원 카테고리 => main & sub
-        // doctor 객체 (name, img, subCategoryList)
-
         psRepository.save(ps);
+
+
+        /////////////// 병원 - 전문의 리스트 저장 ///////////////
+        for(Doctor doctor : psInfo.getDoctorList()) {
+            String doctorImgUrl = null;
+
+            MultipartFile doctorImgFile = doctor.getImg();
+            if(doctorImgFile != null && !doctorImgFile.isEmpty()) {
+                UUID uuid = UUID.randomUUID();
+
+                doctorImgUrl = uploadFile(uuid, registrationImgFile, null);
+            }
+
+            DoctorEntity doc = DoctorEntity.builder().ps(ps)
+                    .img(doctorImgUrl)
+                    .name(doctor.getName())
+                    .build();
+
+            doctorRepository.save(doc);
+
+            /////////////// 병원 - 전문의 - 메인 카테고리 매핑 저장 => "DoctorMain" ///////////////
+            String name = doctor.getMainCategory();
+            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+
+            DoctorMainEntity doctorMain = DoctorMainEntity.builder().doctor(doc)
+                            .mainCategory(mainCategory).build();
+
+            doctorMainRepository.save(doctorMain);
+
+        }
+
+        log.info(ps.toString());
+
+        /////////////// 병원 - 메인 카테고리 매핑 저장 => "PsMain" ///////////////
+        for(String name : psInfo.getMainCategoryList()) {
+
+            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+
+            if(mainCategory != null) {
+                PsMainEntity psMain = PsMainEntity.builder().ps(ps)
+                        .mainCategory(mainCategory).build();
+
+                psMainRepository.save(psMain);
+            }
+
+        }
+
+        /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
+        for(String name : psInfo.getSubCategoryList()) {
+
+            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+            SubCategoryEntity subCategory = subRepository.findMainByName(name).get();
+
+            if(subCategory != null) {
+                PsMainSubEntity psMainSub = PsMainSubEntity.builder().ps(ps)
+                        .mainCategory(mainCategory).subCategory(subCategory).build();
+
+                psMainSubRepository.save(psMainSub);
+            }
+
+        }
 
         return true;
     }

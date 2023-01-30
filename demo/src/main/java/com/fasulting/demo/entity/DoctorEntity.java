@@ -32,5 +32,10 @@ public class DoctorEntity extends BaseEntity {
    	@Column(name = "img")
 	private String img;
 
-
+	@Builder
+	public DoctorEntity(PsEntity ps, String name, String img) {
+		this.ps = ps;
+		this.name = name;
+		this.img = img;
+	}
 }

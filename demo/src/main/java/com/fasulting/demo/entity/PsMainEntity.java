@@ -1,6 +1,8 @@
 package com.fasulting.demo.entity;
 
 import javax.persistence.*;
+
+import com.fasulting.demo.entity.compositeId.PsMainId;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -14,6 +16,7 @@ import java.io.Serializable;
 @DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@IdClass(PsMainId.class)
 @Table (name = "ps_main")
 public class PsMainEntity extends BaseEntity implements Serializable{
 
@@ -29,5 +32,9 @@ public class PsMainEntity extends BaseEntity implements Serializable{
 	@JoinColumn(referencedColumnName = "seq", name = "main_seq")
 	private MainCategoryEntity mainCategory;
 
-
+	@Builder
+	public PsMainEntity(PsEntity ps, MainCategoryEntity mainCategory) {
+		this.ps = ps;
+		this.mainCategory = mainCategory;
+	}
 }
