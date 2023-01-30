@@ -1,3 +1,37 @@
 .outerDiv {
   display: flex;
+  line-height: 0rem;
+  margin-bottom: 0.25rem;
+}
+
+.isRest {
+  display: flex;
+}
+
+.day {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-right: 0.63rem;
+
+  color: #72a1a6;
+}
+
+.rest {
+  width: 7rem;
+  height: 1.7rem;
+  padding: 0;
+  font-size: 1rem;
+}
+.rest div {
+  width: 7rem;
+  height: 1.7rem;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.text {
+  width: 1.44rem;
+  text-align: center;
+  font-weight: 600;
 }
