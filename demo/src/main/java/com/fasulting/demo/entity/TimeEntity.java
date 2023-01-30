@@ -6,31 +6,32 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-//@Builder
 @Getter
 @DynamicInsert // Apply changed fields only
 @DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table (name = "reservation_cal")
-public class ReservationCalEntity extends BaseEntity {
+@Table (name = "time")
+public class TimeEntity extends BaseEntity {
 
    	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "seq")
 	private Long seq;
 
-   	@Column(name = "year")
-	private Integer year;
+	@Column(name = "num")
+	private Integer num;
+   	@Column(name = "start_hour")
+	private Integer startHour;
 
-   	@Column(name = "month")
-	private Integer month;
+   	@Column(name = "start_min")
+	private Integer startMin;
 
-   	@Column(name = "day")
-	private Integer day;
+   	@Column(name = "end_hour")
+	private Integer endHour;
 
-	/** 1: 일, ~ 7:토 */
-   	@Column(name = "day_of_week")
-	private Integer dayOfWeek;
+   	@Column(name = "end_min")
+	private Integer endMin;
+
 
 }

@@ -26,6 +26,10 @@ public class ReservationEntity extends BaseEntity {
 	@JoinColumn(referencedColumnName = "seq", name = "reservation_seq")
 	private ReservationCalEntity reservationCal;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "seq", name = "time_seq")
+	private TimeEntity time;
+
    	/** FK setting */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "seq", name = "ps_seq")
@@ -35,6 +39,7 @@ public class ReservationEntity extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
 	private UserEntity user;
+
 
    	@Column(name = "del_date")
 	private LocalDateTime delDate;
