@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.time.LocalDateTime;
+
 @Entity
 //@Builder
 @Getter
@@ -20,6 +22,8 @@ public class ReservationCalEntity extends BaseEntity {
 	@Column(name = "seq")
 	private Long seq;
 
+	@Column(name="date", updatable = false)
+	private LocalDateTime date;
    	@Column(name = "year")
 	private Integer year;
 
