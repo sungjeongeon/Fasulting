@@ -6,5 +6,6 @@ import com.fasulting.demo.entity.PsMainEntity;
 import com.fasulting.demo.entity.compositeId.PsMainId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PsMainRepository extends JpaRepository<PsMainEntity, PsMainId> {
+public interface PsMainRepository extends JpaRepository<PsMainEntity, PsMainId>, PsMainRepositoryCustom {
+
 }

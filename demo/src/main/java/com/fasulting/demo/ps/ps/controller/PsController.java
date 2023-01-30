@@ -190,7 +190,7 @@ public class PsController {
     @PutMapping("edit/address")
     @ApiOperation(value = "주소 수정", notes = "ps seq, 주소 받아 수정")
     public ResponseEntity<?> editAddress(@RequestBody @ApiParam(value = "병원 seq, 주소", required = true) PsSeqReq psInfo) {
-        log.info("ps edt Address - Call");
+        log.info("ps edit Address - Call");
 
         if(psService.editAddress(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
@@ -204,10 +204,10 @@ public class PsController {
      * ps seq, 소개말
      * @return
      */
-    @PutMapping("edit/address")
+    @PutMapping("edit/intro")
     @ApiOperation(value = "소개말 수정", notes = "ps seq, 소개말 받아 수정")
     public ResponseEntity<?> editIntro(@RequestBody @ApiParam(value = "병원 seq, 소개말", required = true) PsSeqReq psInfo) {
-        log.info("ps edt Address - Call");
+        log.info("ps edit Intro - Call");
 
         if(psService.editIntro(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
@@ -220,10 +220,10 @@ public class PsController {
      * @param psInfo
      * @return
      */
-    @PutMapping("edit/address")
+    @PutMapping("edit/number")
     @ApiOperation(value = "번호 수정", notes = "ps seq, 번호 받아 수정")
     public ResponseEntity<?> editNumber(@RequestBody @ApiParam(value = "병원 seq, 번호", required = true) PsSeqReq psInfo) {
-        log.info("ps edt Address - Call");
+        log.info("ps edit Number - Call");
 
         if(psService.editNumber(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
@@ -234,10 +234,10 @@ public class PsController {
     /**
      * 홈페이지 수정
      */
-    @PutMapping("edit/address")
+    @PutMapping("edit/hompage")
     @ApiOperation(value = "홈페이지 수정", notes = "ps seq, 홈페이지 받아 수정")
     public ResponseEntity<?> editHomepage(@RequestBody @ApiParam(value = "병원 seq, 홈페이지", required = true) PsSeqReq psInfo) {
-        log.info("ps edt Address - Call");
+        log.info("ps edit homepage - Call");
 
         if(psService.editHomepage(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
@@ -248,10 +248,10 @@ public class PsController {
     /**
      * 제공 수술 수정
      */
-    @PutMapping("edit/address")
+    @PutMapping("edit/category")
     @ApiOperation(value = "제공 수술 수정", notes = "ps seq, 제공 수술 (mainCategory) 받아 수정")
     public ResponseEntity<?> editCategory(@RequestBody @ApiParam(value = "병원 seq, 메인 카테고리 리스트", required = true) PsSeqReq psInfo) {
-        log.info("ps edt Address - Call");
+        log.info("ps edit Category - Call");
 
         if(psService.editCategory(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
@@ -262,10 +262,10 @@ public class PsController {
     /**
      * 의사 현황 수정
      */
-    @PutMapping("edit/address")
+    @PutMapping("edit/doctor")
     @ApiOperation(value = "의사 현황 수정", notes = "ps seq, 의사 정보 받아 수정")
     public ResponseEntity<?> editDoctor(@RequestBody @ApiParam(value = "병원 seq, 의사 정보(이미지 | 이름, 전문 분야)", required = true) DoctorReq doctor) {
-        log.info("ps edt Address - Call");
+        log.info("ps edit Doctor - Call");
 
         if(psService.editDoctor(doctor)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
