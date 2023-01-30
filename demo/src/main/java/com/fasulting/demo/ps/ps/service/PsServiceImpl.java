@@ -1,13 +1,12 @@
 package com.fasulting.demo.ps.ps.service;
 
 import com.fasulting.demo.entity.*;
-import com.fasulting.demo.ps.ps.dto.reqDto.Doctor;
+import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
 import com.fasulting.demo.ps.ps.dto.respDto.PsInfoResp;
 import com.fasulting.demo.ps.ps.repository.*;
 import lombok.extern.slf4j.Slf4j;
-import org.jboss.jandex.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,8 +15,6 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -101,7 +98,7 @@ public class PsServiceImpl implements PsService {
 
 
         /////////////// 병원 - 전문의 리스트 저장 ///////////////
-        for(Doctor doctor : psInfo.getDoctorList()) {
+        for(DoctorReq doctor : psInfo.getDoctorList()) {
             String doctorImgUrl = null;
 
             MultipartFile doctorImgFile = doctor.getImg();
@@ -193,7 +190,7 @@ public class PsServiceImpl implements PsService {
             return false;
         }
     }
-    
+
     // 병원 정보 조회
     @Override
     public PsInfoResp getPsInfo(Long seq) {
@@ -277,6 +274,36 @@ public class PsServiceImpl implements PsService {
             }
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean editAddress(PsSeqReq psInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean editIntro(PsSeqReq psInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean editNumber(PsSeqReq psInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean editHomepage(PsSeqReq psInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean editCategory(PsSeqReq psInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean editDoctor(DoctorReq doctor) {
         return false;
     }
 

@@ -49,7 +49,7 @@ public class PsSeqReq {
 
     // doctor 정보
     @ApiModelProperty(value = "전문의 정보 리스트")
-    private List<Doctor> doctorList;
+    private List<DoctorReq> doctorList;
 
 
 }
