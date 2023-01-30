@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import * as yup from "yup";
 import {
   TextField,
@@ -8,13 +8,16 @@ import {
   Checkbox,
   Typography,
   Container,
+  Box,
+  FormControlLabel,
 } from "@mui/material";
 import "react-phone-number-input/style.css";
 import styles from "./Form.module.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
 import Paper from "@mui/material/Paper";
-
+import { useState } from "react";
+import { Field } from "formik";
 const validationSchema = yup.object({
   email: yup
     .string()
@@ -46,9 +49,7 @@ const validationSchema = yup.object({
     .string()
     .matches(/^[0-9]{2,3}[0-9]{3,4}[0-9]{4}/, "올바른 번호를 입력해주세요.")
     .required("전화번호를 입력해주세요."),
-  agreement: yup
-    .bool()
-    .oneOf([true], "You need to accept the terms and conditions"),
+  agreement: yup.bool().oneOf([true], "약관에 동의해주세요."),
 });
 
 export default function RegisterForm() {
@@ -60,10 +61,17 @@ export default function RegisterForm() {
       name: "",
       birth: "",
       phone: "",
+      agreement: false,
     },
-    validationSchema: validationSchema,
+    validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      console.log(
+        JSON.stringify(
+          values,
+          ["email", "password", "repassword", "name", "birth", "phone"],
+          2
+        )
+      );
     },
   });
 
@@ -97,6 +105,7 @@ export default function RegisterForm() {
                 name="password"
                 placeholder="숫자+영문자+특수문자 조합으로 8자리 이상"
                 type="password"
+                autoComplete="off"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 error={
@@ -111,10 +120,10 @@ export default function RegisterForm() {
               <div className={styles.label}>비밀번호 확인</div>
               <TextField
                 fullWidth
-                id="repassword"
                 name="repassword"
                 placeholder="비밀번호를 다시 입력해주세요."
                 type="password"
+                autoComplete="off"
                 value={formik.values.repassword}
                 onChange={formik.handleChange}
                 error={
@@ -129,7 +138,6 @@ export default function RegisterForm() {
               <div className={styles.label}>이름</div>
               <TextField
                 fullWidth
-                id="name"
                 name="name"
                 placeholder="이름을 입력해주세요."
                 type="text"
@@ -143,7 +151,6 @@ export default function RegisterForm() {
               <div className={styles.label}>생년월일</div>
               <TextField
                 fullWidth
-                id="birth"
                 name="birth"
                 placeholder="YYYYMMDD"
                 value={formik.values.birth}
@@ -158,18 +165,16 @@ export default function RegisterForm() {
               </div> */}
             <div className={styles.inputItem}>
               <div className={styles.label}>휴대폰 번호</div>
-              {/* <TextField
+              <TextField
                 fullWidth
-                id="phone"
                 name="phone"
                 placeholder="하이픈(-) 없이 입력해주세요."
-                type="text"
                 value={formik.values.phone}
                 onChange={formik.handleChange}
                 error={formik.touched.phone && Boolean(formik.errors.phone)}
                 helperText={formik.touched.phone ? formik.errors.phone : ""}
-              /> */}
-              <PhoneInput
+              />
+              {/* <PhoneInput
                 inputStyle={{
                   width: "464px",
                   "&:focus": {
@@ -177,35 +182,46 @@ export default function RegisterForm() {
                   },
                 }}
                 fullWidth="true"
+                name="birth"
                 placeholder="(+82) 010-1234-5678"
                 defaultCountry="so"
                 value={formik.values.phone}
-                onChange={formik.handleChange}
-              />
+                onChange={(phone, country) =>
+                  setValues({
+                    ...values,
+                    phone: phone,
+                    countryCode: country.countryCode,
+                  })
+                }
+              /> */}
             </div>
             <div className={styles.inputItem}>
               <div className={`${styles.label} ${styles.labelcolor}`}>
                 개인정보 제공 동의
               </div>
               <div>
-                <Checkbox
-                  name="agreement"
-                  error={
-                    formik.touched.agreement && Boolean(formik.errors.agreement)
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="agreement"
+                      color="primary"
+                      required
+                      onChange={formik.handleChange}
+                      checked={formik.values.agreement}
+                    />
                   }
-                  helperText={
-                    formik.touched.agreement ? formik.errors.agreement : ""
+                  label={
+                    <Box component="div" fontSize={12}>
+                      예약 진행, 고객 상담, 고객 관리 및 고객 문의를 위해 예약자
+                      이름, 예약자 휴대폰 번호를 수집하여 해당 병원 업체에
+                      제공함에 동의합니다.
+                    </Box>
                   }
                 />
-                <span>
-                  예약 진행, 고객 상담, 고객 관리 및 고객 문의를 위해 예약자
-                  이름, 예약자 휴대폰 번호를 수집하여 해당 병원 업체에 제공함에
-                  동의합니다.
-                </span>
               </div>
             </div>
             <Button
-              type="onsubmit"
+              type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}

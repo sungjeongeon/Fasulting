@@ -52,3 +52,6 @@
   display: flex;
   justify-content: flex-end;
 }
+.errorColor {
+  color: #e64c3c;
+}

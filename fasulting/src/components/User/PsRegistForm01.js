@@ -23,6 +23,7 @@ export default function PsRegistForm01(props) {
           fullWidth
           type="password"
           placeholder="숫자+영문자+특수문자 조합으로 8자리 이상"
+          autocomplete="off"
           name={password.name}
         />
       </div>
@@ -32,6 +33,7 @@ export default function PsRegistForm01(props) {
           fullWidth
           type="password"
           placeholder="비밀번호를 다시 입력해주세요."
+          autocomplete="off"
           name={repassword.name}
         />
       </div>
