@@ -14,6 +14,7 @@ import ProfileUpdateForm from "../../components/Detail/ProfileUpdateForm";
 import ProfileSubCategoryUpdate from "../../components/Detail/ProfileSubCategoryUpdate";
 import ProfileDoctorUpdate from "../../components/Detail/ProfileDoctorUpdate";
 import ProfileTimeUpdate from "../../components/Detail/ProfileTimeUpdate";
+import { useState } from "react";
 
 function MypageHo() {
   const hospital = {
@@ -23,15 +24,55 @@ function MypageHo() {
     ps_address: "서울 강남구 테헤란로 67, 강남 k빌딩 8층",
     ps_number: "02-547-0050",
     ps_homepage: "https://www.idhospital.com/",
-    sub_category_id: [
-      "쌍커풀",
-      "트임시술",
-      "지방흡입",
-      "콧볼축소",
-      "코끝",
-      "입꼬리",
-      "보톡스",
+    ctg_list: [
+      {
+        id: 1,
+        name: "눈 성형",
+        sub_ctg: [
+          {
+            id: 1,
+            name: "쌍커풀"
+          },
+          {
+            id: 2,
+            name: "눈매교정"
+          },
+          {
+            id: 3,
+            name: "안검하수"
+          },
+        ]
+      },
+      {
+        id: 2,
+        name: "코 성형",
+        sub_ctg: [
+          {
+            id: 1,
+            name: "콧대 성형"
+          },
+        ]
+      },
+      {
+        id: 7,
+        name: "남자 성형",
+        sub_ctg: [
+          {
+            id: 3,
+            name: "남자 안면윤곽"
+          },
+        ]
+      },
     ],
+    // sub_category_id: [
+    //   "쌍커풀",
+    //   "트임시술",
+    //   "지방흡입",
+    //   "콧볼축소",
+    //   "코끝",
+    //   "입꼬리",
+    //   "보톡스",
+    // ],
     ps_doctors: [
       {
         id: 1,
@@ -50,6 +91,18 @@ function MypageHo() {
       },
     ],
   };
+
+  // prop 보낼 제공 가능 수술 리스트
+  // const [possibleCtg, setPossibleCtg] = useState(hospital.ctg_list)
+
+  // 추가 핸들러
+  // const addPossible = () => {
+
+  // }
+
+  // 삭제 핸들러
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0}>
@@ -67,7 +120,7 @@ function MypageHo() {
             content={hospital.ps_homepage}
           />
           <ProfileTimeUpdate />
-          <ProfileSubCategoryUpdate sub_category={hospital.sub_category_id} />
+          <ProfileSubCategoryUpdate ctg_list={hospital.ctg_list} />
           <ProfileDoctorUpdate doctors={hospital.ps_doctors} />
           <ReviewInfo />
         </Grid>

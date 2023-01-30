@@ -10,9 +10,10 @@
 
 .modalbox {
   /* 모달창 크기 */
-  width: 32.5rem;
-  height: 23.6rem;
+  width: 40rem;
+  height: 31rem;
 
+  padding: 2rem 1.75rem 1.75rem 3rem;
   /* 최상단 위치 */
   z-index: 999;
 
@@ -28,4 +29,31 @@
   /* 모달창 디자인 */
   background-color: white;
   border-radius: 8px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  /* margin: 2.25rem 0 1.75rem 1.75rem; */
+  margin-bottom: 1.75rem;
+
+  color: #000000;
+}
+
+.selectDiv {
+  text-align: center;
+}
+
+.btnDiv {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.register {
+  width: 5.75rem;
+  height: 1.94rem;
+  font-size: 1rem;
+  font-weight: 600;
+
+  color: #ffffff;
 }
