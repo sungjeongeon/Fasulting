@@ -31,7 +31,9 @@
   margin-left: 0rem;
   margin-right: 0.62rem;
   background-color: #f0e5de;
-  width: 5rem;
+  /* width: 5rem; */
+  min-width: 5rem;
+  width: fit-content;
   height: 1.88rem;
   border: 0;
   outline: 0;

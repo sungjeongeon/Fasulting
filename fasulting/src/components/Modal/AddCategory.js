@@ -4,71 +4,226 @@ import List from '@mui/material/List';
 import styles from "./AddCategory.module.css";
 import AddCategoryListItem from './AddCategoryListItem';
 import DisabledByDefaultOutlinedIcon from '@mui/icons-material/DisabledByDefaultOutlined';
+import propTypes from "prop-types"
+import { useEffect } from 'react';
 
-
-export default function AddCategory({ModalStateChange}) {
+export default function AddCategory({ModalStateChange, ctg_list}) {
   // 카테고리 데이터 생성 
   const categorylists = [
     {
-      id: 'eye',
-      ctg: '눈 성형',
-      sublists: [
-        '쌍커풀', '눈매교정', '안검하수', '트임성형', '눈썹거상', '지방제거', '눈밑지방 재배치'
-      ],
+      id: 1,
+      name: "눈 성형",
+      sub_ctg: [
+        {
+          id: 1,
+          name: "쌍커풀"
+        },
+        {
+          id: 2,
+          name: "눈매교정"
+        },
+        {
+          id: 3,
+          name: "안검하수"
+        },
+        {
+          id: 4,
+          name: "트임성형"
+        },
+        {
+          id: 5,
+          name: "눈썹거상"
+        },
+        {
+          id: 6,
+          name: "지방제거"
+        },
+        {
+          id: 7,
+          name: "눈밑지방 재배치"
+        },
+      ]
     },
     {
-      id: 'nose',
-      ctg: '코 성형',
-      sublists: [
-        '콧대 성형', '콧등 성형', '코끝 성형', '비중격 수술', '콧볼 축소', '이물질 제거술'
-      ],
+      id: 2,
+      name: "코 성형",
+      sub_ctg: [
+        {
+          id: 1,
+          name: "콧대 성형"
+        },
+        {
+          id: 2,
+          name: "콧등 성형"
+        },
+        {
+          id: 3,
+          name: "코끝 성형"
+        },
+        {
+          id: 4,
+          name: "비중격 수술"
+        },
+        {
+          id: 5,
+          name: "콧볼 축소"
+        },
+        {
+          id: 6,
+          name: "이물질 제거술"
+        },
+        {
+          id: 7,
+          name: "눈밑지방 재배치"
+        },
+      ]
     },
     {
-      id: 'petit',
-      ctg: '쁘띠',
-      sublists: [
-        '보톡스', '필러', '동안주사', '물광주사'
-      ],
+      id: 3,
+      name: "쁘띠",
+      sub_ctg: [
+        {
+          id: 1,
+          name: "보톡스"
+        },
+        {
+          id: 2,
+          name: "필러"
+        },
+        {
+          id: 3,
+          name: "동안주사"
+        },
+        {
+          id: 4,
+          name: "물광주사"
+        },
+      ]
     },
     {
-      id: 'antiaging',
-      ctg: '안티에이징',
-      sublists: [
-        '리프팅', '주름', '상안검 / 하안검', '다크서클', '지방이식', '안면거상술'
-      ],
+      id: 4,
+      name: "안티에이징",
+      sub_ctg: [
+        {
+          id: 1,
+          name: "리프팅"
+        },
+        {
+          id: 2,
+          name: "주름"
+        },
+        {
+          id: 3,
+          name: "상안검 / 하안검"
+        },
+        {
+          id: 4,
+          name: "다크서클"
+        },
+        {
+          id: 5,
+          name: "지방이식"
+        },
+        {
+          id: 6,
+          name: "안면거상술"
+        },
+      ]
     },
     {
-      id: 'contour',
-      ctg: '안면윤곽',
-      sublists: [
-        '사각턱', '광대', '턱끝', '이마', '양악'
-      ],
+      id: 5,
+      name: "안면윤곽",
+      sub_ctg: [
+        {
+          id: 1,
+          name: "사각턱"
+        },
+        {
+          id: 2,
+          name: "광대"
+        },
+        {
+          id: 3,
+          name: "턱끝"
+        },
+        {
+          id: 4,
+          name: "이마"
+        },
+        {
+          id: 5,
+          name: "양악"
+        },
+      ]
     },
     {
-      id: 'hair',
-      ctg: '모발이식',
-      sublists: [
-        '절개', '비절개'
-      ],
+      id: 6,
+      name: "모발이식",
+      sub_ctg: [
+        {
+          id: 1,
+          name: "절개"
+        },
+        {
+          id: 2,
+          name: "비절개"
+        },
+      ]
     },
     {
-      id: 'men',
-      ctg: '남자 성형',
-      sublists: [
-        '눈 성형', '코 성형', '안면윤곽'
-      ],
+      id: 7,
+      name: "남자 성형",
+      sub_ctg: [
+        {
+          id: 1,
+          name: "남자 눈성형"
+        },
+        {
+          id: 2,
+          name: "남자 코성형"
+        },
+        {
+          id: 3,
+          name: "남자 안면윤곽"
+        },
+      ]
     },
     {
-      id: 'reoperation',
-      ctg: '재수술',
-      sublists: [
-        '눈 성형', '코 성형', '안면윤곽'
-      ],
+      id: 8,
+      name: "재수술",
+      sub_ctg: [
+        {
+          id: 1,
+          name: "눈 재수술"
+        },
+        {
+          id: 2,
+          name: "코 재수술"
+        },
+        {
+          id: 3,
+          name: "안면윤곽 재수술"
+        },
+      ]
     },
+
+    
   ]
 
+  // console.log(ctg_list)
+  const ctgcount = ctg_list.reduce((acc, cur, i) => {
+    return acc + cur.sub_ctg.length
+  }, 0)
+  // console.log(ctgcount)
   // 상태관리 필요 (컴포넌트마다 계산해야 하기 때문) => 리덕스 다시 공부하고 수정
-  const [serviceAdd, setServiceAdd] = React.useState(0)
+  const [totalcnt, setTotalCnt] = React.useState(ctgcount)
+  
+  const increaseCnt = () => {
+    setTotalCnt(totalcnt + 1)
+  }
+  const decreaseCnt = () => {
+    setTotalCnt(totalcnt - 1)
+  }
 
   return (
     <div className={styles.background}>
@@ -102,18 +257,25 @@ export default function AddCategory({ModalStateChange}) {
         </ListSubheader>
       }
     >
-      {categorylists.map((item, index) => {
+      {categorylists.map((main, index) => {
+        const currentmain = ctg_list.filter(ctg => {
+          return ctg.id === main.id
+        })
         return (
           <AddCategoryListItem
-          key={index}
-          id={item.id}
-          ctg={item.ctg}
-          sublists={item.sublists}
+            key={index}
+            mainId={main.id}
+            mainName={main.name}
+            subList={main.sub_ctg}
+            selected={currentmain}
+            increaseCnt={increaseCnt}
+            decreaseCnt={decreaseCnt}
           />
-        )})}
+        )
+      })}
 
       <div className={styles.center}>
-        { serviceAdd === 0 ? <button
+        { totalcnt === 0 ? <button
           className={styles.before}
           onClick={ModalStateChange}
           >
@@ -123,7 +285,7 @@ export default function AddCategory({ModalStateChange}) {
         className={styles.after}
         onClick={ModalStateChange}
         >
-        {serviceAdd}개 서비스 추가
+        {totalcnt}개 서비스 등록
         </button>
         }
       </div>
