@@ -30,7 +30,7 @@ public abstract class BaseEntity {
     private LocalDateTime regDate;
 
     @LastModifiedDate
-    @Column(name="mod_date", updatable = false)
+    @Column(name="mod_date")
     private LocalDateTime modDate;
 
     @CreatedBy
@@ -38,7 +38,7 @@ public abstract class BaseEntity {
     private String regBy;
 
     @LastModifiedBy
-    @Column(name="mod_by", updatable = false)
+    @Column(name="mod_by")
     private String modby;
 
 }

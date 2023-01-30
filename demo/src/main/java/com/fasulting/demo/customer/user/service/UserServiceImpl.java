@@ -1,15 +1,23 @@
 package com.fasulting.demo.customer.user.service;
 
 import com.fasulting.demo.customer.user.dto.reqDto.*;
+import com.fasulting.demo.customer.user.dto.respDto.FavoriteResp;
+import com.fasulting.demo.customer.user.repository.FavoriteRepository;
 import com.fasulting.demo.customer.user.repository.UserRepository;
 import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
+import com.fasulting.demo.entity.FavoriteEntity;
+import com.fasulting.demo.entity.PsEntity;
+import com.fasulting.demo.entity.PsMainSubEntity;
 import com.fasulting.demo.entity.UserEntity;
+import com.fasulting.demo.ps.ps.repository.PsMainSubRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -17,6 +25,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FavoriteRepository favoriteRepository;
+
+    @Autowired
+    private PsMainSubRepository psMainSubRepository;
 
     // passwordEncoder
 
@@ -96,26 +110,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // 회원 정보 수정
-//    @Override
-//    @Transactional
-//    public boolean editUserInfo(Long seq, UserSeqReq userInfo) {
-//
-//        if(userRepository.findById(seq).isPresent()) {
-//            UserEntity user = userRepository.findById(seq).get();
-//
-//            log.info(userInfo.toString());
-//            if(userInfo.getName() != null)
-//                user.updateUserEntity(userInfo.getName(), user.getNumber());
-//            if(userInfo.getNumber() != null)
-//                user.updateUserEntity(user.getName(), userInfo.getNumber());
-//
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
     // 회원 탈퇴
     @Override
     @Transactional
@@ -123,7 +117,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.findById(userInfo.getSeq()).isPresent()) {
             UserEntity user = userRepository.findById(userInfo.getSeq()).get();
 
-            user.withdrawlUser("y", "user_" + userInfo.getSeq(), LocalDateTime.now());
+            user.withdrawlUser("Y", "user_" + userInfo.getSeq(), LocalDateTime.now());
 
             return true;
         }
@@ -146,5 +140,23 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-
+    // 회원 정보 수정
+//    @Override
+//    @Transactional
+//    public boolean editUserInfo(Long seq, UserSeqReq userInfo) {
+//
+//        if(userRepository.findById(seq).isPresent()) {
+//            UserEntity user = userRepository.findById(seq).get();
+//
+//            log.info(userInfo.toString());
+//            if(userInfo.getName() != null)
+//                user.updateUserEntity(userInfo.getName(), user.getNumber());
+//            if(userInfo.getNumber() != null)
+//                user.updateUserEntity(user.getName(), userInfo.getNumber());
+//
+//            return true;
+//        }
+//
+//        return false;
+//    }
 }
