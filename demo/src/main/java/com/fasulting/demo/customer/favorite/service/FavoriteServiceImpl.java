@@ -1,29 +1,23 @@
-package com.fasulting.demo.customer.user.service;
+package com.fasulting.demo.customer.favorite.service;
 
 import com.fasulting.demo.common.rating.TotalRatingRepository;
 import com.fasulting.demo.common.review.ReviewRepository;
-import com.fasulting.demo.customer.user.dto.reqDto.FavoriteReq;
-import com.fasulting.demo.customer.user.dto.reqDto.UserSeqReq;
-import com.fasulting.demo.customer.user.dto.reqDto.UserWithoutSeqReq;
-import com.fasulting.demo.customer.user.dto.respDto.FavoriteResp;
-import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
-import com.fasulting.demo.customer.user.repository.FavoriteRepository;
+import com.fasulting.demo.customer.favorite.dto.reqDto.FavoriteReq;
+import com.fasulting.demo.customer.favorite.dto.respDto.FavoriteResp;
+import com.fasulting.demo.customer.favorite.repository.FavoriteRepository;
+import com.fasulting.demo.customer.favorite.service.FavoriteService;
 import com.fasulting.demo.customer.user.repository.UserRepository;
 import com.fasulting.demo.entity.FavoriteEntity;
 import com.fasulting.demo.entity.PsEntity;
-import com.fasulting.demo.entity.PsMainSubEntity;
 import com.fasulting.demo.entity.UserEntity;
 import com.fasulting.demo.ps.ps.repository.PsMainSubRepository;
 import com.fasulting.demo.ps.ps.repository.PsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j

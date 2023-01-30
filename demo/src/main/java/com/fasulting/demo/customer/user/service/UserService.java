@@ -1,10 +1,7 @@
 package com.fasulting.demo.customer.user.service;
 
 import com.fasulting.demo.customer.user.dto.reqDto.*;
-import com.fasulting.demo.customer.user.dto.respDto.FavoriteResp;
 import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
-
-import java.util.List;
 
 public interface UserService {
 

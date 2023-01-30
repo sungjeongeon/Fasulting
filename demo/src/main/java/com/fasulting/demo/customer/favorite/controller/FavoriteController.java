@@ -1,8 +1,7 @@
-package com.fasulting.demo.customer.user.controller;
+package com.fasulting.demo.customer.favorite.controller;
 
-import com.fasulting.demo.customer.user.dto.reqDto.FavoriteReq;
-import com.fasulting.demo.customer.user.dto.reqDto.UserSeqReq;
-import com.fasulting.demo.customer.user.service.FavoriteService;
+import com.fasulting.demo.customer.favorite.dto.reqDto.FavoriteReq;
+import com.fasulting.demo.customer.favorite.service.FavoriteService;
 import com.fasulting.demo.resp.ResponseBody;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.fasulting.demo.customer.user.dto.respDto;
+package com.fasulting.demo.customer.favorite.dto.respDto;
 
 import lombok.Builder;
 import lombok.Getter;
