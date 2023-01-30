@@ -3,6 +3,7 @@ package com.fasulting.demo.ps.ps.service;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
 import com.fasulting.demo.ps.ps.dto.respDto.PsInfoResp;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface PsService {
 

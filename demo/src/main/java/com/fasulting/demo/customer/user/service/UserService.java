@@ -9,7 +9,7 @@ public interface UserService {
     boolean resetPassword(UserWithoutSeqReq userResetInfo); // 비밀번호 재설정
 
     UserInfoResp getUserInfo(Long seq); // 회원 정보 조회
-    boolean editUserInfo(Long seq, UserSeqReq userInfo); // 회원 정보 수정
+//    boolean editUserInfo(Long seq, UserSeqReq userInfo); // 회원 정보 수정
     boolean withdrawUser(UserSeqReq userInfo); //회원 탈퇴
     boolean checkPassword(UserSeqReq userInfo); // 비밀번호 확인(로그인 상태에서)
 

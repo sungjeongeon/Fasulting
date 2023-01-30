@@ -3,6 +3,9 @@ package com.fasulting.demo.customer.user.controller;
 import com.fasulting.demo.resp.ResponseBody;
 import com.fasulting.demo.customer.user.dto.reqDto.*;
 import com.fasulting.demo.customer.user.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 // response 객체 따로 고치기
 // ***Entity는 Jpa에서 관리하는 객체***
 
+@Api(value = "상담자 계정 관련 API", tags = {"UserController"})
 @Slf4j
 @RestController
 @RequestMapping("/user")
@@ -40,7 +44,8 @@ public class UserController {
      * userSeq
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserWithoutSeqReq user) {
+    @ApiOperation(value = "상담자 계정 로그인", notes = "..")
+    public ResponseEntity<?> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) UserWithoutSeqReq user) {
         return null; // response: userid (DB table 안의)
     }
 
@@ -50,7 +55,8 @@ public class UserController {
      * @return fail OR success
      */
     @GetMapping("/logout/{seq}")
-    public ResponseEntity<?> logout(@PathVariable Long seq) {
+    @ApiOperation(value = "상담자 계정 로그아웃", notes = "..")
+    public ResponseEntity<?> logout(@PathVariable @ApiParam(value = "로그인 정보", required = true) Long seq) {
         return null; // fail OR successs
     }
 
@@ -62,7 +68,8 @@ public class UserController {
      * fail: 재설정 실패
      */
     @PatchMapping("/reset")
-    public ResponseEntity<?> restPassword(@RequestBody UserWithoutSeqReq userInfo) {
+    @ApiOperation(value = "비밀번호 수정", notes = "..")
+    public ResponseEntity<?> restPassword(@RequestBody @ApiParam(value = "로그아웃 정보 (ps seq)", required = true) UserWithoutSeqReq userInfo) {
         log.info("reset Password - Call");
 
         if(userService.resetPassword(userInfo)){
@@ -81,7 +88,8 @@ public class UserController {
      * success: 성공, fail: 실패
      */
     @PostMapping("/regist")
-    public ResponseEntity<?> userRegister(@RequestBody UserWithoutSeqReq userInfo) {
+    @ApiOperation(value = "상담자 계정 회원 가입", notes = "기본 정보 기입하여 회원 가입")
+    public ResponseEntity<?> userRegister(@RequestBody  @ApiParam(value = "회원 가입 정보", required = true) UserWithoutSeqReq userInfo) {
         log.info("userRegister - Call");
 
         if(userService.userRegister(userInfo)) {
@@ -99,7 +107,8 @@ public class UserController {
      * sucess: email 존재 하지 않음
      */
     @GetMapping("/{email}")
-    public ResponseEntity<?> checkEmail(@PathVariable String email) {
+    @ApiOperation(value = "이메일 조회 및 중복 확인", notes = "이메일 받아서 DB 조회 및 중복 확인")
+    public ResponseEntity<?> checkEmail(@PathVariable @ApiParam(value = "회원 이메일", required = true) String email) {
         log.info("check Email - Call");
         if(userService.checkEmail(email)) {
             // 이메일 존재
@@ -116,7 +125,8 @@ public class UserController {
      * @return 회원 정보 OR fail
      */
     @GetMapping("/info/{seq}")
-    public ResponseEntity<?> getUserInfo(@PathVariable Long seq) {
+    @ApiOperation(value = "회원 정보 조회", notes = "seq 받아서 회원 정보 조회")
+    public ResponseEntity<?> getUserInfo(@PathVariable @ApiParam(value = "User seq", required = true)  Long seq) {
         log.info("getUserInfo - Call");
 
         // 로그인 했는지 검사 필요
@@ -129,17 +139,18 @@ public class UserController {
      * @param userInfo 유저 인포 (userName, userPassword)
      * @return success OR fail
      */
-    @PutMapping("/edit")
-    public ResponseEntity<?> editUserInfo(@RequestBody UserSeqReq userInfo) {
-        log.info("editUser - Call");
-
-        // 로그인 했는지 검사 필요
-
-        if(userService.editUserInfo(userInfo.getSeq(), userInfo)) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-        }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
-    }
+//    @ApiOperation(value = "회원 정보 수정", notes = "수정 정보 받아 정보 수정")
+//    @PutMapping("/edit")
+//    public ResponseEntity<?> editUserInfo(@RequestBody @ApiParam(value = "회원 수정 정보", required = true)  UserSeqReq userInfo) {
+//        log.info("editUser - Call");
+//
+//        // 로그인 했는지 검사 필요
+//
+//        if(userService.editUserInfo(userInfo.getSeq(), userInfo)) {
+//            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+//        }
+//        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+//    }
 
     /**
      * 9. 회원 탈퇴
@@ -147,7 +158,8 @@ public class UserController {
      * @return success OR fail
      */
     @PatchMapping("/withdraw")
-    public ResponseEntity<?> withdrawUser(@RequestBody UserSeqReq userInfo) {
+    @ApiOperation(value = "회원 탈퇴", notes = "회원 seq받아 탈퇴 처리")
+    public ResponseEntity<?> withdrawUser(@RequestBody @ApiParam(value = "User seq", required = true) UserSeqReq userInfo) {
         log.info("withdraw - Call");
 
         // 로그인 했는지 검사 필요
@@ -165,7 +177,8 @@ public class UserController {
      * @return success OR fail
      */
     @PostMapping("/passcheck")
-    public ResponseEntity<?> checkPassword(@RequestBody UserSeqReq userInfo) {
+    @ApiOperation(value = "비밀번호 확인", notes = "User seq, 비밀번호 받아 DB의 기존 비밀번호와 비교")
+    public ResponseEntity<?> checkPassword(@RequestBody @ApiParam(value = "User seq, 비밀번호", required = true) UserSeqReq userInfo) {
         log.info("checkPassword - Call");
         // 로그인 했는지 검사 필요
         if(userService.checkPassword(userInfo)) {

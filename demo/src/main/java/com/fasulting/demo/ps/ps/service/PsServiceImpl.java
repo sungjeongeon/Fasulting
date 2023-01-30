@@ -8,9 +8,13 @@ import com.fasulting.demo.ps.ps.repository.PsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -19,9 +23,47 @@ public class PsServiceImpl implements PsService {
     @Autowired
     private PsRepository psRepository;
 
+    // 배포할 때 경로 바꾸기
+    private final String dirPath = "C:/fasulting/ps/files/";
+
+    private final String domain = "https://localhost:8080/resources/upload/";
+
+    private String uploadFile(UUID uuid, MultipartFile imgFile, String imgUrl) {
+        File folder = new File(dirPath);
+        if(!folder.exists()) folder.mkdirs(); // 폴더 생성
+
+        String imgSaveUrl = uuid + "_" + imgFile.getOriginalFilename();
+        File file = new File(dirPath + File.separator + imgSaveUrl); // profileImgSaveUrl 경로 이용해서 폴더 만듬
+        try {
+            imgFile.transferTo(file); // 이미지 최종 경로로 보내줘서 저장
+            return dirPath + imgSaveUrl;
+        } catch (IOException e) {
+            log.info(e.getMessage());
+        }
+        return null;
+    }
+
     // 병원 회원 가입
     @Override
     public boolean psRegister(PsWithoutSeqReq psInfo) {
+
+        MultipartFile profileImgFile = psInfo.getProfileImg();
+        MultipartFile registrationImgFile = psInfo.getRegistrationImg();
+
+        String profileImgUrl = null;
+        if(profileImgFile != null && !profileImgFile.isEmpty()) {
+            // 파일 중복명 방지 uuid 생성
+            UUID uuid = UUID.randomUUID();
+
+            profileImgUrl = uploadFile(uuid, profileImgFile, null);
+        }
+
+        String registrationImgUrl = null;
+        if(registrationImgFile != null && !registrationImgFile.isEmpty()) {
+            UUID uuid = UUID.randomUUID();
+
+            registrationImgUrl = uploadFile(uuid, registrationImgFile, null);
+        }
 
         PsEntity ps = PsEntity.builder().email(psInfo.getEmail())
                 .password(psInfo.getPassword())
@@ -29,11 +71,11 @@ public class PsServiceImpl implements PsService {
                 .address(psInfo.getAddress())
                 .zipcode(psInfo.getZipcode())
                 .registration(psInfo.getRegistration())
-                .registrationImg(psInfo.getRegistrationImg())
+                .registrationImg(registrationImgUrl)
                 .number(psInfo.getNumber())
                 .director(psInfo.getDirector())
                 .homepage(psInfo.getHomepage())
-                .profileImg(psInfo.getProfileImg())
+                .profileImg(profileImgUrl)
                 .intro(psInfo.getIntro())
                 .build();
 
@@ -95,6 +137,8 @@ public class PsServiceImpl implements PsService {
             psInfo.setRegistration(ps.getRegistration());
             psInfo.setRegistrationImg(ps.getRegistrationImg());
 
+            log.info(ps.getRegistrationImg());
+
             // doctor
             // main, sub category
 
@@ -108,11 +152,20 @@ public class PsServiceImpl implements PsService {
     @Transactional
     public boolean editPsInfo(PsSeqReq psInfo) {
         Long seq = psInfo.getSeq();
+        MultipartFile profileImgFile = psInfo.getProfileImg();
         if(psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
 
+            String profileImgUrl = null;
+            if(profileImgFile != null && !profileImgFile.isEmpty()) {
+                // 파일 중복명 방지 uuid 생성
+                UUID uuid = UUID.randomUUID();
+
+                profileImgUrl = uploadFile(uuid, profileImgFile, null);
+            }
+
             log.info(psInfo.toString());
-            ps.updatePsEntity(psInfo);
+            ps.updatePsEntity(psInfo, profileImgUrl);
 
             return true;
         }
