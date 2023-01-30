@@ -44,3 +44,11 @@
   color: white;
   width: 400px !important;
 }
+.button {
+  margin-top: 8px;
+  margin-left: 4px;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}

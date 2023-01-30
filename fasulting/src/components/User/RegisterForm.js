@@ -1,11 +1,19 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Typography, TextField, Button, Link, Checkbox } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Link,
+  Checkbox,
+  Typography,
+  Container,
+} from "@mui/material";
 import "react-phone-number-input/style.css";
 import styles from "./Form.module.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
+import Paper from "@mui/material/Paper";
 
 const validationSchema = yup.object({
   email: yup
@@ -61,9 +69,15 @@ export default function RegisterForm() {
 
   return (
     <>
-      <div className={styles.formwrapper}>
-        <form onSubmit={formik.handleSubmit}>
-          <div className={styles.inputForm}>
+      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+        <Paper
+          variant="outlined"
+          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+        >
+          <Typography component="h1" variant="h4" align="center">
+            회원가입
+          </Typography>
+          <form onSubmit={formik.handleSubmit}>
             <div className={styles.inputItem}>
               <div className={styles.labelFirst}>이메일</div>
               <TextField
@@ -191,7 +205,7 @@ export default function RegisterForm() {
               </div>
             </div>
             <Button
-              type="submit"
+              type="onsubmit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
@@ -206,9 +220,9 @@ export default function RegisterForm() {
             >
               의사로 회원가입 하시나요?
             </Link>
-          </div>
-        </form>
-      </div>
+          </form>
+        </Paper>
+      </Container>
     </>
   );
 }

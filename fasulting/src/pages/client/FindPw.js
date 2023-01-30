@@ -1,8 +1,11 @@
+import { Container } from "@mui/system";
+import FindPwForm from "../../components/User/FindPwForm";
+
 function FindPw() {
   return (
-    <div>
-      <h1>FindPw</h1>
-    </div>
+    <Container maxWidth="lg">
+      <FindPwForm />
+    </Container>
   );
 }
 

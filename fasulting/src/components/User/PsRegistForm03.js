@@ -1,8 +1,15 @@
 import React from "react";
 import styles from "./Form.module.css";
 import InputField from "./InputField";
-
+import { Button } from "@mui/material";
+import { useState } from "react";
+import AddDoctor from "../Modal/AddDoctor";
+import AddCategory from "../Modal/AddCategory";
 export default function PsRegistForm03(props) {
+  // 의사 등록 모달창
+  const [ModalOpen, setModalOpen] = useState(false);
+  const ModalStateChange = () => setModalOpen((current) => !current);
+
   const {
     formField: {
       psdirector,
@@ -41,20 +48,26 @@ export default function PsRegistForm03(props) {
       </div>
       <div className={styles.inputItem}>
         <div className={styles.label}>병원 의사</div>
-        <InputField
-          fullWidth
-          placeholder="병원 의사 정보를 입력해주세요."
-          name={doctor.name}
-        />
+        <p style={{ color: "gray" }}>병원 의사 정보를 추가해주세요.</p>
+        <Button variant="text" onClick={ModalStateChange}>
+          의사 정보 등록
+        </Button>
+        {ModalOpen && <AddDoctor ModalStateChange={ModalStateChange} />}
+        <div></div>
       </div>
       <div className={styles.inputItem}>
         <div className={styles.label}>병원 카테고리 선택</div>
-        <InputField
-          fullWidth
-          type="password"
-          placeholder="수술 메인 카테고리를 선택해주세요."
-          name={category.name}
-        />
+        <p style={{ color: "gray" }}>
+          제공 가능한 수술 카테고리를 선택해주세요.
+        </p>
+        <Button
+          variant="text"
+          className={styles.btn}
+          onClick={ModalStateChange}
+        >
+          병원 카테고리 선택
+        </Button>
+        {ModalOpen && <AddCategory ModalStateChange={ModalStateChange} />}
       </div>
     </>
   );

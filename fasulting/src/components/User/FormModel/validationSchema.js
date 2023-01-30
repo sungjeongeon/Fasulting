@@ -38,20 +38,35 @@ export default [
       .required("비밀번호를 재입력해주세요."),
   }),
   yup.object().shape({
-    [psname.name]: yup
+    [psname.name]: yup.string().required("병원명을 입력해주세요."),
+    [psprofile.name]: yup.string(),
+    [psintro.name]: yup.string(),
+    [psaddress.name]: yup.string(),
+    [psnumber.name]: yup
       .string()
-      .matches(/^[가-힣a-zA-Z]+$/, "올바른 이름을 입력해주세요.")
-      .required("이름을 입력해주세요."),
-    [psprofile.name]: yup.string().required("프로필사진을 첨부해주세요."),
-    [psintro.name]: yup.string().required("한줄 소개를 입력해주세요."),
-    [psaddress.name]: yup.string().required("병원 주소를 입력해주세요."),
-    [psnumber.name]: yup.string(),
-    [pshomepage.name]: yup.string(),
+      .matches(
+        /^(0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4]))-(\d{3,4})-(\d{4})$/,
+        "전화번호 형식에 맞게 입력해주세요."
+      )
+      .required("병원 전화번호를 입력해주세요."),
+    [pshomepage.name]: yup
+      .string()
+      .matches(
+        /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/,
+        "올바른 주소를 입력해주세요."
+      ),
   }),
   yup.object().shape({
-    psdirector,
-    psregistration,
-    psregistrationimg,
+    [psdirector.name]: yup
+      .string()
+      .matches(/^[가-힣a-zA-Z]+$/, "올바른 이름을 입력해주세요."),
+    [psregistration.name]: yup
+      .string()
+      .matches(
+        /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/,
+        "000-00-00000 형식에 맞게 입력해주세요."
+      ),
+    [psregistrationimg.name]: yup.string(),
     doctor,
     category,
   }),

@@ -7,12 +7,11 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { createTheme } from "@mui/material/styles";
 import PsRegistForm01 from "./PsRegistForm01";
 import PsRegistForm02 from "./PsRegistForm02";
 import PsRegistForm03 from "./PsRegistForm03";
+import styles from "./Form.module.css";
 
-import FormikStepper from "formik-stepper";
 import { Formik, Form } from "formik";
 
 import validationSchema from "./FormModel/validationSchema";
@@ -29,13 +28,11 @@ function getStepContent(step) {
     case 1:
       return <PsRegistForm02 formField={formField} />;
     case 2:
-      return <PsRegistForm03 />;
+      return <PsRegistForm03 formField={formField} />;
     default:
       throw new Error("Unknown step");
   }
 }
-
-const theme = createTheme();
 
 export default function PsRegist() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -43,6 +40,7 @@ export default function PsRegist() {
   const isLastStep = activeStep === steps.length - 1;
 
   async function _submitForm(values, actions) {
+    console.log(values);
     alert(JSON.stringify(values, null, 2));
     actions.setSubmitting(false);
 
@@ -97,18 +95,19 @@ export default function PsRegist() {
                 <Form id={formId}>
                   {getStepContent(activeStep)}
 
-                  <div>
+                  <div className={styles.buttons}>
                     {activeStep !== 0 && (
                       <Button onClick={_handleBack}>Back</Button>
                     )}
                     <div>
                       <Button
+                        className={styles.button}
                         disabled={isSubmitting}
                         type="submit"
                         variant="contained"
                         color="primary"
                       >
-                        {isLastStep ? "Place order" : "Next"}
+                        {isLastStep ? "회원가입" : "다음"}
                       </Button>
                       {isSubmitting}
                     </div>
