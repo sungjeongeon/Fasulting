@@ -7,31 +7,31 @@ import { useState } from "react";
 function SetOperatingTime({ ModalStateChange }) {
   const week = [
     {
-      id: 0,
+      id: 1,
       name: "일",
     },
     {
-      id: 1,
+      id: 2,
       name: "월",
     },
     {
-      id: 2,
+      id: 3,
       name: "화",
     },
     {
-      id: 3,
+      id: 4,
       name: "수",
     },
     {
-      id: 4,
+      id: 5,
       name: "목",
     },
     {
-      id: 5,
+      id: 6,
       name: "금",
     },
     {
-      id: 6,
+      id: 7,
       name: "토",
     },
   ];
