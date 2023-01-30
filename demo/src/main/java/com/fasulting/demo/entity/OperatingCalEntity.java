@@ -1,9 +1,14 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 //@Builder
@@ -12,19 +17,16 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table (name = "operating")
-public class OperatingEntity extends BaseEntity {
+@Table (name = "operating_cal")
+public class OperatingCalEntity extends BaseEntity {
 
    	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "seq")
 	private Long seq;
 
-   	/** FK setting */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(referencedColumnName = "seq", name = "ps_seq")
-	private PsEntity ps;
-
+	@Column(name="date", updatable = false)
+	private LocalDateTime date;
    	@Column(name = "year")
 	private Integer year;
 
@@ -34,19 +36,8 @@ public class OperatingEntity extends BaseEntity {
    	@Column(name = "day")
 	private Integer day;
 
-	/**1 : 월
-2 : 화
-3 : 수
-4 : 목
-5 : 금
-6 : 토
-7 : 일*/
+	/** 1: 일, ~ 7:토 */
    	@Column(name = "day_of_week")
 	private Integer dayOfWeek;
-
-	/**0 ~ 24 시간, 30분 단위 1 ~ 48*/
-   	@Column(name = "hour")
-	private Integer hour;
-
 
 }

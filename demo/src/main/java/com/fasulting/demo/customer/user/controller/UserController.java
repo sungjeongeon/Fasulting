@@ -1,5 +1,6 @@
 package com.fasulting.demo.customer.user.controller;
 
+import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
 import com.fasulting.demo.resp.ResponseBody;
 import com.fasulting.demo.customer.user.dto.reqDto.*;
 import com.fasulting.demo.customer.user.service.UserService;
@@ -61,27 +62,6 @@ public class UserController {
     }
 
     /**
-     * 4. 비밀번호 수정 - 재설정 - 비밀번호만 update
-     * @param userInfo
-     * @return success OR fail
-     * success: 재설정 성공
-     * fail: 재설정 실패
-     */
-    @PatchMapping("/reset")
-    @ApiOperation(value = "비밀번호 수정", notes = "..")
-    public ResponseEntity<?> restPassword(@RequestBody @ApiParam(value = "로그아웃 정보 (ps seq)", required = true) UserWithoutSeqReq userInfo) {
-        log.info("reset Password - Call");
-
-        if(userService.resetPassword(userInfo)){
-            log.info("성공");
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-        }
-
-        // 회원 수정 실패
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
-    }
-
-    /**
      * 5. 회원가입
      * @param userInfo
      * @return successs OF fail
@@ -120,6 +100,27 @@ public class UserController {
     }
 
     /**
+     * 4. 비밀번호 수정 - 재설정 - 비밀번호만 update
+     * @param userInfo
+     * @return success OR fail
+     * success: 재설정 성공
+     * fail: 재설정 실패
+     */
+    @PatchMapping("/reset")
+    @ApiOperation(value = "비밀번호 수정", notes = "..")
+    public ResponseEntity<?> restPassword(@RequestBody @ApiParam(value = "로그아웃 정보 (email, password)", required = true) UserWithoutSeqReq userInfo) {
+        log.info("reset Password - Call");
+
+        if(userService.resetPassword(userInfo)){
+            log.info("성공");
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+
+        // 회원 수정 실패
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
+    }
+
+    /**
      * 7. 회원 정보 조회
      * @param seq
      * @return 회원 정보 OR fail
@@ -131,7 +132,13 @@ public class UserController {
 
         // 로그인 했는지 검사 필요
 
-        return ResponseEntity.status(200).body(userService.getUserInfo(seq));
+        UserInfoResp userInfo = userService.getUserInfo(seq);
+
+        if(userInfo != null) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", userInfo));
+        }
+
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
     /**
@@ -167,7 +174,7 @@ public class UserController {
         if(userService.withdrawUser(userInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
     /**

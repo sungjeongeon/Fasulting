@@ -11,8 +11,8 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table (name = "time")
-public class TimeEntity extends BaseEntity {
+@Table (name = "reservation_time")
+public class ReservationTimeEntity extends BaseEntity {
 
    	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
