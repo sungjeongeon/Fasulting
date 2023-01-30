@@ -1,4 +1,4 @@
-package com.fasulting.demo.common;
+package com.fasulting.demo.common.email;
 
 import com.fasulting.demo.resp.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
