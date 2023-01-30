@@ -44,18 +44,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean resetPassword(UserWithoutSeqReq userInfo) {
 
-        if(userRepository.findUserByEmail(userInfo.getEmail()).isPresent()) {
-            // userEmail이 있다면
-            UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).get();
+        // userEmail이 있다면
+        UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).get();
 
-            log.info(userInfo.getPassword());
+        String prePassword = user.getPassword();
 
-            // password update
-            user.resetPassword(userInfo.getPassword());
-            return true;
+        log.info(userInfo.getPassword());
+
+        // password update
+        user.resetPassword(userInfo.getPassword());
+
+        String postPassword = user.getPassword();
+
+        if(prePassword.equals(postPassword)){
+            return false;
         }
+        return true;
 
-        return false;
     }
 
     // 회원 정보 조회
@@ -66,12 +71,12 @@ public class UserServiceImpl implements UserService {
 
             UserInfoResp userInfo = new UserInfoResp();
 
-            userInfo.setBirth(user.getBirth());
-            userInfo.setEmail(user.getEmail());
-            userInfo.setNation(user.getNation());
-            userInfo.setPhone(user.getNumber());
-            userInfo.setName(user.getName());
-            userInfo.setNationCode(user.getNationCode());
+            userInfo.setUserBirth(user.getBirth());
+            userInfo.setUserEmail(user.getEmail());
+            userInfo.setUserNation(user.getNation());
+            userInfo.setUserPhone(user.getNumber());
+            userInfo.setUserName(user.getName());
+            userInfo.setUserNationCode(user.getNationCode());
 
             return userInfo;
         }

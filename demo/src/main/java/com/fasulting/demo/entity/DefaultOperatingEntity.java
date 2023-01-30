@@ -25,29 +25,19 @@ public class DefaultOperatingEntity extends BaseEntity {
 	@JoinColumn(referencedColumnName = "seq", name = "ps_seq")
 	private PsEntity ps;
 
-	/**1 : 월
-2 : 화
-3 : 수
-4 : 목
-5 : 금
-6 : 토
-7 : 일*/
+	/** 1: 일, ~ 7:토 */
    	@Column(name = "day_of_week")
 	private Integer dayOfWeek;
 
-	/**1 ~ 48 로 표현(0시부터 24시까지 30분 단위)*/
    	@Column(name = "am_start")
 	private Integer amStart;
 
-	/**1 ~ 48 로 표현(0시부터 24시까지 30분 단위)*/
    	@Column(name = "am_end")
 	private Integer amEnd;
 
-	/**1 ~ 48 로 표현(0시부터 24시까지 30분 단위)*/
    	@Column(name = "pm_start")
 	private Integer pmStart;
 
-	/**1 ~ 48 로 표현(0시부터 24시까지 30분 단위)*/
    	@Column(name = "pm_end")
 	private Integer pmEnd;
 

@@ -23,12 +23,12 @@ public class ReservationEntity extends BaseEntity {
 
    	/** FK setting */
 	@OneToOne
-	@JoinColumn(referencedColumnName = "seq", name = "reservation_seq")
+	@JoinColumn(referencedColumnName = "seq", name = "cal_seq")
 	private ReservationCalEntity reservationCal;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "seq", name = "time_seq")
-	private TimeEntity time;
+	private ReservationTimeEntity time;
 
    	/** FK setting */
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -9,11 +9,11 @@ import lombok.ToString;
 @ToString
 public class UserInfoResp {
 
-    private String email;
-    private String name;
-    private String birth;
-    private String nation;
-    private String phone;
-    private String nationCode;
+    private String userEmail;
+    private String userName;
+    private String userBirth;
+    private String userNation;
+    private String userPhone;
+    private String userNationCode;
 
 }
