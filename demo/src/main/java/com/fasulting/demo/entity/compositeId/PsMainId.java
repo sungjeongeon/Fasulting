@@ -13,8 +13,8 @@ import java.io.Serializable;
 public class PsMainId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public PsEntity ps;
+    public Long ps;
 
     @EqualsAndHashCode.Include
-    public MainCategoryEntity mainCategory;
+    public Long mainCategory;
 }

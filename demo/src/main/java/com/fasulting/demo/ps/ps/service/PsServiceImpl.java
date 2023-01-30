@@ -396,6 +396,8 @@ public class PsServiceImpl implements PsService {
 
             MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
 
+            log.info(mainCategory.toString());
+
             if(mainCategory != null) {
                 PsMainEntity psMain = PsMainEntity.builder().ps(ps)
                         .mainCategory(mainCategory).build();
@@ -409,7 +411,9 @@ public class PsServiceImpl implements PsService {
         for(String name : psInfo.getSubCategoryList()) {
 
             MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+            log.info(mainCategory.toString());
             SubCategoryEntity subCategory = subRepository.findMainByName(name).get();
+            log.info(subCategory.toString());
 
             if(subCategory != null) {
                 PsMainSubEntity psMainSub = PsMainSubEntity.builder().ps(ps)

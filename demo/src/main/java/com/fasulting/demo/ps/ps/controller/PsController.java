@@ -253,6 +253,8 @@ public class PsController {
     public ResponseEntity<?> editCategory(@RequestBody @ApiParam(value = "병원 seq, 메인 카테고리 리스트", required = true) PsSeqReq psInfo) {
         log.info("ps edit Category - Call");
 
+        log.info(psInfo.toString());
+
         if(psService.editCategory(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
