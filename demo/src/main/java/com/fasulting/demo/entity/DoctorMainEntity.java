@@ -32,5 +32,9 @@ public class DoctorMainEntity extends BaseEntity implements Serializable{
 	@JoinColumn(referencedColumnName = "seq", name = "main_seq")
 	private MainCategoryEntity mainCategory;
 
-
+	@Builder
+	public DoctorMainEntity(DoctorEntity doctor, MainCategoryEntity mainCategory) {
+		this.doctor = doctor;
+		this.mainCategory = mainCategory;
+	}
 }

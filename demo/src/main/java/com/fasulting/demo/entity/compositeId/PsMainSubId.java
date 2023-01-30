@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class PsMainSubId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public PsEntity doctor;
+    public PsEntity ps;
 
     @EqualsAndHashCode.Include
     public MainCategoryEntity mainCategory;
