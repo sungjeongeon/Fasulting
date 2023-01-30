@@ -6,7 +6,7 @@ import SetOperatingTime from "../Modal/SetOperatingTime";
 function ProfileTimeUpdate() {
   const [modal, setModal] = useState(false);
 
-  const week = ["일", "월", "화", "수", "목", "금", "토"];
+  const week = ["", "일", "월", "화", "수", "목", "금", "토"];
   const timeTable = [
     "9:00",
     "9:30",
@@ -34,28 +34,58 @@ function ProfileTimeUpdate() {
   ];
   // 임시 병원 운영시간 데이터
   const weekSchedule = [
-    { id: 0, timetable: [] },
+    { id: 1, timetable: [] },
     {
-      id: 1,
-      timetable: [3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+      id: 2,
+      timetable: [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 15],
     },
-    { id: 2, timetable: [3, 4, 5, 6, 7, 8, 9, 10] },
-    {
-      id: 3,
-      timetable: [3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19],
-    },
+    { id: 3, timetable: [2, 3] },
     {
       id: 4,
-      timetable: [3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+      timetable: [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 15],
     },
     {
       id: 5,
-      timetable: [3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+      timetable: [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 15],
     },
-    { id: 6, timetable: [] },
+    {
+      id: 6,
+      timetable: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    },
+    { id: 7, timetable: [] },
   ];
-  const onClick = (e) => {
+  const onClick = () => {
     setModal((current) => !current);
+  };
+
+  const getTimeString = (table) => {
+    const len = table.length;
+    if (len === 0) {
+      // 휴무일
+      return <p className={styles.redText}>휴진</p>;
+    } else if (table[len - 1] - table[0] === len - 1) {
+      // 휴게시간 없음
+      return (
+        <p>
+          {timeTable[table[0]]} - {timeTable[table[len - 1] + 1]}
+        </p>
+      );
+    } else {
+      // 휴게시간 있음
+      // 점심시간 계산
+      const lunch = [];
+      for (let i = table[0]; i <= table[len - 1]; i++) {
+        if (table.includes(i) === false) {
+          lunch.push(i);
+        }
+      }
+      return (
+        <p>
+          {timeTable[table[0]]} - {timeTable[table[len - 1] + 1]} / 점심시간{" "}
+          {timeTable[lunch[0]]} - {timeTable[lunch[lunch.length - 1] + 1]}
+        </p>
+      );
+    }
   };
   return (
     <div>
@@ -69,8 +99,8 @@ function ProfileTimeUpdate() {
       {weekSchedule.map((day) => {
         return (
           <div className={styles.dayDiv} key={day.id}>
-            <p>{week[day.id]}</p>
-            {day.timetable.length === 0 ? <p>휴무</p> : null}
+            <p className={styles.day}>{week[day.id]}</p>
+            {getTimeString(day.timetable)}
           </div>
         );
       })}
