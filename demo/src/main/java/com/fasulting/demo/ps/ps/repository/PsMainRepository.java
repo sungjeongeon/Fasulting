@@ -9,8 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface PsMainRepository extends JpaRepository<PsMainEntity, PsMainId> {
+
+public interface PsMainRepository extends JpaRepository<PsMainEntity, PsMainId>, PsMainRepositoryCustom {
 
     @Query("SELECT  pm.ps " + "FROM PsMainEntity pm " + "WHERE pm.mainCategory.seq = :mainSeq" )
     List<PsEntity> findPsByMainSeq(@Param("mainSeq") Long mainSeq);
+
 }

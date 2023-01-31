@@ -1,13 +1,13 @@
 package com.fasulting.demo.ps.ps.service;
 
 import com.fasulting.demo.entity.*;
-import com.fasulting.demo.ps.ps.dto.reqDto.Doctor;
+import com.fasulting.demo.entity.compositeId.DoctorMainId;
+import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
 import com.fasulting.demo.ps.ps.dto.respDto.PsInfoResp;
 import com.fasulting.demo.ps.ps.repository.*;
 import lombok.extern.slf4j.Slf4j;
-import org.jboss.jandex.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,8 +16,6 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -40,7 +38,7 @@ public class PsServiceImpl implements PsService {
     private DoctorMainRepository doctorMainRepository;
 
     // 배포할 때 경로 바꾸기
-    private final String dirPath = "C:/fasulting/ps/files/";
+    private final String dirPath = "C:/fasulting/ps/files";
 
     private final String domain = "https://localhost:8080/resources/upload/";
 
@@ -52,7 +50,7 @@ public class PsServiceImpl implements PsService {
         File file = new File(dirPath + File.separator + imgSaveUrl); // profileImgSaveUrl 경로 이용해서 폴더 만듬
         try {
             imgFile.transferTo(file); // 이미지 최종 경로로 보내줘서 저장
-            return dirPath + imgSaveUrl;
+            return dirPath + File.separator + imgSaveUrl;
         } catch (IOException e) {
             log.info(e.getMessage());
         }
@@ -101,14 +99,14 @@ public class PsServiceImpl implements PsService {
 
 
         /////////////// 병원 - 전문의 리스트 저장 ///////////////
-        for(Doctor doctor : psInfo.getDoctorList()) {
+        for(DoctorReq doctor : psInfo.getDoctorList()) {
             String doctorImgUrl = null;
 
             MultipartFile doctorImgFile = doctor.getImg();
             if(doctorImgFile != null && !doctorImgFile.isEmpty()) {
                 UUID uuid = UUID.randomUUID();
 
-                doctorImgUrl = uploadFile(uuid, registrationImgFile, null);
+                doctorImgUrl = uploadFile(uuid, doctor.getImg(), null);
             }
 
             DoctorEntity doc = DoctorEntity.builder().ps(ps)
@@ -121,6 +119,7 @@ public class PsServiceImpl implements PsService {
             /////////////// 병원 - 전문의 - 메인 카테고리 매핑 저장 => "DoctorMain" ///////////////
             String name = doctor.getMainCategory();
             MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+
 
             DoctorMainEntity doctorMain = DoctorMainEntity.builder().doctor(doc)
                             .mainCategory(mainCategory).build();
@@ -148,8 +147,9 @@ public class PsServiceImpl implements PsService {
         /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
         for(String name : psInfo.getSubCategoryList()) {
 
-            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
             SubCategoryEntity subCategory = subRepository.findMainByName(name).get();
+
+            MainCategoryEntity mainCategory = subCategory.getMainCategory();
 
             if(subCategory != null) {
                 PsMainSubEntity psMainSub = PsMainSubEntity.builder().ps(ps)
@@ -193,7 +193,7 @@ public class PsServiceImpl implements PsService {
             return false;
         }
     }
-    
+
     // 병원 정보 조회
     @Override
     public PsInfoResp getPsInfo(Long seq) {
@@ -211,7 +211,13 @@ public class PsServiceImpl implements PsService {
             psInfo.setHomepage(ps.getHomepage());
             psInfo.setDirector(ps.getDirector());
             psInfo.setRegistration(ps.getRegistration());
-            psInfo.setRegistrationImg(ps.getRegistrationImg());
+//            psInfo.setRegistrationImg(ps.getRegistrationImg());
+
+            // 의사 리스트 추가
+            // 제공 수술 추가 => main + sub
+            // 리뷰 조회 추가
+            // 운영 시간 추가
+
 
             log.info(ps.getRegistrationImg());
 
@@ -224,30 +230,30 @@ public class PsServiceImpl implements PsService {
     }
 
     // 병원 회원 정보 수정
-    @Override
-    @Transactional
-    public boolean editPsInfo(PsSeqReq psInfo) {
-        Long seq = psInfo.getSeq();
-        MultipartFile profileImgFile = psInfo.getProfileImg();
-        if(psRepository.findById(seq).isPresent()) {
-            PsEntity ps = psRepository.findById(seq).get();
-
-            String profileImgUrl = null;
-            if(profileImgFile != null && !profileImgFile.isEmpty()) {
-                // 파일 중복명 방지 uuid 생성
-                UUID uuid = UUID.randomUUID();
-
-                profileImgUrl = uploadFile(uuid, profileImgFile, null);
-            }
-
-            log.info(psInfo.toString());
-            ps.updatePsEntity(psInfo, profileImgUrl);
-
-            return true;
-        }
-
-        return false;
-    }
+//    @Override
+//    @Transactional
+//    public boolean editPsInfo(PsSeqReq psInfo) {
+//        Long seq = psInfo.getSeq();
+//        MultipartFile profileImgFile = psInfo.getProfileImg();
+//        if(psRepository.findById(seq).isPresent()) {
+//            PsEntity ps = psRepository.findById(seq).get();
+//
+//            String profileImgUrl = null;
+//            if(profileImgFile != null && !profileImgFile.isEmpty()) {
+//                // 파일 중복명 방지 uuid 생성
+//                UUID uuid = UUID.randomUUID();
+//
+//                profileImgUrl = uploadFile(uuid, profileImgFile, null);
+//            }
+//
+//            log.info(psInfo.toString());
+//            ps.updatePsEntity(psInfo, profileImgUrl);
+//
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     // 병원 회원 탈퇴
     @Override
@@ -267,6 +273,7 @@ public class PsServiceImpl implements PsService {
 
     // 비밀번호 재확인 (로그인 상태에서)
     @Override
+    @Transactional
     public boolean checkPassword(PsSeqReq psInfo) {
         Long seq = psInfo.getSeq();
         if(psRepository.findById(seq).isPresent()) {
@@ -279,5 +286,204 @@ public class PsServiceImpl implements PsService {
 
         return false;
     }
+
+    // 주소 수정
+    @Override
+    @Transactional
+    public boolean editAddress(PsSeqReq psInfo) {
+        Long seq = psInfo.getSeq();
+
+        if(psRepository.findById(seq).isPresent()) {
+            PsEntity ps = psRepository.findById(seq).get();
+
+            String preAddress = ps.getAddress();
+
+            ps.updateAddress(psInfo.getAddress());
+
+            String postAddress = psInfo.getAddress();
+
+            if(preAddress.equals(postAddress)){
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // 소개말 수정
+    @Override
+    @Transactional
+    public boolean editIntro(PsSeqReq psInfo) {
+        Long seq = psInfo.getSeq();
+
+        if(psRepository.findById(seq).isPresent()) {
+            PsEntity ps = psRepository.findById(seq).get();
+
+            String preIntro = ps.getIntro();
+
+            ps.updateIntro(psInfo.getIntro());
+
+            String postIntro = psInfo.getIntro();
+
+            if(preIntro.equals(postIntro)){
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // 전화 번호 수정
+    @Override
+    @Transactional
+    public boolean editNumber(PsSeqReq psInfo) {
+        Long seq = psInfo.getSeq();
+
+        if(psRepository.findById(seq).isPresent()) {
+            PsEntity ps = psRepository.findById(seq).get();
+
+            String preNumber = ps.getNumber();
+
+            ps.updateNumber(psInfo.getNumber());
+
+            String postNumber = psInfo.getNumber();
+
+            if(preNumber.equals(postNumber)){
+                return false;
+            }
+
+            return true;
+        }
+
+
+        return false;
+    }
+
+    // 홈페이지 주소 수정
+    @Override
+    @Transactional
+    public boolean editHomepage(PsSeqReq psInfo) {
+        Long seq = psInfo.getSeq();
+
+        if(psRepository.findById(seq).isPresent()) {
+            PsEntity ps = psRepository.findById(seq).get();
+
+            String preHomepage = ps.getHomepage();
+
+            ps.updateHomepage(psInfo.getHomepage());
+
+            String postHomepage = psInfo.getHomepage();
+
+            if(preHomepage.equals(postHomepage)){
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // 카테고리 수정
+    @Override
+    @Transactional
+    public boolean editCategory(PsSeqReq psInfo) {
+        Long seq = psInfo.getSeq();
+
+        // delete 하고
+        psMainSubRepository.deleteMainSubByPs(seq);
+        psMainRepository.deleteMainByPs(seq);
+
+        PsEntity ps = psRepository.findById(seq).get();
+
+        /////////////// 병원 - 메인 카테고리 매핑 저장 => "PsMain" ///////////////
+        for(String name : psInfo.getMainCategoryList()) {
+
+            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+
+            log.info(mainCategory.toString());
+
+            if(mainCategory != null) {
+                PsMainEntity psMain = PsMainEntity.builder().ps(ps)
+                        .mainCategory(mainCategory).build();
+
+                psMainRepository.save(psMain);
+            }
+
+        }
+
+        /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
+        for(String name : psInfo.getSubCategoryList()) {
+
+            SubCategoryEntity subCategory = subRepository.findMainByName(name).get();
+            log.info(subCategory.toString());
+
+            MainCategoryEntity mainCategory = subCategory.getMainCategory();
+            log.info(mainCategory.toString());
+
+            if(subCategory != null) {
+                PsMainSubEntity psMainSub = PsMainSubEntity.builder().ps(ps)
+                        .mainCategory(mainCategory).subCategory(subCategory).build();
+
+                psMainSubRepository.save(psMainSub);
+            }
+
+        }
+
+        return true;
+    }
+
+    // 전문의 삭제
+    @Override
+    @Transactional
+    public boolean deleteDoctor(Long doctorSeq) {
+
+        // delete
+        doctorMainRepository.deleteMainByDoctor(doctorSeq);
+        doctorRepository.deleteById(doctorSeq);
+
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean addDoctor(DoctorReq doctor) {
+        // 파일
+        MultipartFile imgFile = doctor.getImg();
+
+        PsEntity ps = psRepository.findById(doctor.getPsSeq()).get();
+
+        /////////////// 병원 - 전문의 리스트 저장 ///////////////
+        String doctorImgUrl = null;
+
+        MultipartFile doctorImgFile = doctor.getImg();
+        if(doctorImgFile != null && !doctorImgFile.isEmpty()) {
+            UUID uuid = UUID.randomUUID();
+            doctorImgUrl = uploadFile(uuid, imgFile, null);
+        }
+
+        DoctorEntity doc = DoctorEntity.builder().ps(ps)
+                .img(doctorImgUrl)
+                .name(doctor.getName())
+                .build();
+
+        doctorRepository.save(doc);
+
+        /////////////// 병원 - 전문의 - 메인 카테고리 매핑 저장 => "DoctorMain" ///////////////
+        String name = doctor.getMainCategory();
+        MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+
+        DoctorMainEntity doctorMain = DoctorMainEntity.builder().doctor(doc)
+                .mainCategory(mainCategory).build();
+
+        doctorMainRepository.save(doctorMain);
+
+        return true;
+    }
+
 
 }

@@ -1,6 +1,6 @@
 package com.fasulting.demo.ps.ps.dto.respDto;
 
-import com.fasulting.demo.ps.ps.dto.reqDto.Doctor;
+import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReq;
 import lombok.Data;
 
 import java.util.List;
@@ -24,6 +24,6 @@ public class PsInfoResp {
     private List<String> subCategoryList;
 
     // doctor 정보
-    private List<Doctor> doctorList;
+    private List<DoctorReq> doctorList;
 
 }

@@ -1,5 +1,6 @@
 package com.fasulting.demo.ps.ps.controller;
 
+import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.Test;
 import com.fasulting.demo.resp.ResponseBody;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
@@ -29,7 +30,7 @@ public class PsController {
     }
 
     /**
-     * 1. 로그인 - jwt
+     * 로그인 - jwt
      * @param psInfo
      * email & password
      * @return
@@ -42,7 +43,7 @@ public class PsController {
     }
 
     /**
-     * 2. 로그아웃 - jwt
+     * 로그아웃 - jwt
      * @param seq
      * @return fail OR success
      */
@@ -62,7 +63,7 @@ public class PsController {
 
 
     /**
-     * 3. 병원 계정 가입
+     * 병원 계정 가입
      * @param psInfo
      * @return fail or success
      */
@@ -82,7 +83,7 @@ public class PsController {
     }
 
     /**
-     * 4. 이메일 조회 및 중복 확인
+     * 이메일 조회 및 중복 확인
      * @param email
      * @return fail or success
      * fail: email 중복
@@ -102,7 +103,7 @@ public class PsController {
     }
 
     /**
-     * 5. 병원 정보 조회
+     * 병원 정보 조회
      * @param seq
      * @return 회원 정보 OR fail
      */
@@ -117,28 +118,7 @@ public class PsController {
     }
 
     /**
-     * 6. 병원 정보 수정
-     * @param psInfo 병원 계정 수정 정보
-     * @return success OR fail
-     */
-    @PutMapping("/edit")
-    @ApiOperation(value = "병원 정보 수정", notes = "병원 수정 정보 받아 정보 수정")
-    public ResponseEntity<?> editPsInfo(@ModelAttribute @ApiParam(value = "병원 수정 정보", required = true) PsSeqReq psInfo) {
-
-        log.info("ps editPs - Call");
-
-        // 로그인 했는지 검사 필요
-
-        if(psService.editPsInfo(psInfo)) {
-
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-        }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
-
-    }
-
-    /**
-     * 7. 병원 게정 탈퇴
+     * 병원 게정 탈퇴
      * @param psInfo (seq)
      * @return success OR fail
      */
@@ -158,7 +138,7 @@ public class PsController {
     }
 
     /**
-     * 8. 보안 - 비밀번호 확인 (로그인 상태에서)
+     * 보안 - 비밀번호 확인 (로그인 상태에서)
      * DB table 안의 기존 비밀 번호 & 새로 설정한 비밀번호 비교
      * @param psInfo (seq, password)
      * @return success OR fail
@@ -177,7 +157,7 @@ public class PsController {
     }
 
     /**
-     * 9. 비밀번호 수정 - 재설정 - 비밀번호만 update
+     * 비밀번호 수정 - 재설정 - 비밀번호만 update
      * @param psInfo
      * @return success OR fail
      * success: update 성공
@@ -196,5 +176,116 @@ public class PsController {
         // 회원 수정 실패
         return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
+
+    /**
+     * 주소 수정
+     * @param psInfo
+     * ps seq, 주소
+     * @return
+     */
+    @PutMapping("/address")
+    @ApiOperation(value = "주소 수정", notes = "ps seq, 주소 받아 수정")
+    public ResponseEntity<?> editAddress(@RequestBody @ApiParam(value = "병원 seq, 주소", required = true) PsSeqReq psInfo) {
+        log.info("ps edit Address - Call");
+
+        if(psService.editAddress(psInfo)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
+
+    /**
+     * 소개말 수정
+     * @param psInfo
+     * ps seq, 소개말
+     * @return
+     */
+    @PutMapping("/intro")
+    @ApiOperation(value = "소개말 수정", notes = "ps seq, 소개말 받아 수정")
+    public ResponseEntity<?> editIntro(@RequestBody @ApiParam(value = "병원 seq, 소개말", required = true) PsSeqReq psInfo) {
+        log.info("ps edit Intro - Call");
+
+        if(psService.editIntro(psInfo)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
+
+    /**
+     * 번호 수정
+     * @param psInfo
+     * @return
+     */
+    @PutMapping("/number")
+    @ApiOperation(value = "번호 수정", notes = "ps seq, 번호 받아 수정")
+    public ResponseEntity<?> editNumber(@RequestBody @ApiParam(value = "병원 seq, 번호", required = true) PsSeqReq psInfo) {
+        log.info("ps edit Number - Call");
+
+        if(psService.editNumber(psInfo)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
+
+    /**
+     * 홈페이지 수정
+     */
+    @PutMapping("/hompage")
+    @ApiOperation(value = "홈페이지 수정", notes = "ps seq, 홈페이지 받아 수정")
+    public ResponseEntity<?> editHomepage(@RequestBody @ApiParam(value = "병원 seq, 홈페이지", required = true) PsSeqReq psInfo) {
+        log.info("ps edit homepage - Call");
+
+        if(psService.editHomepage(psInfo)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
+
+    /**
+     * 제공 수술 수정
+     */
+    @PutMapping("/category")
+    @ApiOperation(value = "제공 수술 수정", notes = "ps seq, 제공 수술 (mainCategory) 받아 수정")
+    public ResponseEntity<?> editCategory(@RequestBody @ApiParam(value = "병원 seq, 메인 카테고리 리스트", required = true) PsSeqReq psInfo) {
+        log.info("ps edit Category - Call");
+
+        log.info(psInfo.toString());
+
+        if(psService.editCategory(psInfo)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
+
+    /**
+     * 의사 현황 수정
+     */
+    @PutMapping("/doctor")
+    @ApiOperation(value = "의사 추가", notes = "ps seq, 의사 정보 받아 추가")
+    public ResponseEntity<?> addDoctor(@ModelAttribute @ApiParam(value = "병원 seq, 의사 정보(doctor seq, 이미지 | 이름, 전문 분야)", required = true) DoctorReq doctor) {
+        log.info("ps add Doctor - Call");
+
+        log.info(doctor.toString());
+
+        if(psService.addDoctor(doctor)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
+
+    /**
+     * 의사 삭제
+     */
+    @DeleteMapping("/doctor/{doctorSeq}")
+    @ApiOperation(value = "의사 삭제", notes = "doctor seq 받아 삭제")
+    public ResponseEntity<?> deleteDoctor(@PathVariable Long doctorSeq) {
+        log.info("ps delete Doctor - Call");
+
+        if(psService.deleteDoctor(doctorSeq)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
+
 
 }

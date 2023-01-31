@@ -13,11 +13,11 @@ import java.io.Serializable;
 public class PsMainSubId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public PsEntity ps;
+    public Long ps;
 
     @EqualsAndHashCode.Include
-    public MainCategoryEntity mainCategory;
+    public Long mainCategory;
 
     @EqualsAndHashCode.Include
-    public SubCategoryEntity subCategory;
+    public Long subCategory;
 }

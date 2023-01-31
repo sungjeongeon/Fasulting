@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -43,13 +44,13 @@ public class PsSeqReq {
 
     // category 정보
     @ApiModelProperty(value = "병원 메인 카테고리 리스트")
-    private List<String> mainCategoryList;
+    private List<String> mainCategoryList = new ArrayList<>();
     @ApiModelProperty(value = "병원 서브 카테고리 리스트")
-    private List<String> subCategoryList;
+    private List<String> subCategoryList = new ArrayList<>();
 
     // doctor 정보
     @ApiModelProperty(value = "전문의 정보 리스트")
-    private List<Doctor> doctorList;
+    private List<DoctorReq> doctorList = new ArrayList<>();
 
 
 }
