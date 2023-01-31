@@ -5,7 +5,6 @@ import com.fasulting.demo.common.review.ReviewRepository;
 import com.fasulting.demo.customer.favorite.dto.reqDto.FavoriteReq;
 import com.fasulting.demo.customer.favorite.dto.respDto.FavoriteResp;
 import com.fasulting.demo.customer.favorite.repository.FavoriteRepository;
-import com.fasulting.demo.customer.favorite.service.FavoriteService;
 import com.fasulting.demo.customer.user.repository.UserRepository;
 import com.fasulting.demo.entity.FavoriteEntity;
 import com.fasulting.demo.entity.PsEntity;
@@ -108,10 +107,12 @@ public class FavoriteServiceImpl implements FavoriteService {
         if(userSeq != null && psSeq != null){
             FavoriteEntity favorite = favoriteRepository.findByUserSeqPsSeq(userSeq, psSeq);
 
-            favoriteRepository.delete(favorite);
+            if(favorite != null) {
+                favoriteRepository.delete(favorite);
 
-            log.info("success delete favorite");
-            return true;
+                log.info("success delete favorite");
+                return true;
+            }
         }
 
         log.info("fail delete favorite");
