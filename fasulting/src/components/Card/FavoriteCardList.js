@@ -1,7 +1,8 @@
 import FavoriteCard from "./FavoriteCard";
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 // import Box from "@mui/material/Box";
 import { Stack } from "@mui/system";
+import styles from "./FavResCard.module.css";
 function FavoriateCardList() {
   const favorite = [
     {
@@ -35,12 +36,12 @@ function FavoriateCardList() {
   ];
   return (
     <>
-      <Typography variant="h5">즐겨찾기 목록</Typography>
-      <Stack direction="row" spacing={5}>
+      <h2>즐겨찾기 목록</h2>
+      <Grid container className={styles.flexSpace}>
         {favorite.map((fav) => (
           <FavoriteCard key={fav.ps_id.toString()} fav={fav} />
         ))}
-      </Stack>
+      </Grid>
     </>
   );
 }

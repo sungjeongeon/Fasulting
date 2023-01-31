@@ -1,5 +1,4 @@
-export default {
-  formId: "checkoutForm",
+const checkoutFormModel = {
   formField: {
     email: {
       name: "email",
@@ -45,3 +44,4 @@ export default {
     },
   },
 };
+export default checkoutFormModel;

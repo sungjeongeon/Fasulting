@@ -1,6 +1,6 @@
 import ConsultingCard from "./ConsultingCard";
 import { Typography } from "@mui/material";
-import Box from "@mui/material/Box";
+import { Stack } from "@mui/system";
 
 function ConsultingCardList() {
   const consulting = [
@@ -18,15 +18,29 @@ function ConsultingCardList() {
       sub_category_name: "콧볼축소",
       calender_id: "2022.01.31 12시 30분",
     },
+    {
+      user_id: 2,
+      ps_id: 2,
+      ps_name: "더페이스 병원",
+      sub_category_name: "콧볼축소",
+      calender_id: "2022.01.31 12시 30분",
+    },
+    {
+      user_id: 2,
+      ps_id: 2,
+      ps_name: "더페이스 병원",
+      sub_category_name: "콧볼축소",
+      calender_id: "2022.01.31 12시 30분",
+    },
   ];
   return (
     <>
       <Typography variant="h5">진행중인 예약</Typography>
-      <Box sx={{ display: "flex" }}>
+      <Stack direction="row" spacing={5}>
         {consulting.map((consult) => (
           <ConsultingCard key={consult.ps_id.toString()} consult={consult} />
         ))}
-      </Box>
+      </Stack>
     </>
   );
 }

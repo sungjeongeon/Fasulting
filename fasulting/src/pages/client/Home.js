@@ -14,7 +14,9 @@ function Home() {
   });
   return (
     <div>
-      <Banner />
+      <Container>
+        <Banner />
+      </Container>
       <Container maxidth="lg">
         <MainCategoryList />
       </Container>

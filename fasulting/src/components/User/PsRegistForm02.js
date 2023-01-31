@@ -96,7 +96,6 @@ export default function PsRegistForm01(props) {
         <div className={styles.label}>병원 홈페이지 주소</div>
         <InputField
           fullWidth
-          type="password"
           placeholder="병원 홈페이지 주소를 입력해주세요."
           name={pshomepage.name}
         />

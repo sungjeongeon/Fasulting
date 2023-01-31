@@ -5,18 +5,25 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import AddDoctor from "../Modal/AddDoctor";
 import AddCategory from "../Modal/AddCategory";
+
 export default function PsRegistForm03(props) {
   // 의사 등록 모달창
-  const [ModalOpen, setModalOpen] = useState(false);
-  const ModalStateChange = () => setModalOpen((current) => !current);
+  const [doctorModalOpen, setdoctorModalOpen] = useState(false);
+  const doctorModalStateChange = () =>
+    setdoctorModalOpen((current) => !current);
+
+  // 카테고리 등록 모달창
+  const [categoryModalOpen, setcategoryModalOpen] = useState(false);
+  const categoryModalStateChange = () =>
+    setcategoryModalOpen((current) => !current);
 
   const {
     formField: {
       psdirector,
       psregistration,
       psregistrationimg,
-      doctor,
-      category,
+      // doctor,
+      // category,
     },
   } = props;
   return (
@@ -49,10 +56,12 @@ export default function PsRegistForm03(props) {
       <div className={styles.inputItem}>
         <div className={styles.label}>병원 의사</div>
         <p style={{ color: "gray" }}>병원 의사 정보를 추가해주세요.</p>
-        <Button variant="text" onClick={ModalStateChange}>
+        <Button variant="text" onClick={doctorModalStateChange}>
           의사 정보 등록
         </Button>
-        {ModalOpen && <AddDoctor ModalStateChange={ModalStateChange} />}
+        {doctorModalOpen && (
+          <AddDoctor doctorModalStateChange={doctorModalStateChange} />
+        )}
         <div></div>
       </div>
       <div className={styles.inputItem}>
@@ -63,11 +72,13 @@ export default function PsRegistForm03(props) {
         <Button
           variant="text"
           className={styles.btn}
-          onClick={ModalStateChange}
+          onClick={categoryModalStateChange}
         >
           병원 카테고리 선택
         </Button>
-        {ModalOpen && <AddCategory ModalStateChange={ModalStateChange} />}
+        {categoryModalOpen && (
+          <AddCategory categoryModalStateChange={categoryModalStateChange} />
+        )}
       </div>
     </>
   );

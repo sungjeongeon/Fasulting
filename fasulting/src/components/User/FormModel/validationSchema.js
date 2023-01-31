@@ -19,7 +19,7 @@ const {
   },
 } = checkoutFormModel;
 
-export default [
+const validationSchema = [
   yup.object().shape({
     [email.name]: yup
       .string()
@@ -54,20 +54,25 @@ export default [
       .matches(
         /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/,
         "올바른 주소를 입력해주세요."
-      ),
+      )
+      .required("병원 홈페이지 주소를 입력해주세요."),
   }),
   yup.object().shape({
     [psdirector.name]: yup
       .string()
-      .matches(/^[가-힣a-zA-Z]+$/, "올바른 이름을 입력해주세요."),
+      .matches(/^[가-힣a-zA-Z]+$/, "올바른 이름을 입력해주세요.")
+      .required("병원장 이름을 입력해주세요."),
     [psregistration.name]: yup
       .string()
       .matches(
         /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/,
         "000-00-00000 형식에 맞게 입력해주세요."
-      ),
+      )
+      .required("사업자 등록번호를 입력해주세요."),
     [psregistrationimg.name]: yup.string(),
-    doctor,
-    category,
+    // doctor,
+    // category,
   }),
 ];
+
+export default validationSchema;

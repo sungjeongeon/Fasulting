@@ -13,11 +13,9 @@ import {
 } from "@mui/material";
 import "react-phone-number-input/style.css";
 import styles from "./Form.module.css";
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
 import Paper from "@mui/material/Paper";
-import { useState } from "react";
-import { Field } from "formik";
+
 const validationSchema = yup.object({
   email: yup
     .string()

@@ -17,7 +17,9 @@ import { Formik, Form } from "formik";
 import validationSchema from "./FormModel/validationSchema";
 import formInitialValues from "./FormModel/formInitialValues";
 import checkoutFormModel from "./FormModel/checkoutFormModel";
-
+import Login from "../../pages/client/Login";
+import { Link } from "react-router-dom";
+import PsRegistFormComplete from "./PsRegistFormComplete";
 const steps = ["개인 정보", "병원 관련 등록", "병원 인증"];
 const { formId, formField } = checkoutFormModel;
 
@@ -71,11 +73,7 @@ export default function PsRegist() {
         <Typography component="h1" variant="h4" align="center">
           병원 등록
         </Typography>
-        <Stepper
-          component="primary"
-          activeStep={activeStep}
-          sx={{ pt: 3, pb: 5 }}
-        >
+        <Stepper component="main" activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
           {steps.map((label) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
@@ -84,36 +82,34 @@ export default function PsRegist() {
         </Stepper>
         <React.Fragment>
           {activeStep === steps.length ? (
-            <PsRegistForm01 />
+            <PsRegistFormComplete />
           ) : (
             <Formik
               initialValues={formInitialValues}
               validationSchema={currentValidationSchema}
               onSubmit={_handleSubmit}
             >
-              {({ isSubmitting }) => (
-                <Form id={formId}>
-                  {getStepContent(activeStep)}
+              <Form id={formId}>
+                {getStepContent(activeStep)}
 
-                  <div className={styles.buttons}>
-                    {activeStep !== 0 && (
-                      <Button onClick={_handleBack}>Back</Button>
-                    )}
-                    <div>
-                      <Button
-                        className={styles.button}
-                        disabled={isSubmitting}
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                      >
-                        {isLastStep ? "회원가입" : "다음"}
-                      </Button>
-                      {isSubmitting}
-                    </div>
+                <div className={styles.buttons}>
+                  {activeStep !== 0 && (
+                    <Button onClick={_handleBack} className={styles.button}>
+                      Back
+                    </Button>
+                  )}
+                  <div>
+                    <Button
+                      className={styles.button}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                    >
+                      {isLastStep ? "회원가입" : "다음"}
+                    </Button>
                   </div>
-                </Form>
-              )}
+                </div>
+              </Form>
             </Formik>
           )}
         </React.Fragment>

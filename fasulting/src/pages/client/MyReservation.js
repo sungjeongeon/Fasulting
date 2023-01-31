@@ -1,12 +1,12 @@
 import ConsultingCardList from "../../components/Card/ConsultingCardList";
 import LastConsulting from "../../components/Table/LastConsulting";
 
-function MyConsulting() {
-    return (
-        <>
-        <ConsultingCardList />
-        <LastConsulting/>
-        </>
-    )
+function MyReservation() {
+  return (
+    <>
+      <ConsultingCardList />
+      <LastConsulting />
+    </>
+  );
 }
-export default MyConsulting;
+export default MyReservation;
