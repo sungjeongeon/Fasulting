@@ -1,6 +1,6 @@
 package com.fasulting.demo.entity;
 
-import com.fasulting.demo.entity.compositeId.PsOperatingId;
+import com.fasulting.demo.entity.compositeId.PsDefaultId;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -15,10 +15,10 @@ import java.io.Serializable;
 @DynamicInsert // Apply changed fields only
 @DynamicUpdate // Apply changed fields only
 @ToString
-@IdClass(PsOperatingId.class)
+@IdClass(PsDefaultId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table (name = "ps_operating")
-public class PsOperatingEntity extends BaseEntity implements Serializable {
+@Table (name = "ps_default")
+public class PsDefaultEntity extends BaseEntity implements Serializable {
 
 	@Id
    	/** FK setting */
@@ -30,7 +30,7 @@ public class PsOperatingEntity extends BaseEntity implements Serializable {
    	/** FK setting */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "seq", name = "cal_seq")
-	private OperatingCalEntity operatingCal;
+	private DefaultCalEntity defaultCal;
 
 	@Id
    	/** FK setting */
@@ -39,9 +39,9 @@ public class PsOperatingEntity extends BaseEntity implements Serializable {
 	private TimeEntity time;
 
 	@Builder
-	public PsOperatingEntity(PsEntity ps, OperatingCalEntity operatingCal, TimeEntity time) {
+	public PsDefaultEntity(PsEntity ps, DefaultCalEntity defaultCal, TimeEntity time) {
 		this.ps = ps;
-		this.operatingCal = operatingCal;
+		this.defaultCal = defaultCal;
 		this.time = time;
 	}
 }

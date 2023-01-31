@@ -1,9 +1,13 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -11,8 +15,8 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table (name = "reservation_time")
-public class ReservationTimeEntity extends BaseEntity {
+@Table (name = "time")
+public class TimeEntity extends BaseEntity {
 
    	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

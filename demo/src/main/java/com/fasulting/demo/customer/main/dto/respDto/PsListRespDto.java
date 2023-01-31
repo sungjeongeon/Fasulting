@@ -14,7 +14,11 @@ public class PsListRespDto {
 
     private Long psSeq;
 
+    private String psProfileImg;
+
     private String psName;
+
+    private String psAddress;
 
     private String psIntro;
 

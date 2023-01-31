@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,7 +123,9 @@ public class MainServiceImpl implements MainService {
             PsListRespDto resp = PsListRespDto.builder()
                     .psSeq(psSeq)
                     .psName(ps.getName())
+                    .psProfileImg("server domain" + File.separator + ps.getProfileImg())
                     .psIntro(ps.getIntro())
+                    .psAddress(ps.getAddress())
                     .subCategoryName(psMainSubRepository.getSubNameByPsSeq(psSeq))
                     .totalRatingResult(totalRatingRepository.getResultByPsSeq(psSeq))
                     .reviewTotalCount(reviewRepository.getCountByPsSeq(psSeq))
