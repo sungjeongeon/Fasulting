@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 // 새로운 예약 알림인듯?? (체크 말고 휴지통 아이콘)
 function NewReservationCard() {
   return (
-    <Card sx={{ width: '100%', marginTop: '0.5rem' }}>
+    <Card sx={{ width: '90%', marginTop: '0.5rem' }}>
       <CardContent sx={{ width: '92%', marginY: 0}}>
         <div style={{position: 'relative'}}>
           <div style={{position: 'absolute', left: '100%'}}><CloseIcon/></div>

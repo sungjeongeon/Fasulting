@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CalendarCard from '../Card/CalendarCard';
-import OldReservationList from '../List/OldReservationList';
+import OldReservationList from './OldReservationList';
 
 
 function TabPanel(props) {
