@@ -191,7 +191,7 @@ public class PsController {
         if(psService.editAddress(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
 
     /**
@@ -208,7 +208,7 @@ public class PsController {
         if(psService.editIntro(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
 
     /**
@@ -224,7 +224,7 @@ public class PsController {
         if(psService.editNumber(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
 
     /**
@@ -238,7 +238,7 @@ public class PsController {
         if(psService.editHomepage(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
 
     /**
@@ -254,7 +254,7 @@ public class PsController {
         if(psService.editCategory(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
 
     /**
@@ -270,7 +270,7 @@ public class PsController {
         if(psService.addDoctor(doctor)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
 
     /**
@@ -284,7 +284,7 @@ public class PsController {
         if(psService.deleteDoctor(doctorSeq)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
 
 

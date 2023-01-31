@@ -47,7 +47,7 @@ public class PsServiceImpl implements PsService {
         if(!folder.exists()) folder.mkdirs(); // 폴더 생성
 
         String imgSaveUrl = uuid + "_" + imgFile.getOriginalFilename();
-        File file = new File(dirPath + File.separator + imgSaveUrl); // profileImgSaveUrl 경로 이용해서 폴더 만듬
+        File file = new File(dirPath + File.separator + imgSaveUrl);
         try {
             imgFile.transferTo(file); // 이미지 최종 경로로 보내줘서 저장
             return dirPath + File.separator + imgSaveUrl;
