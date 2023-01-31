@@ -2,16 +2,13 @@ package com.fasulting.demo.customer.main.service;
 
 import com.fasulting.demo.common.rating.TotalRatingRepository;
 import com.fasulting.demo.common.review.ReviewRepository;
+import com.fasulting.demo.customer.favorite.repository.FavoriteRepository;
 import com.fasulting.demo.customer.main.dto.respDto.MainCategoryRespDto;
+import com.fasulting.demo.customer.main.dto.respDto.PsDetailRespDto;
 import com.fasulting.demo.customer.main.dto.respDto.PsListRespDto;
 import com.fasulting.demo.customer.main.dto.respDto.SubCategoryListRespDto;
-import com.fasulting.demo.entity.MainCategoryEntity;
-import com.fasulting.demo.entity.PsEntity;
-import com.fasulting.demo.entity.SubCategoryEntity;
-import com.fasulting.demo.ps.ps.repository.MainCategoryRepository;
-import com.fasulting.demo.ps.ps.repository.PsMainRepository;
-import com.fasulting.demo.ps.ps.repository.PsMainSubRepository;
-import com.fasulting.demo.ps.ps.repository.SubCategoryRepository;
+import com.fasulting.demo.entity.*;
+import com.fasulting.demo.ps.ps.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +25,8 @@ public class MainServiceImpl implements MainService {
 
     private final SubCategoryRepository subCategoryRepository;
 
+    private final PsRepository psRepository;
+
     private final PsMainRepository psMainRepository;
 
     private  final PsMainSubRepository psMainSubRepository;
@@ -36,15 +35,24 @@ public class MainServiceImpl implements MainService {
 
     private final ReviewRepository reviewRepository;
 
+    private final FavoriteRepository favoriteRepository;
+
+    private final PsDefaultRepository psDefaultRepository;
+
     public MainServiceImpl(MainCategoryRepository mainCategoryRepository, SubCategoryRepository subCategoryRepository,
                            PsMainRepository psMainRepository, PsMainSubRepository psMainSubRepository,
-                           TotalRatingRepository totalRatingRepository, ReviewRepository reviewRepository) {
+                           TotalRatingRepository totalRatingRepository, ReviewRepository reviewRepository ,
+                           PsRepository psRepository, FavoriteRepository favoriteRepository,
+                           PsDefaultRepository psDefaultRepository) {
         this.mainCategoryRepository = mainCategoryRepository;
         this.subCategoryRepository = subCategoryRepository;
         this.psMainRepository = psMainRepository;
         this.psMainSubRepository = psMainSubRepository;
         this.totalRatingRepository = totalRatingRepository;
         this.reviewRepository = reviewRepository;
+        this.psRepository = psRepository;
+        this.favoriteRepository = favoriteRepository;
+        this.psDefaultRepository = psDefaultRepository;
     }
 
     @Autowired
@@ -134,6 +142,46 @@ public class MainServiceImpl implements MainService {
             respList.add(resp);
 
         }
+
+        return respList;
+    }
+
+    @Override
+    public PsDetailRespDto getPsDetail(Long userSeq, Long psSeq) {
+        PsEntity ps = psRepository.findById(psSeq).get();
+
+        if(ps == null){
+
+            return null;
+        }
+
+        PsDetailRespDto respList = PsDetailRespDto.builder()
+                .psSeq(psSeq)
+                .psName(ps.getName())
+                .psIntro(ps.getIntro())
+                .psAddress(ps.getAddress())
+                .psProfileImg("server domain" + File.separator + ps.getProfileImg())
+                .psNumber(ps.getNumber())
+                .psEmail(ps.getEmail())
+                .isFavorite(favoriteRepository.findByUserSeqPsSeq(userSeq, psSeq).isPresent())
+                .subCategoryName(psMainSubRepository.getSubNameByPsSeq(psSeq))
+                .totalRatingResult(totalRatingRepository.getResultByPsSeq(psSeq))
+                .reviewTotalCount(reviewRepository.getCountByPsSeq(psSeq))
+                .build();
+
+        // 운영시간
+
+        List<PsDefaultEntity> test = psDefaultRepository.findAllByPsSeq(psSeq);
+
+        for(PsDefaultEntity t : test){
+            log.info("test " + t.toString());
+        }
+
+//        log.info("test list " + test.toString());
+        // 의사
+        // 리뷰
+
+
 
         return respList;
     }

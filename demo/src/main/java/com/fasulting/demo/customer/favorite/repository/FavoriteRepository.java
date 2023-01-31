@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Long> {
@@ -20,6 +21,6 @@ public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Long> 
 
     @Query("SELECT f " + "FROM FavoriteEntity f " +
             "WHERE f.user.seq = :userSeq AND f.ps.seq = :psSeq")
-    FavoriteEntity findByUserSeqPsSeq(@Param("userSeq")Long userSeq, @Param("psSeq")Long psSeq);
+    Optional<FavoriteEntity> findByUserSeqPsSeq(@Param("userSeq")Long userSeq, @Param("psSeq")Long psSeq);
 
 }

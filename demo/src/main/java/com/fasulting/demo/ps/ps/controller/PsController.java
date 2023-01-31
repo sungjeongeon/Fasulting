@@ -107,15 +107,15 @@ public class PsController {
      * @param seq
      * @return 회원 정보 OR fail
      */
-    @GetMapping("/info/{seq}")
-    @ApiOperation(value = "병원 정보 조회", notes = "seq 받아서 병원 정보 조회")
-    public ResponseEntity<?> getPsInfo(@PathVariable @ApiParam(value = "Ps seq", required = true) Long seq) {
-        log.info("getPsInfo - Call");
-
-        // 로그인 했는지 검사 필요
-
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success", psService.getPsInfo(seq)));
-    }
+//    @GetMapping("/info/{psSeq}")
+//    @ApiOperation(value = "병원 정보 조회", notes = "seq 받아서 병원 정보 조회")
+//    public ResponseEntity<?> getPsInfo(@PathVariable @ApiParam(value = "Ps seq", required = true) Long psSeq) {
+//        log.info("getPsInfo - Call");
+//
+//        // 로그인 했는지 검사 필요
+//
+//        return ResponseEntity.status(200).body(ResponseBody.create(200, "success", psService.getPsInfo(psSeq)));
+//    }
 
     /**
      * 병원 게정 탈퇴

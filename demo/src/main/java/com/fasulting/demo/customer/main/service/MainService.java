@@ -1,6 +1,7 @@
 package com.fasulting.demo.customer.main.service;
 
 import com.fasulting.demo.customer.main.dto.respDto.MainCategoryRespDto;
+import com.fasulting.demo.customer.main.dto.respDto.PsDetailRespDto;
 import com.fasulting.demo.customer.main.dto.respDto.PsListRespDto;
 import com.fasulting.demo.customer.main.dto.respDto.SubCategoryListRespDto;
 
@@ -13,4 +14,6 @@ public interface MainService {
     List<SubCategoryListRespDto> getSubcategoryList(Long mainSeq);
 
     List<PsListRespDto> getPsList(Long mainSeq);
+
+    PsDetailRespDto getPsDetail(Long userSeq, Long psSeq);
 }

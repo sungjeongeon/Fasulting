@@ -1,11 +1,10 @@
 package com.fasulting.demo.ps.ps.service;
 
 import com.fasulting.demo.entity.*;
-import com.fasulting.demo.entity.compositeId.DoctorMainId;
 import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
-import com.fasulting.demo.ps.ps.dto.respDto.PsInfoResp;
+import com.fasulting.demo.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.demo.ps.ps.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -195,39 +194,29 @@ public class PsServiceImpl implements PsService {
     }
 
     // 병원 정보 조회
-    @Override
-    public PsInfoResp getPsInfo(Long seq) {
-        if(psRepository.findById(seq).isPresent()) {
-            PsEntity ps = psRepository.findById(seq).get();
-
-            PsInfoResp psInfo = new PsInfoResp();
-
-            psInfo.setName(ps.getName());
-            psInfo.setProfileImg(ps.getProfileImg());
-            psInfo.setIntro(ps.getIntro());
-            psInfo.setAddress(ps.getAddress());
-            psInfo.setZipcode(ps.getZipcode());
-            psInfo.setNumber(ps.getNumber());
-            psInfo.setHomepage(ps.getHomepage());
-            psInfo.setDirector(ps.getDirector());
-            psInfo.setRegistration(ps.getRegistration());
-//            psInfo.setRegistrationImg(ps.getRegistrationImg());
-
-            // 의사 리스트 추가
-            // 제공 수술 추가 => main + sub
-            // 리뷰 조회 추가
-            // 운영 시간 추가
-
-
-            log.info(ps.getRegistrationImg());
-
-            // doctor
-            // main, sub category
-
-            return psInfo;
-        }
-        return null;
-    }
+//    @Override
+//    public PsInfoRespDto getPsInfo(Long psSeq) {
+//        if(psRepository.findById(psSeq).isPresent()) {
+//            PsEntity ps = psRepository.findById(seq).get();
+//
+//            PsInfoRespDto psInfo = null;
+//
+//
+//            // 의사 리스트 추가
+//            // 제공 수술 추가 => main + sub
+//            // 리뷰 조회 추가
+//            // 운영 시간 추가
+//
+//
+//            log.info(ps.getRegistrationImg());
+//
+//            // doctor
+//            // main, sub category
+//
+//            return psInfo;
+//        }
+//        return null;
+//    }
 
     // 병원 회원 정보 수정
 //    @Override

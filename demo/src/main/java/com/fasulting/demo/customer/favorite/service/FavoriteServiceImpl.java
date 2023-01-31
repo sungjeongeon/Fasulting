@@ -105,7 +105,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         Long psSeq = psRepository.findById(favoriteReq.getPsSeq()).get().getSeq();
 
         if(userSeq != null && psSeq != null){
-            FavoriteEntity favorite = favoriteRepository.findByUserSeqPsSeq(userSeq, psSeq);
+            FavoriteEntity favorite = favoriteRepository.findByUserSeqPsSeq(userSeq, psSeq).get();
 
             if(favorite != null) {
                 favoriteRepository.delete(favorite);
