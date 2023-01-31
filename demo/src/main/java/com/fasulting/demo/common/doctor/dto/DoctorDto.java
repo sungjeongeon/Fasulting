@@ -1,4 +1,4 @@
-package com.fasulting.demo.customer.main.dto.respDto;
+package com.fasulting.demo.common.doctor.dto;
 
 import lombok.Builder;
 import lombok.Getter;

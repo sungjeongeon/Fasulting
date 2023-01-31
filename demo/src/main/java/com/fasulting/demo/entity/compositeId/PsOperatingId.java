@@ -11,11 +11,11 @@ import java.io.Serializable;
 public class PsOperatingId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public PsEntity ps;
+    public Long ps;
 
     @EqualsAndHashCode.Include
-    public OperatingCalEntity operatingCal;
+    public Long operatingCal;
 
     @EqualsAndHashCode.Include
-    public TimeEntity time;
+    public Long time;
 }

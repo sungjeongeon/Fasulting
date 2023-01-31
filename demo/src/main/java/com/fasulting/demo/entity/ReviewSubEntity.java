@@ -1,6 +1,9 @@
 package com.fasulting.demo.entity;
 
 import javax.persistence.*;
+
+import com.fasulting.demo.entity.compositeId.PsMainSubId;
+import com.fasulting.demo.entity.compositeId.ReviewSubId;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -14,6 +17,7 @@ import java.io.Serializable;
 @DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@IdClass(ReviewSubId.class)
 @Table (name = "review_sub")
 public class ReviewSubEntity extends BaseEntity implements Serializable{
 

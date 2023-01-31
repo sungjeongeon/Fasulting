@@ -4,6 +4,8 @@ import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,10 +28,6 @@ public class ReviewEntity extends BaseEntity {
 	@JoinColumn(referencedColumnName = "seq", name = "consulting_seq")
 	private ConsultingEntity consulting;
 
-   	/** FK setting */
-	@OneToOne
-	@JoinColumn(referencedColumnName = "seq", name = "rating_hist_seq")
-	private RatingHistEntity ratingHistSeq;
 
    	/** FK setting */
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -43,6 +41,9 @@ public class ReviewEntity extends BaseEntity {
 
    	@Column(name = "content")
 	private String content;
+
+	@Column(name = "point")
+	private BigDecimal point;
 
    	@Column(name = "dec_date")
 	private LocalDateTime decDate;

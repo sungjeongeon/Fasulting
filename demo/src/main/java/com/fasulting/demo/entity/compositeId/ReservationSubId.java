@@ -14,9 +14,9 @@ import java.io.Serializable;
 public class ReservationSubId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public ReservationEntity reservation;
+    public Long reservation;
 
     @EqualsAndHashCode.Include
-    public SubCategoryEntity subCategory;
+    public Long subCategory;
 }
 

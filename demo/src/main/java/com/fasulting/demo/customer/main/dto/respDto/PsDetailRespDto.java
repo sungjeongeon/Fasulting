@@ -1,5 +1,6 @@
 package com.fasulting.demo.customer.main.dto.respDto;
 
+import com.fasulting.demo.common.doctor.dto.DoctorDto;
 import com.fasulting.demo.common.review.respDto.ReviewDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Builder
@@ -37,7 +39,7 @@ public class PsDetailRespDto {
 
     private List<String> subCategoryName; // 병원 서브 카테고리
 
-    private List<PsDefaultDto> defaultTime; // 병원 기본 운영 시간
+    private Map<Integer, List<Integer>> defaultTime; // 병원 기본 운영 시간
 
     private List<DoctorDto> doctor; // 의사
 
