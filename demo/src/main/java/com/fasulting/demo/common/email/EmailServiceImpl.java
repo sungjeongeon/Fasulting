@@ -80,6 +80,13 @@ public class EmailServiceImpl implements EmailService {
 
     }
 
+    /**
+     *
+     * @param to
+     * @return
+     * @throws MessagingException
+     * @throws UnsupportedEncodingException
+     */
     public MimeMessage createResetCodeMessage(String to) throws MessagingException, UnsupportedEncodingException {
 
         log.info("보낼 이메일: " + to);
@@ -139,7 +146,6 @@ public class EmailServiceImpl implements EmailService {
 
     /**
      * 메일 발송
-     *
      * @param to: 보낼 메일 주소
      * @return: 인증 코드를 서버로 리턴
      */

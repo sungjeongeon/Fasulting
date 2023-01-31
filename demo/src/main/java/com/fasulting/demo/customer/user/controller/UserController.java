@@ -38,7 +38,7 @@ public class UserController {
     }
 
     /**
-     * 1. 로그인 - jwt
+     * 로그인 - jwt
      * @param user
      * userEmail & userPassword
      * @return
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     /**
-     * 2. 로그아웃 - jwt
+     * 로그아웃 - jwt
      * @param seq
      * @return fail OR success
      */
@@ -62,7 +62,7 @@ public class UserController {
     }
 
     /**
-     * 5. 회원가입
+     * 회원가입
      * @param userInfo
      * @return successs OF fail
      * success: 성공, fail: 실패
@@ -80,7 +80,7 @@ public class UserController {
     
 
     /**
-     * 6. 회원가입 - 이메일 조회 및 확인
+     * 회원가입 - 이메일 조회 및 확인
      * @param email
      * @return fail or success 
      * fail: email 존재
@@ -100,11 +100,10 @@ public class UserController {
     }
 
     /**
-     * 4. 비밀번호 수정 - 재설정 - 비밀번호만 update
+     * 비밀번호 수정 - 재설정 - 비밀번호만 update
+     * 이전과 같은 비밀번호가 들어오는 경우 fail
      * @param userInfo
      * @return success OR fail
-     * success: 재설정 성공
-     * fail: 재설정 실패
      */
     @PatchMapping("/reset")
     @ApiOperation(value = "비밀번호 수정", notes = "..")
@@ -121,7 +120,7 @@ public class UserController {
     }
 
     /**
-     * 7. 회원 정보 조회
+     * 회원 정보 조회
      * @param seq
      * @return 회원 정보 OR fail
      */
@@ -142,25 +141,7 @@ public class UserController {
     }
 
     /**
-     * 8. 회원 정보 수정
-     * @param userInfo 유저 인포 (userName, userPassword)
-     * @return success OR fail
-     */
-//    @ApiOperation(value = "회원 정보 수정", notes = "수정 정보 받아 정보 수정")
-//    @PutMapping("/edit")
-//    public ResponseEntity<?> editUserInfo(@RequestBody @ApiParam(value = "회원 수정 정보", required = true)  UserSeqReq userInfo) {
-//        log.info("editUser - Call");
-//
-//        // 로그인 했는지 검사 필요
-//
-//        if(userService.editUserInfo(userInfo.getSeq(), userInfo)) {
-//            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-//        }
-//        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
-//    }
-
-    /**
-     * 9. 회원 탈퇴
+     * 회원 탈퇴
      * @param userInfo (userSeq)
      * @return success OR fail
      */
@@ -178,8 +159,7 @@ public class UserController {
     }
 
     /**
-     * 10. 보안 - 비밀번호 확인 (로그인 상태에서)
-     * DB table 안의 기존 비밀 번호 & 새로 설정한 비밀번호 비교
+     * 보안 - 비밀번호 확인 (로그인 상태에서)
      * @param userInfo (userSeq, userPassword)
      * @return success OR fail
      */
@@ -196,19 +176,23 @@ public class UserController {
         return ResponseEntity.status(500).body(ResponseBody.create(200, "fail"));
     }
 
-    // 12. 즐겨찾기 추가
-    // userDto: userSeq, psId
-    @PostMapping("/favorite")
-    public ResponseEntity<?> addFavorite(@RequestBody UserSeqReq userInfo) {
-        return null; // fail OR success
-    }
 
-    // 13. 즐겨찿기 조회
-    @GetMapping("/favorite/{seq}")
-    public ResponseEntity<?> favoriteList(@PathVariable Long seq) {
-        return null; // favorite 객체 리스트
-    }
+//    /**
+//     * 회원 정보 수정
+//     * @param userInfo 유저 인포 (userName, userPassword)
+//     * @return success OR fail
+//     */
+//    @ApiOperation(value = "회원 정보 수정", notes = "수정 정보 받아 정보 수정")
+//    @PutMapping("/edit")
+//    public ResponseEntity<?> editUserInfo(@RequestBody @ApiParam(value = "회원 수정 정보", required = true)  UserSeqReq userInfo) {
+//        log.info("editUser - Call");
+//
+//        // 로그인 했는지 검사 필요
+//
+//        if(userService.editUserInfo(userInfo.getSeq(), userInfo)) {
+//            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+//        }
+//        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+//    }
 
 }
-
-// Database 연결
