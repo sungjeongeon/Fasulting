@@ -22,7 +22,8 @@ public interface PsService {
     boolean editNumber(PsSeqReq psInfo);  // 병원 연락처 수정
     boolean editHomepage(PsSeqReq psInfo); // 병원 홈페이지 수정
     boolean editCategory(PsSeqReq psInfo); // 병원 제공 수술 수정
-    boolean editDoctor(DoctorReq doctor); // 의사 현황 수정
+    boolean addDoctor(DoctorReq doctor); // 의사 추가
+    boolean deleteDoctor(Long doctorSeq); // 의사 삭제
 
 
 }

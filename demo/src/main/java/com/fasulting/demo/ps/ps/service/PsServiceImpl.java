@@ -1,6 +1,7 @@
 package com.fasulting.demo.ps.ps.service;
 
 import com.fasulting.demo.entity.*;
+import com.fasulting.demo.entity.compositeId.DoctorMainId;
 import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
@@ -119,6 +120,7 @@ public class PsServiceImpl implements PsService {
             String name = doctor.getMainCategory();
             MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
 
+
             DoctorMainEntity doctorMain = DoctorMainEntity.builder().doctor(doc)
                             .mainCategory(mainCategory).build();
 
@@ -145,8 +147,9 @@ public class PsServiceImpl implements PsService {
         /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
         for(String name : psInfo.getSubCategoryList()) {
 
-            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
             SubCategoryEntity subCategory = subRepository.findMainByName(name).get();
+
+            MainCategoryEntity mainCategory = subCategory.getMainCategory();
 
             if(subCategory != null) {
                 PsMainSubEntity psMainSub = PsMainSubEntity.builder().ps(ps)
@@ -207,8 +210,14 @@ public class PsServiceImpl implements PsService {
             psInfo.setNumber(ps.getNumber());
             psInfo.setHomepage(ps.getHomepage());
             psInfo.setDirector(ps.getDirector());
-            psInfo.setRegistration(ps.getRegistration());
-            psInfo.setRegistrationImg(ps.getRegistrationImg());
+//            psInfo.setRegistration(ps.getRegistration());
+//            psInfo.setRegistrationImg(ps.getRegistrationImg());
+
+            // 운영 시간 추가
+            // 의사 리스트 추가
+            // 제공 수술 추가 => main + sub
+            // 리뷰 조회 추가
+
 
             log.info(ps.getRegistrationImg());
 
@@ -410,10 +419,11 @@ public class PsServiceImpl implements PsService {
         /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
         for(String name : psInfo.getSubCategoryList()) {
 
-            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
-            log.info(mainCategory.toString());
             SubCategoryEntity subCategory = subRepository.findMainByName(name).get();
             log.info(subCategory.toString());
+
+            MainCategoryEntity mainCategory = subCategory.getMainCategory();
+            log.info(mainCategory.toString());
 
             if(subCategory != null) {
                 PsMainSubEntity psMainSub = PsMainSubEntity.builder().ps(ps)
@@ -424,25 +434,30 @@ public class PsServiceImpl implements PsService {
 
         }
 
-        return false;
+        return true;
     }
 
-    // 전문의 정보 수정
+    // 전문의 삭제
     @Override
     @Transactional
-    public boolean editDoctor(DoctorReq doctor) {
+    public boolean deleteDoctor(Long doctorSeq) {
 
-        Long seq = doctor.getPsSeq(); // Ps seq
+        // delete
+        doctorMainRepository.deleteMainByDoctor(doctorSeq);
+        doctorRepository.deleteById(doctorSeq);
 
-        // delete 하기
-        doctorRepository.deleteDoctorByPs(seq);
+        return true;
+    }
 
-        // 다시 save
+    @Override
+    @Transactional
+    public boolean addDoctor(DoctorReq doctor) {
+        // 파일
         MultipartFile imgFile = doctor.getImg();
 
         PsEntity ps = psRepository.findById(doctor.getPsSeq()).get();
-        /////////////// 병원 - 전문의 리스트 저장 ///////////////
 
+        /////////////// 병원 - 전문의 리스트 저장 ///////////////
         String doctorImgUrl = null;
 
         MultipartFile doctorImgFile = doctor.getImg();
@@ -467,8 +482,8 @@ public class PsServiceImpl implements PsService {
 
         doctorMainRepository.save(doctorMain);
 
-
         return true;
     }
+
 
 }
