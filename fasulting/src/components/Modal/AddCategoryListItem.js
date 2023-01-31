@@ -7,15 +7,10 @@ import Collapse from '@mui/material/Collapse';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import Checkbox from '@mui/material/Checkbox';
 
-function AddCategoryListItem ({mainId, mainName, subList, selected, increaseCnt, decreaseCnt}) {
-  const selectedsub = selected.length === 0 ? [] : 
-    selected[0].sub_ctg.map((subitem) => {
-      // 카테고리 id는 1부터 시작인데, 인덱스는 0부터 시작이므로 -1
-      return subitem.id-1
-    })
+function AddCategoryListItem ({mainId, mainName, subList, selectedMain, selectedSubList, increaseCnt, decreaseCnt}) {
   
   // 체크박스 state 생성 + 토글 함수 생성
-  const [checked, setChecked] = React.useState(selectedsub);
+  const [checked, setChecked] = React.useState(selectedSubList);
   const handleToggle = (value) => () => {
   const currentIndex = checked.indexOf(value);
   const newChecked = [...checked];
@@ -30,9 +25,9 @@ function AddCategoryListItem ({mainId, mainName, subList, selected, increaseCnt,
   }
 
   setChecked(newChecked);
+  // updateItem(mainId, newChecked)
   };
-
-  const currentopen = selectedsub.length === 0 ? false : true
+  const currentopen = selectedSubList.length === 0 ? false : true
   const [open, setOpen] = React.useState(currentopen);
   const handleClick = () => {
     setOpen((current) => !current)

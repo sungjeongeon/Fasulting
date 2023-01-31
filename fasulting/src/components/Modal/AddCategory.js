@@ -215,7 +215,7 @@ export default function AddCategory({ModalStateChange, ctg_list}) {
     return acc + cur.sub_ctg.length
   }, 0)
   // console.log(ctgcount)
-  // 상태관리 필요 (컴포넌트마다 계산해야 하기 때문) => 리덕스 다시 공부하고 수정
+  // 선택된 서브 카테고리 총 개수
   const [totalcnt, setTotalCnt] = React.useState(ctgcount)
   
   const increaseCnt = () => {
@@ -225,6 +225,18 @@ export default function AddCategory({ModalStateChange, ctg_list}) {
     setTotalCnt(totalcnt - 1)
   }
 
+  // // 전체 카테고리에서 총 선택된 서브 카테고리 (서버에 보낼 것)
+  // const [totalChecked, setTotalChecked] = React.useState([]);
+  // // const newTotalChecked = [...totalChecked]
+  // const updateItem = (mainId, updatelist) => {
+  //   setTotalChecked(
+  //     [...totalChecked, {
+  //       id: mainId,
+  //       sub: updatelist
+  //     }]
+  //   )
+  // }
+  // console.log(totalChecked)
   return (
     <div className={styles.background}>
     <List
@@ -261,15 +273,24 @@ export default function AddCategory({ModalStateChange, ctg_list}) {
         const currentmain = ctg_list.filter(ctg => {
           return ctg.id === main.id
         })
+        // name 빼고 subList 들고오기 (인덱스)
+        const selectedSubObj = currentmain[0] ? currentmain[0].sub_ctg : []
+        const selectedSubList = selectedSubObj.map((subobj) => {
+          return subobj.id-1
+        })
+        // console.log(currentmain)
         return (
           <AddCategoryListItem
             key={index}
             mainId={main.id}
             mainName={main.name}
             subList={main.sub_ctg}
-            selected={currentmain}
+            selectedMain={currentmain}
+            selectedSubList={selectedSubList}
             increaseCnt={increaseCnt}
             decreaseCnt={decreaseCnt}
+            // updateItem={() => updateItem(main.id, selectedSubList)}
+            // updateChecked={updateChecked}
           />
         )
       })}
@@ -277,7 +298,7 @@ export default function AddCategory({ModalStateChange, ctg_list}) {
       <div className={styles.center}>
         { totalcnt === 0 ? <button
           className={styles.before}
-          onClick={ModalStateChange}
+          disabled
           >
           서비스를 등록해주세요
         </button> :

@@ -1,0 +1,14 @@
+.today {
+  color: #72a1a6 !important;
+  border: 1px solid #72a1a6 !important;
+}
+
+.today::after {
+  visibility: hidden; /* hide small border under the text */
+}
+
+.p {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 2.5rem;
+}
