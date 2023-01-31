@@ -1,4 +1,4 @@
-package com.fasulting.demo.common;
+package com.fasulting.demo.common.email;
 
 public interface EmailService {
 

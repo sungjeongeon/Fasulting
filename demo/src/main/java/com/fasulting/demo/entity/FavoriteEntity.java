@@ -32,5 +32,9 @@ public class FavoriteEntity extends BaseEntity {
 	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
 	private UserEntity user;
 
-
+	@Builder
+	public FavoriteEntity(PsEntity ps, UserEntity user) {
+		this.ps = ps;
+		this.user = user;
+	}
 }

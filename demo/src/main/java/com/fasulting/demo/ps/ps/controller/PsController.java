@@ -5,18 +5,14 @@ import com.fasulting.demo.ps.ps.dto.reqDto.Test;
 import com.fasulting.demo.resp.ResponseBody;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
-import com.fasulting.demo.common.EmailService;
-import com.fasulting.demo.common.EmailServiceImpl;
 import com.fasulting.demo.ps.ps.service.PsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @Api(value = "병원 계정 관련 API", tags = {"PsController"})
 @Slf4j
