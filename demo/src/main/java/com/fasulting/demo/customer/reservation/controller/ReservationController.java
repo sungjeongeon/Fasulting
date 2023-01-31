@@ -1,12 +1,9 @@
 package com.fasulting.demo.customer.reservation.controller;
 
-import com.fasulting.demo.customer.reservation.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-// request, response 객체 논의 필요
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -22,8 +19,8 @@ public class ReservationController {
 //    }
 //
 //    // 1. 병원 예약 테이블 조회 - jwt
-//    @GetMapping("/{psId}")
-//    public ResponseEntity<?> ReservationList(@PathVariable int psId) {
+//    @GetMapping("/{psSeq}")
+//    public ResponseEntity<?> reservationList(@PathVariable int psId) {
 //        return null; // 병원 예약 테이블 반환
 //    }
 //

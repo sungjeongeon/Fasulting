@@ -1,9 +1,13 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,7 +32,7 @@ public class ReservationEntity extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "seq", name = "time_seq")
-	private ReservationTimeEntity time;
+	private TimeEntity time;
 
    	/** FK setting */
 	@ManyToOne(fetch = FetchType.LAZY)

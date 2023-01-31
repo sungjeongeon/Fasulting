@@ -7,7 +7,6 @@ import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
 import com.fasulting.demo.ps.ps.dto.respDto.PsInfoResp;
 import com.fasulting.demo.ps.ps.repository.*;
 import lombok.extern.slf4j.Slf4j;
-import org.jboss.jandex.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,8 +15,6 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -40,7 +37,7 @@ public class PsServiceImpl implements PsService {
     private DoctorMainRepository doctorMainRepository;
 
     // 배포할 때 경로 바꾸기
-    private final String dirPath = "C:/fasulting/ps/files/";
+    private final String dirPath = "C:/fasulting/ps/files";
 
     private final String domain = "https://localhost:8080/resources/upload/";
 
@@ -52,7 +49,7 @@ public class PsServiceImpl implements PsService {
         File file = new File(dirPath + File.separator + imgSaveUrl); // profileImgSaveUrl 경로 이용해서 폴더 만듬
         try {
             imgFile.transferTo(file); // 이미지 최종 경로로 보내줘서 저장
-            return dirPath + imgSaveUrl;
+            return dirPath + File.separator + imgSaveUrl;
         } catch (IOException e) {
             log.info(e.getMessage());
         }

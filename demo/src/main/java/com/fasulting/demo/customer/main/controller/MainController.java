@@ -58,4 +58,13 @@ public class MainController {
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
+//    @GetMapping("ps-detail/{psSeq}")
+//    public ResponseEntity<?> getPsDetail(@PathVariable Long psSeq) {
+//        if (mainService.getPsList(mainSeq) != null) {
+//            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", mainService.getPsList(mainSeq)));
+//        }
+//
+//        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+//    }
+
 }

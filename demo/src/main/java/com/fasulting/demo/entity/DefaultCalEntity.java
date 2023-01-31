@@ -10,32 +10,25 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
 @Entity
+//@Builder
 @Getter
 @DynamicInsert // Apply changed fields only
 @DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table (name = "operating_time")
-public class OperatingTimeEntity extends BaseEntity {
+@Table (name = "default_cal")
+public class DefaultCalEntity extends BaseEntity {
 
    	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "seq")
 	private Long seq;
 
-	@Column(name = "num")
-	private Integer num;
-   	@Column(name = "start_hour")
-	private Integer startHour;
+	/** 1: 일, ~ 7:토 */
+   	@Column(name = "day_of_week")
+	private Integer dayOfWeek;
 
-   	@Column(name = "start_min")
-	private Integer startMin;
-
-   	@Column(name = "end_hour")
-	private Integer endHour;
-
-   	@Column(name = "end_min")
-	private Integer endMin;
-
+	@Column(name = "off_yn")
+	private  String offYn;
 
 }

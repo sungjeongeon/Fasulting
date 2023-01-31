@@ -38,23 +38,16 @@ CREATE TABLE IF NOT EXISTS `consulting` (
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
--- 테이블 hotsix.default_operating 구조 내보내기
-CREATE TABLE IF NOT EXISTS `default_operating` (
+-- 테이블 hotsix.default_cal 구조 내보내기
+CREATE TABLE IF NOT EXISTS `default_cal` (
   `seq` bigint(20) NOT NULL AUTO_INCREMENT,
   `mod_date` datetime(6) DEFAULT NULL,
   `mod_by` varchar(255) DEFAULT NULL,
   `reg_by` varchar(255) DEFAULT NULL,
   `reg_date` datetime(6) DEFAULT NULL,
-  `am_end` int(11) DEFAULT NULL,
-  `am_start` int(11) DEFAULT NULL,
   `day_of_week` int(11) DEFAULT NULL,
   `off_yn` varchar(255) DEFAULT NULL,
-  `pm_end` int(11) DEFAULT NULL,
-  `pm_start` int(11) DEFAULT NULL,
-  `ps_seq` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`seq`),
-  KEY `FKqsqlhpica70qb39acsugkhp6y` (`ps_seq`),
-  CONSTRAINT `FKqsqlhpica70qb39acsugkhp6y` FOREIGN KEY (`ps_seq`) REFERENCES `ps` (`seq`)
+  PRIMARY KEY (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
@@ -140,23 +133,6 @@ CREATE TABLE IF NOT EXISTS `operating_cal` (
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
--- 테이블 hotsix.operating_time 구조 내보내기
-CREATE TABLE IF NOT EXISTS `operating_time` (
-  `seq` bigint(20) NOT NULL AUTO_INCREMENT,
-  `mod_date` datetime(6) DEFAULT NULL,
-  `mod_by` varchar(255) DEFAULT NULL,
-  `reg_by` varchar(255) DEFAULT NULL,
-  `reg_date` datetime(6) DEFAULT NULL,
-  `end_hour` int(11) DEFAULT NULL,
-  `end_min` int(11) DEFAULT NULL,
-  `num` int(11) DEFAULT NULL,
-  `start_hour` int(11) DEFAULT NULL,
-  `start_min` int(11) DEFAULT NULL,
-  PRIMARY KEY (`seq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
-
--- 내보낼 데이터가 선택되어 있지 않습니다.
-
 -- 테이블 hotsix.ps 구조 내보내기
 CREATE TABLE IF NOT EXISTS `ps` (
   `seq` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -183,6 +159,25 @@ CREATE TABLE IF NOT EXISTS `ps` (
   `registration_img` varchar(255) DEFAULT NULL,
   `zipcode` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+
+-- 테이블 hotsix.ps_default 구조 내보내기
+CREATE TABLE IF NOT EXISTS `ps_default` (
+  `mod_date` datetime(6) DEFAULT NULL,
+  `mod_by` varchar(255) DEFAULT NULL,
+  `reg_by` varchar(255) DEFAULT NULL,
+  `reg_date` datetime(6) DEFAULT NULL,
+  `time_seq` bigint(20) NOT NULL,
+  `cal_seq` bigint(20) NOT NULL,
+  `ps_seq` bigint(20) NOT NULL,
+  PRIMARY KEY (`cal_seq`,`ps_seq`,`time_seq`),
+  KEY `FKk9xwy3bsynoywulnimnt6idhn` (`time_seq`),
+  KEY `FKinnr1wu4h9pt1bp1rsm3sfp0c` (`ps_seq`),
+  CONSTRAINT `FKinnr1wu4h9pt1bp1rsm3sfp0c` FOREIGN KEY (`ps_seq`) REFERENCES `ps` (`seq`),
+  CONSTRAINT `FKjgd5i9ihl1tcv80sv06527ys1` FOREIGN KEY (`cal_seq`) REFERENCES `default_cal` (`seq`),
+  CONSTRAINT `FKk9xwy3bsynoywulnimnt6idhn` FOREIGN KEY (`time_seq`) REFERENCES `time` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
@@ -228,14 +223,14 @@ CREATE TABLE IF NOT EXISTS `ps_operating` (
   `mod_by` varchar(255) DEFAULT NULL,
   `reg_by` varchar(255) DEFAULT NULL,
   `reg_date` datetime(6) DEFAULT NULL,
-  `cal_seq` bigint(20) NOT NULL,
   `time_seq` bigint(20) NOT NULL,
+  `cal_seq` bigint(20) NOT NULL,
   `ps_seq` bigint(20) NOT NULL,
-  PRIMARY KEY (`cal_seq`,`time_seq`,`ps_seq`),
-  KEY `FKnis1srreof9twv3ok02mn181w` (`time_seq`),
+  PRIMARY KEY (`cal_seq`,`ps_seq`,`time_seq`),
+  KEY `FKnykdlmxm9lem3oqj2yiayhu7x` (`time_seq`),
   KEY `FKr0cshmxwwsehh6vp4sv1yvo5j` (`ps_seq`),
   CONSTRAINT `FK4u9q7t29yqpe7c9q2uco0wg2w` FOREIGN KEY (`cal_seq`) REFERENCES `operating_cal` (`seq`),
-  CONSTRAINT `FKnis1srreof9twv3ok02mn181w` FOREIGN KEY (`time_seq`) REFERENCES `operating_time` (`seq`),
+  CONSTRAINT `FKnykdlmxm9lem3oqj2yiayhu7x` FOREIGN KEY (`time_seq`) REFERENCES `time` (`seq`),
   CONSTRAINT `FKr0cshmxwwsehh6vp4sv1yvo5j` FOREIGN KEY (`ps_seq`) REFERENCES `ps` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
@@ -319,12 +314,12 @@ CREATE TABLE IF NOT EXISTS `reservation` (
   PRIMARY KEY (`seq`),
   KEY `FK8cvrhshmwh6e6k9hk60s0bifl` (`ps_seq`),
   KEY `FK4hdvn08v2wacmix1f83ckoddj` (`cal_seq`),
-  KEY `FKkx0g402eveim08u9byab7y0vh` (`time_seq`),
+  KEY `FK2f3mfbvfiqfq7re27ivoxjawc` (`time_seq`),
   KEY `FKfm417muc4fl0oqcsr8tdcnh1y` (`user_seq`),
+  CONSTRAINT `FK2f3mfbvfiqfq7re27ivoxjawc` FOREIGN KEY (`time_seq`) REFERENCES `time` (`seq`),
   CONSTRAINT `FK4hdvn08v2wacmix1f83ckoddj` FOREIGN KEY (`cal_seq`) REFERENCES `reservation_cal` (`seq`),
   CONSTRAINT `FK8cvrhshmwh6e6k9hk60s0bifl` FOREIGN KEY (`ps_seq`) REFERENCES `ps` (`seq`),
-  CONSTRAINT `FKfm417muc4fl0oqcsr8tdcnh1y` FOREIGN KEY (`user_seq`) REFERENCES `user` (`seq`),
-  CONSTRAINT `FKkx0g402eveim08u9byab7y0vh` FOREIGN KEY (`time_seq`) REFERENCES `reservation_time` (`seq`)
+  CONSTRAINT `FKfm417muc4fl0oqcsr8tdcnh1y` FOREIGN KEY (`user_seq`) REFERENCES `user` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
@@ -358,23 +353,6 @@ CREATE TABLE IF NOT EXISTS `reservation_sub` (
   KEY `FKcjh7uv7pwbkkdmddetd8oaxbx` (`resrvation_seq`),
   CONSTRAINT `FKcjh7uv7pwbkkdmddetd8oaxbx` FOREIGN KEY (`resrvation_seq`) REFERENCES `reservation` (`seq`),
   CONSTRAINT `FKjg7gt5l3eqg2yl5x95mwvmkid` FOREIGN KEY (`sub_seq`) REFERENCES `sub_category` (`seq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
-
--- 내보낼 데이터가 선택되어 있지 않습니다.
-
--- 테이블 hotsix.reservation_time 구조 내보내기
-CREATE TABLE IF NOT EXISTS `reservation_time` (
-  `seq` bigint(20) NOT NULL AUTO_INCREMENT,
-  `mod_date` datetime(6) DEFAULT NULL,
-  `mod_by` varchar(255) DEFAULT NULL,
-  `reg_by` varchar(255) DEFAULT NULL,
-  `reg_date` datetime(6) DEFAULT NULL,
-  `end_hour` int(11) DEFAULT NULL,
-  `end_min` int(11) DEFAULT NULL,
-  `num` int(11) DEFAULT NULL,
-  `start_hour` int(11) DEFAULT NULL,
-  `start_min` int(11) DEFAULT NULL,
-  PRIMARY KEY (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
@@ -452,6 +430,23 @@ CREATE TABLE IF NOT EXISTS `sub_category` (
   PRIMARY KEY (`seq`),
   KEY `FKqus487tlgic3ksp6jfgnr27ry` (`main_seq`),
   CONSTRAINT `FKqus487tlgic3ksp6jfgnr27ry` FOREIGN KEY (`main_seq`) REFERENCES `main_category` (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+
+-- 테이블 hotsix.time 구조 내보내기
+CREATE TABLE IF NOT EXISTS `time` (
+  `seq` bigint(20) NOT NULL AUTO_INCREMENT,
+  `mod_date` datetime(6) DEFAULT NULL,
+  `mod_by` varchar(255) DEFAULT NULL,
+  `reg_by` varchar(255) DEFAULT NULL,
+  `reg_date` datetime(6) DEFAULT NULL,
+  `end_hour` int(11) DEFAULT NULL,
+  `end_min` int(11) DEFAULT NULL,
+  `num` int(11) DEFAULT NULL,
+  `start_hour` int(11) DEFAULT NULL,
+  `start_min` int(11) DEFAULT NULL,
+  PRIMARY KEY (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
