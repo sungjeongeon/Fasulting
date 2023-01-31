@@ -1,4 +1,4 @@
-package com.fasulting.demo.ps.psReview.request;
+package com.fasulting.demo.ps.psReview.dto.reqDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class AccuseReviewReq {
 
-    private int seq;
+    private Long seq;
 
 }

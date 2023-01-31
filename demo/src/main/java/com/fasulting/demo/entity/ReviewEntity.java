@@ -62,5 +62,8 @@ public class ReviewEntity extends BaseEntity {
    	@Column(name = "del_yn")
 	private String delYn;
 
+	public void accuseReview() {
+		this.delYn = "Y";
+	}
 
 }

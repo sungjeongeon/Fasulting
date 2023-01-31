@@ -38,7 +38,7 @@ public class PsServiceImpl implements PsService {
     private DoctorMainRepository doctorMainRepository;
 
     // 배포할 때 경로 바꾸기
-    private final String dirPath = "C:/fasulting/ps/files/";
+    private final String dirPath = "C:/fasulting/ps/files";
 
     private final String domain = "https://localhost:8080/resources/upload/";
 
@@ -50,7 +50,7 @@ public class PsServiceImpl implements PsService {
         File file = new File(dirPath + File.separator + imgSaveUrl); // profileImgSaveUrl 경로 이용해서 폴더 만듬
         try {
             imgFile.transferTo(file); // 이미지 최종 경로로 보내줘서 저장
-            return dirPath + imgSaveUrl;
+            return dirPath + File.separator + imgSaveUrl;
         } catch (IOException e) {
             log.info(e.getMessage());
         }
@@ -210,13 +210,13 @@ public class PsServiceImpl implements PsService {
             psInfo.setNumber(ps.getNumber());
             psInfo.setHomepage(ps.getHomepage());
             psInfo.setDirector(ps.getDirector());
-//            psInfo.setRegistration(ps.getRegistration());
+            psInfo.setRegistration(ps.getRegistration());
 //            psInfo.setRegistrationImg(ps.getRegistrationImg());
 
-            // 운영 시간 추가
             // 의사 리스트 추가
             // 제공 수술 추가 => main + sub
             // 리뷰 조회 추가
+            // 운영 시간 추가
 
 
             log.info(ps.getRegistrationImg());

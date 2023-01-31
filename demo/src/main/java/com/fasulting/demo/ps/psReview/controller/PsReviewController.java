@@ -1,10 +1,10 @@
 package com.fasulting.demo.ps.psReview.controller;
 
-import com.fasulting.demo.ps.psReview.request.AccuseReviewReq;
+import com.fasulting.demo.ps.psReview.dto.reqDto.AccuseReviewReq;
 import com.fasulting.demo.ps.psReview.service.PsReviewService;
+import com.fasulting.demo.resp.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,23 +22,20 @@ public class PsReviewController {
     }
 
     /**
-     * 1. 리뷰 조회
-     * @param seq
-     * @return
-     */
-    @GetMapping("/{seq}")
-    public ResponseEntity<?> GetReviewInfo(@PathVariable int seq) {
-        return null;
-    }
-
-    /**
-     * 2. 리뷰 신고
+     * 1. 리뷰 신고
      * @param accuseReviewReq (seq)
      * @return
      */
     @PatchMapping("/accuse")
     public ResponseEntity<?> AccuseReview(@RequestBody AccuseReviewReq accuseReviewReq) {
-        return null;
+
+        Long seq = accuseReviewReq.getSeq();
+
+        if(psReviewService.accuseReview(seq)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
 
 }
