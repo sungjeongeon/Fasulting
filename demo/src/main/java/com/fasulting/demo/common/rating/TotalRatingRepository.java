@@ -1,6 +1,5 @@
 package com.fasulting.demo.common.rating;
 
-import com.fasulting.demo.entity.RatingHistEntity;
 import com.fasulting.demo.entity.TotalRatingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

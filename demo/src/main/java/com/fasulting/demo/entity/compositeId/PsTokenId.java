@@ -13,8 +13,8 @@ import java.io.Serializable;
 public class PsTokenId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public PsEntity ps;
+    public Long ps;
 
     @EqualsAndHashCode.Include
-    public TokenEntity token;
+    public Long token;
 }

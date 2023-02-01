@@ -1,7 +1,5 @@
 INSERT INTO ps_default (`ps_seq`, `cal_seq`, `time_seq`) VALUES
 	(1, 1, 1),
-	(1, 1, 2),
-	(1, 1, 3),
 	(1, 2, 4),
 	(1, 2, 5),
 	(1, 2, 6),

@@ -1,5 +1,9 @@
 package com.fasulting.demo.customer.main.controller;
 
+import com.fasulting.demo.customer.main.dto.respDto.MainCategoryRespDto;
+import com.fasulting.demo.customer.main.dto.respDto.PsDetailRespDto;
+import com.fasulting.demo.customer.main.dto.respDto.PsListRespDto;
+import com.fasulting.demo.customer.main.dto.respDto.SubCategoryListRespDto;
 import com.fasulting.demo.customer.main.service.MainService;
 import com.fasulting.demo.resp.ResponseBody;
 import io.swagger.annotations.Api;
@@ -8,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(value = "상담자 메인 페이지 API", tags = {"MainController"})
 @Slf4j
 @RestController
-@RequestMapping("/")
+@RequestMapping("/main")
 @CrossOrigin("*") // 수정
 public class MainController {
 
@@ -28,8 +34,10 @@ public class MainController {
      */
     @GetMapping
     public ResponseEntity<?> getMainList() {
-        if (mainService.getMainCategoryList() != null) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", mainService.getMainCategoryList()));
+        List<MainCategoryRespDto> resp = mainService.getMainCategoryList();
+
+        if (resp != null) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
 
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
@@ -40,28 +48,46 @@ public class MainController {
      * @param mainSeq
      * @return
      */
-    @GetMapping("sub/{mainSeq}")
+    @GetMapping("/sub/{mainSeq}")
     public ResponseEntity<?> getSubList(@PathVariable Long mainSeq) {
-        if (mainService.getSubcategoryList(mainSeq) != null) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", mainService.getSubcategoryList(mainSeq)));
+        List<SubCategoryListRespDto> resp = mainService.getSubcategoryList(mainSeq);
+
+        if (resp != null) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
 
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
-    @GetMapping("ps-list/{mainSeq}")
+    /**
+     * 메인 카테고리에 속하는 의사 리스트 조회
+     * @param mainSeq
+     * @return
+     */
+    @GetMapping("/ps-list/{mainSeq}")
     public ResponseEntity<?> getPsList(@PathVariable Long mainSeq) {
-        if (mainService.getPsList(mainSeq) != null) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", mainService.getPsList(mainSeq)));
+        List<PsListRespDto> resp = mainService.getPsList(mainSeq);
+
+        if (resp != null) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
 
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
-    @GetMapping("ps-detail/{userSeq}/{psSeq}")
+    /**
+     * 선택한 병원에 대한 디테일 정보(페이지 전체)
+     * @param userSeq
+     * @param psSeq
+     * @return
+     */
+    @GetMapping("/ps-detail/{userSeq}/{psSeq}")
     public ResponseEntity<?> getPsDetail(@PathVariable Long userSeq, @PathVariable Long psSeq) {
-        if (mainService.getPsDetail(psSeq, userSeq) != null) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", mainService.getPsDetail(psSeq, userSeq)));
+
+        PsDetailRespDto resp = mainService.getPsDetail(psSeq, userSeq);
+
+        if (resp != null) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
 
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));

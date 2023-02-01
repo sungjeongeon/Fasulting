@@ -1,5 +1,6 @@
-package com.fasulting.demo.common.email;
+package com.fasulting.demo.common.email.controller;
 
+import com.fasulting.demo.common.email.service.EmailService;
 import com.fasulting.demo.resp.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

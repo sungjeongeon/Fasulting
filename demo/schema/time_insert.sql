@@ -1,4 +1,5 @@
 INSERT INTO `time` (num, start_hour, start_min, end_hour, end_min, `reg_by`, `reg_date`) VALUES
+	(-1, -1, -1, -1, -1, 'admin', NOW()),
 	(0, 9, 0, 9, 29, 'admin', NOW()),
 	(1, 9, 30, 9, 59, 'admin', NOW()),
 	(2, 10, 0, 10, 29, 'admin', NOW()),

@@ -1,7 +1,7 @@
 package com.fasulting.demo.customer.favorite.service;
 
 import com.fasulting.demo.common.rating.TotalRatingRepository;
-import com.fasulting.demo.common.review.ReviewRepository;
+import com.fasulting.demo.common.review.repository.ReviewRepository;
 import com.fasulting.demo.customer.favorite.dto.reqDto.FavoriteReq;
 import com.fasulting.demo.customer.favorite.dto.respDto.FavoriteResp;
 import com.fasulting.demo.customer.favorite.repository.FavoriteRepository;

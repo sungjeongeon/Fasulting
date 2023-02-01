@@ -14,8 +14,8 @@ import java.io.Serializable;
 public class UserTokenId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public UserEntity user;
+    public Long user;
 
     @EqualsAndHashCode.Include
-    public TokenEntity token;
+    public Long token;
 }

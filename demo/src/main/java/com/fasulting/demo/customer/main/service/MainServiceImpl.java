@@ -1,21 +1,23 @@
 package com.fasulting.demo.customer.main.service;
 
+import com.fasulting.demo.common.doctor.dto.DoctorDto;
 import com.fasulting.demo.common.rating.TotalRatingRepository;
-import com.fasulting.demo.common.review.ReviewRepository;
+import com.fasulting.demo.common.review.repository.ReviewRepository;
+import com.fasulting.demo.common.review.repository.ReviewSubRepository;
+import com.fasulting.demo.common.review.respDto.ReviewDto;
 import com.fasulting.demo.customer.favorite.repository.FavoriteRepository;
-import com.fasulting.demo.customer.main.dto.respDto.MainCategoryRespDto;
-import com.fasulting.demo.customer.main.dto.respDto.PsDetailRespDto;
-import com.fasulting.demo.customer.main.dto.respDto.PsListRespDto;
-import com.fasulting.demo.customer.main.dto.respDto.SubCategoryListRespDto;
+import com.fasulting.demo.customer.main.dto.respDto.*;
 import com.fasulting.demo.entity.*;
 import com.fasulting.demo.ps.ps.repository.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -39,11 +41,18 @@ public class MainServiceImpl implements MainService {
 
     private final PsDefaultRepository psDefaultRepository;
 
+    private final DoctorRepository doctorRepository;
+
+    private final DoctorMainRepository doctorMainRepository;
+
+    private final ReviewSubRepository reviewSubRepository;
+
     public MainServiceImpl(MainCategoryRepository mainCategoryRepository, SubCategoryRepository subCategoryRepository,
                            PsMainRepository psMainRepository, PsMainSubRepository psMainSubRepository,
                            TotalRatingRepository totalRatingRepository, ReviewRepository reviewRepository ,
                            PsRepository psRepository, FavoriteRepository favoriteRepository,
-                           PsDefaultRepository psDefaultRepository) {
+                           PsDefaultRepository psDefaultRepository, DoctorRepository doctorRepository,
+                           DoctorMainRepository doctorMainRepository, ReviewSubRepository reviewSubRepository) {
         this.mainCategoryRepository = mainCategoryRepository;
         this.subCategoryRepository = subCategoryRepository;
         this.psMainRepository = psMainRepository;
@@ -53,10 +62,10 @@ public class MainServiceImpl implements MainService {
         this.psRepository = psRepository;
         this.favoriteRepository = favoriteRepository;
         this.psDefaultRepository = psDefaultRepository;
+        this.doctorRepository = doctorRepository;
+        this.doctorMainRepository = doctorMainRepository;
+        this.reviewSubRepository = reviewSubRepository;
     }
-
-    @Autowired
-
 
     @Override
     public List<MainCategoryRespDto> getMainCategoryList(){
@@ -99,19 +108,19 @@ public class MainServiceImpl implements MainService {
             return  null;
         }
 
-        List<SubCategoryListRespDto> returnList = new ArrayList<>();
+        List<SubCategoryListRespDto> resp = new ArrayList<>();
 
         for(SubCategoryEntity sub : list) {
-            SubCategoryListRespDto resp = SubCategoryListRespDto.builder()
+            SubCategoryListRespDto subList = SubCategoryListRespDto.builder()
                     .subSeq(sub.getSeq())
                     .subName(sub.getName())
                     .build();
 
-            returnList.add(resp);
+            resp.add(subList);
         }
 
-        log.info("sub category list success" + returnList.toString());
-        return returnList;
+        log.info("sub category list success" + resp.toString());
+        return resp;
     }
 
     @Override
@@ -152,10 +161,82 @@ public class MainServiceImpl implements MainService {
 
         if(ps == null){
 
-            return null;
+            // 처리
         }
 
-        PsDetailRespDto respList = PsDetailRespDto.builder()
+        // 운영시간
+        List<PsDefaultEntity> psDefaultList = psDefaultRepository.findAllByPsSeq(psSeq);
+
+        Map<Integer, List<Integer>> map = new HashMap<>();
+
+        for(int i = 1; i<= 7; i++){
+            map.put(i, new ArrayList<>()); // 1: 일요일 ~ 7 : 토요일
+        }
+
+        for(PsDefaultEntity psDefault : psDefaultList){
+            int dayOfWeek = psDefault.getDefaultCal().getDayOfWeek();
+            int time = psDefault.getTime().getNum();
+
+            List<Integer> value = map.get(dayOfWeek);
+
+            value.add(time);
+            map.put(dayOfWeek, value);
+
+        }
+        if(psDefaultList == null){
+
+            // 처리
+        }
+
+
+        // 의사
+        List<DoctorEntity> docList = doctorRepository.findAllByPsSeq(psSeq);
+
+        List<DoctorDto> docDtoList = new ArrayList<>();
+
+        for(DoctorEntity doctor : docList){
+            DoctorDto doctorDto = DoctorDto.builder()
+                    .doctorSeq(doctor.getSeq())
+                    .name(doctor.getName())
+                    .profileImg(doctor.getImg())
+                    .mainCategoryName(doctorMainRepository.getMainCategoryByDoctorSeq(doctor.getSeq()))
+                    .build();
+
+            docDtoList.add(doctorDto);
+        }
+
+        if(psDefaultList == null){
+
+            // 처리
+        }
+
+        // 리뷰
+        List<ReviewEntity> reviewList = reviewRepository.findAllByPsSeq(psSeq);
+
+
+        if(reviewList == null){
+
+            // 처리
+        }
+
+        List<ReviewDto> reviewDtoList = new ArrayList<>();
+
+        for(ReviewEntity review : reviewList){
+
+            ReviewDto reviewDto = ReviewDto.builder()
+                    .reviewSeq(review.getSeq())
+                    .userEmail(review.getUser().getEmail())
+                    .point(review.getPoint())
+                    .regDate(review.getRegDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
+                    .content(review.getContent())
+                    .subCategoryName(reviewSubRepository.getSubCategoryByDoctorSeq(review.getSeq()))
+                    .build();
+
+            reviewDtoList.add(reviewDto);
+        }
+
+        // 전체
+        PsDetailRespDto resp = PsDetailRespDto.builder()
                 .psSeq(psSeq)
                 .psName(ps.getName())
                 .psIntro(ps.getIntro())
@@ -167,22 +248,12 @@ public class MainServiceImpl implements MainService {
                 .subCategoryName(psMainSubRepository.getSubNameByPsSeq(psSeq))
                 .totalRatingResult(totalRatingRepository.getResultByPsSeq(psSeq))
                 .reviewTotalCount(reviewRepository.getCountByPsSeq(psSeq))
+                .doctor(docDtoList)
+                .review(reviewDtoList)
+                .defaultTime(map)
                 .build();
 
-        // 운영시간
 
-        List<PsDefaultEntity> test = psDefaultRepository.findAllByPsSeq(psSeq);
-
-        for(PsDefaultEntity t : test){
-            log.info("test " + t.toString());
-        }
-
-//        log.info("test list " + test.toString());
-        // 의사
-        // 리뷰
-
-
-
-        return respList;
+        return resp;
     }
 }

@@ -1,4 +1,4 @@
-package com.fasulting.demo.customer.main.dto.respDto;
+package com.fasulting.demo.common.doctor.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -17,5 +17,5 @@ public class DoctorDto {
 
     private String profileImg;
 
-    private List<String> subCategoryName;
+    private List<String> mainCategoryName;
 }

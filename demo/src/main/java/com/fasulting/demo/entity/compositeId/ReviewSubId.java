@@ -14,8 +14,8 @@ import java.io.Serializable;
 public class ReviewSubId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public ReviewEntity review;
+    public Long review;
 
     @EqualsAndHashCode.Include
-    public SubCategoryEntity subCategory;
+    public Long subCategory;
 }

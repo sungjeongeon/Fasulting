@@ -1,4 +1,4 @@
-package com.fasulting.demo.common.email;
+package com.fasulting.demo.common.email.service;
 
 
 import lombok.RequiredArgsConstructor;

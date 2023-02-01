@@ -15,9 +15,9 @@ import java.io.Serializable;
 @DynamicInsert // Apply changed fields only
 @DynamicUpdate // Apply changed fields only
 @ToString
-@IdClass(PsDefaultId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "ps_default")
+@IdClass(PsDefaultId.class)
 public class PsDefaultEntity extends BaseEntity implements Serializable {
 
 	@Id
@@ -27,7 +27,7 @@ public class PsDefaultEntity extends BaseEntity implements Serializable {
 	private PsEntity ps;
 
 	@Id
-   	/** FK setting */
+	/** FK setting */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "seq", name = "cal_seq")
 	private DefaultCalEntity defaultCal;
@@ -38,10 +38,11 @@ public class PsDefaultEntity extends BaseEntity implements Serializable {
 	@JoinColumn(referencedColumnName = "seq", name = "time_seq")
 	private TimeEntity time;
 
-	@Builder
-	public PsDefaultEntity(PsEntity ps, DefaultCalEntity defaultCal, TimeEntity time) {
-		this.ps = ps;
-		this.defaultCal = defaultCal;
-		this.time = time;
-	}
+
+//	@Builder
+//	public PsDefaultEntity(PsEntity ps, DefaultCalEntity defaultCal, TimeEntity time) {
+//		this.ps = ps;
+//		this.defaultCal = defaultCal;
+//		this.time = time;
+//	}
 }
