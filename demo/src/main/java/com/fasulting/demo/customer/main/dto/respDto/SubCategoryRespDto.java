@@ -7,7 +7,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
-public class SubCategoryListRespDto {
+public class SubCategoryRespDto {
 
     private Long subSeq;
 
