@@ -1,11 +1,9 @@
 package com.fasulting.demo.ps.ps.controller;
 
-import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReq;
-import com.fasulting.demo.ps.ps.dto.reqDto.Test;
-import com.fasulting.demo.resp.ResponseBody;
-import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
-import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
+import com.fasulting.demo.ps.ps.dto.reqDto.*;
+import com.fasulting.demo.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.demo.ps.ps.service.PsService;
+import com.fasulting.demo.resp.ResponseBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -107,15 +105,19 @@ public class PsController {
      * @param seq
      * @return 회원 정보 OR fail
      */
-//    @GetMapping("/info/{psSeq}")
-//    @ApiOperation(value = "병원 정보 조회", notes = "seq 받아서 병원 정보 조회")
-//    public ResponseEntity<?> getPsInfo(@PathVariable @ApiParam(value = "Ps seq", required = true) Long psSeq) {
-//        log.info("getPsInfo - Call");
-//
-//        // 로그인 했는지 검사 필요
-//
-//        return ResponseEntity.status(200).body(ResponseBody.create(200, "success", psService.getPsInfo(psSeq)));
-//    }
+    @GetMapping("/info/{psSeq}")
+    @ApiOperation(value = "병원 정보 조회", notes = "seq 받아서 병원 정보 조회")
+    public ResponseEntity<?> getPsInfo(@PathVariable @ApiParam(value = "Ps seq", required = true) Long psSeq) {
+        log.info("getPsInfo - Call");
+
+        PsInfoRespDto resp = psService.getPsInfo(psSeq);
+
+        if (resp != null) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
+        }
+
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
 
     /**
      * 병원 게정 탈퇴
@@ -285,6 +287,24 @@ public class PsController {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
+    }
+
+    /**
+     * 운영 시간 수정 (설정)
+     */
+    @PutMapping("/operating")
+    @ApiOperation(value = "운영 시간 수정", notes = "운영 시간 정보 받아 수정")
+    public ResponseEntity<?> modifyPsDefault(@RequestBody PsDefaultReq psDefaultReq) {
+
+        log.info("ps modifyPsDefault - call");
+
+        log.info(psDefaultReq.toString());
+
+        if(psService.modifyPsDefault(psDefaultReq)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+
     }
 
 

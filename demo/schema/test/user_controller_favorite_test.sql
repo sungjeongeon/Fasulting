@@ -30,13 +30,7 @@ INSERT INTO `favorite` (`user_seq`, `ps_seq`) VALUES
 INSERT INTO `total_rating` (`count`, `result`, `sum`, `ps_seq`) VALUES
 	(1, 1, 1, 1),
 	(2, 2, 2, 2);
-	
-INSERT INTO `review` (`ps_seq`) VALUES
-	(1),
-	(1),
-	(2),
-	(2),
-	(2);
+
 	
 INSERT INTO `user` (`name`) VALUES
 	('test user2');

@@ -6,6 +6,7 @@ import com.fasulting.demo.entity.compositeId.PsDefaultId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -15,4 +16,7 @@ public interface PsDefaultRepository extends JpaRepository<PsDefaultEntity, PsDe
 //    List<DefaultCalEntity> getDefaultCalByPsSeq (@Param("psSeq")Long psSeq);
 
     List<PsDefaultEntity> findAllByPsSeq(Long psSeq);
+
+    @Transactional
+    void deleteAllByPs(PsEntity ps);
 }

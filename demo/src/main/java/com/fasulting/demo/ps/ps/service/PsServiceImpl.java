@@ -1,7 +1,17 @@
 package com.fasulting.demo.ps.ps.service;
 
+import com.fasulting.demo.common.defaultCal.repository.DefaultCalRepository;
+import com.fasulting.demo.common.doctor.dto.DoctorDto;
+import com.fasulting.demo.common.operatingCal.repository.OperatingCalRepository;
+import com.fasulting.demo.common.psOperating.repository.PsOperatingRepository;
+import com.fasulting.demo.common.rating.TotalRatingRepository;
+import com.fasulting.demo.common.review.repository.ReviewRepository;
+import com.fasulting.demo.common.review.repository.ReviewSubRepository;
+import com.fasulting.demo.common.review.respDto.ReviewDto;
+import com.fasulting.demo.common.time.repository.TimeRepository;
 import com.fasulting.demo.entity.*;
 import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReq;
+import com.fasulting.demo.ps.ps.dto.reqDto.PsDefaultReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
 import com.fasulting.demo.ps.ps.dto.respDto.PsInfoRespDto;
@@ -15,11 +25,20 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @Slf4j
 public class PsServiceImpl implements PsService {
+    @Autowired
+    private OperatingCalRepository operatingCalRepository;
+    @Autowired
+    private PsOperatingRepository psOperatingRepository;
+    @Autowired
+    private TimeRepository timeRepository;
+    @Autowired
+    private DefaultCalRepository defaultCalRepository;
 
     @Autowired
     private PsRepository psRepository;
@@ -30,11 +49,20 @@ public class PsServiceImpl implements PsService {
     @Autowired
     private SubCategoryRepository subRepository;
     @Autowired
-    private PsMainRepository psMainRepository;;
+    private PsMainRepository psMainRepository;
+    ;
     @Autowired
     private PsMainSubRepository psMainSubRepository;
     @Autowired
     private DoctorMainRepository doctorMainRepository;
+    @Autowired
+    private ReviewSubRepository reviewSubRepository;
+    @Autowired
+    private PsDefaultRepository psDefaultRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
+    @Autowired
+    private TotalRatingRepository totalRatingRepository;
 
     // 배포할 때 경로 바꾸기
     private final String dirPath = "C:/fasulting/ps/files";
@@ -43,7 +71,7 @@ public class PsServiceImpl implements PsService {
 
     private String uploadFile(UUID uuid, MultipartFile imgFile, String imgUrl) {
         File folder = new File(dirPath);
-        if(!folder.exists()) folder.mkdirs(); // 폴더 생성
+        if (!folder.exists()) folder.mkdirs(); // 폴더 생성
 
         String imgSaveUrl = uuid + "_" + imgFile.getOriginalFilename();
         File file = new File(dirPath + File.separator + imgSaveUrl);
@@ -65,7 +93,7 @@ public class PsServiceImpl implements PsService {
         MultipartFile registrationImgFile = psInfo.getRegistrationImg();
 
         String profileImgUrl = null;
-        if(profileImgFile != null && !profileImgFile.isEmpty()) {
+        if (profileImgFile != null && !profileImgFile.isEmpty()) {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
@@ -74,7 +102,7 @@ public class PsServiceImpl implements PsService {
 
         String registrationImgUrl = null;
 
-        if(registrationImgFile != null && !registrationImgFile.isEmpty()) {
+        if (registrationImgFile != null && !registrationImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
             registrationImgUrl = uploadFile(uuid, registrationImgFile, null);
@@ -98,11 +126,11 @@ public class PsServiceImpl implements PsService {
 
 
         /////////////// 병원 - 전문의 리스트 저장 ///////////////
-        for(DoctorReq doctor : psInfo.getDoctorList()) {
+        for (DoctorReq doctor : psInfo.getDoctorList()) {
             String doctorImgUrl = null;
 
             MultipartFile doctorImgFile = doctor.getImg();
-            if(doctorImgFile != null && !doctorImgFile.isEmpty()) {
+            if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
                 UUID uuid = UUID.randomUUID();
 
                 doctorImgUrl = uploadFile(uuid, doctor.getImg(), null);
@@ -121,7 +149,7 @@ public class PsServiceImpl implements PsService {
 
 
             DoctorMainEntity doctorMain = DoctorMainEntity.builder().doctor(doc)
-                            .mainCategory(mainCategory).build();
+                    .mainCategory(mainCategory).build();
 
             doctorMainRepository.save(doctorMain);
 
@@ -130,11 +158,11 @@ public class PsServiceImpl implements PsService {
         log.info(ps.toString());
 
         /////////////// 병원 - 메인 카테고리 매핑 저장 => "PsMain" ///////////////
-        for(String name : psInfo.getMainCategoryList()) {
+        for (String name : psInfo.getMainCategoryList()) {
 
             MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
 
-            if(mainCategory != null) {
+            if (mainCategory != null) {
                 PsMainEntity psMain = PsMainEntity.builder().ps(ps)
                         .mainCategory(mainCategory).build();
 
@@ -144,13 +172,13 @@ public class PsServiceImpl implements PsService {
         }
 
         /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
-        for(String name : psInfo.getSubCategoryList()) {
+        for (String name : psInfo.getSubCategoryList()) {
 
             SubCategoryEntity subCategory = subRepository.findMainByName(name).get();
 
             MainCategoryEntity mainCategory = subCategory.getMainCategory();
 
-            if(subCategory != null) {
+            if (subCategory != null) {
                 PsMainSubEntity psMainSub = PsMainSubEntity.builder().ps(ps)
                         .mainCategory(mainCategory).subCategory(subCategory).build();
 
@@ -166,7 +194,7 @@ public class PsServiceImpl implements PsService {
     @Transactional
     @Override
     public boolean resetPassword(PsWithoutSeqReq psInfo) {
-        if(psRepository.findPsByEmail(psInfo.getEmail()).isPresent()) {
+        if (psRepository.findPsByEmail(psInfo.getEmail()).isPresent()) {
             // email이 있다면 그 email 가진 ps 찾기
             PsEntity ps = psRepository.findPsByEmail(psInfo.getEmail()).get();
 
@@ -183,40 +211,137 @@ public class PsServiceImpl implements PsService {
     // 이메일 조회 및 중복 확인
     @Override
     public boolean checkEmail(String email) {
-        if(psRepository.findPsByEmail(email).isPresent()) {
+        if (psRepository.findPsByEmail(email).isPresent()) {
             log.info("병원 회원 이메일 존재");
             return true;
-        }
-        else {
+        } else {
             log.info("병원 회원 이메일 존재하지 않음");
             return false;
         }
     }
 
     // 병원 정보 조회
-//    @Override
-//    public PsInfoRespDto getPsInfo(Long psSeq) {
-//        if(psRepository.findById(psSeq).isPresent()) {
-//            PsEntity ps = psRepository.findById(seq).get();
-//
-//            PsInfoRespDto psInfo = null;
-//
-//
-//            // 의사 리스트 추가
-//            // 제공 수술 추가 => main + sub
-//            // 리뷰 조회 추가
-//            // 운영 시간 추가
-//
-//
-//            log.info(ps.getRegistrationImg());
-//
-//            // doctor
-//            // main, sub category
-//
-//            return psInfo;
-//        }
-//        return null;
-//    }
+    @Override
+    public PsInfoRespDto getPsInfo(Long psSeq) {
+        PsEntity ps = psRepository.findById(psSeq).get();
+
+        if (ps == null) {
+
+            // 처리
+        }
+
+        // 운영시간
+
+        List<PsDefaultEntity> psDefaultList = psDefaultRepository.findAllByPsSeq(psSeq);
+
+        Map<Integer, List<Integer>> map = new HashMap<>();
+
+        if (psDefaultList != null) {
+
+            for (int i = 1; i <= 7; i++) {
+                map.put(i, new ArrayList<>()); // 1: 일요일 ~ 7 : 토요일
+            }
+
+            for (PsDefaultEntity psDefault : psDefaultList) {
+                int dayOfWeek = psDefault.getDefaultCal().getDayOfWeek();
+
+                int time = psDefault.getTime().getNum();
+
+                List<Integer> value = map.get(dayOfWeek);
+
+                value.add(time);
+                map.put(dayOfWeek, value);
+
+            }
+
+        } else {
+            for (int i = 1; i <= 7; i++) {
+                List<Integer> list = new ArrayList<>();
+                list.add(-1);
+                map.put(i, list); // 1: 일요일 ~ 7 : 토요일
+
+                log.info("findByDayOfWeek 전");
+                DefaultCalEntity defaultCal = defaultCalRepository.findByDayOfWeek(i).get();
+                log.info("findByDayOfWeek 후");
+                TimeEntity time = timeRepository.findByNum(-1).get();
+
+                PsDefaultEntity psDefault = PsDefaultEntity.builder()
+                        .ps(ps)
+                        .defaultCal(defaultCal)
+                        .time(time)
+                        .build();
+
+                psDefaultRepository.save(psDefault);
+            }
+        }
+
+
+        // 의사
+        List<DoctorEntity> docList = doctorRepository.findAllByPsSeq(psSeq);
+
+        List<DoctorDto> docDtoList = new ArrayList<>();
+
+        for (DoctorEntity doctor : docList) {
+            DoctorDto doctorDto = DoctorDto.builder()
+                    .doctorSeq(doctor.getSeq())
+                    .name(doctor.getName())
+                    .profileImg(doctor.getImg())
+                    .mainCategoryName(doctorMainRepository.getMainCategoryByDoctorSeq(doctor.getSeq()))
+                    .build();
+
+            docDtoList.add(doctorDto);
+        }
+
+        if (psDefaultList == null) {
+
+            // 처리
+        }
+
+        // 리뷰
+        List<ReviewEntity> reviewList = reviewRepository.findAllByPsSeq(psSeq);
+
+
+        if (reviewList == null) {
+
+            // 처리
+        }
+
+        List<ReviewDto> reviewDtoList = new ArrayList<>();
+
+        for (ReviewEntity review : reviewList) {
+
+            ReviewDto reviewDto = ReviewDto.builder()
+                    .reviewSeq(review.getSeq())
+                    .userEmail(review.getUser().getEmail())
+                    .point(review.getPoint())
+                    .regDate(review.getRegDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
+                    .content(review.getContent())
+                    .subCategoryName(reviewSubRepository.getSubCategoryByDoctorSeq(review.getSeq()))
+                    .build();
+
+            reviewDtoList.add(reviewDto);
+        }
+
+        // 전체
+        PsInfoRespDto resp = PsInfoRespDto.builder()
+                .psSeq(psSeq)
+                .psName(ps.getName())
+                .psIntro(ps.getIntro())
+                .psAddress(ps.getAddress())
+                .psProfileImg("server domain" + File.separator + ps.getProfileImg())
+                .psNumber(ps.getNumber())
+                .psEmail(ps.getEmail())
+                .subCategoryName(psMainSubRepository.getSubNameByPsSeq(psSeq))
+                .totalRatingResult(totalRatingRepository.getResultByPsSeq(psSeq))
+                .reviewTotalCount(reviewRepository.getCountByPsSeq(psSeq))
+                .doctor(docDtoList)
+                .review(reviewDtoList)
+                .defaultTime(map)
+                .build();
+
+
+        return resp;
+    }
 
     // 병원 회원 정보 수정
 //    @Override
@@ -249,7 +374,7 @@ public class PsServiceImpl implements PsService {
     @Transactional
     public boolean withdrawPs(PsSeqReq psInfo) {
         Long seq = psInfo.getSeq();
-        if(psRepository.findById(seq).isPresent()) {
+        if (psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
 
             ps.withdrawlPs("y", "ps_" + psInfo.getSeq(), LocalDateTime.now());
@@ -265,10 +390,10 @@ public class PsServiceImpl implements PsService {
     @Transactional
     public boolean checkPassword(PsSeqReq psInfo) {
         Long seq = psInfo.getSeq();
-        if(psRepository.findById(seq).isPresent()) {
+        if (psRepository.findById(seq).isPresent()) {
             String password = psRepository.findById(seq).get().getPassword();
 
-            if(password.equals(psInfo.getPassword())) {
+            if (password.equals(psInfo.getPassword())) {
                 return true;
             }
         }
@@ -282,7 +407,7 @@ public class PsServiceImpl implements PsService {
     public boolean editAddress(PsSeqReq psInfo) {
         Long seq = psInfo.getSeq();
 
-        if(psRepository.findById(seq).isPresent()) {
+        if (psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
 
             String preAddress = ps.getAddress();
@@ -291,7 +416,7 @@ public class PsServiceImpl implements PsService {
 
             String postAddress = psInfo.getAddress();
 
-            if(preAddress.equals(postAddress)){
+            if (preAddress.equals(postAddress)) {
                 return false;
             }
 
@@ -307,7 +432,7 @@ public class PsServiceImpl implements PsService {
     public boolean editIntro(PsSeqReq psInfo) {
         Long seq = psInfo.getSeq();
 
-        if(psRepository.findById(seq).isPresent()) {
+        if (psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
 
             String preIntro = ps.getIntro();
@@ -316,7 +441,7 @@ public class PsServiceImpl implements PsService {
 
             String postIntro = psInfo.getIntro();
 
-            if(preIntro.equals(postIntro)){
+            if (preIntro.equals(postIntro)) {
                 return false;
             }
 
@@ -332,7 +457,7 @@ public class PsServiceImpl implements PsService {
     public boolean editNumber(PsSeqReq psInfo) {
         Long seq = psInfo.getSeq();
 
-        if(psRepository.findById(seq).isPresent()) {
+        if (psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
 
             String preNumber = ps.getNumber();
@@ -341,7 +466,7 @@ public class PsServiceImpl implements PsService {
 
             String postNumber = psInfo.getNumber();
 
-            if(preNumber.equals(postNumber)){
+            if (preNumber.equals(postNumber)) {
                 return false;
             }
 
@@ -358,7 +483,7 @@ public class PsServiceImpl implements PsService {
     public boolean editHomepage(PsSeqReq psInfo) {
         Long seq = psInfo.getSeq();
 
-        if(psRepository.findById(seq).isPresent()) {
+        if (psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
 
             String preHomepage = ps.getHomepage();
@@ -367,7 +492,7 @@ public class PsServiceImpl implements PsService {
 
             String postHomepage = psInfo.getHomepage();
 
-            if(preHomepage.equals(postHomepage)){
+            if (preHomepage.equals(postHomepage)) {
                 return false;
             }
 
@@ -390,13 +515,13 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(seq).get();
 
         /////////////// 병원 - 메인 카테고리 매핑 저장 => "PsMain" ///////////////
-        for(String name : psInfo.getMainCategoryList()) {
+        for (String name : psInfo.getMainCategoryList()) {
 
             MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
 
             log.info(mainCategory.toString());
 
-            if(mainCategory != null) {
+            if (mainCategory != null) {
                 PsMainEntity psMain = PsMainEntity.builder().ps(ps)
                         .mainCategory(mainCategory).build();
 
@@ -406,7 +531,7 @@ public class PsServiceImpl implements PsService {
         }
 
         /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
-        for(String name : psInfo.getSubCategoryList()) {
+        for (String name : psInfo.getSubCategoryList()) {
 
             SubCategoryEntity subCategory = subRepository.findMainByName(name).get();
             log.info(subCategory.toString());
@@ -414,7 +539,7 @@ public class PsServiceImpl implements PsService {
             MainCategoryEntity mainCategory = subCategory.getMainCategory();
             log.info(mainCategory.toString());
 
-            if(subCategory != null) {
+            if (subCategory != null) {
                 PsMainSubEntity psMainSub = PsMainSubEntity.builder().ps(ps)
                         .mainCategory(mainCategory).subCategory(subCategory).build();
 
@@ -438,6 +563,74 @@ public class PsServiceImpl implements PsService {
         return true;
     }
 
+    // 운영 시간 수정 (설정)
+    @Transactional
+    @Override
+    public boolean modifyPsDefault(PsDefaultReq psDefaultReq) {
+
+        PsEntity ps = psRepository.findById(psDefaultReq.getPsSeq()).get();
+
+        //////////// default 운영 시간
+        // delete
+        psDefaultRepository.deleteAllByPs(ps);
+
+        // insert
+        Map<String, List<Integer>> map = psDefaultReq.getDefaultTime();
+
+        for (int i = 1; i <= 7; i++) {
+            List<Integer> list = map.get(i + "");
+
+            DefaultCalEntity defaultCal = defaultCalRepository.findByDayOfWeek(i).get();
+
+            for (Integer num : list) {
+                TimeEntity time = timeRepository.findByNum(num).get();
+
+                PsDefaultEntity psDefault = PsDefaultEntity.builder()
+                        .ps(ps)
+                        .time(time)
+                        .defaultCal(defaultCal)
+                        .build();
+
+                psDefaultRepository.save(psDefault);
+            }
+        }
+
+        //////////// 현실 운영 시간 (달력)
+        // delete
+        psOperatingRepository.deleteAllByPs(ps);
+
+
+        // 새로 생성
+        for (int i = 1; i <= 7; i++) {
+
+            // 해당 요일 가져오기 (1년 중에 여로개일수도이짜나)
+            List<OperatingCalEntity> operatingCalList = operatingCalRepository.findAllByDayOfWeek(i);
+
+            List<Integer> numList = map.get(i + "");
+
+            for (OperatingCalEntity operatingCal : operatingCalList) {
+
+                for (Integer num : numList) {
+                    TimeEntity time = timeRepository.findByNum(num).get();
+
+                    PsOperatingEntity psOperating = PsOperatingEntity.builder()
+                            .operatingCal(operatingCal)
+                            .ps(ps)
+                            .time(time)
+                            .build();
+
+                    psOperatingRepository.save(psOperating);
+                }
+
+            }
+
+        }
+
+
+        return true;
+    }
+
+    // 전문의 추가 설정
     @Override
     @Transactional
     public boolean addDoctor(DoctorReq doctor) {
@@ -450,7 +643,7 @@ public class PsServiceImpl implements PsService {
         String doctorImgUrl = null;
 
         MultipartFile doctorImgFile = doctor.getImg();
-        if(doctorImgFile != null && !doctorImgFile.isEmpty()) {
+        if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
             doctorImgUrl = uploadFile(uuid, imgFile, null);
         }

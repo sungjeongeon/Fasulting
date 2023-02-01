@@ -1,10 +1,14 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
-import lombok.*;
+import com.fasulting.demo.entity.compositeId.ReservationSubId;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -15,6 +19,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "reservation_sub")
+@IdClass(ReservationSubId.class)
 public class ReservationSubEntity extends BaseEntity implements Serializable{
 
 	@Id

@@ -1,9 +1,6 @@
 package com.fasulting.demo.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -54,5 +51,17 @@ public class ReservationEntity extends BaseEntity {
    	@Column(name = "del_yn")
 	private String delYn;
 
+	@Builder
+	public ReservationEntity(ReservationCalEntity reservationCal, TimeEntity time, PsEntity ps, UserEntity user) {
+		this.reservationCal = reservationCal;
+		this.time = time;
+		this.ps = ps;
+		this.user = user;
+		this.delYn = "N";
+	}
+
+	public void updateDelYn() {
+		this.delYn = "Y";
+	}
 
 }
