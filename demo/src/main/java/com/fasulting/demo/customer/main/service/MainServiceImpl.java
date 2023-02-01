@@ -4,7 +4,7 @@ import com.fasulting.demo.common.doctor.dto.DoctorDto;
 import com.fasulting.demo.common.rating.TotalRatingRepository;
 import com.fasulting.demo.common.review.repository.ReviewRepository;
 import com.fasulting.demo.common.review.repository.ReviewSubRepository;
-import com.fasulting.demo.common.review.respDto.ReviewDto;
+import com.fasulting.demo.common.review.respDto.ReviewRespDto;
 import com.fasulting.demo.customer.favorite.repository.FavoriteRepository;
 import com.fasulting.demo.customer.main.dto.respDto.*;
 import com.fasulting.demo.entity.*;
@@ -219,11 +219,11 @@ public class MainServiceImpl implements MainService {
             // 처리
         }
 
-        List<ReviewDto> reviewDtoList = new ArrayList<>();
+        List<ReviewRespDto> reviewRespDtoList = new ArrayList<>();
 
         for(ReviewEntity review : reviewList){
 
-            ReviewDto reviewDto = ReviewDto.builder()
+            ReviewRespDto reviewRespDto = ReviewRespDto.builder()
                     .reviewSeq(review.getSeq())
                     .userEmail(review.getUser().getEmail())
                     .point(review.getPoint())
@@ -232,7 +232,7 @@ public class MainServiceImpl implements MainService {
                     .subCategoryName(reviewSubRepository.getSubCategoryByDoctorSeq(review.getSeq()))
                     .build();
 
-            reviewDtoList.add(reviewDto);
+            reviewRespDtoList.add(reviewRespDto);
         }
 
         // 전체
@@ -249,7 +249,7 @@ public class MainServiceImpl implements MainService {
                 .totalRatingResult(totalRatingRepository.getResultByPsSeq(psSeq))
                 .reviewTotalCount(reviewRepository.getCountByPsSeq(psSeq))
                 .doctor(docDtoList)
-                .review(reviewDtoList)
+                .review(reviewRespDtoList)
                 .defaultTime(map)
                 .build();
 
