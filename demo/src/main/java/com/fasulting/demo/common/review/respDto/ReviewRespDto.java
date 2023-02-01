@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Builder
 @ToString
-public class ReviewDto {
+public class ReviewRespDto {
 
     private Long reviewSeq;
 

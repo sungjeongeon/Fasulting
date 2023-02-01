@@ -67,4 +67,14 @@ public class ReviewEntity extends BaseEntity {
 		this.delYn = "Y";
 	}
 
+	@Builder
+	public ReviewEntity(ConsultingEntity consulting, PsEntity ps, UserEntity user, String content, BigDecimal point) {
+		this.consulting = consulting;
+		this.ps = ps;
+		this.user = user;
+		this.content = content;
+		this.point = point;
+		this.decYn = "N";
+		this.delYn = "N";
+	}
 }
