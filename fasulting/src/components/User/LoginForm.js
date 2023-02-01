@@ -1,6 +1,9 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 import {
   Typography,
   FormControl,
@@ -9,10 +12,12 @@ import {
   RadioGroup,
   TextField,
   Button,
-  Link,
 } from "@mui/material";
 import styles from "./Form.module.css";
 import Paper from "@mui/material/Paper";
+import axios from "axios";
+import { setRefreshToken } from "../../storage/Cookie";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const validationSchema = yup.object({
   email: yup
@@ -23,16 +28,49 @@ const validationSchema = yup.object({
 });
 
 export default function LoginForm() {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
+      usertype: "",
       email: "",
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      try {
+        console.log(values);
+        await axios.post("http://localhost:8080/user/login", values);
+        toast.success(<h3>반갑습니다 !</h3>, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } catch (e) {
+        // 서버에서 받은 에러 메시지 출력
+        console.log(e.response.data.message);
+      }
+      // console.log(
+      //   JSON.stringify(
+      //     values,
+      //     ["email", "password", "repassword", "name", "birth", "phone"],
+      //     2
+      //   )
+      // );
     },
+
+    //   // alert(JSON.stringify(values, null, 2));
+    //   // if (
+    //   //   values.email === "ssafy@naver.com" &&
+    //   //   values.password === "ssafy1234!"
+    //   // ) {
+    //   //   console.log("로그인 성공");
+    //   //   return navigate("/");
+    //   // }
   });
+
   return (
     <div className={styles.formwrapper}>
       <Paper
@@ -54,9 +92,10 @@ export default function LoginForm() {
                   value="user"
                   control={<Radio />}
                   label="일반 회원"
+                  name="usertype"
                 />
                 <FormControlLabel
-                  value="psuser"
+                  value="ps"
                   control={<Radio />}
                   label="병원 회원"
                 />
@@ -66,7 +105,6 @@ export default function LoginForm() {
               <div className={styles.label}>이메일</div>
               <TextField
                 fullWidth
-                id="email"
                 name="email"
                 placeholder="아이디(이메일)을 입력해주세요."
                 value={formik.values.email}
@@ -78,13 +116,17 @@ export default function LoginForm() {
             <div className={styles.inputItem}>
               <div className={styles.flexBetween}>
                 <div className={styles.label}>비밀번호</div>
-                <Link href="#" variant="body2" className={styles.label}>
+                <Link
+                  to={"/findpw"}
+                  style={{ textDecoration: "none", color: "#72a1a6" }}
+                  variant="body2"
+                  className={styles.label}
+                >
                   비밀번호를 잊으셨나요?
                 </Link>
               </div>
               <TextField
                 fullWidth
-                id="password"
                 name="password"
                 placeholder="비밀번호를 입력해주세요"
                 type="password"
@@ -110,8 +152,19 @@ export default function LoginForm() {
             <div className={styles.flexCenter}>
               <div>아직 아이디가 없으신가요?</div>
               <div>
-                <Link to={"/resister"}>일반 회원가입 | </Link>
-                <Link to={"/psregist"}> 의사 회원가입</Link>
+                <Link
+                  to={"/register"}
+                  style={{ textDecoration: "none", color: "#72a1a6" }}
+                >
+                  일반 회원가입 |{" "}
+                </Link>
+                <Link
+                  to={"/psregist"}
+                  style={{ textDecoration: "none", color: "#72a1a6" }}
+                >
+                  {" "}
+                  의사 회원가입
+                </Link>
               </div>
             </div>
           </div>

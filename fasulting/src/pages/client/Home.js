@@ -9,9 +9,9 @@ function Home() {
   // axios.get("https://jsonplaceholder.typicode.com/todos/1").then((res) => {
   //   console.log(res);
   // });
-  axios.get("https://i8e106.p.ssafy.io:8081/account/ps").then((res) => {
-    console.log(res);
-  });
+  // axios.get("https://i8e106.p.ssafy.io:8080/account/ps").then((res) => {
+  //   console.log(res);
+  // });
   return (
     <div>
       <Container>

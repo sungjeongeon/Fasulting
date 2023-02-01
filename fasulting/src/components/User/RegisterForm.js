@@ -1,6 +1,9 @@
 import React from "react";
 import { Formik, useFormik } from "formik";
 import * as yup from "yup";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -15,6 +18,7 @@ import "react-phone-number-input/style.css";
 import styles from "./Form.module.css";
 import "react-phone-input-2/lib/bootstrap.css";
 import Paper from "@mui/material/Paper";
+import axios from "axios";
 
 const validationSchema = yup.object({
   email: yup
@@ -51,6 +55,7 @@ const validationSchema = yup.object({
 });
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -62,19 +67,47 @@ export default function RegisterForm() {
       agreement: false,
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log(
-        JSON.stringify(
-          values,
-          ["email", "password", "repassword", "name", "birth", "phone"],
-          2
-        )
-      );
+    onSubmit: async (values) => {
+      const { email, password, repassword, name, birth, phone } = values;
+      try {
+        await axios.post("http://localhost:8080/user/regist", {
+          email,
+          password,
+          repassword,
+          name,
+          birth,
+          phone,
+        });
+        toast.success(
+          <h3>
+            회원가입이 완료되었습니다.
+            <br />
+            로그인 하세요😄
+          </h3>,
+          {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000,
+          }
+        );
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } catch (e) {
+        // 서버에서 받은 에러 메시지 출력
+        console.log(e.response.data.message);
+      }
+      // console.log(
+      //   JSON.stringify(
+      //     values,
+      //     ["email", "password", "repassword", "name", "birth", "phone"],
+      //     2
+      //   )
+      // );
     },
   });
-
   return (
     <>
+      <ToastContainer />
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper
           variant="outlined"
@@ -83,6 +116,7 @@ export default function RegisterForm() {
           <Typography component="h1" variant="h4" align="center">
             회원가입
           </Typography>
+
           <form onSubmit={formik.handleSubmit}>
             <div className={styles.inputItem}>
               <div className={styles.labelFirst}>이메일</div>
@@ -228,7 +262,8 @@ export default function RegisterForm() {
               회원가입
             </Button>
             <Link
-              href="/psregist"
+              to={"/psregist"}
+              style={{ textDecoration: "none" }}
               variant="body2"
               className={styles.flexCenter}
             >
