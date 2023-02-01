@@ -199,7 +199,7 @@ public class MainServiceImpl implements MainService {
                     .doctorSeq(doctor.getSeq())
                     .name(doctor.getName())
                     .profileImg(doctor.getImg())
-                    .subCategoryName(doctorMainRepository.getMainCategoryByDoctorSeq(doctor.getSeq()))
+                    .mainCategoryName(doctorMainRepository.getMainCategoryByDoctorSeq(doctor.getSeq()))
                     .build();
 
             docDtoList.add(doctorDto);

@@ -59,6 +59,11 @@ public class MainController {
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
+    /**
+     * 메인 카테고리에 속하는 의사 리스트 조회
+     * @param mainSeq
+     * @return
+     */
     @GetMapping("/ps-list/{mainSeq}")
     public ResponseEntity<?> getPsList(@PathVariable Long mainSeq) {
         List<PsListRespDto> resp = mainService.getPsList(mainSeq);
@@ -70,6 +75,12 @@ public class MainController {
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
+    /**
+     * 선택한 병원에 대한 디테일 정보(페이지 전체)
+     * @param userSeq
+     * @param psSeq
+     * @return
+     */
     @GetMapping("/ps-detail/{userSeq}/{psSeq}")
     public ResponseEntity<?> getPsDetail(@PathVariable Long userSeq, @PathVariable Long psSeq) {
 

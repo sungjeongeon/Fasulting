@@ -17,5 +17,5 @@ public class DoctorDto {
 
     private String profileImg;
 
-    private List<String> subCategoryName;
+    private List<String> mainCategoryName;
 }
