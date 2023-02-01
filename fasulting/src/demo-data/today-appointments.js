@@ -14,7 +14,6 @@ const makeTodayAppointment = (startDate, endDate) => {
     .year(currentDate.year())
     .month(currentDate.month())
     .date(date + days);
-
   return {
     startDate: nextStartDate.toDate(),
     endDate: nextEndDate.toDate(),
