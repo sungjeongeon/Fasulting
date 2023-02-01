@@ -4,6 +4,7 @@ import com.fasulting.demo.entity.PsMainSubEntity;
 import com.fasulting.demo.entity.compositeId.PsMainId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface PsMainSubRepository extends JpaRepository<PsMainSubEntity, PsMa
 
     @Query("SELECT p.subCategory.name " + "FROM PsMainSubEntity p " +
             "WHERE p.ps.seq = :psSeq")
-    List<String> getSubNameByPsSeq(Long psSeq);
+    List<String> getSubNameByPsSeq(@Param("psSeq") Long psSeq);
 
     List<PsMainSubEntity> findAllByPsSeq(Long psSeq);
 

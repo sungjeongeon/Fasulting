@@ -5,5 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EditReservationReq {
+public class ReservationReq {
+
+    private Long reservationSeq;
+
 }

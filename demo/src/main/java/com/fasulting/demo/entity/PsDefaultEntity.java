@@ -39,10 +39,11 @@ public class PsDefaultEntity extends BaseEntity implements Serializable {
 	private TimeEntity time;
 
 
-//	@Builder
-//	public PsDefaultEntity(PsEntity ps, DefaultCalEntity defaultCal, TimeEntity time) {
-//		this.ps = ps;
-//		this.defaultCal = defaultCal;
-//		this.time = time;
-//	}
+	@Builder
+	public PsDefaultEntity(PsEntity ps, DefaultCalEntity defaultCal, TimeEntity time) {
+		this.ps = ps;
+		this.defaultCal = defaultCal;
+		this.time = time;
+	}
+
 }
