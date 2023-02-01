@@ -5,7 +5,6 @@ import Home from "./pages/client/Home";
 import Login from "./pages/client/Login";
 import PsList from "./pages/client/PsList";
 import Register from "./pages/client/Register";
-import Reserve from "./pages/client/Reserve";
 import MypageCl from "./pages/client/MypageCl";
 import Detail from "./pages/client/Detail";
 import MyActivity from "./pages/client/MyActivity.js";
@@ -20,7 +19,15 @@ import ModalTest from "./pages/client/ModalTest";
 import MypageHo from "./pages/hospital/MypageHo";
 import PsRegister from "./pages/hospital/PsRegister";
 import MyReservationHo from "./pages/hospital/MyReservationHo";
+import { createGlobalStyle } from "styled-components";
 
+const GlobalStyle = createGlobalStyle`
+text-decoration: none;
+
+&:focus, &:hover, &:visited, &:link, &:active {
+    text-decoration: none;
+}
+`;
 const theme = createTheme({
   palette: {
     primary: {
@@ -48,6 +55,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <React.Fragment>
+        <GlobalStyle />
         <CssBaseline />
         <Container fixed disableGutters={true} maxWidth="lg">
           <Router>
@@ -81,7 +89,6 @@ function App() {
               <Route path="/mypageho" element={<MypageHo />} />
               {/* 병원 예약관리 */}
               <Route path="/myreservationho" element={<MyReservationHo />} />
-
 
               {/* 메인 */}
               <Route path="/" element={<Home />} />
