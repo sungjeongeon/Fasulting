@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS `default_cal` (
   `reg_by` varchar(255) DEFAULT NULL,
   `reg_date` datetime(6) DEFAULT NULL,
   `day_of_week` int(11) DEFAULT NULL,
-  `off_yn` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
@@ -71,12 +70,12 @@ CREATE TABLE IF NOT EXISTS `doctor` (
 
 -- 테이블 hotsix.doctor_main 구조 내보내기
 CREATE TABLE IF NOT EXISTS `doctor_main` (
+  `doctor_seq` bigint(20) NOT NULL,
+  `main_seq` bigint(20) NOT NULL,
   `mod_date` datetime(6) DEFAULT NULL,
   `mod_by` varchar(255) DEFAULT NULL,
   `reg_by` varchar(255) DEFAULT NULL,
   `reg_date` datetime(6) DEFAULT NULL,
-  `main_seq` bigint(20) NOT NULL,
-  `doctor_seq` bigint(20) NOT NULL,
   PRIMARY KEY (`doctor_seq`,`main_seq`),
   KEY `FKfpngg0jxi0jt641sw6uy76twf` (`main_seq`),
   CONSTRAINT `FK2hoxinh1hlba6eyb69h8aeu3y` FOREIGN KEY (`doctor_seq`) REFERENCES `doctor` (`seq`),
@@ -165,16 +164,16 @@ CREATE TABLE IF NOT EXISTS `ps` (
 
 -- 테이블 hotsix.ps_default 구조 내보내기
 CREATE TABLE IF NOT EXISTS `ps_default` (
+  `cal_seq` bigint(20) NOT NULL,
+  `ps_seq` bigint(20) NOT NULL,
+  `time_seq` bigint(20) NOT NULL,
   `mod_date` datetime(6) DEFAULT NULL,
   `mod_by` varchar(255) DEFAULT NULL,
   `reg_by` varchar(255) DEFAULT NULL,
   `reg_date` datetime(6) DEFAULT NULL,
-  `time_seq` bigint(20) NOT NULL,
-  `cal_seq` bigint(20) NOT NULL,
-  `ps_seq` bigint(20) NOT NULL,
   PRIMARY KEY (`cal_seq`,`ps_seq`,`time_seq`),
-  KEY `FKk9xwy3bsynoywulnimnt6idhn` (`time_seq`),
   KEY `FKinnr1wu4h9pt1bp1rsm3sfp0c` (`ps_seq`),
+  KEY `FKk9xwy3bsynoywulnimnt6idhn` (`time_seq`),
   CONSTRAINT `FKinnr1wu4h9pt1bp1rsm3sfp0c` FOREIGN KEY (`ps_seq`) REFERENCES `ps` (`seq`),
   CONSTRAINT `FKjgd5i9ihl1tcv80sv06527ys1` FOREIGN KEY (`cal_seq`) REFERENCES `default_cal` (`seq`),
   CONSTRAINT `FKk9xwy3bsynoywulnimnt6idhn` FOREIGN KEY (`time_seq`) REFERENCES `time` (`seq`)
@@ -184,12 +183,12 @@ CREATE TABLE IF NOT EXISTS `ps_default` (
 
 -- 테이블 hotsix.ps_main 구조 내보내기
 CREATE TABLE IF NOT EXISTS `ps_main` (
+  `main_seq` bigint(20) NOT NULL,
+  `ps_seq` bigint(20) NOT NULL,
   `mod_date` datetime(6) DEFAULT NULL,
   `mod_by` varchar(255) DEFAULT NULL,
   `reg_by` varchar(255) DEFAULT NULL,
   `reg_date` datetime(6) DEFAULT NULL,
-  `main_seq` bigint(20) NOT NULL,
-  `ps_seq` bigint(20) NOT NULL,
   PRIMARY KEY (`main_seq`,`ps_seq`),
   KEY `FKm6u15rhgyww0u27c7buvhx34k` (`ps_seq`),
   CONSTRAINT `FKjet9bmb0sojlo08f6blv28j0y` FOREIGN KEY (`main_seq`) REFERENCES `main_category` (`seq`),
@@ -200,16 +199,16 @@ CREATE TABLE IF NOT EXISTS `ps_main` (
 
 -- 테이블 hotsix.ps_main_sub 구조 내보내기
 CREATE TABLE IF NOT EXISTS `ps_main_sub` (
+  `main_seq` bigint(20) NOT NULL,
+  `ps_seq` bigint(20) NOT NULL,
+  `sub_seq` bigint(20) NOT NULL,
   `mod_date` datetime(6) DEFAULT NULL,
   `mod_by` varchar(255) DEFAULT NULL,
   `reg_by` varchar(255) DEFAULT NULL,
   `reg_date` datetime(6) DEFAULT NULL,
-  `main_seq` bigint(20) NOT NULL,
-  `sub_seq` bigint(20) NOT NULL,
-  `ps_seq` bigint(20) NOT NULL,
   PRIMARY KEY (`main_seq`,`ps_seq`,`sub_seq`),
-  KEY `FK323j99dgr6cborvbd1mm1eif7` (`sub_seq`),
   KEY `FKmjampohmjwuf0i2479pxe871w` (`ps_seq`),
+  KEY `FK323j99dgr6cborvbd1mm1eif7` (`sub_seq`),
   CONSTRAINT `FK323j99dgr6cborvbd1mm1eif7` FOREIGN KEY (`sub_seq`) REFERENCES `sub_category` (`seq`),
   CONSTRAINT `FKdc8anf8h6wwq6mpeu050umhgn` FOREIGN KEY (`main_seq`) REFERENCES `main_category` (`seq`),
   CONSTRAINT `FKmjampohmjwuf0i2479pxe871w` FOREIGN KEY (`ps_seq`) REFERENCES `ps` (`seq`)
@@ -219,16 +218,16 @@ CREATE TABLE IF NOT EXISTS `ps_main_sub` (
 
 -- 테이블 hotsix.ps_operating 구조 내보내기
 CREATE TABLE IF NOT EXISTS `ps_operating` (
+  `cal_seq` bigint(20) NOT NULL,
+  `ps_seq` bigint(20) NOT NULL,
+  `time_seq` bigint(20) NOT NULL,
   `mod_date` datetime(6) DEFAULT NULL,
   `mod_by` varchar(255) DEFAULT NULL,
   `reg_by` varchar(255) DEFAULT NULL,
   `reg_date` datetime(6) DEFAULT NULL,
-  `time_seq` bigint(20) NOT NULL,
-  `cal_seq` bigint(20) NOT NULL,
-  `ps_seq` bigint(20) NOT NULL,
   PRIMARY KEY (`cal_seq`,`ps_seq`,`time_seq`),
-  KEY `FKnykdlmxm9lem3oqj2yiayhu7x` (`time_seq`),
   KEY `FKr0cshmxwwsehh6vp4sv1yvo5j` (`ps_seq`),
+  KEY `FKnykdlmxm9lem3oqj2yiayhu7x` (`time_seq`),
   CONSTRAINT `FK4u9q7t29yqpe7c9q2uco0wg2w` FOREIGN KEY (`cal_seq`) REFERENCES `operating_cal` (`seq`),
   CONSTRAINT `FKnykdlmxm9lem3oqj2yiayhu7x` FOREIGN KEY (`time_seq`) REFERENCES `time` (`seq`),
   CONSTRAINT `FKr0cshmxwwsehh6vp4sv1yvo5j` FOREIGN KEY (`ps_seq`) REFERENCES `ps` (`seq`)
@@ -249,31 +248,6 @@ CREATE TABLE IF NOT EXISTS `ps_token` (
   UNIQUE KEY `UK_cnp194x4nwqh88xfrhmtyyk65` (`ps_seq`),
   CONSTRAINT `FKbkk7psnnifhgayjgipka92npb` FOREIGN KEY (`token_seq`) REFERENCES `token` (`seq`),
   CONSTRAINT `FKg80igh4rfx38qmg91b0rku7k7` FOREIGN KEY (`ps_seq`) REFERENCES `ps` (`seq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
-
--- 내보낼 데이터가 선택되어 있지 않습니다.
-
--- 테이블 hotsix.rating_hist 구조 내보내기
-CREATE TABLE IF NOT EXISTS `rating_hist` (
-  `seq` bigint(20) NOT NULL AUTO_INCREMENT,
-  `mod_date` datetime(6) DEFAULT NULL,
-  `mod_by` varchar(255) DEFAULT NULL,
-  `reg_by` varchar(255) DEFAULT NULL,
-  `reg_date` datetime(6) DEFAULT NULL,
-  `del_by` varchar(255) DEFAULT NULL,
-  `del_date` datetime(6) DEFAULT NULL,
-  `del_yn` varchar(255) DEFAULT NULL,
-  `point` decimal(19,2) DEFAULT NULL,
-  `consulting_seq` bigint(20) DEFAULT NULL,
-  `ps_seq` bigint(20) DEFAULT NULL,
-  `user_seq` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`seq`),
-  KEY `FK7sopgi0u92dv4hvwy8ffkx4t6` (`consulting_seq`),
-  KEY `FKa4wogj4ooiqcys2jpdj858e9h` (`ps_seq`),
-  KEY `FKdg2w5xeala6nbwhmnjod139qj` (`user_seq`),
-  CONSTRAINT `FK7sopgi0u92dv4hvwy8ffkx4t6` FOREIGN KEY (`consulting_seq`) REFERENCES `consulting` (`seq`),
-  CONSTRAINT `FKa4wogj4ooiqcys2jpdj858e9h` FOREIGN KEY (`ps_seq`) REFERENCES `ps` (`seq`),
-  CONSTRAINT `FKdg2w5xeala6nbwhmnjod139qj` FOREIGN KEY (`user_seq`) REFERENCES `user` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
@@ -371,18 +345,16 @@ CREATE TABLE IF NOT EXISTS `review` (
   `del_by` varchar(255) DEFAULT NULL,
   `del_date` datetime(6) DEFAULT NULL,
   `del_yn` varchar(255) DEFAULT NULL,
+  `point` decimal(19,2) DEFAULT NULL,
   `consulting_seq` bigint(20) DEFAULT NULL,
   `ps_seq` bigint(20) DEFAULT NULL,
-  `rating_hist_seq` bigint(20) DEFAULT NULL,
   `user_seq` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`seq`),
   KEY `FKbbdrmxovrqah2uemhg4ao3jba` (`consulting_seq`),
   KEY `FKg66ro2800w9iky7wigkvihcpp` (`ps_seq`),
-  KEY `FKgohii7svjkdf5a6rct76ioidw` (`rating_hist_seq`),
   KEY `FKq7vee7vmlqrhvnflflsw6p1q7` (`user_seq`),
   CONSTRAINT `FKbbdrmxovrqah2uemhg4ao3jba` FOREIGN KEY (`consulting_seq`) REFERENCES `consulting` (`seq`),
   CONSTRAINT `FKg66ro2800w9iky7wigkvihcpp` FOREIGN KEY (`ps_seq`) REFERENCES `ps` (`seq`),
-  CONSTRAINT `FKgohii7svjkdf5a6rct76ioidw` FOREIGN KEY (`rating_hist_seq`) REFERENCES `rating_hist` (`seq`),
   CONSTRAINT `FKq7vee7vmlqrhvnflflsw6p1q7` FOREIGN KEY (`user_seq`) REFERENCES `user` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
@@ -390,14 +362,14 @@ CREATE TABLE IF NOT EXISTS `review` (
 
 -- 테이블 hotsix.review_sub 구조 내보내기
 CREATE TABLE IF NOT EXISTS `review_sub` (
+  `review_seq` bigint(20) NOT NULL,
+  `sub_seq` bigint(20) NOT NULL,
   `mod_date` datetime(6) DEFAULT NULL,
   `mod_by` varchar(255) DEFAULT NULL,
   `reg_by` varchar(255) DEFAULT NULL,
   `reg_date` datetime(6) DEFAULT NULL,
-  `review_seq` bigint(20) NOT NULL,
-  `sub_seq` bigint(20) NOT NULL,
-  PRIMARY KEY (`sub_seq`,`review_seq`),
-  KEY `FK4ibkrjqk3hf0jpuwkqliyauc0` (`review_seq`),
+  PRIMARY KEY (`review_seq`,`sub_seq`),
+  KEY `FKcv3jturel5yaa804l2dx3uhqb` (`sub_seq`),
   CONSTRAINT `FK4ibkrjqk3hf0jpuwkqliyauc0` FOREIGN KEY (`review_seq`) REFERENCES `review` (`seq`),
   CONSTRAINT `FKcv3jturel5yaa804l2dx3uhqb` FOREIGN KEY (`sub_seq`) REFERENCES `sub_category` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
