@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-// 알고리즘 코드 짠 후의 결과라고 가정
+// 검색 전 전체 결과 보여줄 때 데이터
 const lastReservation = [
   {
     user_id: 1,

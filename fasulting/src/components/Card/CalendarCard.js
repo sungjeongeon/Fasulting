@@ -7,13 +7,19 @@ import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsAc
 
 const CalendarCard = () => {
   const dateNow = new Date();
-  const today = dateNow.toISOString().slice(0, 10);
-  // console.log(Number(today.split('-')[1]))
-  const defaultValue = {
-    year: Number(today.split('-')[0]),
-    month: Number(today.split('-')[1]),
-    day: Number(today.split('-')[2])
+  const today = dateNow.toISOString().slice(0, 10);  // yyyy-mm-dd 형태로 변환
+  const calcDate = (str) => {
+    return {
+      year: Number(str.split('-')[0]),
+      month: Number(str.split('-')[1]),
+      day: Number(str.split('-')[2]),
+    }
   }
+  const defaultValue = calcDate(today)
+  
+  const endDate = new Date(dateNow.setDate(dateNow.getDate()+13))
+  const maximumDate = endDate.toISOString().slice(0, 10);
+  const maxValue = calcDate(maximumDate)
 
   const [selectedDay, setSelectedDay] = useState(defaultValue);
   // console.log(selectedDay) // {day: 27, month: 2, year: 2023} 형태
@@ -25,6 +31,7 @@ const CalendarCard = () => {
         colorPrimary="#72a1a6"
         calendarTodayClassName={styles.today}
         minimumDate={utils().getToday()}
+        maximumDate={maxValue}
         shouldHighlightWeekends
       />
       <p className={styles.p}>새로운 예약 알림</p>

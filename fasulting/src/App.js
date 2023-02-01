@@ -1,3 +1,4 @@
+import 'devextreme/dist/css/dx.light.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import FindPw from "./pages/client/FindPw";
