@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @ApiModel(value = "Doctor", description = "전문의 정보")
-public class DoctorReq {
+public class DoctorReqDto {
 
     @ApiModelProperty(value = "ps seq", example = "1")
     private Long psSeq;

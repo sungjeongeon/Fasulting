@@ -9,17 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@ApiModel(value = "PsSeqReq", description = "병원 계쩡 사용 시 필요한 정보 (로그인 상태)")
-public class PsSeqReq {
-
-    @ApiModelProperty(value = "회원 seq", example="1")
-    private Long seq;
+@ApiModel(value = "PsWithoutSeqReq", description = "병원 계쩡 사용 시 필요한 정보 (비로그인 상태)")
+public class PsWithoutSeqReqDto {
 
     @ApiModelProperty(value = "회원 이메일", example="hotsix@naver.com")
     private String email;
     @ApiModelProperty(value = "회원 비밀번호", example="1234")
     private String password;
-    @ApiModelProperty(value = "병원 이름", example="미림 병원")
+    @ApiModelProperty(value = "병원 이름", example="성정언웅")
     private String name;
     @ApiModelProperty(value = "병원 주소", example="부산광역시 어쩌구")
     private String address;
@@ -36,11 +33,11 @@ public class PsSeqReq {
     @ApiModelProperty(value = "병원 소개글", example="반가워요^^ 미림 병원입니다^^")
     private String intro;
 
+    // multipartFile
+    @ApiModelProperty(value = "병원 대표 이미지 파일")
+    private MultipartFile profileImg;
     @ApiModelProperty(value = "병원 사업증 이미지 파일")
     private MultipartFile registrationImg;
-    @ApiModelProperty(value = "병원 사업증 이미지 파일")
-    private MultipartFile profileImg;
-
 
     // category 정보
     @ApiModelProperty(value = "병원 메인 카테고리 리스트")
@@ -50,7 +47,7 @@ public class PsSeqReq {
 
     // doctor 정보
     @ApiModelProperty(value = "전문의 정보 리스트")
-    private List<DoctorReq> doctorList = new ArrayList<>();
+    private List<DoctorReqDto> doctorList = new ArrayList<>();
 
 
 }

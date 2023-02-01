@@ -7,17 +7,16 @@ import com.fasulting.demo.common.psOperating.repository.PsOperatingRepository;
 import com.fasulting.demo.common.rating.TotalRatingRepository;
 import com.fasulting.demo.common.review.repository.ReviewRepository;
 import com.fasulting.demo.common.review.repository.ReviewSubRepository;
-import com.fasulting.demo.common.review.respDto.ReviewDto;
+import com.fasulting.demo.common.review.respDto.ReviewRespDto;
 import com.fasulting.demo.common.time.repository.TimeRepository;
 import com.fasulting.demo.entity.*;
-import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReq;
-import com.fasulting.demo.ps.ps.dto.reqDto.PsDefaultReq;
-import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
-import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReq;
+import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReqDto;
+import com.fasulting.demo.ps.ps.dto.reqDto.PsDefaultReqDto;
+import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReqDto;
+import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
 import com.fasulting.demo.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.demo.ps.ps.repository.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,38 +30,40 @@ import java.util.*;
 @Service
 @Slf4j
 public class PsServiceImpl implements PsService {
-    @Autowired
-    private OperatingCalRepository operatingCalRepository;
-    @Autowired
-    private PsOperatingRepository psOperatingRepository;
-    @Autowired
-    private TimeRepository timeRepository;
-    @Autowired
-    private DefaultCalRepository defaultCalRepository;
 
-    @Autowired
-    private PsRepository psRepository;
-    @Autowired
-    private DoctorRepository doctorRepository;
-    @Autowired
-    private MainCategoryRepository mainRepository;
-    @Autowired
-    private SubCategoryRepository subRepository;
-    @Autowired
-    private PsMainRepository psMainRepository;
-    ;
-    @Autowired
-    private PsMainSubRepository psMainSubRepository;
-    @Autowired
-    private DoctorMainRepository doctorMainRepository;
-    @Autowired
-    private ReviewSubRepository reviewSubRepository;
-    @Autowired
-    private PsDefaultRepository psDefaultRepository;
-    @Autowired
-    private ReviewRepository reviewRepository;
-    @Autowired
-    private TotalRatingRepository totalRatingRepository;
+    private final OperatingCalRepository operatingCalRepository;
+    private final PsOperatingRepository psOperatingRepository;
+    private final TimeRepository timeRepository;
+    private final DefaultCalRepository defaultCalRepository;
+    private final PsRepository psRepository;
+    private final DoctorRepository doctorRepository;
+    private final MainCategoryRepository mainRepository;
+    private final SubCategoryRepository subRepository;
+    private final PsMainRepository psMainRepository;
+    private final PsMainSubRepository psMainSubRepository;
+    private final DoctorMainRepository doctorMainRepository;
+    private final ReviewSubRepository reviewSubRepository;
+    private final PsDefaultRepository psDefaultRepository;
+    private final ReviewRepository reviewRepository;
+    private final TotalRatingRepository totalRatingRepository;
+
+    public PsServiceImpl(OperatingCalRepository operatingCalRepository, PsOperatingRepository psOperatingRepository, TimeRepository timeRepository, DefaultCalRepository defaultCalRepository, PsRepository psRepository, DoctorRepository doctorRepository, MainCategoryRepository mainRepository, SubCategoryRepository subRepository, PsMainRepository psMainRepository, PsMainSubRepository psMainSubRepository, DoctorMainRepository doctorMainRepository, ReviewSubRepository reviewSubRepository, PsDefaultRepository psDefaultRepository, ReviewRepository reviewRepository, TotalRatingRepository totalRatingRepository) {
+        this.operatingCalRepository = operatingCalRepository;
+        this.psOperatingRepository = psOperatingRepository;
+        this.timeRepository = timeRepository;
+        this.defaultCalRepository = defaultCalRepository;
+        this.psRepository = psRepository;
+        this.doctorRepository = doctorRepository;
+        this.mainRepository = mainRepository;
+        this.subRepository = subRepository;
+        this.psMainRepository = psMainRepository;
+        this.psMainSubRepository = psMainSubRepository;
+        this.doctorMainRepository = doctorMainRepository;
+        this.reviewSubRepository = reviewSubRepository;
+        this.psDefaultRepository = psDefaultRepository;
+        this.reviewRepository = reviewRepository;
+        this.totalRatingRepository = totalRatingRepository;
+    }
 
     // 배포할 때 경로 바꾸기
     private final String dirPath = "C:/fasulting/ps/files";
@@ -86,7 +87,7 @@ public class PsServiceImpl implements PsService {
 
     // 병원 회원 가입
     @Override
-    public boolean psRegister(PsWithoutSeqReq psInfo) {
+    public boolean psRegister(PsWithoutSeqReqDto psInfo) {
 
         /////////////// 병원 저장 ///////////////
         MultipartFile profileImgFile = psInfo.getProfileImg();
@@ -126,7 +127,7 @@ public class PsServiceImpl implements PsService {
 
 
         /////////////// 병원 - 전문의 리스트 저장 ///////////////
-        for (DoctorReq doctor : psInfo.getDoctorList()) {
+        for (DoctorReqDto doctor : psInfo.getDoctorList()) {
             String doctorImgUrl = null;
 
             MultipartFile doctorImgFile = doctor.getImg();
@@ -193,7 +194,7 @@ public class PsServiceImpl implements PsService {
     // 비밀번호 재설정
     @Transactional
     @Override
-    public boolean resetPassword(PsWithoutSeqReq psInfo) {
+    public boolean resetPassword(PsWithoutSeqReqDto psInfo) {
         if (psRepository.findPsByEmail(psInfo.getEmail()).isPresent()) {
             // email이 있다면 그 email 가진 ps 찾기
             PsEntity ps = psRepository.findPsByEmail(psInfo.getEmail()).get();
@@ -260,9 +261,8 @@ public class PsServiceImpl implements PsService {
                 list.add(-1);
                 map.put(i, list); // 1: 일요일 ~ 7 : 토요일
 
-                log.info("findByDayOfWeek 전");
                 DefaultCalEntity defaultCal = defaultCalRepository.findByDayOfWeek(i).get();
-                log.info("findByDayOfWeek 후");
+
                 TimeEntity time = timeRepository.findByNum(-1).get();
 
                 PsDefaultEntity psDefault = PsDefaultEntity.builder()
@@ -306,11 +306,11 @@ public class PsServiceImpl implements PsService {
             // 처리
         }
 
-        List<ReviewDto> reviewDtoList = new ArrayList<>();
+        List<ReviewRespDto> reviewDtoList = new ArrayList<>();
 
         for (ReviewEntity review : reviewList) {
 
-            ReviewDto reviewDto = ReviewDto.builder()
+            ReviewRespDto reviewDto = ReviewRespDto.builder()
                     .reviewSeq(review.getSeq())
                     .userEmail(review.getUser().getEmail())
                     .point(review.getPoint())
@@ -372,7 +372,7 @@ public class PsServiceImpl implements PsService {
     // 병원 회원 탈퇴
     @Override
     @Transactional
-    public boolean withdrawPs(PsSeqReq psInfo) {
+    public boolean withdrawPs(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
         if (psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
@@ -388,7 +388,7 @@ public class PsServiceImpl implements PsService {
     // 비밀번호 재확인 (로그인 상태에서)
     @Override
     @Transactional
-    public boolean checkPassword(PsSeqReq psInfo) {
+    public boolean checkPassword(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
         if (psRepository.findById(seq).isPresent()) {
             String password = psRepository.findById(seq).get().getPassword();
@@ -404,7 +404,7 @@ public class PsServiceImpl implements PsService {
     // 주소 수정
     @Override
     @Transactional
-    public boolean editAddress(PsSeqReq psInfo) {
+    public boolean editAddress(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
 
         if (psRepository.findById(seq).isPresent()) {
@@ -429,7 +429,7 @@ public class PsServiceImpl implements PsService {
     // 소개말 수정
     @Override
     @Transactional
-    public boolean editIntro(PsSeqReq psInfo) {
+    public boolean editIntro(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
 
         if (psRepository.findById(seq).isPresent()) {
@@ -454,7 +454,7 @@ public class PsServiceImpl implements PsService {
     // 전화 번호 수정
     @Override
     @Transactional
-    public boolean editNumber(PsSeqReq psInfo) {
+    public boolean editNumber(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
 
         if (psRepository.findById(seq).isPresent()) {
@@ -480,7 +480,7 @@ public class PsServiceImpl implements PsService {
     // 홈페이지 주소 수정
     @Override
     @Transactional
-    public boolean editHomepage(PsSeqReq psInfo) {
+    public boolean editHomepage(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
 
         if (psRepository.findById(seq).isPresent()) {
@@ -505,7 +505,7 @@ public class PsServiceImpl implements PsService {
     // 카테고리 수정
     @Override
     @Transactional
-    public boolean editCategory(PsSeqReq psInfo) {
+    public boolean editCategory(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
 
         // delete 하고
@@ -566,16 +566,16 @@ public class PsServiceImpl implements PsService {
     // 운영 시간 수정 (설정)
     @Transactional
     @Override
-    public boolean modifyPsDefault(PsDefaultReq psDefaultReq) {
+    public boolean modifyPsDefault(PsDefaultReqDto psDefaultReqDto) {
 
-        PsEntity ps = psRepository.findById(psDefaultReq.getPsSeq()).get();
+        PsEntity ps = psRepository.findById(psDefaultReqDto.getPsSeq()).get();
 
         //////////// default 운영 시간
         // delete
         psDefaultRepository.deleteAllByPs(ps);
 
         // insert
-        Map<String, List<Integer>> map = psDefaultReq.getDefaultTime();
+        Map<String, List<Integer>> map = psDefaultReqDto.getDefaultTime();
 
         for (int i = 1; i <= 7; i++) {
             List<Integer> list = map.get(i + "");
@@ -633,7 +633,7 @@ public class PsServiceImpl implements PsService {
     // 전문의 추가 설정
     @Override
     @Transactional
-    public boolean addDoctor(DoctorReq doctor) {
+    public boolean addDoctor(DoctorReqDto doctor) {
         // 파일
         MultipartFile imgFile = doctor.getImg();
 

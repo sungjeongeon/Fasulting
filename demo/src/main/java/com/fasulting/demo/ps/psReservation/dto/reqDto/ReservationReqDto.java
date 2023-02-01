@@ -1,11 +1,11 @@
-package com.fasulting.demo.ps.psReservation.request;
+package com.fasulting.demo.ps.psReservation.dto.reqDto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ReservationReq {
+public class ReservationReqDto {
 
     private Long reservationSeq;
 

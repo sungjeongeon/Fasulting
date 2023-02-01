@@ -1,10 +1,15 @@
 package com.fasulting.demo.ps.psReservation.service;
 
+import com.fasulting.demo.common.operatingCal.repository.OperatingCalRepository;
+import com.fasulting.demo.common.psOperating.repository.PsOperatingRepository;
 import com.fasulting.demo.common.reservation.repository.ReservationRepository;
 import com.fasulting.demo.common.reservation.repository.ReservationSubRepository;
-import com.fasulting.demo.entity.ReservationEntity;
+import com.fasulting.demo.common.time.repository.TimeRepository;
+import com.fasulting.demo.entity.*;
+import com.fasulting.demo.ps.ps.repository.PsRepository;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PsOperatingRespDto;
 import com.fasulting.demo.ps.psReservation.dto.respDto.ReservationRespDto;
-import com.fasulting.demo.ps.psReservation.request.ReservationReq;
+import com.fasulting.demo.ps.psReservation.dto.reqDto.ReservationReqDto;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,18 +23,26 @@ public class PsReservationServiceImpl implements PsReservationService{
 
     private final ReservationRepository reservationRepository;
     private final ReservationSubRepository reservationSubEntityRepository;
+    private final PsOperatingRepository psOperatingRepository;
+    private final PsRepository psRepository;
+    private final OperatingCalRepository operatingCalRepository;
+    private final TimeRepository timeRepository;
 
     public PsReservationServiceImpl(ReservationRepository reservationRepository,
-                                    ReservationSubRepository reservationSubEntityRepository) {
+                                    ReservationSubRepository reservationSubEntityRepository, PsOperatingRepository psOperatingRepository, PsRepository psRepository, OperatingCalRepository operatingCalRepository, TimeRepository timeRepository) {
         this.reservationRepository = reservationRepository;
         this.reservationSubEntityRepository = reservationSubEntityRepository;
+        this.psOperatingRepository = psOperatingRepository;
+        this.psRepository = psRepository;
+        this.operatingCalRepository = operatingCalRepository;
+        this.timeRepository = timeRepository;
     }
 
     @Transactional
     @Override
-    public boolean modifyReservation(ReservationReq reservationReq) {
+    public boolean modifyReservation(ReservationReqDto reservationReqDto) {
 
-        ReservationEntity reservation = reservationRepository.findById(reservationReq.getReservationSeq()).get();
+        ReservationEntity reservation = reservationRepository.findById(reservationReqDto.getReservationSeq()).get();
 
         reservation.updateDelYn();
 
@@ -47,6 +60,7 @@ public class PsReservationServiceImpl implements PsReservationService{
 
         List<ReservationRespDto> respList = new ArrayList<>();
 
+        // 미래 예약 조회
         for(ReservationEntity reservation : reservationList) {
 
             ReservationRespDto respDto = ReservationRespDto.builder()
@@ -58,6 +72,31 @@ public class PsReservationServiceImpl implements PsReservationService{
                     .build();
 
             respList.add(respDto);
+        }
+
+        // 현 날짜 기준 2 주치 운영 시간
+        // year
+        // month
+        // day
+        // datOfWeek
+
+        // 2주 후 날짜
+        LocalDateTime TwoWeeksLater = current.plusWeeks(2);
+
+        PsEntity ps = psRepository.findById(psSeq).get();
+        List<PsOperatingEntity> psOperatingList = psOperatingRepository.find2WeeksLaterByPsSeq(psSeq, TwoWeeksLater);
+
+
+        // 같은 날의 timeList
+        for(PsOperatingEntity psOperating : psOperatingList) {
+
+            PsOperatingRespDto respDto = PsOperatingRespDto.builder()
+                    .year(psOperating.getOperatingCal().getYear())
+                    .month(psOperating.getOperatingCal().getMonth())
+                    .day(psOperating.getOperatingCal().getDay())
+                    .dayOfWeek(psOperating.getOperatingCal().getDayOfWeek())
+                    .build();
+
         }
 
         return respList;

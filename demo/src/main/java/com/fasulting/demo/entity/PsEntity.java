@@ -2,7 +2,6 @@ package com.fasulting.demo.entity;
 
 import javax.persistence.*;
 
-import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReq;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;

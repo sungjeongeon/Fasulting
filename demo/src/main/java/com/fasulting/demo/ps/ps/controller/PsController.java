@@ -36,7 +36,7 @@ public class PsController {
      */
     @PostMapping("/login")
     @ApiOperation(value = "병원 계정 로그인", notes = "..")
-    public ResponseEntity<?> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) PsWithoutSeqReq psInfo) {
+    public ResponseEntity<?> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) PsWithoutSeqReqDto psInfo) {
         return null;
     }
 
@@ -67,7 +67,7 @@ public class PsController {
      */
     @PostMapping("/regist")
     @ApiOperation(value = "병원 계정 회원 가입", notes = "병원 기본 정보, 전문의 리스트 기입하여 회원 가입")
-    public ResponseEntity<?> psRegister(@ModelAttribute @ApiParam(value = "회원 가입 정보", required = true) PsWithoutSeqReq psInfo) {
+    public ResponseEntity<?> psRegister(@ModelAttribute @ApiParam(value = "회원 가입 정보", required = true) PsWithoutSeqReqDto psInfo) {
         log.info("psRegister - Call");
 
         log.info(psInfo.toString());
@@ -126,7 +126,7 @@ public class PsController {
      */
     @PatchMapping("/withdraw")
     @ApiOperation(value = "병원 계정 탈퇴", notes = "병원 seq받아 병원 계정 탈퇴 처리")
-    public ResponseEntity<?> withdrawPs(@RequestBody @ApiParam(value = "Ps seq", required = true) PsSeqReq psInfo) {
+    public ResponseEntity<?> withdrawPs(@RequestBody @ApiParam(value = "Ps seq", required = true) PsSeqReqDto psInfo) {
 
         log.info("ps withdraw - Call");
 
@@ -147,7 +147,7 @@ public class PsController {
      */
     @PostMapping("/passcheck")
     @ApiOperation(value = "비밀번호 확인", notes = "병원 seq, 비밀번호 받아 DB의 기존 비밀번호와 비교")
-    public ResponseEntity<?> checkPassword(@RequestBody @ApiParam(value = "병원 seq, 비밀번호", required = true) PsSeqReq psInfo) {
+    public ResponseEntity<?> checkPassword(@RequestBody @ApiParam(value = "병원 seq, 비밀번호", required = true) PsSeqReqDto psInfo) {
         log.info("checkPassword - Call");
         // 로그인 했는지 검사 필요
         if(psService.checkPassword(psInfo)) {
@@ -167,7 +167,7 @@ public class PsController {
      */
     @PatchMapping("/reset")
     @ApiOperation(value = "비밀번호 수정", notes = "병원 이메일, 비밀번호 받아 DB의 기존 비밀번호와 비교")
-    public ResponseEntity<?> restPassword(@RequestBody @ApiParam(value = "병원 이메일, 비밀번호", required = true) PsWithoutSeqReq psInfo) {
+    public ResponseEntity<?> restPassword(@RequestBody @ApiParam(value = "병원 이메일, 비밀번호", required = true) PsWithoutSeqReqDto psInfo) {
         log.info("ps reset Password - Call");
 
         if(psService.resetPassword(psInfo)){
@@ -187,7 +187,7 @@ public class PsController {
      */
     @PutMapping("/address")
     @ApiOperation(value = "주소 수정", notes = "ps seq, 주소 받아 수정")
-    public ResponseEntity<?> editAddress(@RequestBody @ApiParam(value = "병원 seq, 주소", required = true) PsSeqReq psInfo) {
+    public ResponseEntity<?> editAddress(@RequestBody @ApiParam(value = "병원 seq, 주소", required = true) PsSeqReqDto psInfo) {
         log.info("ps edit Address - Call");
 
         if(psService.editAddress(psInfo)) {
@@ -204,7 +204,7 @@ public class PsController {
      */
     @PutMapping("/intro")
     @ApiOperation(value = "소개말 수정", notes = "ps seq, 소개말 받아 수정")
-    public ResponseEntity<?> editIntro(@RequestBody @ApiParam(value = "병원 seq, 소개말", required = true) PsSeqReq psInfo) {
+    public ResponseEntity<?> editIntro(@RequestBody @ApiParam(value = "병원 seq, 소개말", required = true) PsSeqReqDto psInfo) {
         log.info("ps edit Intro - Call");
 
         if(psService.editIntro(psInfo)) {
@@ -220,7 +220,7 @@ public class PsController {
      */
     @PutMapping("/number")
     @ApiOperation(value = "번호 수정", notes = "ps seq, 번호 받아 수정")
-    public ResponseEntity<?> editNumber(@RequestBody @ApiParam(value = "병원 seq, 번호", required = true) PsSeqReq psInfo) {
+    public ResponseEntity<?> editNumber(@RequestBody @ApiParam(value = "병원 seq, 번호", required = true) PsSeqReqDto psInfo) {
         log.info("ps edit Number - Call");
 
         if(psService.editNumber(psInfo)) {
@@ -234,7 +234,7 @@ public class PsController {
      */
     @PutMapping("/hompage")
     @ApiOperation(value = "홈페이지 수정", notes = "ps seq, 홈페이지 받아 수정")
-    public ResponseEntity<?> editHomepage(@RequestBody @ApiParam(value = "병원 seq, 홈페이지", required = true) PsSeqReq psInfo) {
+    public ResponseEntity<?> editHomepage(@RequestBody @ApiParam(value = "병원 seq, 홈페이지", required = true) PsSeqReqDto psInfo) {
         log.info("ps edit homepage - Call");
 
         if(psService.editHomepage(psInfo)) {
@@ -248,7 +248,7 @@ public class PsController {
      */
     @PutMapping("/category")
     @ApiOperation(value = "제공 수술 수정", notes = "ps seq, 제공 수술 (mainCategory) 받아 수정")
-    public ResponseEntity<?> editCategory(@RequestBody @ApiParam(value = "병원 seq, 메인 카테고리 리스트", required = true) PsSeqReq psInfo) {
+    public ResponseEntity<?> editCategory(@RequestBody @ApiParam(value = "병원 seq, 메인 카테고리 리스트", required = true) PsSeqReqDto psInfo) {
         log.info("ps edit Category - Call");
 
         log.info(psInfo.toString());
@@ -264,7 +264,7 @@ public class PsController {
      */
     @PutMapping("/doctor")
     @ApiOperation(value = "의사 추가", notes = "ps seq, 의사 정보 받아 추가")
-    public ResponseEntity<?> addDoctor(@ModelAttribute @ApiParam(value = "병원 seq, 의사 정보(doctor seq, 이미지 | 이름, 전문 분야)", required = true) DoctorReq doctor) {
+    public ResponseEntity<?> addDoctor(@ModelAttribute @ApiParam(value = "병원 seq, 의사 정보(doctor seq, 이미지 | 이름, 전문 분야)", required = true) DoctorReqDto doctor) {
         log.info("ps add Doctor - Call");
 
         log.info(doctor.toString());
@@ -294,13 +294,13 @@ public class PsController {
      */
     @PutMapping("/operating")
     @ApiOperation(value = "운영 시간 수정", notes = "운영 시간 정보 받아 수정")
-    public ResponseEntity<?> modifyPsDefault(@RequestBody PsDefaultReq psDefaultReq) {
+    public ResponseEntity<?> modifyPsDefault(@RequestBody PsDefaultReqDto psDefaultReqDto) {
 
         log.info("ps modifyPsDefault - call");
 
-        log.info(psDefaultReq.toString());
+        log.info(psDefaultReqDto.toString());
 
-        if(psService.modifyPsDefault(psDefaultReq)) {
+        if(psService.modifyPsDefault(psDefaultReqDto)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
