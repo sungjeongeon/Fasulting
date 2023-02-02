@@ -41,6 +41,11 @@ public class ReservationEntity extends BaseEntity {
 	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
 	private UserEntity user;
 
+	@Column(name = "before_img_origin")
+	private String beforeImgOrigin;
+
+	@Column(name = "before_img_path")
+	private String beforeImgPath;
 
    	@Column(name = "del_date")
 	private LocalDateTime delDate;
@@ -52,11 +57,13 @@ public class ReservationEntity extends BaseEntity {
 	private String delYn;
 
 	@Builder
-	public ReservationEntity(ReservationCalEntity reservationCal, TimeEntity time, PsEntity ps, UserEntity user) {
+	public ReservationEntity(ReservationCalEntity reservationCal, TimeEntity time, PsEntity ps, UserEntity user, String beforeImgOrigin, String beforeImgPath) {
 		this.reservationCal = reservationCal;
 		this.time = time;
 		this.ps = ps;
 		this.user = user;
+		this.beforeImgOrigin = beforeImgOrigin;
+		this.beforeImgPath = beforeImgPath;
 		this.delYn = "N";
 	}
 

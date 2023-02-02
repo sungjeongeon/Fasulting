@@ -11,6 +11,7 @@ import com.fasulting.demo.common.reservation.repository.ReservationSubRepository
 import com.fasulting.demo.common.review.repository.ReviewRepository;
 import com.fasulting.demo.common.time.repository.TimeRepository;
 import com.fasulting.demo.common.util.Date2String;
+import com.fasulting.demo.common.util.FileManage;
 import com.fasulting.demo.customer.main.dto.respDto.MainCategoryRespDto;
 import com.fasulting.demo.customer.main.dto.respDto.SubCategoryRespDto;
 import com.fasulting.demo.customer.reservation.dto.reqDto.CancelReservationReqDto;
@@ -29,6 +30,7 @@ import com.fasulting.demo.ps.ps.repository.PsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -226,11 +228,27 @@ public class ReservationServiceImpl implements ReservationService {
         PsEntity ps = psRepository.findById(regReservationReqDto.getPsSeq()).get();
         UserEntity user = userRepository.findById(regReservationReqDto.getUserSeq()).get();
 
+        // 배포할 때 경로 바꾸기
+        String dirPath = "C:/fasulting/ps/files";
+        String domain = "https://localhost:8080/resources/upload/";
+
+        MultipartFile beforeImgFile = regReservationReqDto.getBeforeImg();
+
+        String beforeImgPath = null;
+        if (beforeImgFile != null && !beforeImgFile.isEmpty()) {
+            // 파일 중복명 방지 uuid 생성
+            UUID uuid = UUID.randomUUID();
+
+            beforeImgPath = FileManage.uploadFile(beforeImgFile, uuid,null, dirPath);
+        }
+
         ReservationEntity reservation = ReservationEntity.builder()
                 .reservationCal(rc)
                 .time(t)
                 .ps(ps)
                 .user(user)
+                .beforeImgPath(beforeImgPath)
+                .beforeImgOrigin(beforeImgFile.getOriginalFilename())
                 .build();
 
         reservationRepository.save(reservation);
@@ -269,11 +287,12 @@ public class ReservationServiceImpl implements ReservationService {
                     .psName(c.getPs().getName())
                     .estimate(estimate)
                     .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
-                    .date(Date2String.Date2String(c.getReservation().getReservationCal().getYear(),
+                    .date(Date2String.date2String(c.getReservation().getReservationCal().getYear(),
                             c.getReservation().getReservationCal().getMonth(),
                             c.getReservation().getReservationCal().getDay(),
                             c.getReservation().getReservationCal().getDayOfWeek(),
-                            c.getReservation().getTime().getStartHour()))
+                            c.getReservation().getTime().getStartHour(),
+                            c.getReservation().getTime().getStartMin()))
                     .isReviewed(reviewRepository.findByConsulting(c).isPresent())
                     .isReported(isReported)
                     .build();
@@ -292,7 +311,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<PostReservationRespDto> respList = new ArrayList<>();
 
-        List<ReservationEntity> rList = reservationRepository.findAllByUser(userRepository.findById(userSeq).get());
+        List<ReservationEntity> rList = reservationRepository.findAllByUserSeq(userRepository.findById(userSeq).get().getSeq());
 
         for (ReservationEntity r : rList) {
 
@@ -301,7 +320,7 @@ public class ReservationServiceImpl implements ReservationService {
                 PostReservationRespDto respDto = PostReservationRespDto.builder()
                         .reservationSeq(r.getSeq())
                         .psName(r.getPs().getName())
-                        .date(Date2String.Date2String(r.getReservationCal().getYear(),
+                        .date(Date2String.date2String(r.getReservationCal().getYear(),
                                 r.getReservationCal().getMonth(),
                                 r.getReservationCal().getDay(),
                                 r.getReservationCal().getDayOfWeek(),
@@ -411,8 +430,8 @@ public class ReservationServiceImpl implements ReservationService {
                     .psHomepage(ps.getHomepage())
                     .psNumber(ps.getNumber())
                     .defaultTime(map)
-                    .beforeImg(report.getBeforeImg())
-                    .afterImg(report.getAfterImg())
+                    .beforeImgPath(report.getBeforeImgPath())
+                    .afterImgPath(report.getAfterImgPath())
                     .content(report.getContent())
                     .estimate(report.getEstimate())
                     .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))

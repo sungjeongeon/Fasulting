@@ -9,6 +9,7 @@ import com.fasulting.demo.common.review.repository.ReviewRepository;
 import com.fasulting.demo.common.review.repository.ReviewSubRepository;
 import com.fasulting.demo.common.review.respDto.ReviewRespDto;
 import com.fasulting.demo.common.time.repository.TimeRepository;
+import com.fasulting.demo.common.util.FileManage;
 import com.fasulting.demo.entity.*;
 import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReqDto;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsDefaultReqDto;
@@ -23,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -91,21 +91,6 @@ public class PsServiceImpl implements PsService {
         return null;
     }
 
-    private String uploadFile(UUID uuid, MultipartFile imgFile, String imgUrl) {
-        File folder = new File(dirPath);
-        if (!folder.exists()) folder.mkdirs(); // 폴더 생성
-
-        String imgSaveUrl = uuid + "_" + imgFile.getOriginalFilename();
-        File file = new File(dirPath + File.separator + imgSaveUrl);
-        try {
-            imgFile.transferTo(file); // 이미지 최종 경로로 보내줘서 저장
-            return dirPath + File.separator + imgSaveUrl;
-        } catch (IOException e) {
-            log.info(e.getMessage());
-        }
-        return null;
-    }
-
     // 병원 회원 가입
     @Override
     public boolean psRegister(PsWithoutSeqReqDto psInfo) {
@@ -119,7 +104,7 @@ public class PsServiceImpl implements PsService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            profileImgUrl = uploadFile(uuid, profileImgFile, null);
+            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,null, dirPath);
         }
 
         String registrationImgUrl = null;
@@ -127,7 +112,7 @@ public class PsServiceImpl implements PsService {
         if (registrationImgFile != null && !registrationImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
-            registrationImgUrl = uploadFile(uuid, registrationImgFile, null);
+            registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid,null, dirPath);
         }
 
         PsEntity ps = PsEntity.builder().email(psInfo.getEmail())
@@ -136,11 +121,13 @@ public class PsServiceImpl implements PsService {
                 .address(psInfo.getAddress())
                 .zipcode(psInfo.getZipcode())
                 .registration(psInfo.getRegistration())
-                .registrationImg(registrationImgUrl)
+                .regImgPath(registrationImgUrl)
+                .regImgOrigin(registrationImgFile.getOriginalFilename())
                 .number(psInfo.getNumber())
                 .director(psInfo.getDirector())
                 .homepage(psInfo.getHomepage())
-                .profileImg(profileImgUrl)
+                .profileImgPath(profileImgUrl)
+                .profileImgOrigin(profileImgFile.getOriginalFilename())
                 .intro(psInfo.getIntro())
                 .build();
 
@@ -306,7 +293,7 @@ public class PsServiceImpl implements PsService {
             DoctorDto doctorDto = DoctorDto.builder()
                     .doctorSeq(doctor.getSeq())
                     .name(doctor.getName())
-                    .profileImg(doctor.getImg())
+                    .profileImg(doctor.getImgPath())
                     .mainCategoryName(doctorMainRepository.getMainCategoryByDoctorSeq(doctor.getSeq()))
                     .build();
 
@@ -349,7 +336,7 @@ public class PsServiceImpl implements PsService {
                 .psName(ps.getName())
                 .psIntro(ps.getIntro())
                 .psAddress(ps.getAddress())
-                .psProfileImg("server domain" + File.separator + ps.getProfileImg())
+                .psProfileImg("server domain" + File.separator + ps.getProfileImgPath())
                 .psNumber(ps.getNumber())
                 .psEmail(ps.getEmail())
                 .subCategoryName(psMainSubRepository.getSubNameByPsSeq(psSeq))
@@ -666,11 +653,12 @@ public class PsServiceImpl implements PsService {
         MultipartFile doctorImgFile = doctor.getImg();
         if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
-            doctorImgUrl = uploadFile(uuid, imgFile, null);
+            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, null, dirPath);
         }
 
         DoctorEntity doc = DoctorEntity.builder().ps(ps)
-                .img(doctorImgUrl)
+                .imgPath(doctorImgUrl)
+                .imgOrigin(doctorImgFile.getOriginalFilename())
                 .name(doctor.getName())
                 .build();
 

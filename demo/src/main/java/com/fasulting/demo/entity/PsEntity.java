@@ -40,8 +40,11 @@ public class PsEntity extends BaseEntity {
 	private String registration;
 
 	/**서버에 저장한 이미지 경로*/
-   	@Column(name = "registration_img")
-	private String registrationImg;
+   	@Column(name = "reg_img_path")
+	private String regImgPath;
+
+	@Column(name = "reg_img_origin")
+	private String regImgOrigin;
 
    	@Column(name = "number")
 	private String number;
@@ -53,8 +56,11 @@ public class PsEntity extends BaseEntity {
 	private String homepage;
 
 	/**서버에 저장할 병원 프로필 사진 경로*/
-   	@Column(name = "profile_img")
-	private String profileImg;
+   	@Column(name = "profile_img_path")
+	private String profileImgPath;
+
+	@Column(name = "profile_img_origin")
+	private String profileImgOrigin;
 
    	@Column(name = "intro")
 	private String intro;
@@ -79,26 +85,22 @@ public class PsEntity extends BaseEntity {
    	@Column(name = "del_yn")
 	private String delYn;
 
-	@Builder
-	public PsEntity(String email, String password, String name, String address, String zipcode, String registration, String registrationImg, String number, String director, String homepage, String profileImg, String intro, String confirmYn, LocalDateTime confirmDate, String confirmBy, LocalDateTime delDate, String delBy, String delYn) {
+	   @Builder
+	public PsEntity(String email, String password, String name, String address, String zipcode, String registration, String regImgPath, String regImgOrigin, String number, String director, String homepage, String profileImgPath, String profileImgOrigin, String intro) {
 		this.email = email;
 		this.password = password;
 		this.name = name;
 		this.address = address;
 		this.zipcode = zipcode;
 		this.registration = registration;
-		this.registrationImg = registrationImg;
+		this.regImgPath = regImgPath;
+		this.regImgOrigin = regImgOrigin;
 		this.number = number;
 		this.director = director;
 		this.homepage = homepage;
-		this.profileImg = profileImg;
+		this.profileImgPath = profileImgPath;
+		this.profileImgOrigin = profileImgOrigin;
 		this.intro = intro;
-		this.confirmYn = confirmYn;
-		this.confirmDate = confirmDate;
-		this.confirmBy = confirmBy;
-		this.delDate = delDate;
-		this.delBy = delBy;
-		this.delYn = delYn;
 	}
 
 	public void updateAddress(String address) {

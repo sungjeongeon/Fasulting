@@ -53,8 +53,6 @@ public class UserServiceImpl implements UserService {
                 .email(userInfo.getEmail())
                 .password(userInfo.getPassword())
                 .name(userInfo.getName())
-                .nation(userInfo.getNation())
-                .nationCode(userInfo.getNationCode())
                 .number(userInfo.getNumber())
                 .birth(userInfo.getBirth())
                 .build();
