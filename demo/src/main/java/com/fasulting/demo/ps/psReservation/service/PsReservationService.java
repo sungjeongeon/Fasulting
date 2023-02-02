@@ -1,9 +1,9 @@
 package com.fasulting.demo.ps.psReservation.service;
 
 import com.fasulting.demo.ps.psReservation.dto.reqDto.ReservationReqDto;
-import com.fasulting.demo.ps.psReservation.dto.respDto.PostReservationRespDto;
 import com.fasulting.demo.ps.psReservation.dto.respDto.PreDetailRespDto;
 import com.fasulting.demo.ps.psReservation.dto.respDto.PreReservationRespDto;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PsPostRespDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 public interface PsReservationService {
 
     boolean cancelReservation(ReservationReqDto reservationReqDto);
-    PostReservationRespDto getPostReservationList(Long psSeq, LocalDateTime current);
+    PsPostRespDto getPostReservationList(Long psSeq, LocalDateTime current);
 
     List<PreReservationRespDto> getPreReservationList(Long psSeq, LocalDateTime current);
 

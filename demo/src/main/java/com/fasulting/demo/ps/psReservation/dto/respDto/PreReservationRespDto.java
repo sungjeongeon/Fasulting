@@ -9,8 +9,8 @@ import java.util.List;
 @Builder
 public class PreReservationRespDto {
 
-    private Long conultingSeq;
-    String username;
+    private Long consultingSeq;
+    String userName;
     String estimate;
     List<String> subCategoryName;
     String date;

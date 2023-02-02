@@ -1,5 +1,6 @@
 package com.fasulting.demo.common.reservation.repository;
 
+import com.fasulting.demo.entity.PsEntity;
 import com.fasulting.demo.entity.ReservationEntity;
 import com.fasulting.demo.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,4 +28,5 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
     List<ReservationEntity> findAllByUser(UserEntity user);
 
 
+    List<ReservationEntity> findAllByPs(PsEntity psEntity);
 }

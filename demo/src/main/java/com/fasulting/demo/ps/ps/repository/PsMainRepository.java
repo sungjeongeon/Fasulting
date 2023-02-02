@@ -19,4 +19,7 @@ public interface PsMainRepository extends JpaRepository<PsMainEntity, PsMainId>,
     @Query("SELECT  pm.mainCategory " + "FROM PsMainEntity pm " + "WHERE pm.ps.seq = :psSeq" )
     List<MainCategoryEntity> getMainByPsSeq(@Param("psSeq") Long psSeq);
 
+    @Query("SELECT pm.mainCategory.name FROM PsMainEntity  pm WHERE pm.ps.seq = :psSeq")
+    List<String> getMainNameByPsSeq(@Param("psSeq") Long psSeq);
+
 }

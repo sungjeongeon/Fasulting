@@ -2,6 +2,7 @@ package com.fasulting.demo.ps.ps.controller;
 
 import com.fasulting.demo.ps.ps.dto.reqDto.*;
 import com.fasulting.demo.ps.ps.dto.respDto.PsInfoRespDto;
+import com.fasulting.demo.ps.ps.dto.respDto.PsLoginRespDto;
 import com.fasulting.demo.ps.ps.service.PsService;
 import com.fasulting.demo.resp.ResponseBody;
 import io.swagger.annotations.Api;
@@ -37,7 +38,16 @@ public class PsController {
     @PostMapping("/login")
     @ApiOperation(value = "병원 계정 로그인", notes = "..")
     public ResponseEntity<?> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) PsWithoutSeqReqDto psInfo) {
-        return null;
+
+        log.info("ps Login - Call");
+
+        PsLoginRespDto ps = psService.login(psInfo);
+
+        if(ps != null) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", ps));
+        }
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
+
     }
 
     /**
@@ -48,6 +58,9 @@ public class PsController {
     @GetMapping("/logout/{seq}")
     @ApiOperation(value = "병원 계정 로그아웃", notes = "..")
     public ResponseEntity<?> logout(@PathVariable @ApiParam(value = "로그아웃 정보 (ps seq)", required = true) int seq) {
+
+        // ㅂㅂ
+
         return null; // fail OR successs
     }
 

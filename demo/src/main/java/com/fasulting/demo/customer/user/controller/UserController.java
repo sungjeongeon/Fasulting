@@ -1,6 +1,6 @@
 package com.fasulting.demo.customer.user.controller;
 
-import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
+import com.fasulting.demo.customer.user.dto.respDto.UserInfoRespDto;
 import com.fasulting.demo.resp.ResponseBody;
 import com.fasulting.demo.customer.user.dto.reqDto.*;
 import com.fasulting.demo.customer.user.service.UserService;
@@ -39,15 +39,23 @@ public class UserController {
 
     /**
      * 로그인 - jwt
-     * @param user
+     * @param userIngo
      * userEmail & userPassword
      * @return
      * userSeq
      */
     @PostMapping("/login")
     @ApiOperation(value = "상담자 계정 로그인", notes = "..")
-    public ResponseEntity<?> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) UserWithoutSeqReq user) {
-        return null; // response: userid (DB table 안의)
+    public ResponseEntity<?> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) UserWithoutSeqReqDto userInfo) {
+        log.info("user login - Call");
+
+        UserInfoRespDto user = userService.login(userInfo);
+
+        if(user != null) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", user));
+        }
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
+
     }
 
     /**
@@ -58,6 +66,9 @@ public class UserController {
     @GetMapping("/logout/{seq}")
     @ApiOperation(value = "상담자 계정 로그아웃", notes = "..")
     public ResponseEntity<?> logout(@PathVariable @ApiParam(value = "로그인 정보", required = true) Long seq) {
+        
+        // ㅂㅂ
+        
         return null; // fail OR successs
     }
 
@@ -69,7 +80,7 @@ public class UserController {
      */
     @PostMapping("/regist")
     @ApiOperation(value = "상담자 계정 회원 가입", notes = "기본 정보 기입하여 회원 가입")
-    public ResponseEntity<?> userRegister(@RequestBody  @ApiParam(value = "회원 가입 정보", required = true) UserWithoutSeqReq userInfo) {
+    public ResponseEntity<?> userRegister(@RequestBody  @ApiParam(value = "회원 가입 정보", required = true) UserWithoutSeqReqDto userInfo) {
         log.info("userRegister - Call");
 
         if(userService.userRegister(userInfo)) {
@@ -107,7 +118,7 @@ public class UserController {
      */
     @PatchMapping("/reset")
     @ApiOperation(value = "비밀번호 수정", notes = "..")
-    public ResponseEntity<?> restPassword(@RequestBody @ApiParam(value = "로그아웃 정보 (email, password)", required = true) UserWithoutSeqReq userInfo) {
+    public ResponseEntity<?> restPassword(@RequestBody @ApiParam(value = "로그아웃 정보 (email, password)", required = true) UserWithoutSeqReqDto userInfo) {
         log.info("reset Password - Call");
 
         if(userService.resetPassword(userInfo)){
@@ -131,7 +142,7 @@ public class UserController {
 
         // 로그인 했는지 검사 필요
 
-        UserInfoResp userInfo = userService.getUserInfo(seq);
+        UserInfoRespDto userInfo = userService.getUserInfo(seq);
 
         if(userInfo != null) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", userInfo));
@@ -147,7 +158,7 @@ public class UserController {
      */
     @PatchMapping("/withdraw")
     @ApiOperation(value = "회원 탈퇴", notes = "회원 seq받아 탈퇴 처리")
-    public ResponseEntity<?> withdrawUser(@RequestBody @ApiParam(value = "User seq", required = true) UserSeqReq userInfo) {
+    public ResponseEntity<?> withdrawUser(@RequestBody @ApiParam(value = "User seq", required = true) UserSeqReqDto userInfo) {
         log.info("withdraw - Call");
 
         // 로그인 했는지 검사 필요
@@ -165,7 +176,7 @@ public class UserController {
      */
     @PostMapping("/passcheck")
     @ApiOperation(value = "비밀번호 확인", notes = "User seq, 비밀번호 받아 DB의 기존 비밀번호와 비교")
-    public ResponseEntity<?> checkPassword(@RequestBody @ApiParam(value = "User seq, 비밀번호", required = true) UserSeqReq userInfo) {
+    public ResponseEntity<?> checkPassword(@RequestBody @ApiParam(value = "User seq, 비밀번호", required = true) UserSeqReqDto userInfo) {
         log.info("checkPassword - Call");
         // 로그인 했는지 검사 필요
         if(userService.checkPassword(userInfo)) {

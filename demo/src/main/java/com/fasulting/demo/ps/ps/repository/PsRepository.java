@@ -17,4 +17,6 @@ public interface PsRepository extends JpaRepository<PsEntity, Long> {
 
 
     List<PsEntity> findAllByConfirmYn(String confirmYn);
+
+    Optional<PsEntity> findByEmailAndPassword(String email, String password);
 }

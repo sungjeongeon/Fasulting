@@ -1,10 +1,12 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -12,7 +14,6 @@ import java.io.Serializable;
 @Getter
 @DynamicInsert // Apply changed fields only
 @DynamicUpdate // Apply changed fields only
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "role")
 public class RoleEntity extends BaseEntity implements Serializable {

@@ -4,6 +4,9 @@ package com.fasulting.demo.ps.psReservation.controller;
 import com.fasulting.demo.common.reservation.repository.ReservationRepository;
 import com.fasulting.demo.common.review.repository.ReviewRepository;
 import com.fasulting.demo.ps.psReservation.dto.reqDto.ReservationReqDto;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PreDetailRespDto;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PreReservationRespDto;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PsPostRespDto;
 import com.fasulting.demo.ps.psReservation.service.PsReservationService;
 import com.fasulting.demo.resp.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -40,20 +44,13 @@ public class PsReservationController {
     @GetMapping("/post/{psSeq}")
     public ResponseEntity<?> getPostReservationList(@PathVariable Long psSeq) {
 
-        LocalDateTime current = LocalDateTime.now();
+        PsPostRespDto respDto = psReservationService.getPostReservationList(psSeq, LocalDateTime.now());
 
-        return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", psReservationService.getPostReservationList(psSeq, current)));
-    }
+        if(respDto != null){
+            return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", respDto));
+        }
 
-
-    /**
-     * 운영 시간 수정 (delete & insert)
-     * @param reservationReqDto
-     * @return
-     */
-    @PutMapping("/edit")
-    public ResponseEntity<?> editReservationTime(@RequestBody ReservationReqDto reservationReqDto) {
-        return null;
+        return ResponseEntity.status(204).body(com.fasulting.demo.resp.ResponseBody.create(204, "fail"));
     }
 
     /**
@@ -80,9 +77,13 @@ public class PsReservationController {
     @GetMapping("/pre/{psSeq}")
     public ResponseEntity<?> getPreReservationInfo(@PathVariable Long psSeq) {
 
-        LocalDateTime current = LocalDateTime.now();
+        List<PreReservationRespDto> respDto = psReservationService.getPreReservationList(psSeq, LocalDateTime.now());
 
-        return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", psReservationService.getPreReservationList(psSeq, current)));
+        if(respDto != null){
+            return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", respDto));
+        }
+
+        return ResponseEntity.status(204).body(com.fasulting.demo.resp.ResponseBody.create(204, "fail"));
 
     }
 
@@ -93,7 +94,13 @@ public class PsReservationController {
     @GetMapping("/pre/detail/{consultingSeq}")
     public ResponseEntity<?> getPreDetail(@PathVariable Long consultingSeq) {
 
-        return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", psReservationService.getPreDetail(consultingSeq)));
+        PreDetailRespDto respDto = psReservationService.getPreDetail(consultingSeq);
+
+        if(respDto != null){
+            return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", respDto));
+        }
+
+        return ResponseEntity.status(204).body(com.fasulting.demo.resp.ResponseBody.create(204, "fail"));
 
     }
 

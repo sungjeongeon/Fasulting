@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ApprovedPsReqDto {
 
-    private int seq;
+    private Long psSeq;
 
 }

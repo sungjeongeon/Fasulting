@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/account")
+@RequestMapping("/admin/account")
 @CrossOrigin("*")
 public class AccountController {
 
@@ -32,6 +32,8 @@ public class AccountController {
     @GetMapping("/ps")
     public ResponseEntity<?> getPsWaitList() {
 
+        log.info("getPsWaitList - Call");
+
         List<PsWaitRespDto> psWaitList = accountService.getPsWaitList();
 
         if (psWaitList != null) {
@@ -49,7 +51,15 @@ public class AccountController {
      */
     @PatchMapping("/ps")
     public ResponseEntity<?> ApprovePs(@RequestBody ApprovedPsReqDto approvePsReq) {
-        return null;
+
+        log.info("ApprovePs - Call");
+
+        if (accountService.approvePs(approvePsReq.getPsSeq())) {
+            return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success"));
+        }
+
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+
     }
 
 }

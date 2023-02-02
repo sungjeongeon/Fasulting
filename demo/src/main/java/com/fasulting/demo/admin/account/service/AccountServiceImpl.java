@@ -5,6 +5,8 @@ import com.fasulting.demo.entity.PsEntity;
 import com.fasulting.demo.ps.ps.repository.*;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,11 +26,12 @@ public class AccountServiceImpl implements AccountService{
         this.psMainSubRepository = psMainSubRepository;
     }
 
-
+    @Transactional
     @Override
     public List<PsWaitRespDto> getPsWaitList() {
         List<PsEntity> psList = psRepository.findAllByConfirmYn("N");
 
+        List<PsWaitRespDto> psWaitList = new ArrayList<>();
         for(PsEntity ps : psList) {
             PsWaitRespDto psWait = PsWaitRespDto.builder()
                     .psSeq(ps.getSeq())
@@ -41,12 +44,25 @@ public class AccountServiceImpl implements AccountService{
                     .director(ps.getDirector())
                     .homepage(ps.getHomepage())
                     .intro(ps.getIntro())
-//                    .mainCategoryList(psMainRepository.getMainByPsSeq(ps.getSeq()))
-//                    .subCategoryList(subCategoryRepository.findByMainCategory())
+                    .mainCategoryList(psMainRepository.getMainNameByPsSeq(ps.getSeq()))
+                    .subCategoryList(psMainSubRepository.getSubNameByPsSeq(ps.getSeq()))
                     .build();
+
+            psWaitList.add(psWait);
         }
-//
-//        return ;
+
+        return psWaitList;
+    }
+
+    @Transactional
+    @Override
+    public boolean approvePs(Long psSeq) {
+
+        PsEntity ps = psRepository.findById(psSeq).get();
+
+        ps.approvePs();
+
+        return true;
     }
 
 

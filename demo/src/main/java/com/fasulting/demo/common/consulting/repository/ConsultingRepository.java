@@ -1,6 +1,7 @@
 package com.fasulting.demo.common.consulting.repository;
 
 import com.fasulting.demo.entity.ConsultingEntity;
+import com.fasulting.demo.entity.PsEntity;
 import com.fasulting.demo.entity.ReservationEntity;
 import com.fasulting.demo.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, Lo
     List<ConsultingEntity> findAllByUser(UserEntity userSeq);
 
     Optional<ConsultingEntity> findByReservation(ReservationEntity reservation);
+
+    List<ConsultingEntity> findAllByPs(PsEntity psEntity);
 }

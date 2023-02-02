@@ -3,7 +3,7 @@ package com.fasulting.demo.customer.user.service;
 import com.fasulting.demo.customer.user.dto.reqDto.*;
 import com.fasulting.demo.customer.favorite.repository.FavoriteRepository;
 import com.fasulting.demo.customer.user.repository.UserRepository;
-import com.fasulting.demo.customer.user.dto.respDto.UserInfoResp;
+import com.fasulting.demo.customer.user.dto.respDto.UserInfoRespDto;
 import com.fasulting.demo.entity.UserEntity;
 import com.fasulting.demo.ps.ps.repository.PsMainSubRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +26,29 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PsMainSubRepository psMainSubRepository;
 
-    // passwordEncoder
+    // 로그인
+    @Override
+    public UserInfoRespDto login(UserWithoutSeqReqDto userInfo) {
+
+        if(userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).isPresent()) {
+
+            UserEntity user = userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).get();
+
+            UserInfoRespDto userInfoRespDto = UserInfoRespDto.builder()
+                    .userSeq(user.getSeq())
+                    .userName(user.getName())
+                    .build();
+
+            return userInfoRespDto;
+
+        }
+
+        return null;
+    }
 
     // 회원 가입
     @Override
-    public boolean userRegister(UserWithoutSeqReq userInfo) {
+    public boolean userRegister(UserWithoutSeqReqDto userInfo) {
         UserEntity user = UserEntity.builder()
                 .email(userInfo.getEmail())
                 .password(userInfo.getPassword())
@@ -50,7 +68,7 @@ public class UserServiceImpl implements UserService {
     // 비밀번호 수정 (재설정)
     @Transactional
     @Override
-    public boolean resetPassword(UserWithoutSeqReq userInfo) {
+    public boolean resetPassword(UserWithoutSeqReqDto userInfo) {
 
         // userEmail이 있다면
         UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).get();
@@ -73,18 +91,16 @@ public class UserServiceImpl implements UserService {
 
     // 회원 정보 조회
     @Override
-    public UserInfoResp getUserInfo(Long seq) {
+    public UserInfoRespDto getUserInfo(Long seq) {
         if(userRepository.findById(seq).isPresent()) {
             UserEntity user = userRepository.findById(seq).get();
 
-            UserInfoResp userInfo = new UserInfoResp();
-
-            userInfo.setUserBirth(user.getBirth());
-            userInfo.setUserEmail(user.getEmail());
-            userInfo.setUserNation(user.getNation());
-            userInfo.setUserPhone(user.getNumber());
-            userInfo.setUserName(user.getName());
-            userInfo.setUserNationCode(user.getNationCode());
+            UserInfoRespDto userInfo = UserInfoRespDto.builder()
+                    .userBirth(user.getBirth())
+                    .userEmail(user.getEmail())
+                    .userNumber(user.getNumber())
+                    .userName(user.getName())
+                    .build();
 
             return userInfo;
         }
@@ -107,7 +123,7 @@ public class UserServiceImpl implements UserService {
     // 회원 탈퇴
     @Override
     @Transactional
-    public boolean withdrawUser(UserSeqReq userInfo) {
+    public boolean withdrawUser(UserSeqReqDto userInfo) {
         if(userRepository.findById(userInfo.getSeq()).isPresent()) {
             UserEntity user = userRepository.findById(userInfo.getSeq()).get();
 
@@ -121,7 +137,7 @@ public class UserServiceImpl implements UserService {
 
     // 비밀번호 확인
     @Override
-    public boolean checkPassword(UserSeqReq userInfo) {
+    public boolean checkPassword(UserSeqReqDto userInfo) {
 
         if(userRepository.findById(userInfo.getSeq()).isPresent()) {
             String password = userRepository.findById(userInfo.getSeq()).get().getPassword();

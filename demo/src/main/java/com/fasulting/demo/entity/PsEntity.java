@@ -1,10 +1,10 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
-
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -127,4 +127,8 @@ public class PsEntity extends BaseEntity {
 	public void resetPassword(String password) {
 		this.password = password;
 	}
+
+    public void approvePs() {
+		this.confirmYn = "Y";
+    }
 }
