@@ -3,15 +3,13 @@ import MainCategoryList from "../../components/Category/MainCategoryList";
 import { Container } from "@mui/system";
 import ReviewList from "../../components/List/ReviewList";
 // import { useState } from "react";
-import axios from "axios";
 
+import axios from "../../api/axios";
 function Home() {
-  // axios.get("https://jsonplaceholder.typicode.com/todos/1").then((res) => {
-  //   console.log(res);
-  // });
-  // axios.get("https://i8e106.p.ssafy.io:8080/account/ps").then((res) => {
-  //   console.log(res);
-  // });
+  //통신 테스트
+  axios.get("/account/ps").then((res) => {
+    console.log(res);
+  });
   return (
     <div>
       <Container>

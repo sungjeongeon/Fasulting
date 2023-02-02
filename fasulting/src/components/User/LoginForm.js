@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import styles from "./Form.module.css";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
+import axios from "../../api/axios";
 import { setRefreshToken } from "../../storage/Cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -40,7 +40,7 @@ export default function LoginForm() {
     onSubmit: async (values) => {
       try {
         console.log(values);
-        await axios.post("http://localhost:8080/user/login", values);
+        await axios.post("/user/login", values);
         toast.success(<h3>반갑습니다 !</h3>, {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,

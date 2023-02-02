@@ -10,9 +10,11 @@
     "@emotion/styled": "^11.10.5",
     "@floating-ui/dom": "^1.1.0",
     "@hassanmojab/react-modern-calendar-datepicker": "^3.1.7",
+    "@material-ui/pickers": "^3.3.10",
     "@mui/icons-material": "^5.11.0",
-    "@mui/material": "^5.11.5",
+    "@mui/material": "^5.11.7",
     "@mui/styled-engine-sc": "^5.11.0",
+    "@mui/x-date-pickers": "^5.0.16",
     "@reduxjs/toolkit": "^1.9.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -76,6 +78,5 @@
   "devDependencies": {
     "devextreme-themebuilder": "^22.2.3"
   },
-
-  "proxy": "http://localhost:8080/"
+  "proxy": "http://i8e106.p.ssafy.io:8080/"
 }

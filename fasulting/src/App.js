@@ -1,4 +1,4 @@
-import 'devextreme/dist/css/dx.light.css';
+import "devextreme/dist/css/dx.light.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import FindPw from "./pages/client/FindPw";
@@ -69,7 +69,7 @@ function App() {
               <Route path="/login" element={<Login />} />
 
               {/* 병원리스트 */}
-              <Route path="/pslist" element={<PsList />} />
+              <Route path="/pslist/:id" element={<PsList />} />
               {/* 회원가입 */}
               <Route path="/register" element={<Register />} />
               {/* 상세페이지 */}
