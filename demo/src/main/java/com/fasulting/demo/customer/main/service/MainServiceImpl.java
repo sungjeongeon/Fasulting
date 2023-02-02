@@ -95,7 +95,7 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public List<SubCategoryListRespDto> getSubcategoryList(Long mainSeq) {
+    public List<SubCategoryRespDto> getSubcategoryList(Long mainSeq) {
 
         MainCategoryEntity main = mainCategoryRepository.findById(mainSeq).get();
 
@@ -108,10 +108,10 @@ public class MainServiceImpl implements MainService {
             return  null;
         }
 
-        List<SubCategoryListRespDto> resp = new ArrayList<>();
+        List<SubCategoryRespDto> resp = new ArrayList<>();
 
         for(SubCategoryEntity sub : list) {
-            SubCategoryListRespDto subList = SubCategoryListRespDto.builder()
+            SubCategoryRespDto subList = SubCategoryRespDto.builder()
                     .subSeq(sub.getSeq())
                     .subName(sub.getName())
                     .build();

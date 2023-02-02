@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface TimeRepository extends JpaRepository<TimeEntity, Long> {
     Optional<TimeEntity> findByNum(Integer num);
+
 }

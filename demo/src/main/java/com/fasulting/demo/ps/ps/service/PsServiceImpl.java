@@ -7,7 +7,7 @@ import com.fasulting.demo.common.psOperating.repository.PsOperatingRepository;
 import com.fasulting.demo.common.rating.TotalRatingRepository;
 import com.fasulting.demo.common.review.repository.ReviewRepository;
 import com.fasulting.demo.common.review.repository.ReviewSubRepository;
-import com.fasulting.demo.common.review.respDto.ReviewDto;
+import com.fasulting.demo.common.review.respDto.ReviewRespDto;
 import com.fasulting.demo.common.time.repository.TimeRepository;
 import com.fasulting.demo.entity.*;
 import com.fasulting.demo.ps.ps.dto.reqDto.DoctorReq;
@@ -306,11 +306,11 @@ public class PsServiceImpl implements PsService {
             // 처리
         }
 
-        List<ReviewDto> reviewDtoList = new ArrayList<>();
+        List<ReviewRespDto> reviewDtoList = new ArrayList<>();
 
         for (ReviewEntity review : reviewList) {
 
-            ReviewDto reviewDto = ReviewDto.builder()
+            ReviewRespDto reviewDto = ReviewRespDto.builder()
                     .reviewSeq(review.getSeq())
                     .userEmail(review.getUser().getEmail())
                     .point(review.getPoint())

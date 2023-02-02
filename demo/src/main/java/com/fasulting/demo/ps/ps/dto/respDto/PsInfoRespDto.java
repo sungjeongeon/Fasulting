@@ -1,7 +1,7 @@
 package com.fasulting.demo.ps.ps.dto.respDto;
 
 import com.fasulting.demo.common.doctor.dto.DoctorDto;
-import com.fasulting.demo.common.review.respDto.ReviewDto;
+import com.fasulting.demo.common.review.respDto.ReviewRespDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -41,5 +41,5 @@ public class PsInfoRespDto {
 
     private List<DoctorDto> doctor; // 의사
 
-    private List<ReviewDto> review; // 리뷰
+    private List<ReviewRespDto> review; // 리뷰
 }

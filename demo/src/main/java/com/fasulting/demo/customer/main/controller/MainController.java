@@ -3,7 +3,7 @@ package com.fasulting.demo.customer.main.controller;
 import com.fasulting.demo.customer.main.dto.respDto.MainCategoryRespDto;
 import com.fasulting.demo.customer.main.dto.respDto.PsDetailRespDto;
 import com.fasulting.demo.customer.main.dto.respDto.PsListRespDto;
-import com.fasulting.demo.customer.main.dto.respDto.SubCategoryListRespDto;
+import com.fasulting.demo.customer.main.dto.respDto.SubCategoryRespDto;
 import com.fasulting.demo.customer.main.service.MainService;
 import com.fasulting.demo.resp.ResponseBody;
 import io.swagger.annotations.Api;
@@ -50,7 +50,7 @@ public class MainController {
      */
     @GetMapping("/sub/{mainSeq}")
     public ResponseEntity<?> getSubList(@PathVariable Long mainSeq) {
-        List<SubCategoryListRespDto> resp = mainService.getSubcategoryList(mainSeq);
+        List<SubCategoryRespDto> resp = mainService.getSubcategoryList(mainSeq);
 
         if (resp != null) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
