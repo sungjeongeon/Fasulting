@@ -5,11 +5,10 @@ import com.fasulting.demo.common.psOperating.repository.PsOperatingRepository;
 import com.fasulting.demo.common.reservation.repository.ReservationRepository;
 import com.fasulting.demo.common.reservation.repository.ReservationSubRepository;
 import com.fasulting.demo.common.time.repository.TimeRepository;
-import com.fasulting.demo.entity.*;
+import com.fasulting.demo.entity.ReservationEntity;
 import com.fasulting.demo.ps.ps.repository.PsRepository;
-import com.fasulting.demo.ps.psReservation.dto.respDto.PsOperatingRespDto;
-import com.fasulting.demo.ps.psReservation.dto.respDto.ReservationRespDto;
 import com.fasulting.demo.ps.psReservation.dto.reqDto.ReservationReqDto;
+import com.fasulting.demo.ps.psReservation.dto.respDto.ReservationRespDto;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -80,24 +79,7 @@ public class PsReservationServiceImpl implements PsReservationService{
         // day
         // datOfWeek
 
-        // 2주 후 날짜
-        LocalDateTime TwoWeeksLater = current.plusWeeks(2);
 
-        PsEntity ps = psRepository.findById(psSeq).get();
-        List<PsOperatingEntity> psOperatingList = psOperatingRepository.find2WeeksLaterByPsSeq(psSeq, TwoWeeksLater);
-
-
-        // 같은 날의 timeList
-        for(PsOperatingEntity psOperating : psOperatingList) {
-
-            PsOperatingRespDto respDto = PsOperatingRespDto.builder()
-                    .year(psOperating.getOperatingCal().getYear())
-                    .month(psOperating.getOperatingCal().getMonth())
-                    .day(psOperating.getOperatingCal().getDay())
-                    .dayOfWeek(psOperating.getOperatingCal().getDayOfWeek())
-                    .build();
-
-        }
 
         return respList;
     }

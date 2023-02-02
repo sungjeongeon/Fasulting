@@ -13,6 +13,6 @@ public class PsOperatingRespDto {
     private Integer month;
     private Integer day;
     private Integer dayOfWeek;
-    private List<String> time;
+    private List<Integer> time;
 
 }
