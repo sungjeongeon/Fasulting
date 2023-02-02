@@ -13,6 +13,6 @@ import java.util.List;
 public interface ReservationSubRepository extends JpaRepository<ReservationSubEntity, ReservationSubId> {
 
     @Query("SELECT rs.subCategory.name " + "FROM ReservationSubEntity rs " + "WHERE rs.reservation.seq = :reservationSeq")
-    List<String> getSubCategoryByReservationSeq(@Param("reservationSeq") Long reservationSeq);
+    List<String> getSubCategoryNameByReservationSeq(@Param("reservationSeq") Long reservationSeq);
 
 }
