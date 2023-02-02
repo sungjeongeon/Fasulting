@@ -29,7 +29,7 @@ function OldReservationList() {
           onChange={onChange}
         ></input>
       </form>
-      <LastReservationHo/>
+      <LastReservationHo />
     </div>
   )
 }

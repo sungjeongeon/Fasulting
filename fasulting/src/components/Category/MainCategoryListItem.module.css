@@ -8,6 +8,11 @@
 .select {
   background: #e5f3f5;
   border-radius: 20px;
+  transition: all 0.1s linear;
+}
+.mainctg:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
 .center {
   display: flex;

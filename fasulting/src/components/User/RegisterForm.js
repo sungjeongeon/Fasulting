@@ -14,11 +14,9 @@ import {
   Box,
   FormControlLabel,
 } from "@mui/material";
-import "react-phone-number-input/style.css";
 import styles from "./Form.module.css";
-import "react-phone-input-2/lib/bootstrap.css";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
+import axios from "../../api/Axios";
 
 const validationSchema = yup.object({
   email: yup
@@ -47,7 +45,7 @@ const validationSchema = yup.object({
       "생년월일 8자리를 입력해주세요."
     )
     .required("생년월일을 입력해주세요."),
-  phone: yup
+  number: yup
     .string()
     .matches(/^[0-9]{2,3}[0-9]{3,4}[0-9]{4}/, "올바른 번호를 입력해주세요.")
     .required("전화번호를 입력해주세요."),
@@ -63,20 +61,20 @@ export default function RegisterForm() {
       repassword: "",
       name: "",
       birth: "",
-      phone: "",
+      number: "",
       agreement: false,
     },
     validationSchema,
     onSubmit: async (values) => {
-      const { email, password, repassword, name, birth, phone } = values;
+      const { email, password, repassword, name, birth, number } = values;
       try {
-        await axios.post("http://localhost:8080/user/regist", {
+        await axios.post("/user/regist", {
           email,
           password,
           repassword,
           name,
           birth,
-          phone,
+          number,
         });
         toast.success(
           <h3>
@@ -199,33 +197,13 @@ export default function RegisterForm() {
               <div className={styles.label}>휴대폰 번호</div>
               <TextField
                 fullWidth
-                name="phone"
+                name="number"
                 placeholder="하이픈(-) 없이 입력해주세요."
-                value={formik.values.phone}
+                value={formik.values.number}
                 onChange={formik.handleChange}
-                error={formik.touched.phone && Boolean(formik.errors.phone)}
-                helperText={formik.touched.phone ? formik.errors.phone : ""}
+                error={formik.touched.number && Boolean(formik.errors.number)}
+                helperText={formik.touched.number ? formik.errors.number : ""}
               />
-              {/* <PhoneInput
-                inputStyle={{
-                  width: "464px",
-                  "&:focus": {
-                    borderColor: "#03b2cb",
-                  },
-                }}
-                fullWidth="true"
-                name="birth"
-                placeholder="(+82) 010-1234-5678"
-                defaultCountry="so"
-                value={formik.values.phone}
-                onChange={(phone, country) =>
-                  setValues({
-                    ...values,
-                    phone: phone,
-                    countryCode: country.countryCode,
-                  })
-                }
-              /> */}
             </div>
             <div className={styles.inputItem}>
               <div className={`${styles.label} ${styles.labelcolor}`}>

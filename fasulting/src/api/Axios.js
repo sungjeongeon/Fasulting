@@ -1,5 +1,6 @@
 import axios from "axios";
 
-export const customTodoAxios = axios.create({
-  baseURL: "http://localhost:8080/",
+const axiosApi = axios.create({
+  baseURL: "http://i8e106.p.ssafy.io:8080/",
 });
+export default axiosApi;

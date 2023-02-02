@@ -5,13 +5,12 @@ import { Container } from "@mui/system";
 import axios from "axios";
 import Footer from "../../components/Footer";
 
+import axios from "../../api/Axios";
 function Home() {
-  // axios.get("https://jsonplaceholder.typicode.com/todos/1").then((res) => {
-  //   console.log(res);
-  // });
-  // axios.get("https://i8e106.p.ssafy.io:8080/account/ps").then((res) => {
-  //   console.log(res);
-  // });
+  //통신 테스트
+  axios.get("/account/ps").then((res) => {
+    console.log(res);
+  });
   return (
     <div>
       <Container>

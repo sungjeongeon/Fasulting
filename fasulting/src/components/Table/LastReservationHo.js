@@ -17,7 +17,8 @@ const lastReservation = [
     month: 1,
     day: 31,
     day_of_week: 3, // 1~7 (일~화)
-    sub_category_name: ["쌍커풀", "눈매교정"]
+    sub_category_name: ["쌍커풀", "눈매교정"],
+    reservation_id: 1,
   },
   {
     user_id: 2,
@@ -26,7 +27,8 @@ const lastReservation = [
     month: 2,
     day: 1,
     day_of_week: 4, // 1~7 (일~화)
-    sub_category_name: ["보톡스", "필러"]
+    sub_category_name: ["보톡스", "필러"],
+    reservation_id: 2,
   },
 ];
 
@@ -35,6 +37,7 @@ const twolen = (num) => {
 }
 
 const dayOfWeek = (num) => {
+  // eslint-disable-next-line default-case
   switch(num) {
     case 1:
       return "일"
@@ -53,7 +56,7 @@ const dayOfWeek = (num) => {
   }
 }
 
-export default function LastConsulting() {
+export default function LastReservationHo() {
   return (
     <>
       <TableContainer component={Paper} sx={{ marginTop: "2rem"}}>
