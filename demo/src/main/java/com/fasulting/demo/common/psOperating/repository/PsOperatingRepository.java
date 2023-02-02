@@ -26,4 +26,6 @@ public interface PsOperatingRepository extends JpaRepository<PsOperatingEntity, 
 
 
     void deleteAllByPs(PsEntity ps);
+
+    List<PsOperatingEntity> findByPsAndOperatingCal(PsEntity ps, OperatingCalEntity operatingCal);
 }

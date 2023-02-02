@@ -3,13 +3,15 @@ package com.fasulting.demo.ps.psReservation.controller;
 
 import com.fasulting.demo.common.reservation.repository.ReservationRepository;
 import com.fasulting.demo.common.review.repository.ReviewRepository;
-import com.fasulting.demo.ps.psReservation.request.ReservationReq;
+import com.fasulting.demo.ps.psReservation.dto.reqDto.ReservationReqDto;
 import com.fasulting.demo.ps.psReservation.service.PsReservationService;
 import com.fasulting.demo.resp.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RestController
 @Slf4j
@@ -35,37 +37,34 @@ public class PsReservationController {
      * @param psSeq
      * @return
      */
-//    @GetMapping("/post/{psSeq}")
-//    public ResponseEntity<?> getPostReservationList(@PathVariable Long psSeq) {
-//
-//        LocalDateTime current = LocalDateTime.now();
-//
-//        psReservationService.getPostReservationList(psSeq, current);
-//
-//
-//        return null;
-//    }
+    @GetMapping("/post/{psSeq}")
+    public ResponseEntity<?> getPostReservationList(@PathVariable Long psSeq) {
+
+        LocalDateTime current = LocalDateTime.now();
+
+        return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", psReservationService.getPostReservationList(psSeq, current)));
+    }
 
 
     /**
      * 운영 시간 수정 (delete & insert)
-     * @param reservationReq
+     * @param reservationReqDto
      * @return
      */
     @PutMapping("/edit")
-    public ResponseEntity<?> editReservationTime(@RequestBody ReservationReq reservationReq) {
+    public ResponseEntity<?> editReservationTime(@RequestBody ReservationReqDto reservationReqDto) {
         return null;
     }
 
     /**
      * 예약 취소
-     * @param reservationReq
+     * @param reservationReqDto
      * @return
      */
     @PatchMapping
-    public ResponseEntity<?> cancelReservation(@RequestBody ReservationReq reservationReq) {
+    public ResponseEntity<?> cancelReservation(@RequestBody ReservationReqDto reservationReqDto) {
 
-        if(psReservationService.modifyReservation(reservationReq)) {
+        if(psReservationService.modifyReservation(reservationReqDto)) {
             return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success"));
         }
 
@@ -75,15 +74,27 @@ public class PsReservationController {
 
     /**
      * 지난 예약 조회
-     * @param seq
+     * @param psSeq
      * @return
      */
-    @GetMapping("/pre/{seq}")
-    public ResponseEntity<?> getPreReservationInfo(@PathVariable int seq) {
+    @GetMapping("/pre/{psSeq}")
+    public ResponseEntity<?> getPreReservationInfo(@PathVariable Long psSeq) {
+
+        LocalDateTime current = LocalDateTime.now();
+
+        return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", psReservationService.getPreReservationList(psSeq, current)));
+
+    }
 
 
+    /**
+     * 상담 결과 상세 조회
+     */
+    @GetMapping("/pre/detail/{consultingSeq}")
+    public ResponseEntity<?> getPreDetail(@PathVariable Long consultingSeq) {
 
-        return null;
+        return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", psReservationService.getPreDetail(consultingSeq)));
+
     }
 
 
