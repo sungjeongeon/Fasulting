@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OperatingCalRepository extends JpaRepository<OperatingCalEntity, Long> {
     List<OperatingCalEntity> findAllByDayOfWeek(Integer dayOfWeek);
 
-    OperatingCalEntity findByYearAndMonthAndDay(int year, int month, int day);
+    Optional<OperatingCalEntity> findByYearAndMonthAndDay(Integer year, Integer month, Integer day);
+
 }

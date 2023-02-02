@@ -1,5 +1,6 @@
 package com.fasulting.demo.ps.ps.repository;
 
+import com.fasulting.demo.entity.MainCategoryEntity;
 import com.fasulting.demo.entity.PsEntity;
 import com.fasulting.demo.entity.PsMainEntity;
 import com.fasulting.demo.entity.compositeId.PsMainId;
@@ -14,5 +15,8 @@ public interface PsMainRepository extends JpaRepository<PsMainEntity, PsMainId>,
 
     @Query("SELECT  pm.ps " + "FROM PsMainEntity pm " + "WHERE pm.mainCategory.seq = :mainSeq" )
     List<PsEntity> findPsByMainSeq(@Param("mainSeq") Long mainSeq);
+
+    @Query("SELECT  pm.mainCategory " + "FROM PsMainEntity pm " + "WHERE pm.ps.seq = :psSeq" )
+    List<MainCategoryEntity> getMainByPsSeq(@Param("psSeq") Long psSeq);
 
 }
