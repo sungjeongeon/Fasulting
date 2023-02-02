@@ -1,40 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import { Calendar, utils } from "@hassanmojab/react-modern-calendar-datepicker";
 import styles from "./CalendarCard.module.css"
 import NewReservationCard from "./NewReservationCard";
-import { useSelector, useDispatch } from "react-redux";
-import { changeDate, resetDate } from "../../redux/calendar"
+import { useDispatch } from "react-redux";
+import { changeDate } from "../../redux/calendar"
 
 const CalendarCard = () => {
   const dateNow = new Date();
-  const today = dateNow.toISOString().slice(0, 10);  // yyyy-mm-dd 형태로 변환
+  // yyyy-mm-dd 형태로 변환
   const calcDate = (str) => {
+    const strDate = str.toISOString().slice(0, 10).split('-')
     return {
-      year: Number(str.split('-')[0]),
-      month: Number(str.split('-')[1]),
-      day: Number(str.split('-')[2]),
+      year: Number(strDate[0]),
+      month: Number(strDate[1]),
+      day: Number(strDate[2]),
     }
   }
-  const defaultValue = calcDate(today)
-  
+  // 기존 value
+  const defaultValue = calcDate(dateNow)
+  // 2주 뒤의 날짜 계산
   const endDate = new Date(dateNow.setDate(dateNow.getDate()+13))
-  const maximumDate = endDate.toISOString().slice(0, 10);
-  const maxValue = calcDate(maximumDate)
+  const maxValue = calcDate(endDate)
 
   const [selectedDay, setSelectedDay] = useState(defaultValue);
   // console.log(selectedDay) // {day: 27, month: 2, year: 2023} 형태
   const dispatch = useDispatch()
-  const dateObj = useSelector(state => {return state.calendar})
-  console.log(defaultValue)
+  useEffect(() => {
+    dispatch(changeDate(selectedDay))
+  }, [selectedDay])
   return (
     <div>
       <Calendar
-        // value={selectedDay}
-        value={dateObj}
-        onChange={() => {
-          dispatch(changeDate)
-        }}
+        value={selectedDay}
+        onChange={setSelectedDay}
         colorPrimary="#72a1a6"
         calendarTodayClassName={styles.today}
         minimumDate={utils().getToday()}
@@ -44,6 +43,7 @@ const CalendarCard = () => {
       <p className={styles.p}>새로운 예약 알림</p>
       <NewReservationCard/>
     </div>
+
   );
 };
 
