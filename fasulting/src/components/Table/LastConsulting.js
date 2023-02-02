@@ -67,7 +67,7 @@ export default function LastConsulting() {
 
   return (
     <>
-      <Typography variant="h5">지난 예약</Typography>
+      <h2>지난 예약</h2>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           {/* <TableHead className={classes.root}> */}
@@ -108,7 +108,9 @@ export default function LastConsulting() {
                     variant="contained"
                     style={{ color: "white" }}
                     startIcon={<BorderColorIcon />}
-                    onClick={() => {pgEstimate(lastconsult.ps_id)}}
+                    onClick={() => {
+                      pgEstimate(lastconsult.ps_id);
+                    }}
                   >
                     견적상세
                   </Button>

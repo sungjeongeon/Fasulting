@@ -69,7 +69,9 @@ const validationSchema = [
         "000-00-00000 형식에 맞게 입력해주세요."
       )
       .required("사업자 등록번호를 입력해주세요."),
-    [psregistrationimg.name]: yup.string(),
+    [psregistrationimg.name]: yup
+      .string()
+      .required("사업자 등록증을 업로드해주세요."),
     // doctor,
     // category,
   }),
