@@ -32,6 +32,7 @@ public class PsReservationServiceImpl implements PsReservationService{
         ReservationEntity reservation = reservationRepository.findById(reservationReq.getReservationSeq()).get();
 
         reservation.updateDelYn();
+        reservationRepository.save(reservation);
 
         if("Y".equals(reservation.getDelYn())) {
             return true;
@@ -53,7 +54,7 @@ public class PsReservationServiceImpl implements PsReservationService{
                     .reservationSeq(reservation.getSeq())
                     .reservationDate(reservation.getReservationCal().getDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                     .reservationTime(reservation.getTime().getStartHour() + ":" + reservation.getTime().getStartMin())
-                    .subCategoryName(reservationSubEntityRepository.getSubCategoryByReservationSeq(reservation.getSeq()))
+                    .subCategoryName(reservationSubEntityRepository.getSubCategoryNameByReservationSeq(reservation.getSeq()))
                     .userName(reservation.getUser().getName())
                     .build();
 

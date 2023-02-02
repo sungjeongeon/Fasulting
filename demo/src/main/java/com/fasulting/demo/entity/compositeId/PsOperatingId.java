@@ -1,6 +1,7 @@
 package com.fasulting.demo.entity.compositeId;
 
 import com.fasulting.demo.entity.*;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +19,11 @@ public class PsOperatingId implements Serializable {
 
     @EqualsAndHashCode.Include
     public Long time;
+
+    @Builder
+    public PsOperatingId(Long ps, Long operatingCal, Long time) {
+        this.ps = ps;
+        this.operatingCal = operatingCal;
+        this.time = time;
+    }
 }
