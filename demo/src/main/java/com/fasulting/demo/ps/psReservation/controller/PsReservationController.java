@@ -78,11 +78,23 @@ public class PsReservationController {
      * @return
      */
     @GetMapping("/pre/{psSeq}")
-    public ResponseEntity<?> getPreReservationInfo(@PathVariable int psSeq) {
+    public ResponseEntity<?> getPreReservationInfo(@PathVariable Long psSeq) {
+
+        LocalDateTime current = LocalDateTime.now();
+
+        return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", psReservationService.getPreReservationList(psSeq, current)));
+
+    }
 
 
+    /**
+     * 상담 결과 상세 조회
+     */
+    @GetMapping("/pre/detail/{consultingSeq}")
+    public ResponseEntity<?> getPreDetail(@PathVariable Long consultingSeq) {
 
-        return null;
+        return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", psReservationService.getPreDetail(consultingSeq)));
+
     }
 
 
