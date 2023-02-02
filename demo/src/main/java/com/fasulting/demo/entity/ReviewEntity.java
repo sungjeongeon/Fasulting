@@ -1,10 +1,10 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -64,8 +64,10 @@ public class ReviewEntity extends BaseEntity {
 	private String delYn;
 
 	public void accuseReview() {
-		this.delYn = "Y";
+		this.decYn = "Y";
 	}
+
+	public void deleteReview() { this.delYn = "Y"; }
 
 	@Builder
 	public ReviewEntity(ConsultingEntity consulting, PsEntity ps, UserEntity user, String content, BigDecimal point) {

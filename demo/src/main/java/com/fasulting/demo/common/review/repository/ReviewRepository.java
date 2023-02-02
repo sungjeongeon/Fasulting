@@ -2,7 +2,6 @@ package com.fasulting.demo.common.review.repository;
 
 import com.fasulting.demo.entity.ConsultingEntity;
 import com.fasulting.demo.entity.ReviewEntity;
-import com.fasulting.demo.entity.compositeId.PsDefaultId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +24,5 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     Optional<ReviewEntity> findByConsulting(ConsultingEntity consulting);
 
 
+    List<ReviewEntity> findAllByDecYnAndDelYn(String decYn, String DelYn);
 }

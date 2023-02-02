@@ -1,22 +1,31 @@
 package com.fasulting.demo.admin.review.controller;
 
+import com.fasulting.demo.admin.review.dto.reqDto.AdminReviewReqDto;
 import com.fasulting.demo.admin.review.service.AdminReviewService;
+import com.fasulting.demo.common.review.repository.ReviewRepository;
+import com.fasulting.demo.common.review.respDto.ReviewRespDto;
+import com.fasulting.demo.resp.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
-@RequestMapping("/review")
+@RequestMapping("/admin/review")
 @CrossOrigin("*")
 public class AdminReviewController {
+    private final ReviewRepository reviewRepository;
 
     private AdminReviewService adminReviewService;
 
     @Autowired
-    public AdminReviewController(AdminReviewService adminReviewService) {
+    public AdminReviewController(AdminReviewService adminReviewService,
+                                 ReviewRepository reviewRepository) {
         this.adminReviewService = adminReviewService;
+        this.reviewRepository = reviewRepository;
     }
 
     /**
@@ -25,16 +34,32 @@ public class AdminReviewController {
      */
     @GetMapping
     public ResponseEntity<?> getAccusedReviewList() {
-        return null;
+
+        List<ReviewRespDto> accusedReviewList = adminReviewService.getAccusedReviewList();
+
+        log.info(accusedReviewList.toString());
+
+        if (accusedReviewList != null) {
+            return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", accusedReviewList));
+        }
+
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+
     }
 
     /**
      * 2. 리뷰 삭제
      * @return success or fail
      */
-    @DeleteMapping
-    public ResponseEntity<?> deleteReview() {
-        return null;
+    @PatchMapping
+    public ResponseEntity<?> deleteReview(@RequestBody AdminReviewReqDto adminReviewReq) {
+
+        if (adminReviewService.deleteReview(adminReviewReq.getReviewSeq())) {
+            return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success"));
+        }
+
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+
     }
 
 }

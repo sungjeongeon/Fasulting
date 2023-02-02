@@ -1,11 +1,11 @@
-package com.fasulting.demo.admin.account.request;
+package com.fasulting.demo.admin.account.dto.repDto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ApprovePsReq {
+public class ApprovedPsReqDto {
 
     private int seq;
 

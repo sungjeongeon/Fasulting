@@ -1,6 +1,6 @@
 package com.fasulting.demo.admin.admin.controller;
 
-import com.fasulting.demo.admin.admin.request.AdminLoginReq;
+import com.fasulting.demo.admin.admin.dto.reqDto.AdminLoginReq;
 import com.fasulting.demo.admin.admin.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

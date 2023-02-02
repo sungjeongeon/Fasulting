@@ -1,12 +1,15 @@
 package com.fasulting.demo.admin.account.controller;
 
-import com.fasulting.demo.admin.account.request.ApprovePsReq;
+import com.fasulting.demo.admin.account.dto.repDto.ApprovedPsReqDto;
+import com.fasulting.demo.admin.account.dto.respDto.PsWaitRespDto;
 import com.fasulting.demo.admin.account.service.AccountService;
+import com.fasulting.demo.resp.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -28,7 +31,15 @@ public class AccountController {
      */
     @GetMapping("/ps")
     public ResponseEntity<?> getPsWaitList() {
-        return null;
+
+        List<PsWaitRespDto> psWaitList = accountService.getPsWaitList();
+
+        if (psWaitList != null) {
+            return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", psWaitList));
+        }
+
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+
     }
 
     /**
@@ -37,7 +48,7 @@ public class AccountController {
      * @return success or fail
      */
     @PatchMapping("/ps")
-    public ResponseEntity<?> ApprovePs(@RequestBody ApprovePsReq approvePsReq) {
+    public ResponseEntity<?> ApprovePs(@RequestBody ApprovedPsReqDto approvePsReq) {
         return null;
     }
 
