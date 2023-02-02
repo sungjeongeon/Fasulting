@@ -35,8 +35,6 @@ public class UserServiceImpl implements UserService {
                 .email(userInfo.getEmail())
                 .password(userInfo.getPassword())
                 .name(userInfo.getName())
-                .nation(userInfo.getNation())
-                .nationCode(userInfo.getNationCode())
                 .number(userInfo.getNumber())
                 .birth(userInfo.getBirth())
                 .build();
@@ -81,10 +79,8 @@ public class UserServiceImpl implements UserService {
 
             userInfo.setUserBirth(user.getBirth());
             userInfo.setUserEmail(user.getEmail());
-            userInfo.setUserNation(user.getNation());
             userInfo.setUserPhone(user.getNumber());
             userInfo.setUserName(user.getName());
-            userInfo.setUserNationCode(user.getNationCode());
 
             return userInfo;
         }

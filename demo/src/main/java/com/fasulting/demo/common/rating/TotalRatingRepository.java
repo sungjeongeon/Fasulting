@@ -1,5 +1,6 @@
 package com.fasulting.demo.common.rating;
 
+import com.fasulting.demo.entity.PsEntity;
 import com.fasulting.demo.entity.TotalRatingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +17,5 @@ public interface TotalRatingRepository extends JpaRepository<TotalRatingEntity, 
             "WHERE t.ps.seq = :psSeq")
     BigDecimal getResultByPsSeq(@Param("psSeq") Long psSeq);
 
-    Optional<TotalRatingEntity> findByPsSeq(Long psSeq);
+    Optional<TotalRatingEntity> findByPs(PsEntity ps);
 }

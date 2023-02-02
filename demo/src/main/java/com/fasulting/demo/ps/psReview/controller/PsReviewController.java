@@ -29,9 +29,9 @@ public class PsReviewController {
     @PatchMapping("/accuse")
     public ResponseEntity<?> AccuseReview(@RequestBody AccuseReviewReq accuseReviewReq) {
 
-        Long seq = accuseReviewReq.getSeq();
+        Long reviewSeq = accuseReviewReq.getReviewSeq();
 
-        if(psReviewService.accuseReview(seq)) {
+        if(psReviewService.accuseReview(reviewSeq)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
 

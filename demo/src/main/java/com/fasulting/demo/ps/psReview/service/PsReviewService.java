@@ -2,6 +2,6 @@ package com.fasulting.demo.ps.psReview.service;
 
 public interface PsReviewService {
 
-    boolean accuseReview(Long seq);
+    boolean accuseReview(Long reviewSeq);
 
 }

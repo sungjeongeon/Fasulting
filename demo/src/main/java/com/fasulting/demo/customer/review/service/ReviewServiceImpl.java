@@ -1,14 +1,12 @@
 package com.fasulting.demo.customer.review.service;
 
 import com.fasulting.demo.common.consulting.repository.ConsultingRepository;
+import com.fasulting.demo.common.rating.TotalRatingRepository;
 import com.fasulting.demo.common.review.repository.ReviewRepository;
 import com.fasulting.demo.common.review.repository.ReviewSubRepository;
 import com.fasulting.demo.common.review.respDto.ReviewRespDto;
 import com.fasulting.demo.customer.review.dto.req.ReviewReqDto;
-import com.fasulting.demo.entity.ConsultingEntity;
-import com.fasulting.demo.entity.PsEntity;
-import com.fasulting.demo.entity.ReviewEntity;
-import com.fasulting.demo.entity.UserEntity;
+import com.fasulting.demo.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +21,15 @@ public class ReviewServiceImpl implements ReviewService{
     private final ReviewRepository reviewRepository;
     private final ConsultingRepository consultingRepository;
     private final ReviewSubRepository reviewSubRepository;
+    private final TotalRatingRepository totalRatingRepository;
 
     @Autowired
     public ReviewServiceImpl(ReviewRepository reviewRepository, ConsultingRepository consultingRepository,
-                             ReviewSubRepository reviewSubRepository) {
+                             ReviewSubRepository reviewSubRepository, TotalRatingRepository totalRatingRepository) {
         this.reviewRepository = reviewRepository;
         this.consultingRepository = consultingRepository;
         this.reviewSubRepository = reviewSubRepository;
+        this.totalRatingRepository = totalRatingRepository;
     }
 
     @Transactional
@@ -55,6 +55,20 @@ public class ReviewServiceImpl implements ReviewService{
                 .build();
 
         reviewRepository.save(review);
+
+        // 통계 평점이 없을 경우 생성
+        if(!totalRatingRepository.findByPs(ps).isPresent()){
+            TotalRatingEntity totalRating = TotalRatingEntity.builder()
+                    .ps(ps)
+                    .build();
+
+            totalRatingRepository.save(totalRating);
+        }
+
+        // 통계 평점 최신화
+        TotalRatingEntity totalRating = totalRatingRepository.findByPs(ps).get();
+        totalRating.updateByReg(reviewReqDto.getPoint());
+        totalRatingRepository.save(totalRating);
 
         return true;
     }

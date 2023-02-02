@@ -1,9 +1,10 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -33,7 +34,27 @@ public class TotalRatingEntity extends BaseEntity {
 	private BigDecimal sum;
 
    	@Column(name = "count")
-	private Integer count;
+	private BigDecimal count;
+	@Builder
+	public TotalRatingEntity(PsEntity ps) {
+		this.ps = ps;
+		this.result = BigDecimal.ZERO;
+		this.sum = BigDecimal.ZERO;
+		this.count = BigDecimal.ZERO;
+	}
+
+	public void updateByReg(BigDecimal point){
+		this.sum = this.sum.add(point);
+		this.count = this.sum.add(BigDecimal.ONE);
+		this.result = this.sum.divide(this.count, 1);
+	}
+
+	public void updateByDel(BigDecimal point){
+		this.sum = this.sum.subtract(point);
+		this.count = this.sum.subtract(BigDecimal.ONE);
+		this.result = this.sum.divide(this.count, 1);
+	}
+
 
 
 }
