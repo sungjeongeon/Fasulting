@@ -2,7 +2,7 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import React, { Component } from "react";
 import StreamComponent from "./stream/StreamComponent";
-import "./VideoRoomComponent.css";
+import styles from "./VideoTest.module.css";
 
 import OpenViduLayout from "./layout/openvidu-layout";
 import UserModel from "./models/user-model";
@@ -48,6 +48,36 @@ class VideoTest extends Component {
         await this.connectToSession();
       }
     );
+  }
+
+  subscribeToStreamCreated() {
+    console.log("subscribeToStreamCreated 함수 실행");
+    var mySession = this.state.session;
+    // stream 생성 이벤트 발생 시
+    mySession.on("streamCreated", (event) => {
+      const subscriber = mySession.subscribe(event.stream, undefined);
+      // subscriber 추가
+      this.setState({
+        subscriber: subscriber,
+      });
+
+      subscriber.on("streamPlaying", (e) => {
+        // this.checkSomeoneShareScreen();
+        subscriber.videos[0].video.parentElement.classList.remove(
+          "custom-class"
+        );
+      });
+      const newUser = new UserModel();
+      newUser.setStreamManager(subscriber);
+      newUser.setConnectionId(event.stream.connection.connectionId);
+      newUser.setType("remote");
+      const nickname = event.stream.connection.data.split("%")[0];
+      newUser.setNickname(JSON.parse(nickname).clientData);
+      this.remotes.push(newUser);
+      if (this.localUserAccessAllowed) {
+        this.updateSubscribers();
+      }
+    });
   }
 
   async connectToSession() {
@@ -121,12 +151,12 @@ class VideoTest extends Component {
       resolution: "640x480",
       frameRate: 30,
       insertMode: "APPEND",
-      mirror: false,
+      mirror: true,
     });
     console.log("publish 전");
 
     // 스트림 publish
-
+    console.log(this.state.session);
     if (this.state.session.capabilities.publish) {
       publisher.on("accessAllowed", () => {
         this.state.session.publish(publisher).then(() => {
@@ -138,16 +168,18 @@ class VideoTest extends Component {
         });
       });
     }
+    console.log(localUser);
     console.log("1 여기서 문제 있음ㅋ");
     localUser.setNickname(this.state.myUserName);
     localUser.setConnectionId(this.state.session.connection.connectionId);
     localUser.setScreenShareActive(false);
     localUser.setStreamManager(publisher);
-    this.subscribeToUserChanged();
-    this.subscribeToStreamDestroyed();
-    this.sendSignalUserChanged({
-      isScreenShareActive: localUser.isScreenShareActive(),
-    });
+    console.log(localUser);
+    // this.subscribeToUserChanged();
+    // this.subscribeToStreamDestroyed();
+    // this.sendSignalUserChanged({
+    //   isScreenShareActive: localUser.isScreenShareActive(),
+    // });
     console.log("2");
     this.setState(
       { currentVideoDevice: videoDevices[0], localUser: localUser },
@@ -164,6 +196,7 @@ class VideoTest extends Component {
   }
 
   updateSubscribers() {
+    console.log("updateSubscribers 함수실행");
     var subscribers = this.remotes;
     this.setState(
       {
@@ -172,55 +205,56 @@ class VideoTest extends Component {
       () => {
         if (this.state.localUser) {
           console.log("여기??");
-          this.sendSignalUserChanged({
-            isAudioActive: this.state.localUser.isAudioActive(),
-            isVideoActive: this.state.localUser.isVideoActive(),
+          // this.sendSignalUserChanged({
+          //   isAudioActive: this.state.localUser.isAudioActive(),
+          //   isVideoActive: this.state.localUser.isVideoActive(),
 
-            me: this.state.localUser.getNickname(),
-            isScreenShareActive: this.state.localUser.isScreenShareActive(),
-          });
+          //   me: this.state.localUser.getNickname(),
+          //   isScreenShareActive: this.state.localUser.isScreenShareActive(),
+          // });
         }
         // this.updateLayout();
       }
     );
   }
 
-  subscribeToStreamCreated() {
-    var mySession = this.state.session;
-    // stream 생성 이벤트 발생 시
-    mySession.on("streamCreated", (event) => {
-      const subscriber = mySession.subscribe(event.stream, undefined);
-      // subscriber 추가
-      this.setState({
-        subscriber: subscriber,
-      });
-
-      subscriber.on("streamPlaying", (e) => {
-        // this.checkSomeoneShareScreen();
-        subscriber.videos[0].video.parentElement.classList.remove(
-          "custom-class"
-        );
-      });
-      const newUser = new UserModel();
-      newUser.setStreamManager(subscriber);
-      newUser.setConnectionId(event.stream.connection.connectionId);
-      newUser.setType("remote");
-      const nickname = event.stream.connection.data.split("%")[0];
-      newUser.setNickname(JSON.parse(nickname).clientData);
-      this.remotes.push(newUser);
-      if (this.localUserAccessAllowed) {
-        this.updateSubscribers();
-      }
-    });
+  // 툴바 ===========================
+  camStatusChanged() {
+    localUser.setVideoActive(!localUser.isVideoActive());
+    localUser.getStreamManager().publishVideo(localUser.isVideoActive());
+    this.sendSignalUserChanged({ isVideoActive: localUser.isVideoActive() });
+    this.setState({ localUser: localUser });
   }
+
+  micStatusChanged() {
+    localUser.setAudioActive(!localUser.isAudioActive());
+    localUser.getStreamManager().publishAudio(localUser.isAudioActive());
+    this.sendSignalUserChanged({ isAudioActive: localUser.isAudioActive() });
+    this.setState({ localUser: localUser });
+  }
+  // ================================
 
   render() {
     const localUser = this.state.localUser;
+    const mySessionId = this.state.mySessionId;
     return (
       <div>
+        <ToolbarComponent
+          sessionId={mySessionId}
+          user={localUser}
+          showNotification={this.state.messageReceived}
+          camStatusChanged={this.camStatusChanged}
+          micStatusChanged={this.micStatusChanged}
+          screenShare={this.screenShare}
+          stopScreenShare={this.stopScreenShare}
+          toggleFullscreen={this.toggleFullscreen}
+          switchCamera={this.switchCamera}
+          leaveSession={this.leaveSession}
+          toggleChat={this.toggleChat}
+        />
         {localUser !== undefined &&
           localUser.getStreamManager() !== undefined && (
-            <div>
+            <div className={styles.div}>
               <h1>test</h1>
               <StreamComponent user={localUser} />
             </div>
