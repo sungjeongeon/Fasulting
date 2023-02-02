@@ -70,11 +70,8 @@
       "last 1 safari version"
     ]
   },
-<<<<<<< HEAD
   "devDependencies": {
     "devextreme-themebuilder": "^22.2.3"
-  }
-=======
+  },
   "proxy": "http://i8e106.p.ssafy.io:8080/"
->>>>>>> 79d56975f575af5a0b8ea8e939e74b6bd4826dac
 }
