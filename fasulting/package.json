@@ -72,6 +72,5 @@
   },
   "devDependencies": {
     "devextreme-themebuilder": "^22.2.3"
-  },
-  "proxy": "http://i8e106.p.ssafy.io:8080/"
+  }
 }
