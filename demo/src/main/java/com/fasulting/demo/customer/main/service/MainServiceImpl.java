@@ -140,7 +140,7 @@ public class MainServiceImpl implements MainService {
             PsListRespDto resp = PsListRespDto.builder()
                     .psSeq(psSeq)
                     .psName(ps.getName())
-                    .psProfileImg("server domain" + File.separator + ps.getProfileImg())
+                    .psProfileImg("server domain" + File.separator + ps.getProfileImgPath())
                     .psIntro(ps.getIntro())
                     .psAddress(ps.getAddress())
                     .subCategoryName(psMainSubRepository.getSubNameByPsSeq(psSeq))
@@ -198,7 +198,7 @@ public class MainServiceImpl implements MainService {
             DoctorDto doctorDto = DoctorDto.builder()
                     .doctorSeq(doctor.getSeq())
                     .name(doctor.getName())
-                    .profileImg(doctor.getImg())
+                    .profileImg(doctor.getImgPath())
                     .mainCategoryName(doctorMainRepository.getMainCategoryByDoctorSeq(doctor.getSeq()))
                     .build();
 
@@ -241,7 +241,7 @@ public class MainServiceImpl implements MainService {
                 .psName(ps.getName())
                 .psIntro(ps.getIntro())
                 .psAddress(ps.getAddress())
-                .psProfileImg("server domain" + File.separator + ps.getProfileImg())
+                .psProfileImg("server domain" + File.separator + ps.getProfileImgPath())
                 .psNumber(ps.getNumber())
                 .psEmail(ps.getEmail())
                 .isFavorite(favoriteRepository.findByUserSeqPsSeq(userSeq, psSeq).isPresent())

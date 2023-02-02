@@ -1,12 +1,11 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -34,11 +33,11 @@ public class UserEntity extends BaseEntity {
    	@Column(name = "number")
 	private String number;
 
-   	@Column(name = "nation")
-	private String nation;
-
-   	@Column(name = "nation_code")
-	private String nationCode;
+//   	@Column(name = "nation")
+//	private String nation;
+//
+//   	@Column(name = "nation_code")
+//	private String nationCode;
 
    	@Column(name = "name")
 	private String name;
@@ -53,13 +52,11 @@ public class UserEntity extends BaseEntity {
 	private String delYn;
 
 	@Builder
-	public UserEntity(String email, String password, String birth, String number, String nation, String nationCode, String name, LocalDateTime delDate, String delBy, String delYn) {
+	public UserEntity(String email, String password, String birth, String number, String name, LocalDateTime delDate, String delBy, String delYn) {
 		this.email = email;
 		this.password = password;
 		this.birth = birth;
 		this.number = number;
-		this.nation = nation;
-		this.nationCode = nationCode;
 		this.name = name;
 		this.delDate = delDate;
 		this.delBy = delBy;

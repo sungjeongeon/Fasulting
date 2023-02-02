@@ -1,9 +1,10 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 
 @Entity
 //@Builder
@@ -29,13 +30,17 @@ public class DoctorEntity extends BaseEntity {
 	private String name;
 
 	/**전문의 사진 경로*/
-   	@Column(name = "img")
-	private String img;
+   	@Column(name = "img_path")
+	private String imgPath;
+
+	@Column(name = "img_origin")
+	private String imgOrigin;
 
 	@Builder
-	public DoctorEntity(PsEntity ps, String name, String img) {
+	public DoctorEntity(PsEntity ps, String name, String imgPath, String imgOrigin) {
 		this.ps = ps;
 		this.name = name;
-		this.img = img;
+		this.imgPath = imgPath;
+		this.imgOrigin = imgOrigin;
 	}
 }

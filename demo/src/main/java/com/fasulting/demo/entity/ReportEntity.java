@@ -1,9 +1,13 @@
 package com.fasulting.demo.entity;
 
-import javax.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 
 @Entity
 //@Builder
@@ -26,12 +30,18 @@ public class ReportEntity extends BaseEntity {
 	private ConsultingEntity consulting;
 
 	/**서버에 저장된 비포 사진 경로*/
-   	@Column(name = "before_img")
-	private String beforeImg;
+   	@Column(name = "before_img_path")
+	private String beforeImgPath;
+
+	@Column(name = "before_img_origin")
+	private String beforeImgOrigin;
 
 	/**서버에 저장된 애프터 사진 경로*/
-   	@Column(name = "after_img")
-	private String afterImg;
+   	@Column(name = "after_img_path")
+	private String afterImgPath;
+
+	@Column(name = "after_img_origin")
+	private String afterImgOrigin;
 
 	/**소견 작성 내용*/
    	@Column(name = "content")

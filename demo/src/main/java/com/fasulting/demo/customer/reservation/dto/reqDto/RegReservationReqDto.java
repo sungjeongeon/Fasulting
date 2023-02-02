@@ -1,8 +1,8 @@
 package com.fasulting.demo.customer.reservation.dto.reqDto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,6 +17,8 @@ public class RegReservationReqDto {
     private  int day;
     private int dayOfWeek;
     private int time;
+
+    private MultipartFile beforeImg;
 
     private List<Long> subCategory;
 }

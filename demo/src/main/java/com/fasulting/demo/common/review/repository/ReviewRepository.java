@@ -2,7 +2,6 @@ package com.fasulting.demo.common.review.repository;
 
 import com.fasulting.demo.entity.ConsultingEntity;
 import com.fasulting.demo.entity.ReviewEntity;
-import com.fasulting.demo.entity.compositeId.PsDefaultId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,12 +14,22 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
 
     @Query("SELECT COUNT(r) " + "FROM ReviewEntity r " +
-            "WHERE r.ps.seq = :psSeq")
+            "WHERE r.ps.seq = :psSeq " +
+            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" +
+            "AND ( r.decYn LIKE 'N' OR r.decYn IS NULL )")
     int getCountByPsSeq(@Param("psSeq") Long psSeq);
 
-    List<ReviewEntity> findAllByPsSeq(Long psSeq);
+    @Query("SELECT r " + "FROM ReviewEntity r " +
+            "WHERE r.ps.seq = :psSeq " +
+            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" +
+            "AND ( r.decYn LIKE 'N' OR r.decYn IS NULL )")
+    List<ReviewEntity> findAllByPsSeq(@Param("psSeq") Long psSeq);
 
-    List<ReviewEntity> findAllByUserSeq(Long userSeq);
+    @Query("SELECT r " + "FROM ReviewEntity r " +
+            "WHERE r.ps.seq = :userSeq " +
+            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" +
+            "AND ( r.decYn LIKE 'N' OR r.decYn IS NULL )")
+    List<ReviewEntity> findAllByUserSeq(@Param("userSeq") Long userSeq);
 
     Optional<ReviewEntity> findByConsulting(ConsultingEntity consulting);
 

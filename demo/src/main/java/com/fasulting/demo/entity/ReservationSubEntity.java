@@ -25,7 +25,7 @@ public class ReservationSubEntity extends BaseEntity implements Serializable{
 	@Id
    	/** FK setting */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(referencedColumnName = "seq", name = "resrvation_seq")
+	@JoinColumn(referencedColumnName = "seq", name = "reservation_seq")
 	private ReservationEntity reservation;
 
 	@Id

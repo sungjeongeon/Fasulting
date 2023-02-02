@@ -22,8 +22,8 @@ public class ReportRespDto {
     private Map<Integer, List<Integer>> defaultTime; // 병원 기본 운영 시간
 
     // 소견서 내용 //
-    private String beforeImg;
-    private String afterImg;
+    private String beforeImgPath;
+    private String afterImgPath;
     private String estimate;
     private String content;
     private List<String> subCategoryName;
