@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface PsReservationService {
 
-    boolean modifyReservation(ReservationReqDto reservationReqDto);
+    boolean cancelReservation(ReservationReqDto reservationReqDto);
     PostReservationRespDto getPostReservationList(Long psSeq, LocalDateTime current);
 
     List<PreReservationRespDto> getPreReservationList(Long psSeq, LocalDateTime current);

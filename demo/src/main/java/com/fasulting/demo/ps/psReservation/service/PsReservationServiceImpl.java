@@ -53,18 +53,51 @@ public class PsReservationServiceImpl implements PsReservationService {
 
     @Transactional
     @Override
-    public boolean modifyReservation(ReservationReqDto reservationReqDto) {
+    public boolean cancelReservation(ReservationReqDto reservationReqDto) {
 
-        ReservationEntity reservation = reservationRepository.findById(reservationReqDto.getReservationSeq()).get();
+        log.info("cancelReservation - call");
 
-        reservation.updateDelYn();
-        reservationRepository.save(reservation);
+        Long rSeq = reservationReqDto.getReservationSeq();
+        Long pSeq = reservationReqDto.getPsSeq();
 
-        if ("Y".equals(reservation.getDelYn())) {
+        // 예약 delYn >> Y로 변경
+        if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).get().getPs().getSeq() == pSeq) {
+
+            ReservationEntity r = reservationRepository.findById(rSeq).get();
+            r.updateDelYn();
+
+            reservationRepository.save(r);
+
+            // 예약 취소하고 해당 시간을 해당 병원 운영 시간에 추가
+
+            // 예약에서 병원 구하기
+            // 예약에서 date 구하기
+            // 예약에서 시간 구하기
+            // 병원 date(operating_cal) 시간(time) 으로 운영 시간(ps_operating) 추가
+
+            PsEntity ps = r.getPs();
+
+            OperatingCalEntity op = operatingCalRepository.findByYearAndMonthAndDay(
+                            r.getReservationCal().getYear(),
+                            r.getReservationCal().getMonth(),
+                            r.getReservationCal().getDay())
+                    .get();
+
+            TimeEntity time = timeRepository.findById(r.getTime().getSeq()).get();
+
+            PsOperatingEntity psOperating = PsOperatingEntity.builder()
+                    .ps(ps)
+                    .operatingCal(op)
+                    .time(time)
+                    .build();
+
+            psOperatingRepository.save(psOperating);
+
             return true;
         }
 
         return false;
+
     }
 
     @Transactional
@@ -91,7 +124,7 @@ public class PsReservationServiceImpl implements PsReservationService {
             respList.add(respDto);
         }
 
-
+        /////////////////////////////////////////////////////////////////////////// 커먼
         // 운영 시간 조회
         for (int i = 0; i < 15; i++) {
             LocalDateTime date = current.plusDays(i);
@@ -101,7 +134,7 @@ public class PsReservationServiceImpl implements PsReservationService {
             Integer day = date.getDayOfMonth();
 
             // select seq from cal_operating where yaer = :year and month = :month and day := day
-            OperatingCalEntity operatingCal = operatingCalRepository.findByYearAndMonthAndDay(year, month, day);
+            OperatingCalEntity operatingCal = operatingCalRepository.findByYearAndMonthAndDay(year, month, day).get();
 
             // select time_seq from ps_operating where ps_seq = :psSeq and cal_seq = :calSeq
             List<PsOperatingEntity> psOperatingList = psOperatingRepository.findByPsAndOperatingCal(ps, operatingCal);
@@ -130,6 +163,7 @@ public class PsReservationServiceImpl implements PsReservationService {
         return postReservationRespDto;
     }
 
+    @Transactional
     @Override
     public List<PreReservationRespDto> getPreReservationList(Long psSeq, LocalDateTime current) {
 
@@ -149,7 +183,7 @@ public class PsReservationServiceImpl implements PsReservationService {
 
 
             String estimate = report.getEstimate();
-            List<String> subCategoryName = reservationSubEntityRepository.getSubCategoryByReservationSeq(reservation.getSeq());
+            List<String> subCategoryName = reservationSubEntityRepository.getSubCategoryNameByReservationSeq(reservation.getSeq());
 
             int year = reservation.getReservationCal().getYear();
             int month = reservation.getReservationCal().getMonth();
@@ -178,6 +212,7 @@ public class PsReservationServiceImpl implements PsReservationService {
         return preReservationRespDtoList;
     }
 
+    @Transactional
     @Override
     public PreDetailRespDto getPreDetail(Long consultingSeq) {
         ConsultingEntity consulting = consultingRepository.findById(consultingSeq).get();
@@ -190,7 +225,7 @@ public class PsReservationServiceImpl implements PsReservationService {
                 .userNumber(user.getNumber())
                 .userBirth(user.getBirth())
                 .date(reservationCal.getDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
-                .subCategoryName(reservationSubEntityRepository.getSubCategoryByReservationSeq(consulting.getReservation().getSeq()))
+                .subCategoryName(reservationSubEntityRepository.getSubCategoryNameByReservationSeq(consulting.getReservation().getSeq()))
                 .content(report.getContent())
                 .estimate(report.getEstimate())
                 .build();

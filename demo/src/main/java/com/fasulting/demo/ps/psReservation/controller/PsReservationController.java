@@ -64,7 +64,7 @@ public class PsReservationController {
     @PatchMapping
     public ResponseEntity<?> cancelReservation(@RequestBody ReservationReqDto reservationReqDto) {
 
-        if(psReservationService.modifyReservation(reservationReqDto)) {
+        if(psReservationService.cancelReservation(reservationReqDto)) {
             return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success"));
         }
 

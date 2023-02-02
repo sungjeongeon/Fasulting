@@ -8,5 +8,6 @@ import lombok.Setter;
 public class ReservationReqDto {
 
     private Long reservationSeq;
+    private Long psSeq;
 
 }
