@@ -3,18 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@devexpress/dx-react-core": "^4.0.3",
-    "@devexpress/dx-react-scheduler": "^4.0.3",
-    "@devexpress/dx-react-scheduler-material-ui": "^4.0.3",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@floating-ui/dom": "^1.1.0",
     "@hassanmojab/react-modern-calendar-datepicker": "^3.1.7",
-    "@material-ui/pickers": "^3.3.10",
     "@mui/icons-material": "^5.11.0",
-    "@mui/material": "^5.11.7",
+    "@mui/material": "^5.11.5",
     "@mui/styled-engine-sc": "^5.11.0",
-    "@mui/x-date-pickers": "^5.0.16",
     "@reduxjs/toolkit": "^1.9.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -22,7 +17,6 @@
     "axios": "^1.2.5",
     "cookieparser": "^0.1.0",
     "cors": "^2.8.5",
-    "devextreme": "22.2.4",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "formik": "^2.2.9",
@@ -74,9 +68,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "devextreme-themebuilder": "^22.2.3"
   },
   "proxy": "http://i8e106.p.ssafy.io:8080/"
 }

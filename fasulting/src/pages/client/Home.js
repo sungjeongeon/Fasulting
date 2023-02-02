@@ -4,7 +4,7 @@ import { Container } from "@mui/system";
 import ReviewList from "../../components/List/ReviewList";
 // import { useState } from "react";
 
-import axios from "../../api/axios";
+import axios from "../../api/Axios";
 function Home() {
   //통신 테스트
   axios.get("/account/ps").then((res) => {

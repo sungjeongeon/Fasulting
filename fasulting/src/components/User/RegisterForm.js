@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import styles from "./Form.module.css";
 import Paper from "@mui/material/Paper";
-import axios from "../../api/axios";
+import axios from "../../api/Axios";
 
 const validationSchema = yup.object({
   email: yup
