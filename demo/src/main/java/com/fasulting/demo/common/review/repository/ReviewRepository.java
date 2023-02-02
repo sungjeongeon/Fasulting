@@ -34,4 +34,5 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     Optional<ReviewEntity> findByConsulting(ConsultingEntity consulting);
 
 
+    List<ReviewEntity> findAllByDecYnAndDelYn(String decYn, String DelYn);
 }

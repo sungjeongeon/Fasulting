@@ -64,8 +64,10 @@ public class ReviewEntity extends BaseEntity {
 	private String delYn;
 
 	public void accuseReview() {
-		this.delYn = "Y";
+		this.decYn = "Y";
 	}
+
+	public void deleteReview() { this.delYn = "Y"; }
 
 	@Builder
 	public ReviewEntity(ConsultingEntity consulting, PsEntity ps, UserEntity user, String content, BigDecimal point) {

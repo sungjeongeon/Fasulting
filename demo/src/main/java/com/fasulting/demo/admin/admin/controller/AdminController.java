@@ -1,7 +1,9 @@
 package com.fasulting.demo.admin.admin.controller;
 
-import com.fasulting.demo.admin.admin.request.AdminLoginReq;
+import com.fasulting.demo.admin.admin.dto.reqDto.AdminLoginReqDto;
+import com.fasulting.demo.admin.admin.dto.respDto.AdminLoginRespDto;
 import com.fasulting.demo.admin.admin.service.AdminService;
+import com.fasulting.demo.resp.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +28,16 @@ public class AdminController {
      * @return seq
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AdminLoginReq adminLoginReq) {
-        return null;
+    public ResponseEntity<?> login(@RequestBody AdminLoginReqDto adminLoginReq) {
+        log.info("admin Login - Call");
+
+        AdminLoginRespDto ps = adminService.login(adminLoginReq);
+
+        if(ps != null) {
+            return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", ps));
+        }
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
+
     }
 
     /**
@@ -36,6 +46,8 @@ public class AdminController {
      */
     @GetMapping("/logout")
     public ResponseEntity<?> logout() {
+        
+        // ㅂㅂ
         return null;
     }
 

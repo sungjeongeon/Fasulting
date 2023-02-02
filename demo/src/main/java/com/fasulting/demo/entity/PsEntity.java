@@ -129,4 +129,8 @@ public class PsEntity extends BaseEntity {
 	public void resetPassword(String password) {
 		this.password = password;
 	}
+
+    public void approvePs() {
+		this.confirmYn = "Y";
+    }
 }

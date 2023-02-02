@@ -3,12 +3,10 @@ package com.fasulting.demo.customer.user.dto.reqDto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 /** seq 없이 */
 @Getter
 @Setter
-public class UserWithoutSeqReq {
+public class UserWithoutSeqReqDto {
 
     private String email;
 

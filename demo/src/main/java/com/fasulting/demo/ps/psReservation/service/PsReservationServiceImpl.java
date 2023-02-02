@@ -2,16 +2,22 @@ package com.fasulting.demo.ps.psReservation.service;
 
 import com.fasulting.demo.common.consulting.repository.ConsultingRepository;
 import com.fasulting.demo.common.operatingCal.repository.OperatingCalRepository;
+import com.fasulting.demo.common.psOperating.dto.respDto.PsOperatingRespDto;
 import com.fasulting.demo.common.psOperating.repository.PsOperatingRepository;
 import com.fasulting.demo.common.report.repository.ReportEntityRepository;
+import com.fasulting.demo.common.report.repository.ReportRepository;
 import com.fasulting.demo.common.reservation.repository.ReservationRepository;
 import com.fasulting.demo.common.reservation.repository.ReservationSubRepository;
 import com.fasulting.demo.common.time.repository.TimeRepository;
+import com.fasulting.demo.common.util.Date2String;
 import com.fasulting.demo.entity.*;
 import com.fasulting.demo.ps.ps.repository.PsRepository;
 import com.fasulting.demo.ps.ps.repository.SubCategoryRepository;
 import com.fasulting.demo.ps.psReservation.dto.reqDto.ReservationReqDto;
-import com.fasulting.demo.ps.psReservation.dto.respDto.*;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PostReservationRespDto;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PreDetailRespDto;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PreReservationRespDto;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PsPostRespDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +26,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 @Slf4j
@@ -34,12 +42,14 @@ public class PsReservationServiceImpl implements PsReservationService {
     private final PsRepository psRepository;
     private final OperatingCalRepository operatingCalRepository;
     private final TimeRepository timeRepository;
+    private final ReservationSubRepository reservationSubRepository;
+    private final ReportRepository reportRepository;
 
     public PsReservationServiceImpl(ReservationRepository reservationRepository,
                                     ReservationSubRepository reservationSubEntityRepository, PsOperatingRepository psOperatingRepository, PsRepository psRepository, OperatingCalRepository operatingCalRepository, TimeRepository timeRepository,
                                     ConsultingRepository consultingRepository,
                                     ReportEntityRepository reportEntityRepository,
-                                    SubCategoryRepository subCategoryRepository) {
+                                    SubCategoryRepository subCategoryRepository, ReservationSubRepository reservationSubRepository, ReportRepository reportRepository) {
         this.reservationRepository = reservationRepository;
         this.reservationSubEntityRepository = reservationSubEntityRepository;
         this.psOperatingRepository = psOperatingRepository;
@@ -49,6 +59,8 @@ public class PsReservationServiceImpl implements PsReservationService {
         this.consultingRepository = consultingRepository;
         this.reportEntityRepository = reportEntityRepository;
         this.subCategoryRepository = subCategoryRepository;
+        this.reservationSubRepository = reservationSubRepository;
+        this.reportRepository = reportRepository;
     }
 
     @Transactional
@@ -102,62 +114,79 @@ public class PsReservationServiceImpl implements PsReservationService {
 
     @Transactional
     @Override
-    public PostReservationRespDto getPostReservationList(Long psSeq, LocalDateTime current) {
-
-        List<PsOperatingRespDto> psOperatingRespList = new ArrayList<>();
-        PsEntity ps = psRepository.findById(psSeq).get();
-        List<ReservationEntity> reservationList = reservationRepository.getPostByPs(psSeq, current);
-
-        List<ReservationRespDto> respList = new ArrayList<>();
+    public PsPostRespDto getPostReservationList(Long psSeq, LocalDateTime current) {
 
         // 미래 예약 조회
-        for (ReservationEntity reservation : reservationList) {
+        List<PostReservationRespDto> respList = new ArrayList<>();
 
-            ReservationRespDto respDto = ReservationRespDto.builder()
-                    .reservationSeq(reservation.getSeq())
-                    .reservationDate(reservation.getReservationCal().getDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
-                    .reservationTime(reservation.getTime().getStartHour() + ":" + reservation.getTime().getStartMin())
-                    .subCategoryName(reservationSubEntityRepository.getSubCategoryNameByReservationSeq(reservation.getSeq()))
-                    .userName(reservation.getUser().getName())
-                    .build();
+        List<ReservationEntity> rList = reservationRepository.findAllByPs(psRepository.findById(psSeq).get());
 
-            respList.add(respDto);
-        }
+        for (ReservationEntity r : rList) {
 
-        /////////////////////////////////////////////////////////////////////////// 커먼
-        // 운영 시간 조회
-        for (int i = 0; i < 15; i++) {
-            LocalDateTime date = current.plusDays(i);
+            if ("N".equals(r.getDelYn()) && !consultingRepository.findByReservation(r).isPresent()) {
 
-            Integer year = date.getYear();
-            Integer month = date.getMonth().getValue();
-            Integer day = date.getDayOfMonth();
+                PostReservationRespDto respDto = PostReservationRespDto.builder()
+                        .reservationSeq(r.getSeq())
+                        .userName(r.getUser().getName())
+                        .date(Date2String.Date2String(r.getReservationCal().getYear(),
+                                r.getReservationCal().getMonth(),
+                                r.getReservationCal().getDay(),
+                                r.getReservationCal().getDayOfWeek(),
+                                r.getTime().getStartHour(),
+                                r.getTime().getStartMin()))
+                        .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(r.getSeq()))
+                        .build();
 
-            // select seq from cal_operating where yaer = :year and month = :month and day := day
-            OperatingCalEntity operatingCal = operatingCalRepository.findByYearAndMonthAndDay(year, month, day).get();
-
-            // select time_seq from ps_operating where ps_seq = :psSeq and cal_seq = :calSeq
-            List<PsOperatingEntity> psOperatingList = psOperatingRepository.findByPsAndOperatingCal(ps, operatingCal);
-
-            List<Integer> timeList = new ArrayList<>();
-            for (PsOperatingEntity psOperating : psOperatingList) {
-                timeList.add(psOperating.getTime().getNum());
+                respList.add(respDto);
             }
-
-            PsOperatingRespDto psOperatingRespDto = PsOperatingRespDto.builder()
-                    .year(year)
-                    .month(month)
-                    .day(day)
-                    .dayOfWeek(operatingCal.getDayOfWeek())
-                    .time(timeList)
-                    .build();
-
-            psOperatingRespList.add(psOperatingRespDto);
         }
 
-        PostReservationRespDto postReservationRespDto = PostReservationRespDto.builder()
+        // 운영 시간 조회
+        LocalDateTime post = current.plusDays(6);
+
+        Map<String, PsOperatingRespDto> map = new TreeMap<>();
+
+        List<PsOperatingEntity> psOperatingList = psOperatingRepository.getByPsSeqAndCurrent(psSeq, current, post);
+
+        for (PsOperatingEntity po : psOperatingList) {
+
+            Integer year = po.getOperatingCal().getYear();
+            Integer month = po.getOperatingCal().getMonth();
+            Integer day = po.getOperatingCal().getDay();
+
+
+            String key = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+
+            if (map.get(key) == null) {
+                List<Integer> timeList = new ArrayList<>();
+                timeList.add(po.getTime().getNum());
+
+                PsOperatingRespDto value = PsOperatingRespDto.builder()
+                        .year(year)
+                        .month(month)
+                        .day(day)
+                        .dayOfWeek(po.getOperatingCal().getDayOfWeek())
+                        .time(timeList)
+                        .build();
+
+                map.put(key, value);
+            } else {
+                PsOperatingRespDto value = map.get(key);
+                value.addTime(po.getTime().getNum());
+
+                map.put(key, value);
+            }
+        }
+
+        List<PsOperatingRespDto> poList = new ArrayList<>();
+        for (Map.Entry<String, PsOperatingRespDto> entrySet : map.entrySet()) {
+//            log.info(entrySet.getKey() + " : " + entrySet.getValue());
+            poList.add(entrySet.getValue());
+        }
+
+        PsPostRespDto postReservationRespDto = PsPostRespDto.builder()
                 .reservation(respList)
-                .operatingTime(psOperatingRespList)
+                .operatingTime(poList)
                 .build();
 
         return postReservationRespDto;
@@ -167,49 +196,40 @@ public class PsReservationServiceImpl implements PsReservationService {
     @Override
     public List<PreReservationRespDto> getPreReservationList(Long psSeq, LocalDateTime current) {
 
-        String[] days = {"", "일", "월", "화", "수", "목", "금", "토"};
 
-        ////////////////////////////////////////////////// 지난 예약 가져오는 쿼리
-        List<ReservationEntity> preReservationList = reservationRepository.getPreByPs(psSeq, current);
+        List<PreReservationRespDto> respList = new ArrayList<>();
 
+        List<ConsultingEntity> cList = consultingRepository.findAllByPs(psRepository.findById(psSeq).get());
 
-        List<PreReservationRespDto> preReservationRespDtoList = new ArrayList<>();
+//        log.info(cList.toString());
 
-        for (ReservationEntity reservation : preReservationList) {
+        for (ConsultingEntity c : cList) {
 
-            String userName = reservation.getUser().getName();
-            ConsultingEntity consulting = consultingRepository.findByResrvationSeq(reservation.getSeq());
-            ReportEntity report = reportEntityRepository.findByConsulting(consulting);
+            log.info(c.toString());
 
+            String estimate = "";
 
-            String estimate = report.getEstimate();
-            List<String> subCategoryName = reservationSubEntityRepository.getSubCategoryNameByReservationSeq(reservation.getSeq());
+            if (reportRepository.findByConsulting(c).isPresent()) {
+                estimate = reportRepository.findByConsulting(c).get().getEstimate();
+            }
 
-            int year = reservation.getReservationCal().getYear();
-            int month = reservation.getReservationCal().getMonth();
-            int day = reservation.getReservationCal().getDay();
-            int dayOfWeek = reservation.getReservationCal().getDayOfWeek();
-
-            int startHour = reservation.getTime().getStartHour();
-            int startMin = reservation.getTime().getStartMin();
-
-            String date = year + "." + month + "." + day + "(" + days[dayOfWeek] + ")" + startHour + "시 " + startMin + "분";
-
-
-            PreReservationRespDto preReservation = PreReservationRespDto.builder()
-                    .conultingSeq(consulting.getSeq())
-                    .date(date)
+            PreReservationRespDto respDto = PreReservationRespDto.builder()
+                    .consultingSeq(c.getSeq())
+                    .userName(c.getUser().getName())
                     .estimate(estimate)
-                    .username(userName)
-                    .subCategoryName(subCategoryName)
+                    .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
+                    .date(Date2String.Date2String(c.getReservation().getReservationCal().getYear(),
+                            c.getReservation().getReservationCal().getMonth(),
+                            c.getReservation().getReservationCal().getDay(),
+                            c.getReservation().getReservationCal().getDayOfWeek(),
+                            c.getReservation().getTime().getStartHour()))
                     .build();
 
-            preReservationRespDtoList.add(preReservation);
-
+            respList.add(respDto);
         }
-        log.info(preReservationRespDtoList.toString());
 
-        return preReservationRespDtoList;
+
+        return respList;
     }
 
     @Transactional

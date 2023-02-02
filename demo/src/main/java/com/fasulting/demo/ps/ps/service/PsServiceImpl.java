@@ -16,6 +16,7 @@ import com.fasulting.demo.ps.ps.dto.reqDto.PsDefaultReqDto;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsSeqReqDto;
 import com.fasulting.demo.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
 import com.fasulting.demo.ps.ps.dto.respDto.PsInfoRespDto;
+import com.fasulting.demo.ps.ps.dto.respDto.PsLoginRespDto;
 import com.fasulting.demo.ps.ps.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,26 @@ public class PsServiceImpl implements PsService {
     private final String dirPath = "C:/fasulting/ps/files";
 
     private final String domain = "https://localhost:8080/resources/upload/";
+
+    // 로그인
+    @Override
+    public PsLoginRespDto login(PsWithoutSeqReqDto psInfo) {
+
+        if(psRepository.findByEmailAndPassword(psInfo.getEmail(), psInfo.getPassword()).isPresent()) {
+
+            PsEntity ps = psRepository.findByEmailAndPassword(psInfo.getEmail(), psInfo.getPassword()).get();
+
+            PsLoginRespDto psLoginRespDto = PsLoginRespDto.builder()
+                    .psSeq(ps.getSeq())
+                    .psName(ps.getName())
+                    .build();
+
+            return psLoginRespDto;
+
+        }
+
+        return null;
+    }
 
     // 병원 회원 가입
     @Override

@@ -1,5 +1,6 @@
 package com.fasulting.demo.common.reservation.repository;
 
+import com.fasulting.demo.entity.PsEntity;
 import com.fasulting.demo.entity.ReservationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +29,5 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
     List<ReservationEntity> findAllByUserSeq(@Param("userSeq") Long userSeq);
 
 
+    List<ReservationEntity> findAllByPs(PsEntity psEntity);
 }

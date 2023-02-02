@@ -21,6 +21,9 @@ public class UserEntity extends BaseEntity {
 	@Column(name = "seq")
 	private Long seq;
 
+	@OneToOne(mappedBy = "userSeq")
+	private RoleEntity role;
+
    	@Column(name = "email")
 	private String email;
 

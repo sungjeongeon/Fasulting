@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class UserSeqReq {
+public class UserSeqReqDto {
 
     private Long seq;
 
