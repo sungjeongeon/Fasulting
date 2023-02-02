@@ -4,16 +4,16 @@ import { appointments } from './appointments';
 const currentDate = moment();
 let date = currentDate.date();
 
-const makeTodayAppointment = (startDate, endDate) => {
-  const days = moment(startDate).diff(endDate, 'days');
+const makeAppointment = (startDate, endDate) => {
+  // const days = moment(startDate).diff(endDate, 'days');
   const nextStartDate = moment(startDate)
-    .year(currentDate.year())
-    .month(currentDate.month())
-    .date(date);
+    // .year(currentDate.year())
+    // .month(currentDate.month())
+    // .date(date);
   const nextEndDate = moment(endDate)
-    .year(currentDate.year())
-    .month(currentDate.month())
-    .date(date + days);
+    // .year(currentDate.year())
+    // .month(currentDate.month())
+    // .date(date + days);
   return {
     startDate: nextStartDate.toDate(),
     endDate: nextEndDate.toDate(),
@@ -22,7 +22,7 @@ const makeTodayAppointment = (startDate, endDate) => {
 
 export default appointments.map(({ startDate, endDate, ...restArgs }) => {
   const result = {
-    ...makeTodayAppointment(startDate, endDate),
+    ...makeAppointment(startDate, endDate),
     ...restArgs,
   };
   date += 1;

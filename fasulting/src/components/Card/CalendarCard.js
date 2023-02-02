@@ -3,7 +3,8 @@ import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import { Calendar, utils } from "@hassanmojab/react-modern-calendar-datepicker";
 import styles from "./CalendarCard.module.css"
 import NewReservationCard from "./NewReservationCard";
-import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
+import { useSelector, useDispatch } from "react-redux";
+import { changeDate, resetDate } from "../../redux/calendar"
 
 const CalendarCard = () => {
   const dateNow = new Date();
@@ -23,11 +24,17 @@ const CalendarCard = () => {
 
   const [selectedDay, setSelectedDay] = useState(defaultValue);
   // console.log(selectedDay) // {day: 27, month: 2, year: 2023} 형태
+  const dispatch = useDispatch()
+  const dateObj = useSelector(state => {return state.calendar})
+  console.log(defaultValue)
   return (
     <div>
       <Calendar
-        value={selectedDay}
-        onChange={setSelectedDay}
+        // value={selectedDay}
+        value={dateObj}
+        onChange={() => {
+          dispatch(changeDate)
+        }}
         colorPrimary="#72a1a6"
         calendarTodayClassName={styles.today}
         minimumDate={utils().getToday()}

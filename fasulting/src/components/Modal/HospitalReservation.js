@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from "./HospitalReservation.module.css"
 import DisabledByDefaultOutlinedIcon from '@mui/icons-material/DisabledByDefaultOutlined';
 
-function HospitalReservation({ModalStateChange4}) {
+function HospitalReservation({ModalStateChange}) {
   const [open, setOpen] = useState(false)
 
   // 임시 data
@@ -25,7 +25,7 @@ function HospitalReservation({ModalStateChange4}) {
           <h2 className={styles.confirm}>예약 확인</h2>
           <DisabledByDefaultOutlinedIcon
             fontSize="large"
-            onClick={ModalStateChange4}
+            onClick={ModalStateChange}
             color="action"
             className={styles.back}
           />
@@ -54,13 +54,13 @@ function HospitalReservation({ModalStateChange4}) {
           </div>
           { open ?
           <div className={styles.flexcol}>
-            <button className={styles.okay} onClick={ModalStateChange4}>
+            <button className={styles.okay} onClick={ModalStateChange}>
               상담 입장
             </button>
           </div>
           : 
           <div className={styles.flexcol}>
-            <button className={styles.yet} onClick={ModalStateChange4}>
+            <button className={styles.yet} onClick={ModalStateChange}>
               상담 입장
             </button>
             <p className={styles.color}>아직 상담시간이 아닙니다 !</p>

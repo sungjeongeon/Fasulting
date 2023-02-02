@@ -8,15 +8,20 @@ import {
   Appointments,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import appointments from '../../demo-data/today-appointments';
+import { useState } from 'react';
+import HospitalReservation from '../Modal/HospitalReservation';
+import styles from "./ScheduleCard.module.css"
+
 
 const PREFIX = 'Demo';
+const Vertical = 'VerticalAppointment'
 
 const classes = {
   todayCell: `${PREFIX}-todayCell`,
-  // disable Cell로 바꾸면 될 듯 -> 나중에 class에 이름 수정
   disabledCell: `${PREFIX}-disabledCell`,
   today: `${PREFIX}-today`,
   disabled: `${PREFIX}-disabled`,
+  textContainer: `${PREFIX}-textContainer`,
 };
 
 const StyledWeekViewTimeTableCell = styled(WeekView.TimeTableCell)(({ theme }) => ({
@@ -73,21 +78,44 @@ const DayScaleCell = (props) => {
 
 // 스케줄 각 데이터 색깔 커스텀
 const Appointment = ({
-  children, style, ...restProps
-}) => (
-  <Appointments.Appointment
-    {...restProps}
-    style={{
-      ...style,
-      backgroundColor: '#72A1A6'
-    }}
-  >
-    {children}
-  </Appointments.Appointment>
-);
+  children,
+  onClick,
+  style,
+  ...restProps
+}) => {
+  const [modalOpen, setModalOpen] = useState(false)
+  const ModalStateChange = () => {setModalOpen((current) => !current)}
+  return (
+    <div>
+      <div onClick={ModalStateChange}>
+        <Appointments.Appointment
+          {...restProps}
+          style={{
+            ...style,
+            backgroundColor: '#72A1A6',
+            width: '111%',
+            textAlign: "center",
+            fontSize: "13px",
+            lineHeight: "46px",
+            overflow: "hidden",
+          }}
+          onClick={({target}) => {
+            console.log(target)
+            // ModalStateChange()
+          }}
+        >
+          {/* <React.Fragment> */}
+          {children}
+          {/* </React.Fragment> */}
+        </Appointments.Appointment>
+      </div>
+    </div>
+  )}
+
 
 export default function ScheduleCard() {
   
+
   return (
   <Paper sx={{marginY: "2rem"}}>
     <Scheduler data={appointments} height={660}>

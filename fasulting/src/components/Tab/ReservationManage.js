@@ -39,12 +39,12 @@ function a11yProps(index) {
   };
 }
 
-export default function ReservationManage() {
-  const [value, setValue] = React.useState(0);
+export default function ReservationManage({handleChange, value}) {
+  // const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
 
   return (
     <Box sx={{ width: '100%', paddingLeft: '1rem', paddingRight: '1rem' }}>
