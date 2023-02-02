@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface OperatingCalRepository extends JpaRepository<OperatingCalEntity, Long> {
     List<OperatingCalEntity> findAllByDayOfWeek(Integer dayOfWeek);
+
+    OperatingCalEntity findByYearAndMonthAndDay(int year, int month, int day);
 }

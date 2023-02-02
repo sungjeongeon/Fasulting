@@ -72,7 +72,6 @@ public class PsController {
 
         log.info(psInfo.toString());
         log.info(psInfo.getRegistrationImg().getOriginalFilename());
-        log.info(psInfo.getDoctorList().toString());
 
         if(psService.psRegister(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
@@ -102,7 +101,7 @@ public class PsController {
 
     /**
      * 병원 정보 조회
-     * @param seq
+     * @param psSeq
      * @return 회원 정보 OR fail
      */
     @GetMapping("/info/{psSeq}")

@@ -45,9 +45,6 @@ public class PsWithoutSeqReqDto {
     @ApiModelProperty(value = "병원 서브 카테고리 리스트")
     private List<String> subCategoryList = new ArrayList<>();
 
-    // doctor 정보
-    @ApiModelProperty(value = "전문의 정보 리스트")
-    private List<DoctorReqDto> doctorList = new ArrayList<>();
 
 
 }

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @RestController
 @Slf4j
 @RequestMapping("/ps-reservation")
@@ -35,16 +37,13 @@ public class PsReservationController {
      * @param psSeq
      * @return
      */
-//    @GetMapping("/post/{psSeq}")
-//    public ResponseEntity<?> getPostReservationList(@PathVariable Long psSeq) {
-//
-//        LocalDateTime current = LocalDateTime.now();
-//
-//        psReservationService.getPostReservationList(psSeq, current);
-//
-//
-//        return null;
-//    }
+    @GetMapping("/post/{psSeq}")
+    public ResponseEntity<?> getPostReservationList(@PathVariable Long psSeq) {
+
+        LocalDateTime current = LocalDateTime.now();
+
+        return ResponseEntity.status(200).body(com.fasulting.demo.resp.ResponseBody.create(200, "success", psReservationService.getPostReservationList(psSeq, current)));
+    }
 
 
     /**
@@ -75,11 +74,11 @@ public class PsReservationController {
 
     /**
      * 지난 예약 조회
-     * @param seq
+     * @param psSeq
      * @return
      */
-    @GetMapping("/pre/{seq}")
-    public ResponseEntity<?> getPreReservationInfo(@PathVariable int seq) {
+    @GetMapping("/pre/{psSeq}")
+    public ResponseEntity<?> getPreReservationInfo(@PathVariable int psSeq) {
 
 
 

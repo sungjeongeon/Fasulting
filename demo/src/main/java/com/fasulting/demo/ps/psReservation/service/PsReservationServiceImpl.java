@@ -5,10 +5,16 @@ import com.fasulting.demo.common.psOperating.repository.PsOperatingRepository;
 import com.fasulting.demo.common.reservation.repository.ReservationRepository;
 import com.fasulting.demo.common.reservation.repository.ReservationSubRepository;
 import com.fasulting.demo.common.time.repository.TimeRepository;
+import com.fasulting.demo.entity.OperatingCalEntity;
+import com.fasulting.demo.entity.PsEntity;
+import com.fasulting.demo.entity.PsOperatingEntity;
 import com.fasulting.demo.entity.ReservationEntity;
 import com.fasulting.demo.ps.ps.repository.PsRepository;
 import com.fasulting.demo.ps.psReservation.dto.reqDto.ReservationReqDto;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PostReservationRespDto;
+import com.fasulting.demo.ps.psReservation.dto.respDto.PsOperatingRespDto;
 import com.fasulting.demo.ps.psReservation.dto.respDto.ReservationRespDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class PsReservationServiceImpl implements PsReservationService{
 
     private final ReservationRepository reservationRepository;
@@ -52,9 +59,12 @@ public class PsReservationServiceImpl implements PsReservationService{
         return false;
     }
 
+    @Transactional
     @Override
-    public List<ReservationRespDto> getPostReservationList(Long psSeq, LocalDateTime current) {
+    public PostReservationRespDto getPostReservationList(Long psSeq, LocalDateTime current) {
 
+        List<PsOperatingRespDto> psOperatingRespList = new ArrayList<>();
+        PsEntity ps = psRepository.findById(psSeq).get();
         List<ReservationEntity> reservationList = reservationRepository.getPostByPs(psSeq, current);
 
         List<ReservationRespDto> respList = new ArrayList<>();
@@ -73,15 +83,43 @@ public class PsReservationServiceImpl implements PsReservationService{
             respList.add(respDto);
         }
 
-        // 현 날짜 기준 2 주치 운영 시간
-        // year
-        // month
-        // day
-        // datOfWeek
 
+        // 운영 시간 조회
+        for(int i = 0; i < 15; i++) {
+            LocalDateTime date = current.plusDays(i);
 
+            Integer year = date.getYear();
+            Integer month = date.getMonth().getValue();
+            Integer day = date.getDayOfMonth();
 
-        return respList;
+            // select seq from cal_operating where yaer = :year and month = :month and day := day
+            OperatingCalEntity operatingCal = operatingCalRepository.findByYearAndMonthAndDay(year, month, day);
+
+            // select time_seq from ps_operating where ps_seq = :psSeq and cal_seq = :calSeq
+            List<PsOperatingEntity> psOperatingList = psOperatingRepository.findByPsAndOperatingCal(ps, operatingCal);
+
+            List<Integer> timeList = new ArrayList<>();
+            for(PsOperatingEntity psOperating : psOperatingList) {
+                timeList.add(psOperating.getTime().getNum());
+            }
+
+            PsOperatingRespDto psOperatingRespDto = PsOperatingRespDto.builder()
+                    .year(year)
+                    .month(month)
+                    .day(day)
+                    .dayOfWeek(operatingCal.getDayOfWeek())
+                    .time(timeList)
+                    .build();
+
+            psOperatingRespList.add(psOperatingRespDto);
+        }
+
+        PostReservationRespDto postReservationRespDto = PostReservationRespDto.builder()
+                .reservation(respList)
+                .operatingTime(psOperatingRespList)
+                .build();
+
+        return postReservationRespDto;
     }
 
 

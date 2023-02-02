@@ -126,37 +126,37 @@ public class PsServiceImpl implements PsService {
         psRepository.save(ps);
 
 
-        /////////////// 병원 - 전문의 리스트 저장 ///////////////
-        for (DoctorReqDto doctor : psInfo.getDoctorList()) {
-            String doctorImgUrl = null;
-
-            MultipartFile doctorImgFile = doctor.getImg();
-            if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
-                UUID uuid = UUID.randomUUID();
-
-                doctorImgUrl = uploadFile(uuid, doctor.getImg(), null);
-            }
-
-            DoctorEntity doc = DoctorEntity.builder().ps(ps)
-                    .img(doctorImgUrl)
-                    .name(doctor.getName())
-                    .build();
-
-            doctorRepository.save(doc);
-
-            /////////////// 병원 - 전문의 - 메인 카테고리 매핑 저장 => "DoctorMain" ///////////////
-            String name = doctor.getMainCategory();
-            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
-
-
-            DoctorMainEntity doctorMain = DoctorMainEntity.builder().doctor(doc)
-                    .mainCategory(mainCategory).build();
-
-            doctorMainRepository.save(doctorMain);
-
-        }
-
-        log.info(ps.toString());
+//        /////////////// 병원 - 전문의 리스트 저장 ///////////////
+//        for (DoctorReqDto doctor : psInfo.getDoctorList()) {
+//            String doctorImgUrl = null;
+//
+//            MultipartFile doctorImgFile = doctor.getImg();
+//            if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
+//                UUID uuid = UUID.randomUUID();
+//
+//                doctorImgUrl = uploadFile(uuid, doctor.getImg(), null);
+//            }
+//
+//            DoctorEntity doc = DoctorEntity.builder().ps(ps)
+//                    .img(doctorImgUrl)
+//                    .name(doctor.getName())
+//                    .build();
+//
+//            doctorRepository.save(doc);
+//
+//            /////////////// 병원 - 전문의 - 메인 카테고리 매핑 저장 => "DoctorMain" ///////////////
+//            String name = doctor.getMainCategory();
+//            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+//
+//
+//            DoctorMainEntity doctorMain = DoctorMainEntity.builder().doctor(doc)
+//                    .mainCategory(mainCategory).build();
+//
+//            doctorMainRepository.save(doctorMain);
+//
+//        }
+//
+//        log.info(ps.toString());
 
         /////////////// 병원 - 메인 카테고리 매핑 저장 => "PsMain" ///////////////
         for (String name : psInfo.getMainCategoryList()) {
