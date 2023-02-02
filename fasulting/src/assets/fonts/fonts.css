@@ -1,0 +1,5 @@
+@font-face {
+  font-family: "pretendard";
+  src: url("../fonts/Pretendard-Light.woff") format("woff")
+    url("../fonts/Pretendard-Regular.woff") format("woff");
+}

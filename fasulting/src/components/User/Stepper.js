@@ -43,6 +43,7 @@ export default function PsRegist() {
 
   async function _submitForm(values, actions) {
     console.log(values);
+    console.log(actions);
     alert(JSON.stringify(values, null, 2));
     actions.setSubmitting(false);
 

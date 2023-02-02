@@ -1,9 +1,9 @@
 import Banner from "../../components/Banner";
 import MainCategoryList from "../../components/Category/MainCategoryList";
 import { Container } from "@mui/system";
-import ReviewList from "../../components/List/ReviewList";
 // import { useState } from "react";
 import axios from "axios";
+import Footer from "../../components/Footer";
 
 function Home() {
   // axios.get("https://jsonplaceholder.typicode.com/todos/1").then((res) => {
@@ -20,7 +20,7 @@ function Home() {
       <Container maxidth="lg">
         <MainCategoryList />
       </Container>
-      <ReviewList />
+      <Footer />
     </div>
   );
 }

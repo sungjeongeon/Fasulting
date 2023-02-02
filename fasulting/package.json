@@ -13,6 +13,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.5",
     "@mui/styled-engine-sc": "^5.11.0",
+    "@mui/x-date-pickers": "^5.0.16",
     "@reduxjs/toolkit": "^1.9.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -75,7 +76,5 @@
   },
   "devDependencies": {
     "devextreme-themebuilder": "^22.2.3"
-  },
-
-  "proxy": "http://localhost:8080/"
+  }
 }

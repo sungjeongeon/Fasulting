@@ -1,6 +1,7 @@
 import React from "react";
 import HospitalListItem from "./HospitalListItem";
 import styles from "./HospitalList.module.css";
+import { useParams } from "react-router-dom";
 
 function HospitalList() {
   // 임시 data
@@ -34,6 +35,9 @@ function HospitalList() {
       total_rating_count: 30,
     },
   ];
+
+  const seq = useParams();
+
   return (
     <div>
       {HospitalList.map((hospital) => (
