@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import styles from "./Form.module.css";
 import Paper from "@mui/material/Paper";
-import axios from "../../api/Axios";
+import axios from "../../api/axios";
 import { setRefreshToken } from "../../storage/Cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 

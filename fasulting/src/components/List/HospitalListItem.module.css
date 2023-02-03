@@ -1,5 +1,5 @@
 .hr {
-  background-color: gray;
+  background-color: rgb(219, 219, 219);
   /* width: 62rem; */
   height: 0.06rem;
 }
@@ -7,6 +7,13 @@
 .outerDiv {
   margin: 0px;
   /* width: 62rem; */
+}
+.outerDiv:hover {
+  background: rgb(245, 244, 244);
+  cursor: pointer;
+}
+.leftDiv {
+  margin-left: 24px;
 }
 .innerDiv {
   display: flex;

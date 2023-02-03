@@ -14,7 +14,7 @@ function HospitalListItem({ hospital }) {
       <div className={styles.hr}></div>
       <div className={styles.innerDiv}>
         {/* 왼쪽 */}
-        <div>
+        <div className={styles.leftDiv}>
           <p className={styles.address}>
             <LocationOnIcon />
             {hospital.ps_address}
