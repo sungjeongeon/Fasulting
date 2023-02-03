@@ -198,6 +198,8 @@ public class ReservationServiceImpl implements ReservationService {
         int day = regReservationReqDto.getDay();
         int timeNum = regReservationReqDto.getTime();
 
+        log.info(year +"," + month +"," + day);
+
 
         ///// 병원 운영 시간(operating)에서 해당 시간 유효한가 확인 ////
 
@@ -207,23 +209,25 @@ public class ReservationServiceImpl implements ReservationService {
 
 
         // operating_cal 구하기
+        log.info("operating_cal 구하기");
         if (!operatingCalRepository.findByYearAndMonthAndDay(year, month, day).isPresent()) {
             return false;
         }
         OperatingCalEntity oc = operatingCalRepository.findByYearAndMonthAndDay(year, month, day).get();
 
-//        log.info(oc.toString());
+        log.info(oc.toString());
 
         // time 구하기
+        log.info("time 구하기");
         if (!timeRepository.findByNum(timeNum).isPresent()) {
             return false;
         }
         TimeEntity t = timeRepository.findByNum(timeNum).get();
 
         PsOperatingId poId = PsOperatingId.builder()
-                .ps(psRepository.findById(regReservationReqDto.getPsSeq()).get())
-                .operatingCal(operatingCalRepository.findById(oc.getSeq()).get())
-                .time(timeRepository.findById(t.getSeq()).get())
+                .ps(regReservationReqDto.getPsSeq())
+                .operatingCal(oc.getSeq())
+                .time(t.getSeq())
                 .build();
 
         if (!psOperatingRepository.findById(poId).isPresent()) {
@@ -231,7 +235,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
         PsOperatingEntity po = psOperatingRepository.findById(poId).get();
 
-        //// 예약 등록 ////
+        log.info(" 예약 등록");
         if (!reservationCalRepository.findByYearAndMonthAndDay(year, month, day).isPresent()) {
             return false;
         }
@@ -261,6 +265,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.save(reservation);
 
+        log.info(" 예약 - 서브 카테고리 매핑");
         // 예약 - 서브 카테고리 매핑
         List<Long> subSeqList = regReservationReqDto.getSubCategory();
 

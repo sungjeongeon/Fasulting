@@ -1,7 +1,5 @@
 package com.fasulting.entity.compositeId;
 
-import com.fasulting.entity.TokenEntity;
-import com.fasulting.entity.user.UserEntity;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +10,8 @@ import java.io.Serializable;
 public class UserTokenId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public UserEntity user;
+    public Long user;
 
     @EqualsAndHashCode.Include
-    public TokenEntity token;
+    public Long token;
 }

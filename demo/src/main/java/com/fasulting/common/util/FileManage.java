@@ -11,8 +11,8 @@ import java.util.UUID;
 public class FileManage {
 
     // 배포할 때 경로 바꾸기
-    public static final String beforeImgDirPath = "C:/fasulting/after/";
-    public static final String afterImgDirPath = "C:/fasulting/before/";
+    public static final String beforeImgDirPath = "C:/fasulting/before/";
+    public static final String afterImgDirPath = "C:/fasulting/after/";
     public static final String psProfileImgDirPath = "C:/fasulting/ps/profile/";
     public static final String psRegImgDirPath = "C:/fasulting/ps/reg";
     public static final String doctorImgPath = "C:/fasulting/doctor/profile/";

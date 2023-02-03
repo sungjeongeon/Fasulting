@@ -1,7 +1,5 @@
 package com.fasulting.entity.compositeId;
 
-import com.fasulting.entity.doctor.DoctorEntity;
-import com.fasulting.entity.category.MainCategoryEntity;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,8 +12,8 @@ import java.io.Serializable;
 public class DoctorMainId implements Serializable  {
 
     @EqualsAndHashCode.Include
-    public DoctorEntity doctor;
+    public Long doctor;
 
     @EqualsAndHashCode.Include
-    public MainCategoryEntity mainCategory;
+    public Long mainCategory;
 }

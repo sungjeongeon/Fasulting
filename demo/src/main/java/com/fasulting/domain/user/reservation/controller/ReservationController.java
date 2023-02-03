@@ -56,7 +56,9 @@ public class ReservationController {
      * @return
      */
     @PostMapping("/register")
-    public ResponseEntity<?> regReservation(@RequestBody RegReservationReqDto regReservationReqDto) {
+    public ResponseEntity<?> regReservation(@ModelAttribute RegReservationReqDto regReservationReqDto) {
+
+        log.info(regReservationReqDto.toString());
 
         if (reservationService.addReservation(regReservationReqDto)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));

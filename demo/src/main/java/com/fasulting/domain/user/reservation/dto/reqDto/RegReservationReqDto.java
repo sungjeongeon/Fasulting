@@ -1,12 +1,13 @@
 package com.fasulting.domain.user.reservation.dto.reqDto;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Data
 @ToString
 public class RegReservationReqDto {
 
@@ -20,5 +21,5 @@ public class RegReservationReqDto {
 
     private MultipartFile beforeImg;
 
-    private List<Long> subCategory;
+    private List<Long> subCategory = new ArrayList<>();
 }

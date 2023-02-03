@@ -1,7 +1,5 @@
 package com.fasulting.entity.compositeId;
 
-import com.fasulting.entity.ps.PsEntity;
-import com.fasulting.entity.TokenEntity;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +10,8 @@ import java.io.Serializable;
 public class PsTokenId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public PsEntity ps;
+    public Long ps;
 
     @EqualsAndHashCode.Include
-    public TokenEntity token;
+    public Long token;
 }

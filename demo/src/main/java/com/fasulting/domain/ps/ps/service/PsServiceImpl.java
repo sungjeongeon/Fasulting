@@ -581,7 +581,13 @@ public class PsServiceImpl implements PsService {
     @Override
     public boolean modifyPsDefault(PsDefaultReqDto psDefaultReqDto) {
 
+
+        log.info(psDefaultReqDto.getPsSeq().toString());
+
+        log.info("ps is " + psRepository.findById(psDefaultReqDto.getPsSeq()).isPresent());
+
         PsEntity ps = psRepository.findById(psDefaultReqDto.getPsSeq()).get();
+        log.info(ps + " : " +ps.toString());
 
         //////////// default 운영 시간
         // delete

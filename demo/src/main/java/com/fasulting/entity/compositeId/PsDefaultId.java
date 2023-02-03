@@ -1,8 +1,5 @@
 package com.fasulting.entity.compositeId;
 
-import com.fasulting.entity.calendar.DefaultCalEntity;
-import com.fasulting.entity.ps.PsEntity;
-import com.fasulting.entity.calendar.TimeEntity;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -13,12 +10,12 @@ import java.io.Serializable;
 public class PsDefaultId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public PsEntity ps;
+    public Long ps;
 
     @EqualsAndHashCode.Include
-    public DefaultCalEntity defaultCal;
+    public Long defaultCal;
 
     @EqualsAndHashCode.Include
-    public TimeEntity time;
+    public Long time;
 
 }

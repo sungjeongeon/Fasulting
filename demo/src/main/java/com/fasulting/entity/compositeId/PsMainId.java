@@ -1,8 +1,6 @@
 package com.fasulting.entity.compositeId;
 
 
-import com.fasulting.entity.category.MainCategoryEntity;
-import com.fasulting.entity.ps.PsEntity;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -13,8 +11,8 @@ import java.io.Serializable;
 public class PsMainId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public PsEntity ps;
+    public Long ps;
 
     @EqualsAndHashCode.Include
-    public MainCategoryEntity mainCategory;
+    public Long mainCategory;
 }

@@ -64,15 +64,6 @@ public class PsController {
         return null; // fail OR successs
     }
 
-    @PostMapping("/test")
-    public ResponseEntity<?> psTest(@ModelAttribute Test test) {
-
-        log.info(test.getName());
-        log.info(test.getFile().getOriginalFilename());
-        return null;
-    }
-
-
     /**
      * 병원 계정 가입
      * @param psInfo

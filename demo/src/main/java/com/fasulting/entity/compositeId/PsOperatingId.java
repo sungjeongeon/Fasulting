@@ -1,7 +1,5 @@
 package com.fasulting.entity.compositeId;
-import com.fasulting.entity.calendar.OperatingCalEntity;
-import com.fasulting.entity.ps.PsEntity;
-import com.fasulting.entity.calendar.TimeEntity;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,16 +11,16 @@ import java.io.Serializable;
 public class PsOperatingId implements Serializable {
 
     @EqualsAndHashCode.Include
-    public PsEntity ps;
+    public Long ps;
 
     @EqualsAndHashCode.Include
-    public OperatingCalEntity operatingCal;
+    public Long operatingCal;
 
     @EqualsAndHashCode.Include
-    public TimeEntity time;
+    public Long time;
 
     @Builder
-    public PsOperatingId(PsEntity ps, OperatingCalEntity operatingCal, TimeEntity time) {
+    public PsOperatingId(Long ps, Long operatingCal, Long time) {
         this.ps = ps;
         this.operatingCal = operatingCal;
         this.time = time;

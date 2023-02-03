@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface OperatingCalRepository extends JpaRepository<OperatingCalEntity, Long> {
     List<OperatingCalEntity> findAllByDayOfWeek(Integer dayOfWeek);
 
-    Optional<OperatingCalEntity> findByYearAndMonthAndDay(Integer year, Integer month, Integer day);
+    Optional<OperatingCalEntity> findByYearAndMonthAndDay(int year, int month, int day);
 
 }
