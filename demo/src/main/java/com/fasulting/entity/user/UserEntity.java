@@ -22,7 +22,7 @@ public class UserEntity extends BaseEntity {
 	@Column(name = "seq")
 	private Long seq;
 
-	@OneToOne(mappedBy = "userSeq")
+	@OneToOne(mappedBy = "user")
 	private RoleEntity role;
 
    	@Column(name = "email")

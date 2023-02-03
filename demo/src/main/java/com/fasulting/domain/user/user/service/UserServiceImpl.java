@@ -3,12 +3,13 @@ package com.fasulting.domain.user.user.service;
 import com.fasulting.domain.user.user.dto.reqDto.UserSeqReqDto;
 import com.fasulting.domain.user.user.dto.reqDto.UserWithoutSeqReqDto;
 import com.fasulting.domain.user.user.dto.respDto.UserInfoRespDto;
+import com.fasulting.entity.user.RoleEntity;
 import com.fasulting.entity.user.UserEntity;
-import com.fasulting.repository.user.FavoriteRepository;
 import com.fasulting.repository.ps.PsMainSubRepository;
+import com.fasulting.repository.role.RoleRepository;
+import com.fasulting.repository.user.FavoriteRepository;
 import com.fasulting.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,14 +19,18 @@ import java.time.LocalDateTime;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final FavoriteRepository favoriteRepository;
+    private final PsMainSubRepository psMainSubRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private FavoriteRepository favoriteRepository;
+    public UserServiceImpl(UserRepository userRepository, FavoriteRepository favoriteRepository, PsMainSubRepository psMainSubRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.favoriteRepository = favoriteRepository;
+        this.psMainSubRepository = psMainSubRepository;
+        this.roleRepository = roleRepository;
+    }
 
-    @Autowired
-    private PsMainSubRepository psMainSubRepository;
 
     // 로그인
     @Override
@@ -50,6 +55,7 @@ public class UserServiceImpl implements UserService {
     // 회원 가입
     @Override
     public boolean userRegister(UserWithoutSeqReqDto userInfo) {
+        // User save
         UserEntity user = UserEntity.builder()
                 .email(userInfo.getEmail())
                 .password(userInfo.getPassword())
@@ -59,6 +65,14 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         userRepository.save(user);
+
+        // User-Role save
+        RoleEntity roleEntity = RoleEntity.builder()
+                .user(user)
+                .authority("user")
+                .build();
+
+        roleRepository.save(roleEntity);
 
         return true;
     }
