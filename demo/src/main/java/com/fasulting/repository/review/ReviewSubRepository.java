@@ -1,7 +1,7 @@
 package com.fasulting.repository.review;
 
-import com.fasulting.entity.review.ReviewSubEntity;
 import com.fasulting.entity.compositeId.ReviewSubId;
+import com.fasulting.entity.review.ReviewSubEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

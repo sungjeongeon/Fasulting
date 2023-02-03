@@ -2,6 +2,7 @@ package com.fasulting.entity.compositeId;
 
 import com.fasulting.entity.review.ReviewEntity;
 import com.fasulting.entity.category.SubCategoryEntity;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -16,4 +17,10 @@ public class ReviewSubId implements Serializable {
 
     @EqualsAndHashCode.Include
     public SubCategoryEntity subCategory;
+
+    @Builder
+    public ReviewSubId(ReviewEntity review, SubCategoryEntity subCategory) {
+        this.review = review;
+        this.subCategory = subCategory;
+    }
 }

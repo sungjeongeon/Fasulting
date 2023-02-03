@@ -1,16 +1,19 @@
 package com.fasulting.domain.user.review.service;
 
+import com.fasulting.common.dto.respDto.ReviewRespDto;
+import com.fasulting.domain.user.review.dto.reqDto.ReviewReqDto;
+import com.fasulting.entity.category.SubCategoryEntity;
 import com.fasulting.entity.consulting.ConsultingEntity;
 import com.fasulting.entity.ps.PsEntity;
 import com.fasulting.entity.ps.TotalRatingEntity;
 import com.fasulting.entity.review.ReviewEntity;
+import com.fasulting.entity.review.ReviewSubEntity;
 import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.consulting.ConsultingRepository;
 import com.fasulting.repository.ps.TotalRatingRepository;
+import com.fasulting.repository.reservation.ReservationSubRepository;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
-import com.fasulting.common.dto.respDto.ReviewRespDto;
-import com.fasulting.domain.user.review.dto.reqDto.ReviewReqDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,14 +29,17 @@ public class ReviewServiceImpl implements ReviewService{
     private final ConsultingRepository consultingRepository;
     private final ReviewSubRepository reviewSubRepository;
     private final TotalRatingRepository totalRatingRepository;
+    private final ReservationSubRepository reservationSubRepository;
 
     @Autowired
     public ReviewServiceImpl(ReviewRepository reviewRepository, ConsultingRepository consultingRepository,
-                             ReviewSubRepository reviewSubRepository, TotalRatingRepository totalRatingRepository) {
+                             ReviewSubRepository reviewSubRepository, TotalRatingRepository totalRatingRepository,
+                             ReservationSubRepository reservationSubRepository) {
         this.reviewRepository = reviewRepository;
         this.consultingRepository = consultingRepository;
         this.reviewSubRepository = reviewSubRepository;
         this.totalRatingRepository = totalRatingRepository;
+        this.reservationSubRepository = reservationSubRepository;
     }
 
     @Transactional
@@ -59,6 +65,16 @@ public class ReviewServiceImpl implements ReviewService{
                 .build();
 
         reviewRepository.save(review);
+
+        // 리뷰 서브 매핑관계 등록
+        List<SubCategoryEntity> subList = reservationSubRepository.findAllByReservation(consulting.getReservation());
+
+        for(SubCategoryEntity sub : subList) {
+            ReviewSubEntity rs = ReviewSubEntity.builder()
+                    .review(review)
+                    .subCategory(sub)
+                    .build();
+        }
 
         // 통계 평점이 없을 경우 생성
         if(!totalRatingRepository.findByPs(ps).isPresent()){
