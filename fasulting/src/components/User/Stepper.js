@@ -97,6 +97,8 @@ export default function PsRegist() {
     if (isLastStep) {
       _submitForm(values, actions);
     } else {
+      console.log(values);
+      console.log(actions);
       setActiveStep(activeStep + 1);
       actions.setTouched({});
       actions.setSubmitting(false);

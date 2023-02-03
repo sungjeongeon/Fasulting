@@ -5,10 +5,10 @@ import { Container } from "@mui/system";
 // import axios from "axios";
 import Footer from "../../components/Footer";
 
-import axios from "../../api/Axios";
+import axios from "../../api/axiosApi";
 function Home() {
   //통신 테스트
-  axios.get("/account/ps").then((res) => {
+  axios.get("/main").then((res) => {
     console.log(res);
   });
   return (

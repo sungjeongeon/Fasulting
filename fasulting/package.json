@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@devexpress/dx-react-core": "^4.0.3",
+    "@devexpress/dx-react-scheduler": "^4.0.3",
+    "@devexpress/dx-react-scheduler-material-ui": "^4.0.3",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@floating-ui/dom": "^1.1.0",
@@ -48,7 +51,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "webpack",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -72,5 +75,6 @@
   },
   "devDependencies": {
     "devextreme-themebuilder": "^22.2.3"
-  }
+  },
+  "proxy": "http://i8e106.p.ssafy.io:8080/"
 }

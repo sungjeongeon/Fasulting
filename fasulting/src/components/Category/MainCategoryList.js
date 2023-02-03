@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainCategoryListItem from "./MainCategoryListItem";
 import styles from "./MainCategoryList.module.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import axiosApi from "../../api/axiosApi";
 function MainCategoryList() {
   const categorylist = [
     {
@@ -65,6 +66,11 @@ function MainCategoryList() {
   ];
 
   const param = useParams();
+  useEffect(() => {
+    const category = async () => {
+      await axiosApi.get("/main").then((res) => console.log(res));
+    };
+  }, []);
   return (
     <div className={styles.list}>
       {categorylist.map((c, index) => (
