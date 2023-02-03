@@ -76,11 +76,6 @@ public class PsServiceImpl implements PsService {
         this.totalRatingRepository = totalRatingRepository;
     }
 
-    // 배포할 때 경로 바꾸기
-    private final String dirPath = "C:/fasulting/ps/files";
-
-    private final String domain = "https://localhost:8080/resources/upload/";
-
     // 로그인
     @Override
     public PsLoginRespDto login(PsWithoutSeqReqDto psInfo) {
@@ -114,7 +109,7 @@ public class PsServiceImpl implements PsService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,null, dirPath);
+            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,null, FileManage.psProfileImgDirPath);
         }
 
         String registrationImgUrl = null;
@@ -122,7 +117,7 @@ public class PsServiceImpl implements PsService {
         if (registrationImgFile != null && !registrationImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
-            registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid,null, dirPath);
+            registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid,null, FileManage.psRegImgDirPath);
         }
 
         PsEntity ps = PsEntity.builder().email(psInfo.getEmail())
@@ -663,7 +658,7 @@ public class PsServiceImpl implements PsService {
         MultipartFile doctorImgFile = doctor.getImg();
         if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
-            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, null, dirPath);
+            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, null, FileManage.doctorImgPath);
         }
 
         DoctorEntity doc = DoctorEntity.builder().ps(ps)
