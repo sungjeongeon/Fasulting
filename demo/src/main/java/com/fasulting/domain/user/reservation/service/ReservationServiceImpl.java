@@ -239,10 +239,6 @@ public class ReservationServiceImpl implements ReservationService {
         PsEntity ps = psRepository.findById(regReservationReqDto.getPsSeq()).get();
         UserEntity user = userRepository.findById(regReservationReqDto.getUserSeq()).get();
 
-        // 배포할 때 경로 바꾸기
-        String dirPath = "C:/fasulting/ps/files";
-        String domain = "https://localhost:8080/resources/upload/";
-
         MultipartFile beforeImgFile = regReservationReqDto.getBeforeImg();
 
         String beforeImgPath = null;
@@ -250,7 +246,7 @@ public class ReservationServiceImpl implements ReservationService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            beforeImgPath = FileManage.uploadFile(beforeImgFile, uuid,null, dirPath);
+            beforeImgPath = FileManage.uploadFile(beforeImgFile, uuid,null, FileManage.beforeImgDirPath);
         }
 
         ReservationEntity reservation = ReservationEntity.builder()

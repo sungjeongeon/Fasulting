@@ -10,6 +10,16 @@ import java.util.UUID;
 @Slf4j
 public class FileManage {
 
+    // 배포할 때 경로 바꾸기
+    public static final String beforeImgDirPath = "C:/fasulting/after/";
+    public static final String afterImgDirPath = "C:/fasulting/before/";
+    public static final String psProfileImgDirPath = "C:/fasulting/ps/profile/";
+    public static final String psRegImgDirPath = "C:/fasulting/ps/reg";
+    public static final String doctorImgPath = "C:/fasulting/doctor/profile/";
+
+    public static final String domain = "https://localhost:8080/resources/upload/";
+
+
     public static String uploadFile(MultipartFile imgFile, UUID uuid, String imgUrl, String dirPath) {
 
         File folder = new File(dirPath);
