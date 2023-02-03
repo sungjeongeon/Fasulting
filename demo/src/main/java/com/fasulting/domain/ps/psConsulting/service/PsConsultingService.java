@@ -1,5 +1,7 @@
 package com.fasulting.domain.ps.psConsulting.service;
 
+import java.util.Map;
+
 public interface PsConsultingService {
-    String getBeforeImg(Long reservationSeq);
+    Map<String, String> getBeforeImg(Long reservationSeq);
 }

@@ -14,6 +14,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -30,8 +31,10 @@ public class PsConsultingController {
     @GetMapping("/download/{reservationSeq}")
     public ResponseEntity<?> getBeforeImg(@PathVariable Long reservationSeq) {
 
-        String path = psConsultingService.getBeforeImg(reservationSeq);
-//        String path = FileManage.beforeImgDirPath;
+        Map<String, String> map = psConsultingService.getBeforeImg(reservationSeq);
+
+        String path = map.get("beforeImgPath");
+        String originName = map.get("beforeImgOrigin");
 
         try {
             Path filePath = Paths.get(path);
@@ -40,7 +43,7 @@ public class PsConsultingController {
             File file = new File(path);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());  // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
+            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(originName).build());  // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
 
             return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
         } catch(Exception e) {
