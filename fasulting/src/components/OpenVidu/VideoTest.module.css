@@ -1,3 +1,24 @@
 .div video {
-  /* width: 100%; */
+  width: 800px !important;
+  height: 550px !important;
+  position: absolute !important;
+  top: -4.08rem !important;
+}
+
+.div {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.toolbar {
+  position: absolute !important;
+  bottom: 4.08rem !important;
+  left: 0 !important;
+  width: 100% !important;
+}
+
+.alert {
+  width: 300px;
+  height: 550px;
+  margin-left: 30px;
 }

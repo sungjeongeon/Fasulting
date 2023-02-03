@@ -18,6 +18,7 @@ class VideoTest extends Component {
   constructor(props) {
     super(props);
     this.remotes = [];
+    this.layout = new OpenViduLayout();
     this.state = {
       mySessionId: "SessionA",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
@@ -30,6 +31,26 @@ class VideoTest extends Component {
   }
 
   componentDidMount() {
+    const openViduLayoutOptions = {
+      maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
+      minRatio: 9 / 16, // The widest ratio that will be used (default 16x9)
+      fixedRatio: false, // If this is true then the aspect ratio of the video is maintained and minRatio and maxRatio are ignored (default false)
+      bigClass: "OV_big", // The class to add to elements that should be sized bigger
+      bigPercentage: 0.8, // The maximum percentage of space the big ones should take up
+      bigFixedRatio: false, // fixedRatio for the big ones
+      bigMaxRatio: 3 / 2, // The narrowest ratio to use for the big elements (default 2x3)
+      bigMinRatio: 9 / 16, // The widest ratio to use for the big elements (default 16x9)
+      bigFirst: true, // Whether to place the big one in the top left (true) or bottom right
+      animate: true, // Whether you want to animate the transitions
+    };
+
+    this.layout.initLayoutContainer(
+      document.getElementById("layout"),
+      openViduLayoutOptions
+    );
+    window.addEventListener("beforeunload", this.onbeforeunload);
+    window.addEventListener("resize", this.updateLayout);
+    window.addEventListener("resize", this.checkSize);
     this.joinSession();
   }
 
@@ -239,26 +260,43 @@ class VideoTest extends Component {
     const mySessionId = this.state.mySessionId;
     return (
       <div>
-        <ToolbarComponent
-          sessionId={mySessionId}
-          user={localUser}
-          showNotification={this.state.messageReceived}
-          camStatusChanged={this.camStatusChanged}
-          micStatusChanged={this.micStatusChanged}
-          screenShare={this.screenShare}
-          stopScreenShare={this.stopScreenShare}
-          toggleFullscreen={this.toggleFullscreen}
-          switchCamera={this.switchCamera}
-          leaveSession={this.leaveSession}
-          toggleChat={this.toggleChat}
-        />
         {localUser !== undefined &&
           localUser.getStreamManager() !== undefined && (
             <div className={styles.div}>
-              <h1>test</h1>
               <StreamComponent user={localUser} />
+              <div className={styles.alert}>
+                <h1>상담 대기실</h1>
+                <p>상담방에 입장하기 전 오디오 / 비디오를 체크해주세요.</p>
+
+                <h1>주의하세요!</h1>
+                <p>
+                  상담 중 보여드리는 Before & After 사진은 실제 시술 결과와 다를
+                  수 있습니다.
+                </p>
+                <p>
+                  전문의의 시술 경험과 결과를 주의 깊게 살펴보고 충분히 고민한
+                  후 결정해주세요.
+                </p>
+                <button>입장하기</button>
+              </div>
             </div>
           )}
+
+        <div className={styles.toolbar}>
+          <ToolbarComponent
+            sessionId={mySessionId}
+            user={localUser}
+            showNotification={this.state.messageReceived}
+            camStatusChanged={this.camStatusChanged}
+            micStatusChanged={this.micStatusChanged}
+            screenShare={this.screenShare}
+            stopScreenShare={this.stopScreenShare}
+            toggleFullscreen={this.toggleFullscreen}
+            switchCamera={this.switchCamera}
+            leaveSession={this.leaveSession}
+            toggleChat={this.toggleChat}
+          />
+        </div>
       </div>
     );
   }
