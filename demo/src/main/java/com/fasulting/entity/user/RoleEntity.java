@@ -1,15 +1,14 @@
 package com.fasulting.entity.user;
 
 import com.fasulting.entity.BaseEntity;
-import com.fasulting.entity.user.UserEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 //@Builder
@@ -18,17 +17,26 @@ import java.io.Serializable;
 @DynamicUpdate // Apply changed fields only
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "role")
-public class RoleEntity extends BaseEntity implements Serializable {
+public class RoleEntity extends BaseEntity {
 
 	@Id
+	@Column(name = "user_seq")
+	private Long userSeq;
+
+	@MapsId
    	/** FK setting */
 	@OneToOne
 	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
-	private UserEntity userSeq;
+	private UserEntity user;
 
 	/**admin or user*/
    	@Column(name = "authority")
 	private String authority;
 
 
+	@Builder
+	public RoleEntity(UserEntity user, String authority) {
+		this.user = user;
+		this.authority = authority;
+	}
 }
