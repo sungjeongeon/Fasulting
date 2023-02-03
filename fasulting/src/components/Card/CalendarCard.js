@@ -28,7 +28,7 @@ const CalendarCard = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(changeDate(selectedDay))
-  }, [selectedDay])
+  }, [dispatch, selectedDay])
   return (
     <div>
       <Calendar

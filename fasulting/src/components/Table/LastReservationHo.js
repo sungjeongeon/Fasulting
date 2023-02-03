@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,27 +7,40 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useDispatch } from "react-redux";
+import { changeReserveId } from "../../redux/lastReservationHo"
+
 
 // 검색 전 전체 결과 보여줄 때 데이터
 const lastReservation = [
   {
     user_id: 1,
     user_name: "김싸피",
+    user_email: 'ssafy@naver.com',
+    user_number: "010-1111-2222",
+    user_birth: '1990-01-01',
     year: 2023,
     month: 1,
     day: 31,
     day_of_week: 3, // 1~7 (일~화)
     sub_category_name: ["쌍커풀", "눈매교정"],
+    opinion: "인상이 더 뚜렷해보여, 눈매교정과 트임 시술 모두 추천드립니다.",
+    price: 250,
     reservation_id: 1,
   },
   {
     user_id: 2,
     user_name: "권싸피",
+    user_email: 'ssafy@naver.com',
+    user_number: "010-3333-4444",
+    user_birth: '1994-11-31',
     year: 2023,
     month: 2,
     day: 1,
     day_of_week: 4, // 1~7 (일~화)
     sub_category_name: ["보톡스", "필러"],
+    opinion: "보톡스로 동안의 효과를 볼 수 있습니다.",
+    price: 70,
     reservation_id: 2,
   },
 ];
@@ -57,6 +70,13 @@ const dayOfWeek = (num) => {
 }
 
 export default function LastReservationHo() {
+  const [nowInfo, setNowInfo] = useState({})
+  // console.log(nowInfo)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(changeReserveId(nowInfo))
+  }, [dispatch, nowInfo])
+
   return (
     <>
       <TableContainer component={Paper} sx={{ marginTop: "2rem"}}>
@@ -73,7 +93,12 @@ export default function LastReservationHo() {
             {lastReservation.map((reservation) => (
               <TableRow
                 key={reservation.user_id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 }, cursor: 'pointer' }}
+                onClick={() => {
+                  // console.log(reservation.reservation_id)
+                  setNowInfo(reservation)
+                  // console.log(nowId)
+                }}
               >
                 <TableCell component="th" scope="row" sx={{fontWeight: "bold"}}>
                   {reservation.user_name}

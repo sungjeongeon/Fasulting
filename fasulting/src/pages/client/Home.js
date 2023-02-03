@@ -2,7 +2,7 @@ import Banner from "../../components/Banner";
 import MainCategoryList from "../../components/Category/MainCategoryList";
 import { Container } from "@mui/system";
 // import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import Footer from "../../components/Footer";
 
 import axios from "../../api/Axios";
