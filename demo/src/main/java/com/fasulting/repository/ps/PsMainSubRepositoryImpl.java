@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
 
-import static com.fasulting.entity.QPsMainSubEntity.psMainSubEntity;
+import static com.fasulting.entity.ps.QPsMainSubEntity.psMainSubEntity;
 
 
 public class PsMainSubRepositoryImpl implements PsMainSubRepositoryCustom {

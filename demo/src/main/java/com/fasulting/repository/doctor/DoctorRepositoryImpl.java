@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
 
-import static com.fasulting.entity.QDoctorEntity.doctorEntity;
+import static com.fasulting.entity.doctor.QDoctorEntity.doctorEntity;
+
 
 public class DoctorRepositoryImpl implements DoctorRepositoryCustom {
 
