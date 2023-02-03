@@ -39,10 +39,34 @@ function SubCategoryList() {
   //   }
   // }
 
+  // 버튼 selected / unselected
+  console.log("render");
+  const [selectedSub, setSelectedSub] = useState([]);
+
+  // 해당 sub값이 이미 배열에 있으면 빼고, 없으면 더한다.
+
+  const selectSub = (sub) => {
+    console.log(selectedSub);
+    if (selectedSub.includes(sub)) {
+      // sub값 이미 배열에 있으면 (제거){}
+      setSelectedSub((current) => current.filter((resist) => resist !== sub));
+      console.log("if");
+    } else {
+      setSelectedSub((current) => [...current, sub]);
+      console.log("else");
+    }
+  };
+
   return (
     <div className={styles.subCategoryList}>
       {subCategoryList.map((sub, index) => {
-        return <SubCategoryListItem sub={sub.name} key={index} />;
+        return (
+          <SubCategoryListItem
+            sub={sub.name}
+            key={index}
+            onClick={() => selectSub(sub.name)}
+          />
+        );
       })}
     </div>
   );
