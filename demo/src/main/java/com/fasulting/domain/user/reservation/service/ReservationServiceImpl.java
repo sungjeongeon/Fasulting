@@ -1,27 +1,6 @@
 package com.fasulting.domain.user.reservation.service;
 
-import com.fasulting.entity.calendar.OperatingCalEntity;
-import com.fasulting.entity.calendar.ReservationCalEntity;
-import com.fasulting.entity.calendar.TimeEntity;
-import com.fasulting.entity.category.MainCategoryEntity;
-import com.fasulting.entity.category.SubCategoryEntity;
-import com.fasulting.entity.consulting.ConsultingEntity;
-import com.fasulting.entity.consulting.ReportEntity;
-import com.fasulting.entity.ps.PsDefaultEntity;
-import com.fasulting.entity.ps.PsEntity;
-import com.fasulting.entity.ps.PsOperatingEntity;
-import com.fasulting.entity.reservation.ReservationEntity;
-import com.fasulting.entity.user.UserEntity;
-import com.fasulting.repository.consulting.ConsultingRepository;
-import com.fasulting.repository.calendar.OperatingCalRepository;
 import com.fasulting.common.dto.respDto.PsOperatingRespDto;
-import com.fasulting.repository.ps.PsOperatingRepository;
-import com.fasulting.repository.consulting.ReportRepository;
-import com.fasulting.repository.calendar.ReservationCalRepository;
-import com.fasulting.repository.reservation.ReservationRepository;
-import com.fasulting.repository.reservation.ReservationSubRepository;
-import com.fasulting.repository.review.ReviewRepository;
-import com.fasulting.repository.calendar.TimeRepository;
 import com.fasulting.common.util.Date2String;
 import com.fasulting.common.util.FileManage;
 import com.fasulting.domain.user.main.dto.respDto.MainCategoryRespDto;
@@ -32,12 +11,31 @@ import com.fasulting.domain.user.reservation.dto.respDto.PostReservationRespDto;
 import com.fasulting.domain.user.reservation.dto.respDto.PreReservationRespDto;
 import com.fasulting.domain.user.reservation.dto.respDto.ReportRespDto;
 import com.fasulting.domain.user.reservation.dto.respDto.ReservationTableRespDto;
-import com.fasulting.repository.user.UserRepository;
+import com.fasulting.entity.calendar.OperatingCalEntity;
+import com.fasulting.entity.calendar.ReservationCalEntity;
+import com.fasulting.entity.calendar.TimeEntity;
+import com.fasulting.entity.category.MainCategoryEntity;
+import com.fasulting.entity.category.SubCategoryEntity;
 import com.fasulting.entity.compositeId.PsOperatingId;
-import com.fasulting.repository.ps.PsDefaultRepository;
-import com.fasulting.repository.ps.PsMainRepository;
-import com.fasulting.repository.ps.PsMainSubRepository;
-import com.fasulting.repository.ps.PsRepository;
+import com.fasulting.entity.consulting.ConsultingEntity;
+import com.fasulting.entity.consulting.ReportEntity;
+import com.fasulting.entity.ps.PsDefaultEntity;
+import com.fasulting.entity.ps.PsEntity;
+import com.fasulting.entity.ps.PsOperatingEntity;
+import com.fasulting.entity.reservation.ReservationEntity;
+import com.fasulting.entity.reservation.ReservationSubEntity;
+import com.fasulting.entity.user.UserEntity;
+import com.fasulting.repository.calendar.OperatingCalRepository;
+import com.fasulting.repository.calendar.ReservationCalRepository;
+import com.fasulting.repository.calendar.TimeRepository;
+import com.fasulting.repository.category.SubCategoryRepository;
+import com.fasulting.repository.consulting.ConsultingRepository;
+import com.fasulting.repository.consulting.ReportRepository;
+import com.fasulting.repository.ps.*;
+import com.fasulting.repository.reservation.ReservationRepository;
+import com.fasulting.repository.reservation.ReservationSubRepository;
+import com.fasulting.repository.review.ReviewRepository;
+import com.fasulting.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,6 +62,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReviewRepository reviewRepository;
     private final ReservationSubRepository reservationSubRepository;
     private final PsDefaultRepository psDefaultRepository;
+    private final SubCategoryRepository subCategoryRepository;
 
     @Autowired
     public ReservationServiceImpl(PsOperatingRepository psOperatingRepository, PsMainRepository psMainRepository,
@@ -72,7 +71,8 @@ public class ReservationServiceImpl implements ReservationService {
                                   ReservationCalRepository reservationCalRepository, UserRepository userRepository,
                                   ReservationRepository reservationRepository, ConsultingRepository consultingRepository,
                                   ReportRepository reportRepository, ReviewRepository reviewRepository,
-                                  ReservationSubRepository reservationSubRepository, PsDefaultRepository psDefaultRepository) {
+                                  ReservationSubRepository reservationSubRepository, PsDefaultRepository psDefaultRepository,
+                                  SubCategoryRepository subCategoryRepositor) {
         this.psOperatingRepository = psOperatingRepository;
         this.psMainRepository = psMainRepository;
         this.psMainSubRepository = psMainSubRepository;
@@ -87,6 +87,7 @@ public class ReservationServiceImpl implements ReservationService {
         this.reviewRepository = reviewRepository;
         this.reservationSubRepository = reservationSubRepository;
         this.psDefaultRepository = psDefaultRepository;
+        this.subCategoryRepository = subCategoryRepositor;
 
     }
 
@@ -259,6 +260,20 @@ public class ReservationServiceImpl implements ReservationService {
                 .build();
 
         reservationRepository.save(reservation);
+
+        // 예약 - 서브 카테고리 매핑
+        List<Long> subSeqList = regReservationReqDto.getSubCategory();
+
+        for(Long subSeq : subSeqList) {
+            SubCategoryEntity sub = subCategoryRepository.findById(subSeq).get();
+
+            ReservationSubEntity rs = ReservationSubEntity.builder()
+                    .reservation(reservation)
+                    .subCategory(sub)
+                    .build();
+
+            reservationSubRepository.save(rs);
+        }
 
         //// 병원 운영 시간(operating)에서 해당 시간 삭제 ////
         psOperatingRepository.delete(po);

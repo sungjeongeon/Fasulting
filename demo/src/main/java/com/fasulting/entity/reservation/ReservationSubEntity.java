@@ -3,10 +3,7 @@ package com.fasulting.entity.reservation;
 import com.fasulting.entity.BaseEntity;
 import com.fasulting.entity.category.SubCategoryEntity;
 import com.fasulting.entity.compositeId.ReservationSubId;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -36,5 +33,9 @@ public class ReservationSubEntity extends BaseEntity implements Serializable{
 	@JoinColumn(referencedColumnName = "seq", name = "sub_seq")
 	private SubCategoryEntity subCategory;
 
-
+	@Builder
+	public ReservationSubEntity(ReservationEntity reservation, SubCategoryEntity subCategory) {
+		this.reservation = reservation;
+		this.subCategory = subCategory;
+	}
 }

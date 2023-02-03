@@ -1,5 +1,7 @@
 package com.fasulting.repository.reservation;
 
+import com.fasulting.entity.category.SubCategoryEntity;
+import com.fasulting.entity.reservation.ReservationEntity;
 import com.fasulting.entity.reservation.ReservationSubEntity;
 import com.fasulting.entity.compositeId.ReservationSubId;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +17,5 @@ public interface ReservationSubRepository extends JpaRepository<ReservationSubEn
     @Query("SELECT rs.subCategory.name " + "FROM ReservationSubEntity rs " + "WHERE rs.reservation.seq = :reservationSeq")
     List<String> getSubCategoryNameByReservationSeq(@Param("reservationSeq") Long reservationSeq);
 
+    List<SubCategoryEntity> findAllByReservation(ReservationEntity reservation);
 }
