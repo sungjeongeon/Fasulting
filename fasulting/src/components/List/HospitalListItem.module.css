@@ -56,18 +56,17 @@
   margin-left: 0rem;
   margin-right: 0.62rem;
   background-color: #f0e5de;
-  width: 5rem;
+  width: max-content;
+  padding: 0 0.7rem 0 0.7rem;
   height: 1.88rem;
   border: 0;
   outline: 0;
   font-size: 0.75rem;
   border-radius: 1.25rem;
-  font-family: "Inter";
   align-items: center;
   text-align: center;
   line-height: 1.88rem;
   color: black;
-  font-weight: 400;
 }
 
 .img {

@@ -22,13 +22,23 @@ import MyReservationHo from "./pages/hospital/MyReservationHo";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+text: {
+  fontSize: 20,
+  font-weight: 400;
+  font-style: normal;
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+},
 text-decoration: none;
 
-&:focus, &:hover, &:visited, &:link, &:active {
-    text-decoration: none;
-}
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
 `;
 const theme = createTheme({
+  typography: {
+    fontFamily: "Pretendard-Regular",
+  },
   palette: {
     primary: {
       main: "#72A1A6",

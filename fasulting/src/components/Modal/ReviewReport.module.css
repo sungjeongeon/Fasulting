@@ -15,7 +15,7 @@
 
   /* 최상단 위치 */
   z-index: 999;
-  
+
   /* 중앙 배치 */
   /* top, bottom, left, right 는 브라우저 기준으로 작동한다. */
   /* translate는 본인의 크기 기준으로 작동한다. */
@@ -30,7 +30,7 @@
   border-radius: 8px;
 }
 
-.mt{
+.mt {
   margin-top: 3.125rem;
   font-size: 1rem;
 }
@@ -51,8 +51,6 @@
   width: 4rem;
   height: 1.8rem;
 
-  font-family: 'Inter';
-  font-style: normal;
   font-weight: 600;
   font-size: 0.8rem;
   line-height: 1.18rem;
@@ -70,13 +68,13 @@
 .yes {
   background: white;
   border-radius: 0.625rem;
-  border: solid 0.05rem #FF0000;
-  color: #FF0000;
+  border: solid 0.05rem #ff0000;
+  color: #ff0000;
 }
 
 .no {
   background: white;
   border-radius: 0.625rem;
-  border: solid 0.05rem #72A1A6;
-  color: #72A1A6;
+  border: solid 0.05rem #72a1a6;
+  color: #72a1a6;
 }

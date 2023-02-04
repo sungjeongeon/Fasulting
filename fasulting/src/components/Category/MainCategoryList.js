@@ -1,50 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MainCategoryListItem from "./MainCategoryListItem";
 import styles from "./MainCategoryList.module.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axiosApi from "../../api/axiosApi";
 function MainCategoryList() {
-  const categorylist = [
+  const img = [
     {
-      src: "/assets/images/1_eye.png",
-      seq: 1,
-      text: "눈",
+      src: "/assets/images/01_eye.png",
     },
     {
-      src: "/assets/images/2_nose.png",
-      seq: 2,
-      text: "코",
+      src: "/assets/images/02_nose.png",
     },
     {
-      src: "/assets/images/3_petit.png",
-      seq: 3,
-      text: "쁘띠",
+      src: "/assets/images/03_petit.png",
     },
     {
-      src: "/assets/images/4_facial.png",
-      seq: 4,
-      text: "안티에이징",
+      src: "/assets/images/04_facial.png",
     },
     {
-      src: "/assets/images/5_antiaging.png",
-      seq: 5,
-      text: "안면윤곽",
+      src: "/assets/images/05_antiaging.png",
     },
     {
-      src: "/assets/images/6_hair.png",
-      seq: 6,
-      text: "모발이식",
+      src: "/assets/images/06_hair.png",
     },
     {
-      src: "/assets/images/7_man.png",
-      seq: 7,
-      text: "맨즈",
+      src: "/assets/images/07_man.png",
     },
     {
-      src: "/assets/images/8_revision.png",
-      seq: 8,
-      text: "재수술",
+      src: "/assets/images/08_revision.png",
     },
 
     // "ResponseBody" : {
@@ -65,22 +49,39 @@ function MainCategoryList() {
     // }
   ];
 
-  const param = useParams();
+  const [maincategory, setMaincategory] = useState([]);
   useEffect(() => {
-    const category = async () => {
-      await axiosApi.get("/main").then((res) => console.log(res));
-    };
+    axiosApi.get("/main").then((res) => {
+      setMaincategory(res.data.responseObj);
+    });
   }, []);
+
+  const param = useParams();
+
   return (
     <div className={styles.list}>
-      {categorylist.map((c, index) => (
-        <Link to={`/pslist/${c.seq}`} key={index}>
-          <MainCategoryListItem
-            src={c.src}
-            text={c.text}
-            seq={c.seq}
+      {maincategory.map((main, index) => (
+        <Link to={`/pslist/${main.mainSeq}`} key={index}>
+          {/* <MainCategoryListItem
+            text={main.mainCategoryName}
+            seq={main.mainCategorySeq}
             className={styles.listitem}
           />
+          <div
+      className={`${styles.mainctg} ${param.seq == seq ? styles.select : ""}`}
+    > */}
+          <div
+            className={`${styles.mainctg} ${
+              param.seq === main.mainSeq ? styles.select : ""
+            }`}
+          >
+            <img
+              className={`${styles.center} ${styles.img}`}
+              alt={main.mainName}
+              src={img[index].src}
+            />
+            <span className={styles.center}>{main.mainName}</span>
+          </div>
         </Link>
       ))}
     </div>

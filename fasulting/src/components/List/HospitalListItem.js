@@ -17,11 +17,13 @@ function HospitalListItem({ hospital }) {
         <div className={styles.leftDiv}>
           <p className={styles.address}>
             <LocationOnIcon />
-            {hospital.ps_address}
+            {hospital.psAddress}
+            {/* 현재 데이터 null */}
           </p>
-          <p className={styles.name}>{hospital.ps_name}</p>
-          <p className={styles.intro}>{hospital.ps_intro}</p>
-          {hospital.sub_category_id.map((sub, index) => {
+          <p className={styles.name}>{hospital.psName}</p>
+          <p className={styles.intro}>{hospital.psIntro}</p>
+          {/* 현재 데이터 null */}
+          {hospital.subCategoryName.map((sub, index) => {
             return (
               <button key={index} className={styles.subCategory}>
                 <TagIcon sx={{ fontSize: 12 }} /> {sub}
@@ -32,11 +34,11 @@ function HospitalListItem({ hospital }) {
         {/* 오른쪽 */}
         <div>
           {/* 이미지 (임시) */}
-          <div className={styles.img}>profile</div>
+          <div className={styles.psProfileImg}>profile</div>
           <p className={styles.rating}>
             <span>★</span>
-            {hospital.total_rating_result.toFixed(1)} | 관련 후기{" "}
-            {hospital.total_rating_count}개
+            {hospital.totalRatingResult.toFixed(1)} | 관련 후기{" "}
+            {hospital.reviewTotalCount}개
           </p>
         </div>
       </div>

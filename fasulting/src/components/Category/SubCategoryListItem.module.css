@@ -1,4 +1,4 @@
-/* 선택안됨 */
+/* 선택안됨
 .subCategoryUnSelected {
   margin-left: 0.31rem;
   margin-right: 0.31rem;
@@ -9,16 +9,16 @@
   outline: 0;
   font-size: 0.81rem;
   border-radius: 1.25rem;
-  font-family: "Inter";
   align-items: center;
   text-align: center;
   line-height: 1.88rem;
   color: white;
   font-weight: 400;
+  font-family: "Pretendard-Regular";
 }
 
 /* 선택됨 */
-.subCategorySelected {
+/* .subCategorySelected {
   margin-left: 0.31rem;
   margin-right: 0.31rem;
   background-color: #72a1a6;
@@ -28,10 +28,10 @@
   outline: 0;
   font-size: 0.81rem;
   border-radius: 1.25rem;
-  font-family: "Inter";
   align-items: center;
   text-align: center;
   line-height: 1.88rem;
   color: white;
   font-weight: 400;
-}
+  font-family: "Pretendard-Regular";
+} */
