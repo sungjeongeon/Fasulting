@@ -43,7 +43,7 @@ function SubCategoryList() {
       setSelectedSub((current) => [...current, sub]);
     }
   };
-  //console.log(selectedSub);
+  //zzconsole.log(selectedSub);
 
   return (
     <div className={styles.subCategoryList}>
