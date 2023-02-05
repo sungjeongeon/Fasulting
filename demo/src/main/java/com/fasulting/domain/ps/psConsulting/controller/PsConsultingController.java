@@ -45,9 +45,9 @@ public class PsConsultingController {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentDisposition(ContentDisposition.builder("attachment").filename(originName).build());  // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
 
-            return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
+            return new ResponseEntity<Object>(resource, headers, HttpStatus.OK); // 200
         } catch(Exception e) {
-            return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
+            return new ResponseEntity<Object>(null, HttpStatus.CONFLICT); // 409
         }
     }
 

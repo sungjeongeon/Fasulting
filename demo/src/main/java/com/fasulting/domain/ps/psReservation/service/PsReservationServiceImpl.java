@@ -68,6 +68,11 @@ public class PsReservationServiceImpl implements PsReservationService {
         this.reservationSubRepository = reservationSubRepository;
     }
 
+    /**
+     * 예약 취소
+     * @param reservationReqDto
+     * @return
+     */
     @Transactional
     @Override
     public boolean cancelReservation(ReservationReqDto reservationReqDto) {
@@ -81,7 +86,9 @@ public class PsReservationServiceImpl implements PsReservationService {
         if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).get().getPs().getSeq() == pSeq) {
 
             ReservationEntity r = reservationRepository.findById(rSeq).get();
-            r.updateDelYn();
+            String delUser = "ps_" + pSeq;
+            LocalDateTime delDate = LocalDateTime.now();
+            r.updateByCancel(delUser, delDate);
 
             reservationRepository.save(r);
 

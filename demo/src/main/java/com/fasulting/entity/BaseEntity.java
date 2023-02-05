@@ -1,5 +1,6 @@
 package com.fasulting.entity;
 
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -10,8 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
-
-import lombok.*;
 
 /**
  * '@MappedSuperclass' : JPA Entity 클래스들이 BaseTimeEntity를 상속할 경우 필드들(createdDate, modifiedDate)도 칼럼으로 인식하도록 합니다.
@@ -39,6 +38,6 @@ public abstract class BaseEntity {
 
     @LastModifiedBy
     @Column(name="mod_by")
-    private String modby;
+    private String modBy;
 
 }

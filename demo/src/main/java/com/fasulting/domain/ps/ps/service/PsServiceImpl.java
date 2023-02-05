@@ -390,7 +390,9 @@ public class PsServiceImpl implements PsService {
         if (psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
 
-            ps.withdrawlPs("y", "ps_" + psInfo.getSeq(), LocalDateTime.now());
+            ps.updateByWithdrawal("ps_" + psInfo.getSeq(), LocalDateTime.now());
+
+            psRepository.save(ps);
 
             return true;
         }

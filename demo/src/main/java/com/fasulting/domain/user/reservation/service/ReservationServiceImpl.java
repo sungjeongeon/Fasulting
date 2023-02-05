@@ -41,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -363,6 +364,12 @@ public class ReservationServiceImpl implements ReservationService {
         return respList;
     }
 
+    /**
+     * 예약 취소
+     * @param cancelReservationReqDto
+     * @return
+     */
+    @Transactional
     @Override
     public boolean cancelReservation(CancelReservationReqDto cancelReservationReqDto) {
 
@@ -375,7 +382,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).get().getUser().getSeq() == uSeq) {
 
             ReservationEntity r = reservationRepository.findById(rSeq).get();
-            r.updateDelYn();
+            r.updateByCancel("user_" + uSeq, LocalDateTime.now());
 
             reservationRepository.save(r);
 

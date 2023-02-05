@@ -102,6 +102,8 @@ public class PsEntity extends BaseEntity {
 		this.profileImgPath = profileImgPath;
 		this.profileImgOrigin = profileImgOrigin;
 		this.intro = intro;
+		this.confirmYn = "N";
+		this.delYn = "N";
 	}
 
 	public void updateAddress(String address) {
@@ -121,8 +123,8 @@ public class PsEntity extends BaseEntity {
 	}
 
 
-	public void withdrawlPs(String delYn, String delBy, LocalDateTime delDate) {
-		this.delYn = delYn;
+	public void updateByWithdrawal(String delBy, LocalDateTime delDate) {
+		this.delYn = "Y";
 		this.delBy = delBy;
 		this.delDate = delDate;
 	}
@@ -131,7 +133,10 @@ public class PsEntity extends BaseEntity {
 		this.password = password;
 	}
 
-    public void approvePs() {
-		this.confirmYn = "Y";
+    public void updateByConfirm(String confirmBy, LocalDateTime confirmDate) {
+		   this.confirmYn = "Y";
+		   this.confirmBy = confirmBy;
+		   this.confirmDate = confirmDate;
+
     }
 }
