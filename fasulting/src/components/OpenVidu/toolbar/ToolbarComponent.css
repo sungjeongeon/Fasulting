@@ -1,7 +1,6 @@
 #header {
   color: #ffffff;
-  height: 40px;
-  background-color: #333333;
+  background-color: #72a1a6;
   padding: 0 14px 0 0;
   position: absolute;
   top: 0;
@@ -11,6 +10,8 @@
 }
 .toolbar {
   padding: 0 !important;
+
+  background-color: #72a1a6;
 }
 
 .headerLight {
@@ -81,4 +82,12 @@
   #navChatButton {
     display: none;
   }
+}
+.buttonsContent {
+  height: 40px !important;
+  text-align: center;
+  margin: auto;
+  min-width: 400px;
+  display: flex;
+  justify-content: space-around;
 }

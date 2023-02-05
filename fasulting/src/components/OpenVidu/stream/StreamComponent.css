@@ -33,11 +33,31 @@
   top: 40px;
 }
 
+/* 테스트 화면  */
 .streamComponent {
-  position: absolute !important;
-  top: 4.06rem !important;
-  left: 0 !important;
-  height: calc(100vh - 4.06rem);
+  /* position: absolute !important;
+  top: 4.06rem !important; */
+  /* left: 0 !important; */
+  height: 550px;
+}
+.streamComponentMe {
+  /* position: absolute !important;
+  top: 4.06rem !important; */
+  /* left: 0 !important; */
+
+  width: 300px;
+  height: 225px;
+  position: fixed;
+  bottom: 6rem;
+  right: 8rem;
+}
+
+.streamComponentYou {
+  width: 900px;
+  height: 600px;
+  position: fixed;
+  bottom: 6rem;
+  left: 8rem;
 }
 
 video {
@@ -54,7 +74,7 @@ video {
 }
 
 #statusIcons {
-  bottom: 4.08rem;
+  bottom: 0rem;
   background: #c71100;
   width: 40px;
   height: fit-content;
@@ -85,10 +105,10 @@ video {
 }
 /* Contains the video element, used to fix video letter-boxing */
 .OT_widget-container {
-  width: 800px !important;
-  height: 550px !important;
+  /* width: 800px !important;
+  height: 550px !important; */
   position: relative !important;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 #input,

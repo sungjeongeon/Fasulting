@@ -75,16 +75,6 @@ export default class ToolbarComponent extends Component {
     return (
       <AppBar className="toolbar" id="header">
         <Toolbar className="toolbar">
-          <div id="navSessionInfo">
-            {/* <img id="header_img" alt="Logo" src={logo} /> */}
-
-            {this.props.sessionId && (
-              <div id="titleContent">
-                <span id="session-title">{mySessionId}</span>
-              </div>
-            )}
-          </div>
-
           <div className="buttonsContent">
             <IconButton
               color="inherit"
@@ -93,9 +83,9 @@ export default class ToolbarComponent extends Component {
               onClick={this.micStatusChanged}
             >
               {localUser !== undefined && localUser.isAudioActive() ? (
-                <MicIcon />
+                <MicIcon fontSize="large" />
               ) : (
-                <MicOffIcon color="secondary" />
+                <MicOffIcon sx={{ color: "#d9d4cf" }} fontSize="large" />
               )}
             </IconButton>
 
@@ -106,65 +96,37 @@ export default class ToolbarComponent extends Component {
               onClick={this.camStatusChanged}
             >
               {localUser !== undefined && localUser.isVideoActive() ? (
-                <VideocamIcon />
+                <VideocamIcon fontSize="large" />
               ) : (
-                <VideocamOffIcon color="secondary" />
+                <VideocamOffIcon sx={{ color: "#d9d4cf" }} fontSize="large" />
               )}
             </IconButton>
 
-            <IconButton
-              color="inherit"
-              className="navButton"
-              onClick={this.screenShare}
-            >
-              {localUser !== undefined && localUser.isScreenShareActive() ? (
-                <PictureInPictureIcon />
-              ) : (
-                <ScreenShareIcon />
-              )}
-            </IconButton>
-
+            {localUser !== undefined && !localUser.isScreenShareActive() && (
+              <IconButton
+                color="inherit"
+                className="navButton"
+                onClick={this.screenShare}
+              >
+                <ScreenShareIcon fontSize="large" />
+              </IconButton>
+            )}
             {localUser !== undefined && localUser.isScreenShareActive() && (
               <IconButton onClick={this.stopScreenShare} id="navScreenButton">
-                <StopScreenShareIcon color="secondary" />
+                <StopScreenShareIcon
+                  sx={{ color: "#d9d4cf" }}
+                  fontSize="large"
+                />
               </IconButton>
             )}
 
             <IconButton
-              color="inherit"
-              className="navButton"
-              onClick={this.switchCamera}
-            >
-              <SwitchVideoIcon />
-            </IconButton>
-            <IconButton
-              color="inherit"
-              className="navButton"
-              onClick={this.toggleFullscreen}
-            >
-              {localUser !== undefined && this.state.fullscreen ? (
-                <FullscreenExitIcon />
-              ) : (
-                <FullscreenIcon />
-              )}
-            </IconButton>
-            <IconButton
-              color="secondary"
+              sx={{ color: "#e64c3c" }}
               className="navButton"
               onClick={this.leaveSession}
               id="navLeaveButton"
             >
-              <PowerSettingsNewIcon />
-            </IconButton>
-            <IconButton
-              color="inherit"
-              onClick={this.toggleChat}
-              id="navChatButton"
-            >
-              {this.props.showNotification && <div id="point" className="" />}
-              <Tooltip title="Chat">
-                <QuestionAnswerIcon />
-              </Tooltip>
+              <PowerSettingsNewIcon fontSize="large" />
             </IconButton>
           </div>
         </Toolbar>

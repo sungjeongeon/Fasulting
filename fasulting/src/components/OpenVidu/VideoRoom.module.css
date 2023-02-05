@@ -1,13 +1,15 @@
-.div video {
+/* .div video {
   width: 800px !important;
   height: 550px !important;
   position: absolute !important;
   top: -4.08rem !important;
-}
+} */
 
 .div {
+  position: relative;
   display: flex !important;
   justify-content: center !important;
+  padding-top: 7vh;
 }
 
 .toolbar {
@@ -21,4 +23,18 @@
   width: 300px;
   height: 550px;
   margin-left: 30px;
+}
+
+.title {
+}
+
+.content {
+}
+
+.warning {
+}
+.enter {
+  display: flex;
+  justify-content: center;
+  margin-top: 13rem;
 }

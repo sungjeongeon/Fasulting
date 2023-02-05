@@ -21,7 +21,7 @@ import MypageHo from "./pages/hospital/MypageHo";
 import PsRegister from "./pages/hospital/PsRegister";
 import MyReservationHo from "./pages/hospital/MyReservationHo";
 import { createGlobalStyle } from "styled-components";
-import OpenViduTest from "./pages/OpenViduTest";
+import OpenViduRoom from "./pages/OpenViduRoom";
 
 const GlobalStyle = createGlobalStyle`
 text-decoration: none;
@@ -96,7 +96,7 @@ function App() {
               <Route path="/test" element={<ModalTest />} />
 
               {/* openvidu 테스트 페이지 */}
-              <Route path="/ov" element={<OpenViduTest />} />
+              <Route path="/ov" element={<OpenViduRoom />} />
               {/* 메인 */}
               <Route path="/" element={<Home />} />
             </Routes>

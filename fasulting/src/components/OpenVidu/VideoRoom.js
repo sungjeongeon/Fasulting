@@ -2,37 +2,34 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import React, { Component } from "react";
 import StreamComponent from "./stream/StreamComponent";
-import "./VideoRoomComponent.css";
+import styles from "./VideoRoom.module.css";
+import Button from "@mui/material/Button";
 
 import OpenViduLayout from "./layout/openvidu-layout";
 import UserModel from "./models/user-model";
 import ToolbarComponent from "./toolbar/ToolbarComponent";
 
+// 유저 생성
 var localUser = new UserModel();
+// 애플리케이션 서버 URL
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
-console.log(APPLICATION_SERVER_URL);
-class VideoRoomComponent extends Component {
+
+class VideoRoom extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
-    this.hasBeenUpdated = false;
-    this.layout = new OpenViduLayout();
-    let sessionName = this.props.sessionName
-      ? this.props.sessionName
-      : "SessionA";
-    let userName = this.props.user
-      ? this.props.user
-      : "OpenVidu_User" + Math.floor(Math.random() * 100);
     this.remotes = [];
+    this.layout = new OpenViduLayout();
+    this.hasBeenUpdated = false;
     this.localUserAccessAllowed = false;
     this.state = {
-      mySessionId: sessionName,
-      myUserName: userName,
+      mySessionId: `${this.props.client}`,
+      myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       localUser: undefined,
+      mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       subscribers: [],
-      chatDisplay: "block",
+      entered: false,
       currentVideoDevice: undefined,
     };
 
@@ -51,8 +48,8 @@ class VideoRoomComponent extends Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.checkNotification = this.checkNotification.bind(this);
     this.checkSize = this.checkSize.bind(this);
+    this.enteredChanged = this.enteredChanged.bind(this);
   }
-
   componentDidMount() {
     const openViduLayoutOptions = {
       maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
@@ -89,6 +86,7 @@ class VideoRoomComponent extends Component {
   }
 
   joinSession() {
+    console.log("쪼인");
     this.OV = new OpenVidu();
 
     this.setState(
@@ -228,6 +226,7 @@ class VideoRoomComponent extends Component {
   }
 
   leaveSession() {
+    console.log("leave 시행");
     const mySession = this.state.session;
 
     if (mySession) {
@@ -239,7 +238,7 @@ class VideoRoomComponent extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "SessionA",
+      // mySessionId: `${this.props.client}`,
       myUserName: "OpenVidu_User" + Math.floor(Math.random() * 100),
       localUser: undefined,
     });
@@ -544,74 +543,96 @@ class VideoRoomComponent extends Component {
     }
   }
 
+  // 상담방 입장
+  async enteredChanged() {
+    this.remotes = [];
+    this.setState({
+      mySessionId: `${this.props.hospital}${this.props.client}`,
+      subscribers: [],
+      entered: true,
+    });
+
+    await this.leaveSession();
+    await this.joinSession();
+  }
   render() {
-    const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
-    var chatDisplay = { display: this.state.chatDisplay };
+    const mySessionId = this.state.mySessionId;
+    const isEntered = this.state.entered;
 
     return (
-      <div className="container" id="container">
-        <ToolbarComponent
-          sessionId={mySessionId}
-          user={localUser}
-          showNotification={this.state.messageReceived}
-          camStatusChanged={this.camStatusChanged}
-          micStatusChanged={this.micStatusChanged}
-          screenShare={this.screenShare}
-          stopScreenShare={this.stopScreenShare}
-          toggleFullscreen={this.toggleFullscreen}
-          switchCamera={this.switchCamera}
-          leaveSession={this.leaveSession}
-          toggleChat={this.toggleChat}
-        />
-        <div id="layout" className="bounds">
-          <div className="faceCam">
-            {localUser !== undefined &&
-              localUser.getStreamManager() !== undefined && (
-                <div
-                  className="OT_root OT_publisher custom-class"
-                  id="localUser"
-                >
-                  <StreamComponent
-                    user={localUser}
-                    // 유저닉네임 설정가능?
-                    handleNickname={this.nicknameChanged}
-                  />
+      <div>
+        {localUser !== undefined &&
+          localUser.getStreamManager() !== undefined &&
+          (isEntered ? (
+            <div className={styles.div}>
+              {localUser !== undefined &&
+                localUser.getStreamManager() !== undefined && (
+                  <div className={styles.me}>
+                    <StreamComponent
+                      user={localUser}
+                      // 유저닉네임 설정가능?
+                      handleNickname={this.nicknameChanged}
+                      isMe={true}
+                    />
+                    {this.state.subscribers.map((sub, i) => (
+                      <div key={i} className={styles.you}>
+                        <StreamComponent
+                          user={sub}
+                          streamId={sub.streamManager.stream.streamId}
+                          isMe={false}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+            </div>
+          ) : (
+            <div className={styles.div}>
+              <StreamComponent user={localUser} isMe={"test"} />
+              <div className={styles.alert}>
+                <p className={styles.title}>
+                  상담방에 입장하기 전 오디오 / 비디오를 체크해주세요.
+                </p>
+
+                <h1 className={styles.warning}>주의하세요!</h1>
+                <p className={styles.content}>
+                  상담 중 보여드리는 Before & After 사진은 실제 시술 결과와 다를
+                  수 있습니다.
+                </p>
+                <p className={styles.content}>
+                  전문의의 시술 경험과 결과를 주의 깊게 살펴보고 충분히 고민한
+                  후 결정해주세요.
+                </p>
+
+                <div onClick={this.enteredChanged} className={styles.enter}>
+                  <Button variant="contained" size="large">
+                    입장하기
+                  </Button>
                 </div>
-              )}
-            {this.state.subscribers.map((sub, i) => (
-              <div
-                key={i}
-                className="OT_root OT_publisher custom-class"
-                id="remoteUsers"
-              >
-                <StreamComponent
-                  user={sub}
-                  streamId={sub.streamManager.stream.streamId}
-                />
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+
+        <div className={styles.toolbar}>
+          <ToolbarComponent
+            sessionId={mySessionId}
+            user={localUser}
+            showNotification={this.state.messageReceived}
+            camStatusChanged={this.camStatusChanged}
+            micStatusChanged={this.micStatusChanged}
+            screenShare={this.screenShare}
+            stopScreenShare={this.stopScreenShare}
+            toggleFullscreen={this.toggleFullscreen}
+            switchCamera={this.switchCamera}
+            leaveSession={this.leaveSession}
+            toggleChat={this.toggleChat}
+          />
         </div>
       </div>
     );
   }
 
-  /**
-   * --------------------------------------------
-   * GETTING A TOKEN FROM YOUR APPLICATION SERVER
-   * --------------------------------------------
-   * The methods below request the creation of a Session and a Token to
-   * your application server. This keeps your OpenVidu deployment secure.
-   *
-   * In this sample code, there is no user control at all. Anybody could
-   * access your application server endpoints! In a real production
-   * environment, your application server must identify the user to allow
-   * access to the endpoints.
-   *
-   * Visit https://docs.openvidu.io/en/stable/application-server to learn
-   * more about the integration of OpenVidu in your application server.
-   */
   async getToken() {
     const sessionId = await this.createSession(this.state.mySessionId);
     return await this.createToken(sessionId);
@@ -625,7 +646,7 @@ class VideoRoomComponent extends Component {
         headers: { "Content-Type": "application/json" },
       }
     );
-    return response.data; // The sessionId
+    return response.data; // The sessionId to getToken()
   }
 
   async createToken(sessionId) {
@@ -639,4 +660,4 @@ class VideoRoomComponent extends Component {
     return response.data; // The token
   }
 }
-export default VideoRoomComponent;
+export default VideoRoom;
