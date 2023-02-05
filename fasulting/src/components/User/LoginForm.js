@@ -18,8 +18,11 @@ import Paper from "@mui/material/Paper";
 import axios from "../../api/axiosApi";
 import { setRefreshToken } from "../../storage/Cookie";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../redux/user";
 
 const validationSchema = yup.object({
+  usertype: yup.bool().oneOf([true], "회원유형을 선택해주세요."),
   email: yup
     .string()
     .email("올바른 이메일 형식을 입력해주세요.")
@@ -29,6 +32,7 @@ const validationSchema = yup.object({
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -38,9 +42,18 @@ export default function LoginForm() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      if (values.usertype === "") {
+        alert("회원유형을 선택해주세요.");
+      }
       try {
         console.log(values);
-        await axios.post("/user/login", values);
+        dispatch(
+          loginUser({ userEmail: values.email, userPwd: values.password })
+        );
+        await axios.post("/user/login", values).then((res) => {
+          const token = res.data.token;
+          localStorage.setItem("jwtToken", token);
+        });
         toast.success(<h3>반갑습니다 !</h3>, {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,
@@ -89,15 +102,18 @@ export default function LoginForm() {
                 name="row-radio-buttons-group"
               >
                 <FormControlLabel
-                  value="user"
+                  value={formik.values.usertype}
                   control={<Radio />}
                   label="일반 회원"
                   name="usertype"
+                  onChange={() => formik.setFieldValue("usertype", "user")}
                 />
                 <FormControlLabel
-                  value="ps"
+                  value={formik.values.usertype}
                   control={<Radio />}
                   label="병원 회원"
+                  name="usertype"
+                  onChange={() => formik.setFieldValue("usertype", "ps")}
                 />
               </RadioGroup>
             </FormControl>

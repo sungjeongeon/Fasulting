@@ -9,10 +9,21 @@ import SimpleInfo from "../../components/Detail/SimpleInfo";
 import HospitalInfo from "../../components/Detail/HospitalInfo";
 import DoctorCardList from "../../components/Card/DoctorCardList";
 import ReviewInfo from "../../components/Detail/ReviewInfo";
+import axiosApi from "../../api/axiosApi";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function Detail() {
   // const { id } = useParams();
   // 병원 id로 병원 정보 요청 - 응답 받아서 각 컴포넌트로 전달 (예정)
+
+  const [detailhospital, setDetailhospital] = useState([]);
+  useEffect(() => {
+    axiosApi.get("/main/ps-detail/1/1").then((res) => {
+      console.log(res.data);
+      //setDetailhospital(res.data.responseObj);
+    });
+  }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0}>

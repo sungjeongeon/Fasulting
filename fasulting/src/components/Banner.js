@@ -95,8 +95,12 @@ function Banner() {
             alt="배너1"
           />
         </div>
-        <div>
-          <h3>3</h3>
+        <div className={styles.margin}>
+          <img
+            className={styles.img}
+            src="/assets/images/banner03.png"
+            alt="배너1"
+          />
         </div>
       </StyledSlider>
     </div>

@@ -239,15 +239,14 @@ export default function RegisterForm() {
             >
               회원가입
             </Button>
-            <Link
-              to={"/psregist"}
-              style={{ textDecoration: "none" }}
-              variant="body2"
-              className={styles.flexCenter}
-            >
-              의사로 회원가입 하시나요?
-            </Link>
           </form>
+          <Link
+            to={"/psregist"}
+            style={{ textDecoration: "none" }}
+            className={styles.flexCenter}
+          >
+            의사로 회원가입 하시나요?
+          </Link>
         </Paper>
       </Container>
     </>

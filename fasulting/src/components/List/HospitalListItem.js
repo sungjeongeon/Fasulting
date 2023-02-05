@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function HospitalListItem({ hospital }) {
   const navigate = useNavigate();
   const onClick = () => {
-    navigate(`/detail/${hospital.ps_id}`);
+    navigate(`/detail/${hospital.psSeq}`);
   };
   return (
     <div className={styles.outerDiv} onClick={onClick}>

@@ -70,7 +70,7 @@ const validationSchema = [
       )
       .required("사업자 등록번호를 입력해주세요."),
     [psregistrationimg.name]: yup
-      .string()
+      .mixed()
       .required("사업자 등록증을 업로드해주세요."),
     // doctor,
     // category,

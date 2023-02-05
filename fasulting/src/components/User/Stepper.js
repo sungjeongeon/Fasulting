@@ -22,21 +22,27 @@ import { toast, ToastContainer } from "react-toastify";
 import PsRegistFormComplete from "./PsRegistFormComplete";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import axiosApi from "../../api/axiosApi";
+import { useState } from "react";
 const steps = ["개인 정보", "병원 관련 등록", "병원 인증"];
 const { formId, formField } = checkoutFormModel;
 
-function getStepContent(step) {
+const getStepContent = (step, setFieldValue) => {
   switch (step) {
     case 0:
       return <PsRegistForm01 formField={formField} />;
     case 1:
-      return <PsRegistForm02 formField={formField} />;
+      return (
+        <PsRegistForm02 formField={formField} setFieldValue={setFieldValue} />
+      );
     case 2:
-      return <PsRegistForm03 formField={formField} />;
+      return (
+        <PsRegistForm03 formField={formField} setFieldValue={setFieldValue} />
+      );
     default:
       throw new Error("Unknown step");
   }
-}
+};
 
 export default function PsRegist() {
   const navigate = useNavigate();
@@ -54,21 +60,28 @@ export default function PsRegist() {
     const dataSet = {
       email: values.email,
       password: values.password,
-      name: values.name,
-      address: values.address,
-      zipcode: values.zipcode,
-      registration: values.registration,
-      number: values.number,
-      director: values.director,
-      hompage: values.hompage,
-      intro: values.intro,
+      psname: values.psname,
+      psaddress: values.psaddress,
+      pszipcode: values.pszipcode,
+      psregistration: values.psregistration,
+      psnumber: values.psnumber,
+      psdirector: values.psdirector,
+      pshompage: values.pshompage,
+      psintro: values.psintro,
     };
+    console.log(dataSet);
     formData.append("ps", JSON.stringify(dataSet));
     formData.append("registrationImg", values.psregistrationimg);
     formData.append("profileImg", values.profileImg);
-    console.log(formData);
+    for (var key of formData.keys()) {
+      console.log(key);
+    }
+
+    for (var value of formData.values()) {
+      console.log(value);
+    }
     try {
-      await axios.post("http://localhost:8080/ps/regist", {
+      await axiosApi.post("/ps/regist", {
         headers: {
           "Content-Type": "multiaprt/form",
         },
@@ -97,8 +110,6 @@ export default function PsRegist() {
     if (isLastStep) {
       _submitForm(values, actions);
     } else {
-      console.log(values);
-      console.log(actions);
       setActiveStep(activeStep + 1);
       actions.setTouched({});
       actions.setSubmitting(false);
@@ -141,27 +152,29 @@ export default function PsRegist() {
                 validationSchema={currentValidationSchema}
                 onSubmit={_handleSubmit}
               >
-                <Form id={formId}>
-                  {getStepContent(activeStep)}
+                {({ setFieldValue, ...rest }) => (
+                  <Form id={formId}>
+                    {getStepContent(activeStep, setFieldValue)}
 
-                  <div className={styles.buttons}>
-                    {activeStep !== 0 && (
-                      <Button onClick={_handleBack} className={styles.button}>
-                        Back
-                      </Button>
-                    )}
-                    <div>
-                      <Button
-                        className={styles.button}
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                      >
-                        {isLastStep ? "회원가입" : "다음"}
-                      </Button>
+                    <div className={styles.buttons}>
+                      {activeStep !== 0 && (
+                        <Button onClick={_handleBack} className={styles.button}>
+                          Back
+                        </Button>
+                      )}
+                      <div>
+                        <Button
+                          className={styles.button}
+                          type="submit"
+                          variant="contained"
+                          color="primary"
+                        >
+                          {isLastStep ? "회원가입" : "다음"}
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </Form>
+                  </Form>
+                )}
               </Formik>
             )}
           </React.Fragment>

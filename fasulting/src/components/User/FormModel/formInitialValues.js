@@ -30,7 +30,7 @@ export default {
   [pshomepage]: "",
   [psdirector]: "",
   [psregistration]: "",
-  [psregistrationimg]: "",
+  [psregistrationimg]: null,
   [doctor]: "",
   [category]: "",
 };

@@ -5,12 +5,13 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import AddDoctor from "../Modal/AddDoctor";
 import AddCategory from "../Modal/AddCategory";
+import { Formik } from "formik";
 
 export default function PsRegistForm03(props) {
   // 의사 등록 모달창
-  const [doctorModalOpen, setdoctorModalOpen] = useState(false);
-  const doctorModalStateChange = () =>
-    setdoctorModalOpen((current) => !current);
+  // const [doctorModalOpen, setdoctorModalOpen] = useState(false);
+  // const doctorModalStateChange = () =>
+  //   setdoctorModalOpen((current) => !current);
 
   // 카테고리 등록 모달창
   const [categoryModalOpen, setcategoryModalOpen] = useState(false);
@@ -22,10 +23,12 @@ export default function PsRegistForm03(props) {
       psdirector,
       psregistration,
       psregistrationimg,
+
       // doctor,
       // category,
     },
   } = props;
+
   return (
     <>
       <div className={styles.inputItem}>
@@ -49,11 +52,18 @@ export default function PsRegistForm03(props) {
         <InputField
           fullWidth
           placeholder="병원 사업자 등록증을 업로드 해주세요"
+          // onChange={(event) => {
+          //   props.setFieldValue(
+          //     props.psregistrationimg.name,
+          //     event.currentTarget.files[0]
+          //   );
+          //   //props.setFieldValue(event.currentTarget.files[0]);
+          // }}
           type="file"
           name={psregistrationimg.name}
         />
       </div>
-      <div className={styles.inputItem}>
+      {/* <div className={styles.inputItem}>
         <div className={styles.label}>병원 의사</div>
         <p style={{ color: "gray" }}>병원 의사 정보를 추가해주세요.</p>
         <Button variant="text" onClick={doctorModalStateChange}>
@@ -63,7 +73,7 @@ export default function PsRegistForm03(props) {
           <AddDoctor doctorModalStateChange={doctorModalStateChange} />
         )}
         <div></div>
-      </div>
+      </div> */}
       <div className={styles.inputItem}>
         <div className={styles.label}>병원 카테고리 선택</div>
         <p style={{ color: "gray" }}>

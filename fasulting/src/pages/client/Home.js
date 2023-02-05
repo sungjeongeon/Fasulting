@@ -19,13 +19,20 @@ function Home() {
   //     setMaincategory(res.data.responseObj);
   //   });
   // }, []);
+
+  const [maincategory, setMaincategory] = useState([]);
+  useEffect(() => {
+    axiosApi.get("/main").then((res) => {
+      setMaincategory(res.data.responseObj);
+    });
+  }, []);
   return (
     <div>
       <Container>
         <Banner />
       </Container>
       <Container maxidth="lg">
-        <MainCategoryList />
+        <MainCategoryList maincategory={maincategory} />
       </Container>
       <Footer />
     </div>

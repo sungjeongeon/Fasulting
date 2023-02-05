@@ -8,7 +8,7 @@ import Dropdown from "./Dropdown";
 
 function Header() {
   // 로그인 여부에 따라, nav bar 링크가 달라지므로 state 이용
-  const [login, setLogin] = useState(true);
+  const [login, setLogin] = useState(false);
   const nowpath = useLocation().pathname;
 
   // 병원회원인지에 따라 nav bar 또 변경
