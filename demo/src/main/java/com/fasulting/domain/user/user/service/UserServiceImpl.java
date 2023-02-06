@@ -23,24 +23,24 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     // 로그인
-    @Override
-    public UserInfoRespDto login(UserWithoutSeqReqDto userInfo) {
-
-        if(userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).isPresent()) {
-
-            UserEntity user = userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).get();
-
-            UserInfoRespDto userInfoRespDto = UserInfoRespDto.builder()
-                    .userSeq(user.getSeq())
-                    .userName(user.getName())
-                    .build();
-
-            return userInfoRespDto;
-
-        }
-
-        return null;
-    }
+//    @Override
+//    public UserInfoRespDto login(UserWithoutSeqReqDto userInfo) {
+//
+//        if(userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).isPresent()) {
+//
+//            UserEntity user = userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).get();
+//
+//            UserInfoRespDto userInfoRespDto = UserInfoRespDto.builder()
+//                    .userSeq(user.getSeq())
+//                    .userName(user.getName())
+//                    .build();
+//
+//            return userInfoRespDto;
+//
+//        }
+//
+//        return null;
+//    }
 
     // 회원 가입
     @Override

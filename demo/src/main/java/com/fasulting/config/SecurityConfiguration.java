@@ -1,22 +1,33 @@
 package com.fasulting.config;
 
-import org.springframework.context.annotation.Bean;
+import com.fasulting.common.jwt.JwtAuthenticationFilter;
+import com.fasulting.common.jwt.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.httpBasic().and();
+        http.httpBasic().disable()
+                .authorizeRequests()
+                .antMatchers("/test").authenticated()
+                .antMatchers("/admin/**").hasRole("admin")
+//                .antMatchers("/user/**").hasRole("user")
+                .antMatchers("/**").permitAll()
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                          UsernamePasswordAuthenticationFilter.class);
     }
 
 //    @Bean

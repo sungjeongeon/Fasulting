@@ -18,7 +18,7 @@ public interface UserService {
 
     boolean checkEmail(String email); // 회원 이메일 조회 및 중복 확인
 
-    UserInfoRespDto login(UserWithoutSeqReqDto userInfo);
+//    UserInfoRespDto login(UserWithoutSeqReqDto userInfo);
 
     //    boolean editUserInfo(Long seq, UserSeqReq userInfo); // 회원 정보 수정
 }
