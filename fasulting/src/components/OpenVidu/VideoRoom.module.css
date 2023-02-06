@@ -6,12 +6,49 @@
 } */
 
 .div {
-  position: relative;
+  /* position: relative; */
   display: flex !important;
   justify-content: center !important;
-  padding-top: 7vh;
+  align-items: center;
 }
 
+.divnext {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center;
+  height: 80vh;
+  padding: 30px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.me {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center;
+}
+.hr {
+}
+
+.banner {
+  background-color: gray;
+  margin: 5px;
+  height: 225px;
+  width: 300px;
+}
+
+.tempo {
+  width: 640px;
+  height: 486px;
+  max-width: 800px;
+  max-height: 600px;
+  border-radius: 20px;
+  background-color: gray;
+}
 .toolbar {
   position: absolute !important;
   bottom: 4.08rem !important;
@@ -23,18 +60,25 @@
   width: 300px;
   height: 550px;
   margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .title {
+  font-size: 1.2rem;
 }
 
 .content {
+  font-size: 1rem;
 }
 
 .warning {
+  font-size: 1.2rem;
+
+  margin-top: 3rem;
 }
 .enter {
   display: flex;
   justify-content: center;
-  margin-top: 13rem;
 }

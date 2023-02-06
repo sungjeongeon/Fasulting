@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import StreamComponent from "./stream/StreamComponent";
 import styles from "./VideoRoom.module.css";
 import Button from "@mui/material/Button";
+import Skeleton from "@mui/material/Skeleton";
 
 import OpenViduLayout from "./layout/openvidu-layout";
 import UserModel from "./models/user-model";
@@ -47,7 +48,7 @@ class VideoRoom extends Component {
     this.closeDialogExtension = this.closeDialogExtension.bind(this);
     this.toggleChat = this.toggleChat.bind(this);
     this.checkNotification = this.checkNotification.bind(this);
-    this.checkSize = this.checkSize.bind(this);
+    // this.checkSize = this.checkSize.bind(this);
     this.enteredChanged = this.enteredChanged.bind(this);
   }
   componentDidMount() {
@@ -70,7 +71,7 @@ class VideoRoom extends Component {
     );
     window.addEventListener("beforeunload", this.onbeforeunload);
     window.addEventListener("resize", this.updateLayout);
-    window.addEventListener("resize", this.checkSize);
+    // window.addEventListener("resize", this.checkSize);
     this.joinSession();
   }
 
@@ -527,21 +528,21 @@ class VideoRoom extends Component {
       messageReceived: this.state.chatDisplay === "none",
     });
   }
-  checkSize() {
-    if (
-      document.getElementById("layout").offsetWidth <= 700 &&
-      !this.hasBeenUpdated
-    ) {
-      this.toggleChat("none");
-      this.hasBeenUpdated = true;
-    }
-    if (
-      document.getElementById("layout").offsetWidth > 700 &&
-      this.hasBeenUpdated
-    ) {
-      this.hasBeenUpdated = false;
-    }
-  }
+  // checkSize() {
+  //   if (
+  //     document.getElementById("layout").offsetWidth <= 700 &&
+  //     !this.hasBeenUpdated
+  //   ) {
+  //     this.toggleChat("none");
+  //     this.hasBeenUpdated = true;
+  //   }
+  //   if (
+  //     document.getElementById("layout").offsetWidth > 700 &&
+  //     this.hasBeenUpdated
+  //   ) {
+  //     this.hasBeenUpdated = false;
+  //   }
+  // }
 
   // 상담방 입장
   async enteredChanged() {
@@ -565,45 +566,60 @@ class VideoRoom extends Component {
         {localUser !== undefined &&
           localUser.getStreamManager() !== undefined &&
           (isEntered ? (
-            <div className={styles.div}>
-              {localUser !== undefined &&
-                localUser.getStreamManager() !== undefined && (
-                  <div className={styles.me}>
-                    <StreamComponent
-                      user={localUser}
-                      // 유저닉네임 설정가능?
-                      handleNickname={this.nicknameChanged}
-                      isMe={true}
-                    />
-                    {this.state.subscribers.map((sub, i) => (
-                      <div key={i} className={styles.you}>
+            <div>
+              <hr className={styles.hr} />
+              <div className={styles.divnext}>
+                {localUser !== undefined &&
+                  localUser.getStreamManager() !== undefined && (
+                    <div className={styles.me}>
+                      {this.state.subscribers.map((sub, i) => (
+                        <div key={i} className={styles.you}>
+                          <StreamComponent
+                            user={sub}
+                            streamId={sub.streamManager.stream.streamId}
+                            isMe={false}
+                          />
+                        </div>
+                      ))}
+                      {this.state.subscribers.length === 0 ? (
+                        <Skeleton variant="rounded" width={640} height={486} />
+                      ) : null}
+                      <div className={styles.right}>
                         <StreamComponent
-                          user={sub}
-                          streamId={sub.streamManager.stream.streamId}
-                          isMe={false}
+                          user={localUser}
+                          // 유저닉네임 설정가능?
+                          handleNickname={this.nicknameChanged}
+                          isMe={true}
+                        />
+
+                        <img
+                          src="/assets/images/video_call_icon.png"
+                          className={styles.banner}
                         />
                       </div>
-                    ))}
-                  </div>
-                )}
+                    </div>
+                  )}
+              </div>
             </div>
           ) : (
             <div className={styles.div}>
               <StreamComponent user={localUser} isMe={"test"} />
               <div className={styles.alert}>
-                <p className={styles.title}>
-                  상담방에 입장하기 전 오디오 / 비디오를 체크해주세요.
-                </p>
+                <div>
+                  <p className={styles.title}>
+                    ✅ 상담방에 입장하기 전 오디오와 비디오를 체크해주세요.
+                  </p>
 
-                <h1 className={styles.warning}>주의하세요!</h1>
-                <p className={styles.content}>
-                  상담 중 보여드리는 Before & After 사진은 실제 시술 결과와 다를
-                  수 있습니다.
-                </p>
-                <p className={styles.content}>
-                  전문의의 시술 경험과 결과를 주의 깊게 살펴보고 충분히 고민한
-                  후 결정해주세요.
-                </p>
+                  <h1 className={styles.warning}>🤔 주의하세요!</h1>
+                  <p className={styles.content}>
+                    상담 중 보여드리는 Before & After 사진은 실제 시술 결과와
+                    다를 수 있습니다.
+                  </p>
+                  <p className={styles.content}>
+                    시술을 결정하기 전, 전문의의 경험과 결과를 주의 깊게
+                    살펴보고 충분히 고민해주세요.
+                  </p>
+                </div>
 
                 <div onClick={this.enteredChanged} className={styles.enter}>
                   <Button variant="contained" size="large">
