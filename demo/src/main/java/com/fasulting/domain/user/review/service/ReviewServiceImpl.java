@@ -14,7 +14,8 @@ import com.fasulting.repository.ps.TotalRatingRepository;
 import com.fasulting.repository.reservation.ReservationSubRepository;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
@@ -30,17 +33,6 @@ public class ReviewServiceImpl implements ReviewService{
     private final ReviewSubRepository reviewSubRepository;
     private final TotalRatingRepository totalRatingRepository;
     private final ReservationSubRepository reservationSubRepository;
-
-    @Autowired
-    public ReviewServiceImpl(ReviewRepository reviewRepository, ConsultingRepository consultingRepository,
-                             ReviewSubRepository reviewSubRepository, TotalRatingRepository totalRatingRepository,
-                             ReservationSubRepository reservationSubRepository) {
-        this.reviewRepository = reviewRepository;
-        this.consultingRepository = consultingRepository;
-        this.reviewSubRepository = reviewSubRepository;
-        this.totalRatingRepository = totalRatingRepository;
-        this.reservationSubRepository = reservationSubRepository;
-    }
 
     @Transactional
     @Override

@@ -25,6 +25,7 @@ import com.fasulting.domain.ps.psReservation.dto.respDto.PostReservationRespDto;
 import com.fasulting.domain.ps.psReservation.dto.respDto.PreDetailRespDto;
 import com.fasulting.domain.ps.psReservation.dto.respDto.PreReservationRespDto;
 import com.fasulting.domain.ps.psReservation.dto.respDto.PsPostRespDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +39,10 @@ import java.util.TreeMap;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class PsReservationServiceImpl implements PsReservationService {
     private final SubCategoryRepository subCategoryRepository;
     private final ConsultingRepository consultingRepository;
-
     private final ReservationRepository reservationRepository;
     private final ReservationSubRepository reservationSubEntityRepository;
     private final PsOperatingRepository psOperatingRepository;
@@ -50,23 +51,6 @@ public class PsReservationServiceImpl implements PsReservationService {
     private final TimeRepository timeRepository;
     private final ReservationSubRepository reservationSubRepository;
     private final ReportRepository reportRepository;
-
-    public PsReservationServiceImpl(ReservationRepository reservationRepository,
-                                    ReservationSubRepository reservationSubEntityRepository, PsOperatingRepository psOperatingRepository, PsRepository psRepository, OperatingCalRepository operatingCalRepository, TimeRepository timeRepository,
-                                    ConsultingRepository consultingRepository,
-                                    ReportRepository reportRepository,
-                                    SubCategoryRepository subCategoryRepository, ReservationSubRepository reservationSubRepository) {
-        this.reservationRepository = reservationRepository;
-        this.reservationSubEntityRepository = reservationSubEntityRepository;
-        this.psOperatingRepository = psOperatingRepository;
-        this.psRepository = psRepository;
-        this.operatingCalRepository = operatingCalRepository;
-        this.timeRepository = timeRepository;
-        this.consultingRepository = consultingRepository;
-        this.reportRepository = reportRepository;
-        this.subCategoryRepository = subCategoryRepository;
-        this.reservationSubRepository = reservationSubRepository;
-    }
 
     /**
      * 예약 취소

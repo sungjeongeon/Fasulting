@@ -5,10 +5,9 @@ import com.fasulting.domain.user.user.dto.reqDto.UserWithoutSeqReqDto;
 import com.fasulting.domain.user.user.dto.respDto.UserInfoRespDto;
 import com.fasulting.entity.user.RoleEntity;
 import com.fasulting.entity.user.UserEntity;
-import com.fasulting.repository.ps.PsMainSubRepository;
 import com.fasulting.repository.role.RoleRepository;
-import com.fasulting.repository.user.FavoriteRepository;
 import com.fasulting.repository.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,20 +16,11 @@ import java.time.LocalDateTime;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final FavoriteRepository favoriteRepository;
-    private final PsMainSubRepository psMainSubRepository;
     private final RoleRepository roleRepository;
-
-    public UserServiceImpl(UserRepository userRepository, FavoriteRepository favoriteRepository, PsMainSubRepository psMainSubRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.favoriteRepository = favoriteRepository;
-        this.psMainSubRepository = psMainSubRepository;
-        this.roleRepository = roleRepository;
-    }
-
 
     // 로그인
     @Override

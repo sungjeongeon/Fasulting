@@ -4,18 +4,16 @@ import com.fasulting.domain.admin.admin.dto.reqDto.AdminLoginReqDto;
 import com.fasulting.domain.admin.admin.dto.respDto.AdminLoginRespDto;
 import com.fasulting.repository.user.UserRepository;
 import com.fasulting.entity.user.UserEntity;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService{
 
     private final UserRepository userRepository;
-
-    public AdminServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public AdminLoginRespDto login(AdminLoginReqDto adminLoginReq) {

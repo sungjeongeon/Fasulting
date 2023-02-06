@@ -28,6 +28,7 @@ import com.fasulting.repository.doctor.DoctorRepository;
 import com.fasulting.repository.ps.*;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,6 +41,7 @@ import java.util.*;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class PsServiceImpl implements PsService {
 
     private final OperatingCalRepository operatingCalRepository;
@@ -57,24 +59,6 @@ public class PsServiceImpl implements PsService {
     private final PsDefaultRepository psDefaultRepository;
     private final ReviewRepository reviewRepository;
     private final TotalRatingRepository totalRatingRepository;
-
-    public PsServiceImpl(OperatingCalRepository operatingCalRepository, PsOperatingRepository psOperatingRepository, TimeRepository timeRepository, DefaultCalRepository defaultCalRepository, PsRepository psRepository, DoctorRepository doctorRepository, MainCategoryRepository mainRepository, SubCategoryRepository subRepository, PsMainRepository psMainRepository, PsMainSubRepository psMainSubRepository, DoctorMainRepository doctorMainRepository, ReviewSubRepository reviewSubRepository, PsDefaultRepository psDefaultRepository, ReviewRepository reviewRepository, TotalRatingRepository totalRatingRepository) {
-        this.operatingCalRepository = operatingCalRepository;
-        this.psOperatingRepository = psOperatingRepository;
-        this.timeRepository = timeRepository;
-        this.defaultCalRepository = defaultCalRepository;
-        this.psRepository = psRepository;
-        this.doctorRepository = doctorRepository;
-        this.mainRepository = mainRepository;
-        this.subRepository = subRepository;
-        this.psMainRepository = psMainRepository;
-        this.psMainSubRepository = psMainSubRepository;
-        this.doctorMainRepository = doctorMainRepository;
-        this.reviewSubRepository = reviewSubRepository;
-        this.psDefaultRepository = psDefaultRepository;
-        this.reviewRepository = reviewRepository;
-        this.totalRatingRepository = totalRatingRepository;
-    }
 
     // 로그인
     @Override

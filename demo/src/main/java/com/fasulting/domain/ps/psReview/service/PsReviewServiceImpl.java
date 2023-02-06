@@ -7,26 +7,21 @@ import com.fasulting.entity.review.ReviewEntity;
 import com.fasulting.repository.ps.PsRepository;
 import com.fasulting.repository.ps.TotalRatingRepository;
 import com.fasulting.repository.review.ReviewRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class PsReviewServiceImpl implements PsReviewService {
 
-    private ReviewRepository reviewRepository;
-    private TotalRatingRepository totalRatingRepository;
-    private PsRepository psRepository;
-
-    @Autowired
-    public PsReviewServiceImpl(ReviewRepository reviewRepository, TotalRatingRepository totalRatingRepository,
-                               PsRepository psRepository) {
-        this.reviewRepository = reviewRepository;
-        this.totalRatingRepository = totalRatingRepository;
-        this.psRepository = psRepository;
-    }
+    private final ReviewRepository reviewRepository;
+    private final TotalRatingRepository totalRatingRepository;
+    private final PsRepository psRepository;
 
     /**
      * 리뷰 신고

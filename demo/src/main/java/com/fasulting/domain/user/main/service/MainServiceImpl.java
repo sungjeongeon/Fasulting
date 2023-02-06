@@ -20,6 +20,7 @@ import com.fasulting.repository.ps.*;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
 import com.fasulting.repository.user.FavoriteRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -32,51 +33,21 @@ import java.util.Map;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class MainServiceImpl implements MainService {
 
     private final MainCategoryRepository mainCategoryRepository;
-
     private final SubCategoryRepository subCategoryRepository;
-
     private final PsRepository psRepository;
-
     private final PsMainRepository psMainRepository;
-
     private  final PsMainSubRepository psMainSubRepository;
-
     private final TotalRatingRepository totalRatingRepository;
-
     private final ReviewRepository reviewRepository;
-
     private final FavoriteRepository favoriteRepository;
-
     private final PsDefaultRepository psDefaultRepository;
-
     private final DoctorRepository doctorRepository;
-
     private final DoctorMainRepository doctorMainRepository;
-
     private final ReviewSubRepository reviewSubRepository;
-
-    public MainServiceImpl(MainCategoryRepository mainCategoryRepository, SubCategoryRepository subCategoryRepository,
-                           PsMainRepository psMainRepository, PsMainSubRepository psMainSubRepository,
-                           TotalRatingRepository totalRatingRepository, ReviewRepository reviewRepository ,
-                           PsRepository psRepository, FavoriteRepository favoriteRepository,
-                           PsDefaultRepository psDefaultRepository, DoctorRepository doctorRepository,
-                           DoctorMainRepository doctorMainRepository, ReviewSubRepository reviewSubRepository) {
-        this.mainCategoryRepository = mainCategoryRepository;
-        this.subCategoryRepository = subCategoryRepository;
-        this.psMainRepository = psMainRepository;
-        this.psMainSubRepository = psMainSubRepository;
-        this.totalRatingRepository = totalRatingRepository;
-        this.reviewRepository = reviewRepository;
-        this.psRepository = psRepository;
-        this.favoriteRepository = favoriteRepository;
-        this.psDefaultRepository = psDefaultRepository;
-        this.doctorRepository = doctorRepository;
-        this.doctorMainRepository = doctorMainRepository;
-        this.reviewSubRepository = reviewSubRepository;
-    }
 
     @Override
     public List<MainCategoryRespDto> getMainCategoryList(){

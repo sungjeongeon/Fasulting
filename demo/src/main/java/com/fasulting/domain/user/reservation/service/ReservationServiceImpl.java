@@ -36,8 +36,8 @@ import com.fasulting.repository.reservation.ReservationRepository;
 import com.fasulting.repository.reservation.ReservationSubRepository;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +47,7 @@ import java.util.*;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
 
     private final PsOperatingRepository psOperatingRepository;
@@ -65,32 +66,6 @@ public class ReservationServiceImpl implements ReservationService {
     private final PsDefaultRepository psDefaultRepository;
     private final SubCategoryRepository subCategoryRepository;
 
-    @Autowired
-    public ReservationServiceImpl(PsOperatingRepository psOperatingRepository, PsMainRepository psMainRepository,
-                                  PsMainSubRepository psMainSubRepository, OperatingCalRepository operatingCalRepository,
-                                  TimeRepository timeRepository, PsRepository psRepository,
-                                  ReservationCalRepository reservationCalRepository, UserRepository userRepository,
-                                  ReservationRepository reservationRepository, ConsultingRepository consultingRepository,
-                                  ReportRepository reportRepository, ReviewRepository reviewRepository,
-                                  ReservationSubRepository reservationSubRepository, PsDefaultRepository psDefaultRepository,
-                                  SubCategoryRepository subCategoryRepositor) {
-        this.psOperatingRepository = psOperatingRepository;
-        this.psMainRepository = psMainRepository;
-        this.psMainSubRepository = psMainSubRepository;
-        this.operatingCalRepository = operatingCalRepository;
-        this.timeRepository = timeRepository;
-        this.psRepository = psRepository;
-        this.reservationCalRepository = reservationCalRepository;
-        this.userRepository = userRepository;
-        this.reservationRepository = reservationRepository;
-        this.consultingRepository = consultingRepository;
-        this.reportRepository = reportRepository;
-        this.reviewRepository = reviewRepository;
-        this.reservationSubRepository = reservationSubRepository;
-        this.psDefaultRepository = psDefaultRepository;
-        this.subCategoryRepository = subCategoryRepositor;
-
-    }
 
     /**
      * 병원 예약 가능 테이블 조회

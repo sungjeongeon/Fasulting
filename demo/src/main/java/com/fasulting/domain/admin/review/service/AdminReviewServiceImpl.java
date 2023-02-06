@@ -5,6 +5,7 @@ import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
 import com.fasulting.common.dto.respDto.ReviewRespDto;
 import com.fasulting.entity.review.ReviewEntity;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +17,11 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AdminReviewServiceImpl implements AdminReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ReviewSubRepository reviewSubRepository;
-
-    public AdminReviewServiceImpl(ReviewRepository reviewRepository, ReviewSubRepository reviewSubRepository) {
-        this.reviewRepository = reviewRepository;
-        this.reviewSubRepository = reviewSubRepository;
-    }
-
 
     @Transactional
     @Override

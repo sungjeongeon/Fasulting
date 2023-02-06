@@ -1,18 +1,18 @@
 package com.fasulting.domain.user.favorite.service;
 
-import com.fasulting.repository.ps.TotalRatingRepository;
-import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.domain.user.favorite.dto.reqDto.FavoriteReq;
 import com.fasulting.domain.user.favorite.dto.respDto.FavoriteResp;
-import com.fasulting.repository.user.FavoriteRepository;
-import com.fasulting.repository.user.UserRepository;
-import com.fasulting.entity.user.FavoriteEntity;
 import com.fasulting.entity.ps.PsEntity;
+import com.fasulting.entity.user.FavoriteEntity;
 import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.ps.PsMainSubRepository;
 import com.fasulting.repository.ps.PsRepository;
+import com.fasulting.repository.ps.TotalRatingRepository;
+import com.fasulting.repository.review.ReviewRepository;
+import com.fasulting.repository.user.FavoriteRepository;
+import com.fasulting.repository.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
 
     private final FavoriteRepository favoriteRepository;
@@ -34,15 +35,6 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     private final PsRepository psRepository;
 
-    @Autowired
-    public FavoriteServiceImpl(FavoriteRepository favoriteRepository, PsMainSubRepository psMainSubRepository, TotalRatingRepository totalRatingRepository, ReviewRepository reviewRepository, UserRepository userRepository, PsRepository psRepository) {
-        this.favoriteRepository = favoriteRepository;
-        this.psMainSubRepository = psMainSubRepository;
-        this.totalRatingRepository = totalRatingRepository;
-        this.reviewRepository = reviewRepository;
-        this.userRepository = userRepository;
-        this.psRepository = psRepository;
-    }
 
     /**
      * 즐겨찾기 리스트
