@@ -6,5 +6,5 @@ import java.util.Map;
 
 public interface UserJwtService{
 
-    public Map<String, Object> login(UserLoginReqDto userInfo);
+    Map<String, String> login(UserLoginReqDto userInfo);
 }

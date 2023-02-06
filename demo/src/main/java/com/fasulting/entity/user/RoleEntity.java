@@ -1,10 +1,7 @@
 package com.fasulting.entity.user;
 
 import com.fasulting.entity.BaseEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -38,5 +35,13 @@ public class RoleEntity extends BaseEntity {
 	public RoleEntity(UserEntity user, String authority) {
 		this.user = user;
 		this.authority = authority;
+	}
+
+	@Override
+	public String toString() {
+		return "RoleEntity{" +
+				"userSeq=" + userSeq +
+				", authority='" + authority + '\'' +
+				'}';
 	}
 }

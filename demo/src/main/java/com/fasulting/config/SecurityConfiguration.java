@@ -2,6 +2,8 @@ package com.fasulting.config;
 
 import com.fasulting.common.jwt.JwtAuthenticationFilter;
 import com.fasulting.domain.jwt.service.JwtServiceImpl;
+import com.fasulting.repository.token.TokenRepository;
+import com.fasulting.repository.token.UserTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtServiceImpl jwtService;
-
+    private final UserTokenRepository userTokenRepository;
+    private final TokenRepository tokenRepository;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -26,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/favorite/**").access("hasAuthority('user')") // 쿠키에 토큰 저장됨
                 .antMatchers("/**").permitAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtService),
+                .addFilterBefore(new JwtAuthenticationFilter(jwtService, userTokenRepository, tokenRepository),
                           UsernamePasswordAuthenticationFilter.class);
     }
 

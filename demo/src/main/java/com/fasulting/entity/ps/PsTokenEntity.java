@@ -3,7 +3,7 @@ package com.fasulting.entity.ps;
 import javax.persistence.*;
 
 import com.fasulting.entity.BaseEntity;
-import com.fasulting.entity.TokenEntity;
+import com.fasulting.entity.token.TokenEntity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;

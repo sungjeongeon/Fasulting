@@ -1,6 +1,7 @@
 package com.fasulting.entity.user;
 
 import com.fasulting.entity.BaseEntity;
+import com.fasulting.entity.token.UserTokenEntity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -30,6 +31,9 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
 	@OneToOne(mappedBy = "user")
 	private RoleEntity role;
+
+	@OneToOne(mappedBy = "user")
+	private UserTokenEntity userToken;
 
    	@Column(name = "email")
 	private String email;

@@ -1,8 +1,7 @@
-package com.fasulting.entity.user;
+package com.fasulting.entity.token;
 
 import com.fasulting.entity.BaseEntity;
-import com.fasulting.entity.TokenEntity;
-import com.fasulting.entity.compositeId.UserTokenId;
+import com.fasulting.entity.user.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -13,23 +12,27 @@ import java.io.Serializable;
 @Entity
 //@Builder
 @Getter
+@Setter
 @DynamicInsert // Apply changed fields only
 @DynamicUpdate // Apply changed fields only
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "user_token")
-@IdClass(UserTokenId.class)
 public class UserTokenEntity extends BaseEntity implements Serializable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "seq")
+	private Long seq;
+
+
    	/** FK setting */
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
 	private UserEntity user;
 
-	@Id
+
    	/** FK setting */
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "seq", name = "token_seq")
 	private TokenEntity token;
 
@@ -38,4 +41,17 @@ public class UserTokenEntity extends BaseEntity implements Serializable {
 		this.user = user;
 		this.token = token;
 	}
+
+	public void updateToken(TokenEntity token){
+		this.token = token;
+	}
+
+
+	@Override
+	public String toString() {
+		return "UserTokenEntity{" +
+				"seq=" + seq +
+				'}';
+	}
+
 }
