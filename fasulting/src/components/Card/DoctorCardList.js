@@ -2,7 +2,7 @@ import React from "react";
 import DoctorCard from "./DoctorCard";
 import styles from "./DoctorCardList.module.css";
 
-function DoctorCardList() {
+function DoctorCardList({ detailhospital }) {
   const doctors = [
     {
       id: 1,
@@ -20,17 +20,18 @@ function DoctorCardList() {
       main_category: "안티에이징",
     },
   ];
+  console.log(detailhospital.doctor);
   return (
     <div>
       <p className={styles.title}>의사 현황</p>
       <div className={styles.cardList}>
-        {doctors.map((doc) => (
+        {/* {detailhospital.doctor.map((doc) => (
           <DoctorCard
-            key={doc.id}
+            key={doc.doctorSeq}
             name={doc.name}
-            main_category={doc.main_category}
+            main_category={doc.mainCategoryName}
           />
-        ))}
+        ))} */}
       </div>
     </div>
   );

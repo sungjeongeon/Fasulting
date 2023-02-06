@@ -7,7 +7,11 @@
   background-color: black;
   border-radius: 0.3rem;
 }
-
+.Img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .nameAndLikeDiv {
   display: flex;
   justify-content: space-between;

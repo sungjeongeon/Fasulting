@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import axiosApi from "../../api/axiosApi";
-function SubCategoryList() {
+function SubCategoryList({ subcategory, selectedSub, selectSub }) {
   // {/main/sub/{mainCategorySeq}
   //   "ResponseBody" : {
   //     "statusCode" : "상태 코드",
@@ -23,26 +23,26 @@ function SubCategoryList() {
   //   }
   // }
 
-  const param = useParams();
-  const [subcategory, setSubcategory] = useState([]);
-  const [selectedSub, setSelectedSub] = useState([]);
-  useEffect(() => {
-    axiosApi.get(`/main/sub/${param.seq}`).then((res) => {
-      //console.log(res.data);
-      setSubcategory(res.data.responseObj);
-      setSelectedSub([]); //선택된 배열 초기화
-    });
-  }, [param]);
+  // const param = useParams();
+  // const [subcategory, setSubcategory] = useState([]);
+  // //const [selectedSub, setSelectedSub] = useState([]);
+  // useEffect(() => {
+  //   axiosApi.get(`/main/sub/${param.seq}`).then((res) => {
+  //     //console.log(res.data);
+  //     setSubcategory(res.data.responseObj);
+  //     setSelectedSub([]); //선택된 배열 초기화
+  //   });
+  // }, [param]);
 
-  // 해당 sub값이 이미 배열에 있으면 빼고, 없으면 더한다.
-  const selectSub = (sub) => {
-    if (selectedSub.includes(sub)) {
-      // sub값 이미 배열에 있으면 (제거){}
-      setSelectedSub((current) => current.filter((resist) => resist !== sub));
-    } else {
-      setSelectedSub((current) => [...current, sub]);
-    }
-  };
+  // // 해당 sub값이 이미 배열에 있으면 빼고, 없으면 더한다.
+  // const selectSub = (sub) => {
+  //   if (selectedSub.includes(sub)) {
+  //     // sub값 이미 배열에 있으면 (제거){}
+  //     setSelectedSub((current) => current.filter((resist) => resist !== sub));
+  //   } else {
+  //     setSelectedSub((current) => [...current, sub]);
+  //   }
+  // };
   //console.log(selectedSub);
 
   return (
