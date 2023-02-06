@@ -9,6 +9,7 @@ import com.fasulting.repository.role.RoleRepository;
 import com.fasulting.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,21 +22,37 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 로그인
     @Override
     public UserInfoRespDto login(UserWithoutSeqReqDto userInfo) {
 
-        if(userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).isPresent()) {
+//        if(userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).isPresent()) {
+//
+//            UserEntity user = userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).get();
+//
+//            UserInfoRespDto userInfoRespDto = UserInfoRespDto.builder()
+//                    .userSeq(user.getSeq())
+//                    .userName(user.getName())
+//                    .build();
+//
+//            return userInfoRespDto;
+//
+//        }
+//
+//        return null;
 
-            UserEntity user = userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).get();
+        if(userRepository.findUserByEmail(userInfo.getEmail()).isPresent()){
+            UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).get();
+            if(passwordEncoder.matches(userInfo.getPassword(), user.getPassword())){
+                UserInfoRespDto userInfoRespDto = UserInfoRespDto.builder()
+                        .userSeq(user.getSeq())
+                        .userName(user.getName())
+                        .build();
 
-            UserInfoRespDto userInfoRespDto = UserInfoRespDto.builder()
-                    .userSeq(user.getSeq())
-                    .userName(user.getName())
-                    .build();
-
-            return userInfoRespDto;
+                return userInfoRespDto;
+            }
 
         }
 
@@ -48,7 +65,7 @@ public class UserServiceImpl implements UserService {
         // User save
         UserEntity user = UserEntity.builder()
                 .email(userInfo.getEmail())
-                .password(userInfo.getPassword())
+                .password(passwordEncoder.encode(userInfo.getPassword()))
                 .name(userInfo.getName())
                 .number(userInfo.getNumber())
                 .birth(userInfo.getBirth())
