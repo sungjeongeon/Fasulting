@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormik } from "formik";
+import { Field, useFormik } from "formik";
 import * as yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -102,14 +102,12 @@ export default function LoginForm() {
                 name="row-radio-buttons-group"
               >
                 <FormControlLabel
-                  value={formik.values.usertype}
                   control={<Radio />}
                   label="일반 회원"
                   name="usertype"
                   onChange={() => formik.setFieldValue("usertype", "user")}
                 />
                 <FormControlLabel
-                  value={formik.values.usertype}
                   control={<Radio />}
                   label="병원 회원"
                   name="usertype"
