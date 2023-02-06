@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axiosApi from "../../api/axiosApi";
 
-function HospitalList() {
+function HospitalList({ selectSub }) {
   // 임시 data
   // const HospitalList = [
   //   {
@@ -49,9 +49,11 @@ function HospitalList() {
   }, [param]);
   return (
     <div>
-      {hospitalList.map((hospital) => (
-        <HospitalListItem key={hospital.psSeq} hospital={hospital} />
-      ))}
+      {hospitalList
+        .filter((hospital) => hospital.mainCategory.includes(selectSub))
+        .map((hospital) => (
+          <HospitalListItem key={hospital.psSeq} hospital={hospital} />
+        ))}
     </div>
   );
 }

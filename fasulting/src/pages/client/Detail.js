@@ -18,10 +18,15 @@ function Detail() {
   // 병원 id로 병원 정보 요청 - 응답 받아서 각 컴포넌트로 전달 (예정)
 
   const [detailhospital, setDetailhospital] = useState([]);
+  const [reshospital, setReshospital] = useState([]);
   useEffect(() => {
     axiosApi.get("/main/ps-detail/1/1").then((res) => {
-      console.log(res.data);
-      //setDetailhospital(res.data.responseObj);
+      //console.log(res.data);
+      setDetailhospital(res.data.responseObj);
+    });
+    axiosApi.get("/reservation/1").then((res) => {
+      //console.log("reserve", res);
+      setReshospital(res.data.responseObj);
     });
   }, []);
   return (
@@ -31,16 +36,16 @@ function Detail() {
         <BackgroundImage />
         <Grid xs={12} style={{ height: "15rem" }}></Grid>
         <Grid xs={9}>
-          <SimpleInfo />
+          <SimpleInfo detailhospital={detailhospital} />
           <hr />
-          <HospitalInfo />
+          <HospitalInfo detailhospital={detailhospital} />
           <hr />
-          <DoctorCardList />
+          <DoctorCardList detailhospital={detailhospital} />
           <hr />
-          <ReviewInfo />
+          <ReviewInfo detailhospital={detailhospital} />
         </Grid>
         <Grid xs={3}>
-          <ReserveCard />
+          <ReserveCard reshospital={reshospital} />
         </Grid>
       </Grid>
     </Box>

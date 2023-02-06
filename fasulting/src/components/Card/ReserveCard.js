@@ -51,15 +51,16 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
 // 여기 위로는 수정 X (MUI 코드) ==============================
-export default function ReserveCard() {
+export default function ReserveCard({ reshospital }) {
   // MUL modal 코드
   const [expanded, setExpanded] = React.useState("panel0");
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
   // 임시 data
-  const operating = [
+  const operatingTime = [
     { id: 2, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 2 },
     { id: 3, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 5 },
     { id: 1, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 1 },
@@ -89,7 +90,8 @@ export default function ReserveCard() {
     setMonth(date.month);
     setDay(date.day);
     // 병원의 7일간 모든 운영시간 중에 사용자가 선택한 날짜와 일치하는 data만 filtering
-    const filterByDate = operating.filter(
+    console.log("reshospital", reshospital);
+    const filterByDate = operatingTime.filter(
       (time) =>
         time.year === date.year &&
         time.month === date.month &&
@@ -121,8 +123,8 @@ export default function ReserveCard() {
   };
 
   // 예약하기 클릭 시 모달 창
-  const [ModalOpen, setModalOpen] = useState(false)
-  const ModalStateChange = () => setModalOpen((current) => !current)
+  const [ModalOpen, setModalOpen] = useState(false);
+  const ModalStateChange = () => setModalOpen((current) => !current);
 
   return (
     <div className={styles.outerDiv}>
@@ -175,8 +177,7 @@ export default function ReserveCard() {
         >
           에약하기
         </Button>
-        {
-          ModalOpen && 
+        {ModalOpen && (
           <Reservation
             year={year}
             month={month}
@@ -185,7 +186,7 @@ export default function ReserveCard() {
             consultItem={consultItem}
             ModalStateChange={ModalStateChange}
           />
-        }
+        )}
       </div>
     </div>
   );
