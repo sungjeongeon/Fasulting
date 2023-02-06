@@ -1,5 +1,7 @@
 package com.fasulting.domain.ps.psConsulting.controller;
 
+import com.fasulting.common.resp.ResponseBody;
+import com.fasulting.domain.ps.psConsulting.dto.ResultReqDto;
 import com.fasulting.domain.ps.psConsulting.service.PsConsultingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
@@ -51,6 +53,15 @@ public class PsConsultingController {
         }
     }
 
+    @PostMapping("/result")
+    public ResponseEntity<?> writeResult(@ModelAttribute ResultReqDto resultReq) {
+
+        if(psConsultingService.writeResult(resultReq)) {
+            return ResponseEntity.status(200).body(com.fasulting.common.resp.ResponseBody.create(200, "success"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+
+    }
 
 
     // 1. 상담 입장

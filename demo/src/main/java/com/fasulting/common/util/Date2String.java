@@ -12,4 +12,14 @@ public class Date2String {
 
         return date;
     }
+
+    public static String date2TString(int year, int month, int day, int hour, int min){
+        String date = year + "-" +
+                String.format("%02d",month) + "-" +
+                String.format("%02d",day) + "T" +
+                String.format("%02d", hour) + ":" +
+                String.format("%02d", min);
+
+        return date;
+    }
 }

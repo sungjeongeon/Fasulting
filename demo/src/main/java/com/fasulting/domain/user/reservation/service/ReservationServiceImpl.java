@@ -283,24 +283,23 @@ public class ReservationServiceImpl implements ReservationService {
             if (reportRepository.findByConsulting(c).isPresent()) {
                 estimate = reportRepository.findByConsulting(c).get().getEstimate();
                 isReported = true;
+                PreReservationRespDto respDto = PreReservationRespDto.builder()
+                        .consultingSeq(c.getSeq())
+                        .psName(c.getPs().getName())
+                        .estimate(estimate)
+                        .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
+                        .date(Date2String.date2String(c.getReservation().getReservationCal().getYear(),
+                                c.getReservation().getReservationCal().getMonth(),
+                                c.getReservation().getReservationCal().getDay(),
+                                c.getReservation().getReservationCal().getDayOfWeek(),
+                                c.getReservation().getTime().getStartHour(),
+                                c.getReservation().getTime().getStartMin()))
+                        .isReviewed(reviewRepository.findByConsulting(c).isPresent())
+                        .isReported(isReported)
+                        .build();
+
+                respList.add(respDto);
             }
-
-            PreReservationRespDto respDto = PreReservationRespDto.builder()
-                    .consultingSeq(c.getSeq())
-                    .psName(c.getPs().getName())
-                    .estimate(estimate)
-                    .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
-                    .date(Date2String.date2String(c.getReservation().getReservationCal().getYear(),
-                            c.getReservation().getReservationCal().getMonth(),
-                            c.getReservation().getReservationCal().getDay(),
-                            c.getReservation().getReservationCal().getDayOfWeek(),
-                            c.getReservation().getTime().getStartHour(),
-                            c.getReservation().getTime().getStartMin()))
-                    .isReviewed(reviewRepository.findByConsulting(c).isPresent())
-                    .isReported(isReported)
-                    .build();
-
-            respList.add(respDto);
         }
 
 
@@ -314,7 +313,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<PostReservationRespDto> respList = new ArrayList<>();
 
-        List<ReservationEntity> rList = reservationRepository.findAllByUserSeq(userRepository.findById(userSeq).get().getSeq());
+        List<ReservationEntity> rList = reservationRepository.getPostByUser(userSeq, LocalDateTime.now().minusMinutes(30));
 
         for (ReservationEntity r : rList) {
 
