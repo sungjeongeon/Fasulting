@@ -1,3 +1,4 @@
+import "devextreme/dist/css/dx.light.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import FindPw from "./pages/client/FindPw";
@@ -20,6 +21,7 @@ import MypageHo from "./pages/hospital/MypageHo";
 import PsRegister from "./pages/hospital/PsRegister";
 import MyReservationHo from "./pages/hospital/MyReservationHo";
 import { createGlobalStyle } from "styled-components";
+import OpenViduRoom from "./pages/OpenViduRoom";
 
 const GlobalStyle = createGlobalStyle`
 text: {
@@ -100,10 +102,13 @@ function App() {
               {/* 병원 예약관리 */}
               <Route path="/myreservationho" element={<MyReservationHo />} />
 
-              {/* 메인 */}
-              <Route path="/" element={<Home />} />
               {/* 모달 테스트용 페이지욤.. */}
               <Route path="/test" element={<ModalTest />} />
+
+              {/* 상담page */}
+              <Route path="/consult" element={<OpenViduRoom />} />
+              {/* 메인 */}
+              <Route path="/" element={<Home />} />
             </Routes>
           </Router>
         </Container>
