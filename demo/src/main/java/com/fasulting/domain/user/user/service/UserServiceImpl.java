@@ -140,7 +140,9 @@ public class UserServiceImpl implements UserService {
         if(userRepository.findById(userInfo.getSeq()).isPresent()) {
             UserEntity user = userRepository.findById(userInfo.getSeq()).get();
 
-            user.withdrawlUser("Y", "user_" + userInfo.getSeq(), LocalDateTime.now());
+            user.updateByWithdrawal("Y", "user_" + userInfo.getSeq(), LocalDateTime.now());
+
+            userRepository.save(user);
 
             return true;
         }

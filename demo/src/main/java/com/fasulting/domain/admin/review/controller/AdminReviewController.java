@@ -54,7 +54,7 @@ public class AdminReviewController {
     @PatchMapping
     public ResponseEntity<?> deleteReview(@RequestBody AdminReviewReqDto adminReviewReq) {
 
-        if (adminReviewService.deleteReview(adminReviewReq.getReviewSeq())) {
+        if (adminReviewService.deleteReview(adminReviewReq)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
 

@@ -67,11 +67,17 @@ public class ReviewEntity extends BaseEntity {
    	@Column(name = "del_yn")
 	private String delYn;
 
-	public void accuseReview() {
+	public void updateByDec(String decBy, LocalDateTime decDate) {
 		this.decYn = "Y";
+		this.decBy = decBy;
+		this.decDate = decDate;
 	}
 
-	public void deleteReview() { this.delYn = "Y"; }
+	public void updateByDel(String delBy, LocalDateTime delDate) {
+		this.delYn = "Y";
+		this.delBy = delBy;
+		this.delDate = delDate;
+	}
 
 	@Builder
 	public ReviewEntity(ConsultingEntity consulting, PsEntity ps, UserEntity user, String content, BigDecimal point) {

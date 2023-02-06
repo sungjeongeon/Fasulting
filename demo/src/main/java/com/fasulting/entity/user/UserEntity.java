@@ -56,23 +56,21 @@ public class UserEntity extends BaseEntity {
 	private String delYn;
 
 	@Builder
-	public UserEntity(String email, String password, String birth, String number, String name, LocalDateTime delDate, String delBy, String delYn) {
+	public UserEntity(String email, String password, String birth, String number, String name) {
 		this.email = email;
 		this.password = password;
 		this.birth = birth;
 		this.number = number;
 		this.name = name;
-		this.delDate = delDate;
-		this.delBy = delBy;
-		this.delYn = delYn;
+		this.delYn = "N";
 	}
 
-	public void updateUserEntity(String name, String number) {
+	public void updateUser(String name, String number) {
 		this.name = name;
 		this.number = number;
 	}
 
-	public void withdrawlUser(String delYn, String delBy, LocalDateTime delDate) {
+	public void updateByWithdrawal(String delYn, String delBy, LocalDateTime delDate) {
 		this.delYn = delYn;
 		this.delBy = delBy;
 		this.delDate = delDate;

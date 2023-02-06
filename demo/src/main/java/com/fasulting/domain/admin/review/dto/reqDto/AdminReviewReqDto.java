@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class AdminReviewReqDto {
 
+    private Long adminSeq;
     private Long reviewSeq;
 
 }

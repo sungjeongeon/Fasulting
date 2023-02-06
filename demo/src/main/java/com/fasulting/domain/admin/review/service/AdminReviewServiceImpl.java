@@ -1,5 +1,6 @@
 package com.fasulting.domain.admin.review.service;
 
+import com.fasulting.domain.admin.review.dto.reqDto.AdminReviewReqDto;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
 import com.fasulting.common.dto.respDto.ReviewRespDto;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,14 +59,20 @@ public class AdminReviewServiceImpl implements AdminReviewService {
         return accusedReviewList;
     }
 
+    /**
+     * 리뷰 삭제 요청 처리
+     * @param adminReviewReqDto
+     * @return
+     */
     @Transactional
     @Override
-    public boolean deleteReview(Long reviewSeq) {
+    public boolean deleteReview(AdminReviewReqDto adminReviewReqDto) {
 
-        ReviewEntity review = reviewRepository.findById(reviewSeq).get();
+        ReviewEntity review = reviewRepository.findById(adminReviewReqDto.getReviewSeq()).get();
 
-        review.deleteReview();
+        review.updateByDel("admin_" + adminReviewReqDto.getAdminSeq(), LocalDateTime.now());
 
+        reviewRepository.save(review);
         return true;
     }
 }

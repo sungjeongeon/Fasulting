@@ -72,8 +72,10 @@ public class ReservationEntity extends BaseEntity {
 		this.delYn = "N";
 	}
 
-	public void updateDelYn() {
+	public void updateByCancel(String delBy, LocalDateTime current) {
 		this.delYn = "Y";
+		this.delBy = delBy;
+		this.delDate = current;
 	}
 
 }
