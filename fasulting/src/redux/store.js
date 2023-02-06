@@ -4,6 +4,8 @@ import userReducer from "./user";
 import tokenReducer from "./auth";
 import CalendarReducer from "./calendar"
 import lastReservationHoReducer from "./lastReservationHo"
+import modalInfoReducer from "./modalInfo"
+import appointmentsReducer from "./appointments"
 
 export default configureStore({
   reducer: {
@@ -11,5 +13,7 @@ export default configureStore({
     authToken: tokenReducer,
     calendar: CalendarReducer,
     lastReservationHo: lastReservationHoReducer,
+    modalInfo: modalInfoReducer,
+    appointments: appointmentsReducer,
   },
 });

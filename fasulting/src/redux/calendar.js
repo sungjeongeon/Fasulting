@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const calendarSlice = createSlice({
   name: "calendar", //리듀서 이름
   initialState: {
-    year: null,
-    month: null,
-    day: null,
+    year: new Date().getFullYear(),
+    month: new Date().getMonth(),
+    day: new Date().getDate(),
   }, //데이터 초기값
   reducers: {
     // 캘린더 값 변경

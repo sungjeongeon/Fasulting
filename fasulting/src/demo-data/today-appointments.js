@@ -3,26 +3,25 @@ import { appointments } from './appointments';
 
 const currentDate = moment();
 let date = currentDate.date();
+// console.log(date)
+const makeAppointment = (reservationDateStart, reservationDateEnd) => {
+  // console.log(year)
+  const startDate = new Date(reservationDateStart)
+  const endDate = new Date(reservationDateEnd)
 
-const makeAppointment = (startDate, endDate) => {
-  // const days = moment(startDate).diff(endDate, 'days');
   const nextStartDate = moment(startDate)
-    // .year(currentDate.year())
-    // .month(currentDate.month())
-    // .date(date);
   const nextEndDate = moment(endDate)
-    // .year(currentDate.year())
-    // .month(currentDate.month())
-    // .date(date + days);
+  // console.log(nextStartDate.format('YYYY-MM-DD HH:mm'))
   return {
-    startDate: nextStartDate.toDate(),
-    endDate: nextEndDate.toDate(),
+    startDate: nextStartDate.format(),
+    endDate: nextEndDate.format(),
   };
 };
 
-export default appointments.map(({ startDate, endDate, ...restArgs }) => {
+export default appointments.map(({ reservationDateStart, reservationDateEnd, ...restArgs }) => {
+
   const result = {
-    ...makeAppointment(startDate, endDate),
+    ...makeAppointment(reservationDateStart, reservationDateEnd),
     ...restArgs,
   };
   date += 1;

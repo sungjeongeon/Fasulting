@@ -1,12 +1,9 @@
-import { Box } from "@mui/system";
 import React from "react";
-import { useState } from "react";
-import CalendarCard from "../../components/Card/CalendarCard";
 import LastEstimateCard from "../../components/Card/LastEstimateCard";
 import ScheduleCard from "../../components/Card/ScheduleCard";
 import ReservationManage from "../../components/Tab/ReservationManage"
-import WeekSchedule from "../../components/Table/WeekSchedule";
 import { useSelector } from "react-redux";
+import HospitalReservation from "../../components/Modal/HospitalReservation";
 
 
 function MyReservationHo() {
@@ -21,14 +18,19 @@ function MyReservationHo() {
     return state.lastReservationHo.reservation_id
   })
   
+  // 모달창 state 가져오기
+  const modalOpen = useSelector(state => {
+    return state.modalInfo.modalstate
+  })
+
   return(
     <div style={{ display: "grid", gridTemplateColumns: "5fr 3fr", marginTop: '2.5rem'}}>
       {
       value === 0 ? 
       <div style={{display: "flex", flexDirection:"column"}}>
         <p style={{fontSize: "1rem", color:"#72A1A6", fontWeight:"bold", marginTop:0}}>자세한 예약 현황을 보시려면 예약자 이름을 클릭하세요.</p>
-        {/* <ScheduleCard/> */}
-        <WeekSchedule/>
+        <ScheduleCard/>
+        {/* <WeekSchedule/> */}
       </div>:
         reservationId === undefined ? 
         <div></div> :
@@ -37,6 +39,7 @@ function MyReservationHo() {
         </div>
       }
       <ReservationManage handleChange={handleChange} value={value}/>
+      {modalOpen && <HospitalReservation/>}
     </div>
   )
 }
