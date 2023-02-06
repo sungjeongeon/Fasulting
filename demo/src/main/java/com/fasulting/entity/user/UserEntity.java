@@ -5,12 +5,14 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -86,16 +88,11 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() { // 계정 권한 목록
-		Collection<GrantedAuthority> collect = new ArrayList<>();
 
 		String role = this.role.getAuthority();
-		collect.add(new GrantedAuthority() {
-			@Override
-			public String getAuthority() {
-				return role;
-			}
-		});
-		return null;
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(role));
+		return authorities;
 	}
 
 	@Override

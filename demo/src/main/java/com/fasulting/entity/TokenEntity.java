@@ -1,9 +1,10 @@
 package com.fasulting.entity;
 
-import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 
 @Entity
 //@Builder
@@ -23,5 +24,8 @@ public class TokenEntity extends BaseEntity {
    	@Column(name = "refresh_token")
 	private String refreshToken;
 
-
+	   @Builder
+	public TokenEntity(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
 }

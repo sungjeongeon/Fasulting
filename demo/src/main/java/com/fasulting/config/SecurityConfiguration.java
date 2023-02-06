@@ -1,7 +1,7 @@
 package com.fasulting.config;
 
 import com.fasulting.common.jwt.JwtAuthenticationFilter;
-import com.fasulting.common.jwt.JwtTokenProvider;
+import com.fasulting.domain.jwt.service.JwtServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtServiceImpl jwtService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -23,10 +23,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/test").authenticated()
                 .antMatchers("/admin/**").hasRole("admin")
-//                .antMatchers("/user/**").hasRole("user")
+                .antMatchers("/favorite/**").access("hasAuthority('user')") // 쿠키에 토큰 저장됨
                 .antMatchers("/**").permitAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                .addFilterBefore(new JwtAuthenticationFilter(jwtService),
                           UsernamePasswordAuthenticationFilter.class);
     }
 

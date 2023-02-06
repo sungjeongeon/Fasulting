@@ -3,10 +3,7 @@ package com.fasulting.entity.user;
 import com.fasulting.entity.BaseEntity;
 import com.fasulting.entity.TokenEntity;
 import com.fasulting.entity.compositeId.UserTokenId;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -36,5 +33,9 @@ public class UserTokenEntity extends BaseEntity implements Serializable {
 	@JoinColumn(referencedColumnName = "seq", name = "token_seq")
 	private TokenEntity token;
 
-
+	@Builder
+	public UserTokenEntity(UserEntity user, TokenEntity token) {
+		this.user = user;
+		this.token = token;
+	}
 }

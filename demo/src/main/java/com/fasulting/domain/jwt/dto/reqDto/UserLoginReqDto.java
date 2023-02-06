@@ -1,4 +1,4 @@
-package com.fasulting.domain.user.user.dto.reqDto;
+package com.fasulting.domain.jwt.dto.reqDto;
 
 import lombok.Data;
 
