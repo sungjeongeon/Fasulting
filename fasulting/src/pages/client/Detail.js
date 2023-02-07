@@ -9,9 +9,9 @@ import SimpleInfo from "../../components/Detail/SimpleInfo";
 import HospitalInfo from "../../components/Detail/HospitalInfo";
 import DoctorCardList from "../../components/Card/DoctorCardList";
 import ReviewInfo from "../../components/Detail/ReviewInfo";
-import axiosApi from "../../api/axiosApi";
 import { useEffect } from "react";
 import { useState } from "react";
+import axios from "axios";
 
 function Detail() {
   // const { id } = useParams();
@@ -20,11 +20,11 @@ function Detail() {
   const [detailhospital, setDetailhospital] = useState([]);
   const [reshospital, setReshospital] = useState([]);
   useEffect(() => {
-    axiosApi.get("/main/ps-detail/1/1").then((res) => {
+    axios.get("/main/ps-detail/1/1").then((res) => {
       //console.log(res.data);
       setDetailhospital(res.data.responseObj);
     });
-    axiosApi.get("/reservation/1").then((res) => {
+    axios.get("/reservation/1").then((res) => {
       //console.log("reserve", res);
       setReshospital(res.data.responseObj);
     });

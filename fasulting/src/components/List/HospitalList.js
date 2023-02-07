@@ -4,7 +4,7 @@ import styles from "./HospitalList.module.css";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
-import axiosApi from "../../api/axiosApi";
+import axios from "axios";
 
 function HospitalList({ selectSub }) {
   // 임시 data
@@ -42,7 +42,7 @@ function HospitalList({ selectSub }) {
   const param = useParams();
   const [hospitalList, setHospitalList] = useState([]);
   useEffect(() => {
-    axiosApi.get(`/main/ps-list/${param.seq}`).then((res) => {
+    axios.get(`/main/ps-list/${param.seq}`).then((res) => {
       //console.log(res.data);
       setHospitalList(res.data.responseObj);
     });
