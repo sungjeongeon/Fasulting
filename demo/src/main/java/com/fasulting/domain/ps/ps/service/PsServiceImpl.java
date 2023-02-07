@@ -9,6 +9,7 @@ import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsLoginRespDto;
+import com.fasulting.domain.user.user.dto.respDto.UserInfoRespDto;
 import com.fasulting.entity.calendar.DefaultCalEntity;
 import com.fasulting.entity.calendar.OperatingCalEntity;
 import com.fasulting.entity.calendar.TimeEntity;
@@ -18,6 +19,7 @@ import com.fasulting.entity.doctor.DoctorEntity;
 import com.fasulting.entity.doctor.DoctorMainEntity;
 import com.fasulting.entity.ps.*;
 import com.fasulting.entity.review.ReviewEntity;
+import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.calendar.DefaultCalRepository;
 import com.fasulting.repository.calendar.OperatingCalRepository;
 import com.fasulting.repository.calendar.TimeRepository;
@@ -30,6 +32,7 @@ import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,6 +62,7 @@ public class PsServiceImpl implements PsService {
     private final PsDefaultRepository psDefaultRepository;
     private final ReviewRepository reviewRepository;
     private final TotalRatingRepository totalRatingRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 로그인
     @Override
@@ -81,6 +85,21 @@ public class PsServiceImpl implements PsService {
         }
 
         return null;
+
+//        if(psRepository.findPsByEmail(psInfo.getEmail()).isPresent()){
+//            PsEntity ps = psRepository.findPsByEmail(psInfo.getEmail()).get();
+//            if(passwordEncoder.matches(psInfo.getPassword(), ps.getPassword())){
+//                PsLoginRespDto psLoginRespDto = PsLoginRespDto.builder()
+//                        .psSeq(ps.getSeq())
+//                        .psName(ps.getName())
+//                        .build();
+//
+//                return psLoginRespDto;
+//            }
+//
+//        }
+//
+//        return null;
     }
 
     // 병원 회원 가입
@@ -108,7 +127,7 @@ public class PsServiceImpl implements PsService {
         }
 
         PsEntity ps = PsEntity.builder().email(psInfo.getEmail())
-                .password(psInfo.getPassword())
+                .password(passwordEncoder.encode(psInfo.getPassword()))
                 .name(psInfo.getName())
                 .address(psInfo.getAddress())
                 .zipcode(psInfo.getZipcode())

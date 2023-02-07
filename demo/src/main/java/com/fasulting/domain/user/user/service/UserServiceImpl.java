@@ -9,6 +9,7 @@ import com.fasulting.repository.role.RoleRepository;
 import com.fasulting.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 로그인
     @Override
@@ -50,7 +52,7 @@ public class UserServiceImpl implements UserService {
         // User save
         UserEntity user = UserEntity.builder()
                 .email(userInfo.getEmail())
-                .password(userInfo.getPassword())
+                .password(passwordEncoder.encode(userInfo.getPassword()))
                 .name(userInfo.getName())
                 .number(userInfo.getNumber())
                 .birth(userInfo.getBirth())

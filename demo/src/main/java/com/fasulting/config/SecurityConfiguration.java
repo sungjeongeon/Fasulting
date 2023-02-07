@@ -19,9 +19,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.httpBasic().and();
     }
 
-//    @Bean
-//    PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
+    // .cors().disable() // cors 방지
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
 }
