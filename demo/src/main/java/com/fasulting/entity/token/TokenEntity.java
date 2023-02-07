@@ -1,12 +1,13 @@
-package com.fasulting.entity;
+package com.fasulting.entity.token;
 
-import javax.persistence.*;
+import com.fasulting.entity.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.*;
+
 @Entity
-//@Builder
 @Getter
 @DynamicInsert // Apply changed fields only
 @DynamicUpdate // Apply changed fields only
@@ -15,7 +16,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table (name = "token")
 public class TokenEntity extends BaseEntity {
 
-   	@Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "seq")
 	private Long seq;
@@ -23,5 +24,14 @@ public class TokenEntity extends BaseEntity {
    	@Column(name = "refresh_token")
 	private String refreshToken;
 
+	@OneToOne(mappedBy = "token")
+	private UserTokenEntity userToken;
 
+	@OneToOne(mappedBy = "token")
+	private PsTokenEntity psToken;
+
+	@Builder
+	public TokenEntity(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
 }

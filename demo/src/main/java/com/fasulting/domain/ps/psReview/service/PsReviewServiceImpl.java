@@ -1,6 +1,7 @@
 package com.fasulting.domain.ps.psReview.service;
 
 
+import com.fasulting.common.RoleType;
 import com.fasulting.domain.ps.psReview.dto.reqDto.AccuseReviewReq;
 import com.fasulting.entity.ps.TotalRatingEntity;
 import com.fasulting.entity.review.ReviewEntity;
@@ -44,7 +45,7 @@ public class PsReviewServiceImpl implements PsReviewService {
             throw new NullPointerException();
         });
 
-        review.updateByDec("ps_" + accuseReviewReq.getPsSeq(), LocalDateTime.now());
+        review.updateByDec(RoleType.PS + "_" + accuseReviewReq.getPsSeq(), LocalDateTime.now());
         reviewRepository.save(review);
 
         TotalRatingEntity totalRating = totalRatingRepository.findByPs(review.getPs()).orElseThrow(() -> {

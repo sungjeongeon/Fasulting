@@ -1,12 +1,19 @@
 package com.fasulting.entity.user;
 
 import com.fasulting.entity.BaseEntity;
+import com.fasulting.entity.token.UserTokenEntity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,7 +22,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "user")
-public class UserEntity extends BaseEntity {
+public class UserEntity extends BaseEntity implements UserDetails {
 
    	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +31,9 @@ public class UserEntity extends BaseEntity {
 
 	@OneToOne(mappedBy = "user")
 	private RoleEntity role;
+
+	@OneToOne(mappedBy = "user")
+	private UserTokenEntity userToken;
 
    	@Column(name = "email")
 	private String email;
@@ -78,5 +88,39 @@ public class UserEntity extends BaseEntity {
 
 	public void resetPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() { // 계정 권한 목록
+
+		String role = this.role.getAuthority();
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(role));
+		return authorities;
+	}
+
+	@Override
+	public String getUsername() { // 계정의 고유한 값 리턴
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() { // 활성화 만료 여부
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() { // 잠김 여부
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() { // 비밀번호 만료 여부
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() { // 계정 활성화 여부
+		return true;
 	}
 }

@@ -1,5 +1,6 @@
 package com.fasulting.domain.user.user.service;
 
+import com.fasulting.common.RoleType;
 import com.fasulting.domain.user.user.dto.reqDto.UserSeqReqDto;
 import com.fasulting.domain.user.user.dto.reqDto.UserWithoutSeqReqDto;
 import com.fasulting.domain.user.user.dto.respDto.UserInfoRespDto;
@@ -24,28 +25,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // 로그인
-    @Override
-    public UserInfoRespDto login(UserWithoutSeqReqDto userInfo) {
-
-        if (userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).isPresent()) {
-
-            UserEntity user = userRepository.findUserByEmailAndPassword(userInfo.getEmail(), userInfo.getPassword()).orElseThrow(() -> {
-                throw new NullPointerException();
-            });
-
-            UserInfoRespDto userInfoRespDto = UserInfoRespDto.builder()
-                    .userSeq(user.getSeq())
-                    .userName(user.getName())
-                    .build();
-
-            return userInfoRespDto;
-
-        }
-
-        return null;
-    }
-
+    
     // 회원 가입
     @Override
     public boolean userRegister(UserWithoutSeqReqDto userInfo) {
@@ -63,7 +43,7 @@ public class UserServiceImpl implements UserService {
         // User-Role save
         RoleEntity roleEntity = RoleEntity.builder()
                 .user(user)
-                .authority("user")
+                .authority(RoleType.USER)
                 .build();
 
         roleRepository.save(roleEntity);
@@ -139,7 +119,7 @@ public class UserServiceImpl implements UserService {
             throw new NullPointerException();
         });
 
-        user.updateByWithdrawal("Y", "user_" + userInfo.getSeq(), LocalDateTime.now());
+        user.updateByWithdrawal("Y", RoleType.USER + "" + userInfo.getSeq(), LocalDateTime.now());
 
         userRepository.save(user);
 

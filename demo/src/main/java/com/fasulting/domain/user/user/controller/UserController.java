@@ -8,8 +8,8 @@ import com.fasulting.domain.user.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,51 +27,12 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "상담자 계정 관련 API", tags = {"UserController"})
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/user")
 @CrossOrigin("*") // 수정
 public class UserController {
 
     private final UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    /**
-     * 로그인 - jwt
-     * @param userInfo
-     * userEmail & userPassword
-     * @return
-     * userSeq
-     */
-    @PostMapping("/login")
-    @ApiOperation(value = "상담자 계정 로그인", notes = "..")
-    public ResponseEntity<?> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) UserWithoutSeqReqDto userInfo) {
-        log.info("user login - Call");
-
-        UserInfoRespDto user = userService.login(userInfo);
-
-        if(user != null) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", user));
-        }
-        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
-
-    }
-
-    /**
-     * 로그아웃 - jwt
-     * @param seq
-     * @return fail OR success
-     */
-    @GetMapping("/logout/{seq}")
-    @ApiOperation(value = "상담자 계정 로그아웃", notes = "..")
-    public ResponseEntity<?> logout(@PathVariable @ApiParam(value = "로그인 정보", required = true) Long seq) {
-        
-        // ㅂㅂ
-        
-        return null; // fail OR successs
-    }
 
     /**
      * 회원가입
