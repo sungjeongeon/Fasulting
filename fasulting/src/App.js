@@ -22,6 +22,8 @@ import PsRegister from "./pages/hospital/PsRegister";
 import MyReservationHo from "./pages/hospital/MyReservationHo";
 import { createGlobalStyle } from "styled-components";
 import OpenViduRoom from "./pages/OpenViduRoom";
+import { SignLanguage } from "@mui/icons-material";
+import AdminMain from "./pages/admin/AdminMain";
 
 const GlobalStyle = createGlobalStyle`
 text: {
@@ -101,6 +103,9 @@ function App() {
               <Route path="/mypageho" element={<MypageHo />} />
               {/* 병원 예약관리 */}
               <Route path="/myreservationho" element={<MyReservationHo />} />
+
+              {/* ========= admin ========== */}
+              <Route path="/admin" element={<AdminMain />} />
 
               {/* 모달 테스트용 페이지욤.. */}
               <Route path="/test" element={<ModalTest />} />
