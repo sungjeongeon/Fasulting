@@ -10,7 +10,6 @@ import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsLoginRespDto;
-import com.fasulting.domain.user.user.dto.respDto.UserInfoRespDto;
 import com.fasulting.entity.calendar.DefaultCalEntity;
 import com.fasulting.entity.calendar.OperatingCalEntity;
 import com.fasulting.entity.calendar.TimeEntity;
@@ -20,7 +19,6 @@ import com.fasulting.entity.doctor.DoctorEntity;
 import com.fasulting.entity.doctor.DoctorMainEntity;
 import com.fasulting.entity.ps.*;
 import com.fasulting.entity.review.ReviewEntity;
-import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.calendar.DefaultCalRepository;
 import com.fasulting.repository.calendar.OperatingCalRepository;
 import com.fasulting.repository.calendar.TimeRepository;
@@ -109,7 +107,9 @@ public class PsServiceImpl implements PsService {
 
         /////////////// 병원 저장 ///////////////
         MultipartFile profileImgFile = psInfo.getProfileImg();
+        log.info(profileImgFile.getOriginalFilename());
         MultipartFile registrationImgFile = psInfo.getRegistrationImg();
+        log.info(registrationImgFile.getOriginalFilename());
 
         String profileImgUrl = null;
         if (profileImgFile != null && !profileImgFile.isEmpty()) {
@@ -117,6 +117,7 @@ public class PsServiceImpl implements PsService {
             UUID uuid = UUID.randomUUID();
 
             profileImgUrl = FileManage.uploadFile(profileImgFile, uuid, null, FileManage.psProfileImgDirPath);
+            log.info(profileImgUrl);
         }
 
         String registrationImgUrl = null;
@@ -125,9 +126,11 @@ public class PsServiceImpl implements PsService {
             UUID uuid = UUID.randomUUID();
 
             registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid, null, FileManage.psRegImgDirPath);
+            log.info(registrationImgUrl);
         }
 
-        PsEntity ps = PsEntity.builder().email(psInfo.getEmail())
+        PsEntity ps = PsEntity.builder()
+                .email(psInfo.getEmail())
                 .password(passwordEncoder.encode(psInfo.getPassword()))
                 .name(psInfo.getName())
                 .address(psInfo.getAddress())
@@ -144,6 +147,8 @@ public class PsServiceImpl implements PsService {
                 .build();
 
         psRepository.save(ps);
+
+        log.info("save ps");
 
 
 //        /////////////// 병원 - 전문의 리스트 저장 ///////////////

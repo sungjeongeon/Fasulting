@@ -27,6 +27,8 @@ public class PsJwtController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletResponse response) {
 
+        log.info("ps - login controller");
+
         Map<String, Object> map = psJwtService.login(loginReqDto);
 
         if (map != null) {
@@ -35,7 +37,7 @@ public class PsJwtController {
             Cookie cookie = new Cookie("refreshToken", (String)map.get("refresh-token"));
             cookie.setPath("/");
             cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
-            // httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
+            // httpOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
@@ -50,6 +52,8 @@ public class PsJwtController {
 
     @GetMapping("/logout/{psSeq}")
     public ResponseEntity<?> logout(@PathVariable Long psSeq, HttpServletRequest request) {
+
+        log.info("ps - logout controller");
 
         String accessToken = request.getHeader("Authorization");
 

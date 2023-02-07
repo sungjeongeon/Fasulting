@@ -1,26 +1,29 @@
 package com.fasulting.domain.ps.ps.controller;
 
-import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
-import com.fasulting.domain.ps.ps.dto.respDto.PsLoginRespDto;
-import com.fasulting.domain.ps.ps.service.PsService;
 import com.fasulting.common.resp.ResponseBody;
-import com.fasulting.domain.ps.ps.dto.reqDto.*;
+import com.fasulting.domain.ps.ps.dto.reqDto.DoctorReqDto;
+import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
+import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
+import com.fasulting.domain.ps.ps.service.PsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Api(value = "병원 계정 관련 API", tags = {"PsController"})
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/ps")
 @CrossOrigin("*") // 수정
 public class PsController {
 
-    private PsService psService;
+    private final PsService psService;
 
     /**
      * 병원 계정 가입
@@ -34,7 +37,8 @@ public class PsController {
         log.info("psRegister - Call");
 
         log.info(psInfo.toString());
-        log.info(psInfo.getRegistrationImg().getOriginalFilename());
+        log.info("profile : " + psInfo.getProfileImg().getOriginalFilename());
+        log.info("reg : " + psInfo.getRegistrationImg().getOriginalFilename());
 
         if (psService.psRegister(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));

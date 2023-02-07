@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -27,8 +26,6 @@ public class JwtTokenProvider {
     private final long ACCESS_TOKEN_VALID_TIME = 30 * 60 * 1000L;
     // refresh 토큰 유효시간 하루
     private final long REFRESH_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000L;
-
-    private final UserDetailsService userDetailsService;
 
     private final CustomUserDetailServiceImpl customUserDetailService;
     private final CustomPsDetailServiceImpl customPsDetailService;
