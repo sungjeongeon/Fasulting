@@ -142,7 +142,7 @@ function ReserveCardTimeItem({ times, getReserveTime }) {
             key={t.id}
             onClick={() => {
               setSelectedIdx(t.id);
-              getReserveTime(t.id);
+              getReserveTime(t.time);
             }}
             className={
               t.isPossible
@@ -163,7 +163,7 @@ function ReserveCardTimeItem({ times, getReserveTime }) {
             key={t.id}
             onClick={() => {
               setSelectedIdx(t.id);
-              getReserveTime(t.id);
+              getReserveTime(t.time);
             }}
             className={
               t.isPossible

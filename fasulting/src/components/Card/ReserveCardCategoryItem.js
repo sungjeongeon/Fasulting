@@ -73,7 +73,6 @@ function ReserveCardCategoryItem({ getConsultItem }) {
   const [subCategory, setSubCategory] = useState([]);
   const [selectedSub, setSelectedSub] = useState([]);
   const [showWarning, setShowWarning] = useState(false);
-
   const selectMain = (id) => {
     setSelectedMain(id);
     setSubCategory(categoryList[id].sub);
@@ -81,17 +80,17 @@ function ReserveCardCategoryItem({ getConsultItem }) {
   };
 
   // 해당 id 값이 이미 배열에 있으면 빼고, 없으면 더한다.
-  const selectSub = (id) => {
+  const selectSub = (name) => {
     // 선택 3개 이상 경고문구 리셋(showWarning = false)
     setShowWarning(false);
-    if (selectedSub.includes(id)) {
+    if (selectedSub.includes(name)) {
       // id값 이미 배열에 있으면 (제거)
-      setSelectedSub((current) => current.filter((resist) => resist !== id));
+      setSelectedSub((current) => current.filter((resist) => resist !== name));
     } else if (selectedSub.length === 3) {
       // 더했을 떄, 3개가 넘으면 경고문구 띄운다.
       setShowWarning(true);
     } else {
-      setSelectedSub((current) => [...current, id]);
+      setSelectedSub((current) => [...current, name]);
     }
   };
   useEffect(() => {
@@ -130,9 +129,9 @@ function ReserveCardCategoryItem({ getConsultItem }) {
           <div
             key={s.id}
             className={
-              selectedSub.includes(s.id) ? styles.subSelected : styles.sub
+              selectedSub.includes(s.name) ? styles.subSelected : styles.sub
             }
-            onClick={() => selectSub(s.id)}
+            onClick={() => selectSub(s.name)}
           >
             <p>{s.name}</p>
           </div>

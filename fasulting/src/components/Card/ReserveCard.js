@@ -76,6 +76,7 @@ export default function ReserveCard({ reshospital }) {
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
   const [day, setDay] = useState(0);
+  const [dayOfWeek, setDayOfWeek] = useState("");
   const [hour, setHour] = useState(-1);
   const [consultItem, setConsultItem] = useState([]);
   const [isAgree, setIsAgree] = useState(false);
@@ -89,6 +90,7 @@ export default function ReserveCard({ reshospital }) {
     setYear(date.year);
     setMonth(date.month);
     setDay(date.day);
+    setDayOfWeek(date.dayOfWeek);
     // 병원의 7일간 모든 운영시간 중에 사용자가 선택한 날짜와 일치하는 data만 filtering
     //console.log("reshospital", reshospital);
     //console.log("res", reshospital);
@@ -134,8 +136,8 @@ export default function ReserveCard({ reshospital }) {
   const [img, setImg] = useState([]);
   //파일(이미지) 업로드
   const onChange = (e) => {
-    const img = e.target.files[0];
-    setImg(img);
+    const uploadimg = e.target.files[0];
+    setImg(uploadimg);
     // const formData = new FormData();
     // formData.append("file", img);
   };
@@ -198,7 +200,7 @@ export default function ReserveCard({ reshospital }) {
           </p>
         </div>
         <Button
-          onClick={reservate}
+          onClick={ModalStateChange}
           //onClick={ModalStateChange}
           type="submit"
           variant="contained"
@@ -208,11 +210,15 @@ export default function ReserveCard({ reshospital }) {
         </Button>
         {ModalOpen && (
           <Reservation
+            psName={reshospital.psName}
+            psSeq={reshospital.psSeq}
             year={year}
             month={month}
             day={day}
-            hour={hour}
-            consultItem={consultItem}
+            dayOfWeek={dayOfWeek}
+            time={hour}
+            beforeImg={img}
+            subCategory={consultItem}
             ModalStateChange={ModalStateChange}
           />
         )}

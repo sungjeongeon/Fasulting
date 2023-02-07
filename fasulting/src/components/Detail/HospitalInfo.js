@@ -73,7 +73,7 @@ function HospitalInfo({ detailhospital }) {
       );
     }
   };
-  //console.log(detailhospital.defaultTime);
+  console.log(detailhospital);
   return (
     <div>
       <p className={styles.title}>병원 정보</p>
@@ -99,14 +99,15 @@ function HospitalInfo({ detailhospital }) {
           <p>운영 시간</p>
         </div>
         <p>
-          {/* {detailhospital.defaultTime.map((time) => {
-            return (
-              <div className={styles.dayDiv} key={time.key}>
-                <p className={styles.day}>{week[time.key]}</p>
-                {getTimeString(time)}
-              </div>
-            );
-          })} */}
+          {/* {detailhospital.defaultTime.length !== 0 &&
+            detailhospital.defaultTime.map((time) => {
+              return (
+                <div className={styles.dayDiv} key={time.key}>
+                  <p className={styles.day}>{week[time.key]}</p>
+                  {getTimeString(time)}
+                </div>
+              );
+            })} */}
         </p>
       </div>
     </div>

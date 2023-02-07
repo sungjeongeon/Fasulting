@@ -5,8 +5,9 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { Category } from "@mui/icons-material";
 
-function HospitalList({ selectSub }) {
+function HospitalList({ selectedSub }) {
   // 임시 data
   // const HospitalList = [
   //   {
@@ -48,13 +49,31 @@ function HospitalList({ selectSub }) {
       setHospitalList(res.data.responseObj);
     });
   }, [param]);
+  console.log(hospitalList);
+  console.log(selectedSub);
   return (
     <div>
-      {hospitalList
-        .filter((hospital) => hospital.mainCategory.includes(selectSub))
-        .map((hospital) => (
-          <HospitalListItem key={hospital.psSeq} hospital={hospital} />
-        ))}
+      {hospitalList &&
+        (selectedSub.length === 0
+          ? hospitalList.map((hospital) => (
+              <HospitalListItem key={hospital.psSeq} hospital={hospital} />
+            ))
+          : hospitalList.map(
+              (hospital) =>
+                hospital.subCategoryName.filter((subcategory) =>
+                  subcategory.includes(selectedSub)
+                ).length === selectedSub.length && (
+                  <HospitalListItem key={hospital.psSeq} hospital={hospital} />
+                )
+            ))}
+      {/* {hospitalList &&
+        hospitalList
+          .filter((hospital) =>
+            hospital.subCategoryName.includes(["쌍꺼풀", "눈매교정"])
+          )
+          .map((hospital) => (
+            <HospitalListItem key={hospital.psSeq} hospital={hospital} />
+          ))} */}
     </div>
   );
 }

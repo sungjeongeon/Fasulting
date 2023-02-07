@@ -10,6 +10,8 @@ function PsList() {
   const param = useParams();
   const [subcategory, setSubcategory] = useState([]);
   const [selectedSub, setSelectedSub] = useState([]);
+
+  //서브 카테고리 반환
   useEffect(() => {
     axios.get(`/main/sub/${param.seq}`).then((res) => {
       //console.log(res.data);
@@ -27,6 +29,7 @@ function PsList() {
       setSelectedSub((current) => [...current, sub]);
     }
   };
+
   return (
     <div>
       <MainCategoryList />
@@ -35,7 +38,7 @@ function PsList() {
         selectedSub={selectedSub}
         selectSub={selectSub}
       />
-      <HospitalList selectSub={selectSub} />
+      <HospitalList selectedSub={selectedSub} />
     </div>
   );
 }

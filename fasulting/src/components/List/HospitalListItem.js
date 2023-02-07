@@ -37,8 +37,9 @@ function HospitalListItem({ hospital }) {
           <div className={styles.psProfileImg}>profile</div>
           <p className={styles.rating}>
             <span>★</span>
-            {hospital.totalRatingResult.toFixed(1)} | 관련 후기{" "}
-            {hospital.reviewTotalCount}개
+            {/* {hospital.totalRatingResult.toFixed(1)} | 관련 후기{" "} */}
+            {hospital.totalRatingResult} | 관련 후기 {hospital.reviewTotalCount}
+            개
           </p>
         </div>
       </div>

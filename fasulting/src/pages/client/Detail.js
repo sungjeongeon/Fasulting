@@ -20,8 +20,8 @@ function Detail() {
   const [detailhospital, setDetailhospital] = useState([]);
   const [reshospital, setReshospital] = useState([]);
   useEffect(() => {
-    axios.get("/main/ps-detail/1/1").then((res) => {
-      //console.log(res.data);
+    axios.get("/main/ps-detail/1/3").then((res) => {
+      console.log("data", res.data);
       setDetailhospital(res.data.responseObj);
     });
     axios.get("/reservation/1").then((res) => {
@@ -29,6 +29,7 @@ function Detail() {
       setReshospital(res.data.responseObj);
     });
   }, []);
+  console.log("det", detailhospital);
   console.log("res", reshospital);
   return (
     <Box sx={{ flexGrow: 1 }}>
