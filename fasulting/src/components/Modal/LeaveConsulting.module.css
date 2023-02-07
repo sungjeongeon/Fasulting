@@ -1,0 +1,8 @@
+.modalbody {
+  margin: 20px;
+}
+
+.money {
+  display: flex;
+  justify-content: end;
+}

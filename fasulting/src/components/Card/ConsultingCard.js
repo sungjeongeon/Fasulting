@@ -42,7 +42,7 @@ function ConsultingCard({ consult }) {
           </Typography>
           <Typography variant="body2">{consult.calender_id}</Typography>
 
-          <BorderLinearProgress variant="determinate" value={50} />
+          <BorderLinearProgress variant="determinate" value={60} />
         </div>
         <div className={styles.button}>
           <Button

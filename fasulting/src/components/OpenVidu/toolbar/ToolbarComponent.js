@@ -19,6 +19,7 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
 import IconButton from "@mui/material/IconButton";
+import LeaveConsulting from "../../Modal/LeaveConsulting";
 
 // const logo = require("../../dassets/images/fasulting_logo.png");
 
@@ -120,13 +121,21 @@ export default class ToolbarComponent extends Component {
               </IconButton>
             )}
 
-            <IconButton
+            {/* <IconButton
               sx={{ color: "#e64c3c" }}
               className="navButton"
               onClick={this.leaveSession}
               id="navLeaveButton"
             >
               <PowerSettingsNewIcon fontSize="large" />
+            </IconButton> */}
+            {/* 의사 소견 작성 */}
+            <IconButton
+              sx={{ color: "#e64c3c" }}
+              className="navButton"
+              id="navLeaveButton"
+            >
+              <LeaveConsulting leaveSession={this.leaveSession} />
             </IconButton>
           </div>
         </Toolbar>
