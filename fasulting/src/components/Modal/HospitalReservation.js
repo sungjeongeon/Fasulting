@@ -5,8 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { modalStateChange } from "../../redux/modalInfo"
 import { update, cancel } from "../../redux/appointments"
 import DownloadIcon from '@mui/icons-material/Download';
+import CancelDialog from "../Dialog/CancelDialog"
 
 function HospitalReservation() {
+  // 삭제 확인 dialog
+  const [open, setOpen] = useState(false);
+  const handleStateChange = () => setOpen((current) => !current)
+  
   // 임시 data
   const ReservationManage = useSelector(state => {
     return {
@@ -113,12 +118,10 @@ function HospitalReservation() {
                 <div className={styles.flex}>
                   <button
                     className={`${styles.cancel} ${styles.mr}`}
-                    onClick={() => {
-                      dispatch(cancel(ReservationManage.id));
-                      modalClose();}
-                    }
+                    onClick={handleStateChange}
                   >
                     상담 취소
+                    {open && <CancelDialog ReservationManage={ReservationManage} modalClose={modalClose}/>}
                   </button>
                   <button className={styles.yet}>
                     상담 입장

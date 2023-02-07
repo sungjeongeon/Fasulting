@@ -9,9 +9,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useDispatch } from "react-redux";
 import { changeReserveId } from "../../redux/lastReservationHo"
+import axiosApi from "../../api/axiosApi";
 
 
-// 검색 전 전체 결과 보여줄 때 데이터
+// 검색 전 전체 결과 보여줄 때 데이터 -> axios 요청으로 수정하기
 const lastReservation = [
   {
     user_id: 1,
@@ -69,13 +70,92 @@ const dayOfWeek = (num) => {
   }
 }
 
-export default function LastReservationHo() {
+export default function LastReservationHo({search}) {
+  // search 결과를 렌더링해야함 + 처음에는 모든 지난 예약 보기
+  const [totalRes, setTotalRes] = useState([])
+  // 지난 예약 조회 axios
+  // 각 병원 id 필요 -> 어디서 가져와야 할지 ??
+  const psId = 1
+  useEffect(() => {
+    axiosApi.get(`/ps-reservation/pre/${psId}`)
+      .then(res => 
+        console.log(res.responseObj)
+        // setTotalRes(res.responseObj)
+      )
+  }, [])
+
+  //   // Response
+  // {
+  // 	"ResponseBody" : {
+  // 		"statusCode" : "상태 코드",
+  // 		"message" : "success or fail",
+  // 		"responseObj" : 
+  // 				{
+  // 				"consultingSeq" : "상담 seq",
+  // 				"userName" : "상담자 이름",
+  // 				"estimate" : "견적 비용",
+  // 				"subCategoryName" : [
+  // 					"서브 명1",
+  // 					"서브 명2", ...
+  // 				]
+  // 				"date" : "상담 일시", // yyyy.MM.dd (요일) 00시
+  // 				},
+  // 				{
+  // 				"consultingSeq" : "상담 seq",
+  // 				"userName" : "상담자 이름",
+  // 				"estimate" : "견적 비용",
+  // 				"subCategoryName" : [
+  // 					"서브 명1",
+  // 					"서브 명2", ...
+  // 				]
+  // 				"date" : "상담 일시", // yyyy.MM.dd (요일) 00시
+  // 				}, ...
+  // 	}
+  // }
+
+  //검색 결과와 확인 필요
+  // const searchRes = totalRes.filter(
+    //   (item) => item.userName.includes(search) || item.subCategoryName.map((sub) => sub.includes(search))
+    // )
+
   const [nowInfo, setNowInfo] = useState({})
   // console.log(nowInfo)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(changeReserveId(nowInfo))
   }, [dispatch, nowInfo])
+
+
+  // detail 조회를 위해 consulting 아이디 필요
+  // const consultingId = totalRes.consultingSeq
+  // useEffect(() => {
+  //   axiosApi.get(`/ps-reservation/pre/detail/${consultingId}`)
+  //     .then(res =>
+  //       console.log(res.data)
+  //         // 
+  //     )
+  // }, [consultingId])
+
+// /ps-reservation/pre/detail/{consulting_id}
+//   // Response => 결과 디테일 조회
+// {
+// 	"ResponseBody" : {
+// 		"statusCode" : "상태 코드",
+// 		"message" : "success or fail",
+// 		"responseObj" : {
+// 				"consultingSeq": "상담 seq",
+// 				"userName" : "상담자 이름",
+// 				"userBirth" : "상담자 생년월일",
+// 				"userNumber" : "상담자 번호",
+// 				"date" : "상담 일자",
+			
+// 				"subCategoryName" : ["서브1", "서브"2, ...],
+// 				"content": "상담 내용",
+// 				"estimate": "예상 견적 비용",
+// 				"beforeImg" : "before 사진 경로",
+// 				"afterImg" : "after 사진 경로"
+// 			}
+// }
 
   return (
     <>

@@ -12,7 +12,7 @@ function OldReservationList() {
     if (search === "") {
       return
     }
-    setSearch("")
+    // setSearch("")
   }
   return (
     <div style={{width: "100%"}}>
@@ -29,7 +29,7 @@ function OldReservationList() {
           onChange={onChange}
         ></input>
       </form>
-      <LastReservationHo />
+      <LastReservationHo search={search}/>
     </div>
   )
 }
