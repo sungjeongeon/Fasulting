@@ -16,7 +16,6 @@ import java.io.Serializable;
 @Getter
 @DynamicInsert // Apply changed fields only
 @DynamicUpdate // Apply changed fields only
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "ps_token")
 public class PsTokenEntity extends BaseEntity implements Serializable{
@@ -36,5 +35,21 @@ public class PsTokenEntity extends BaseEntity implements Serializable{
 	@JoinColumn(referencedColumnName = "seq", name = "token_seq")
 	private TokenEntity token;
 
+	@Builder
+	public PsTokenEntity(PsEntity ps, TokenEntity token) {
+		this.ps = ps;
+		this.token = token;
+	}
+
+	public void updateToken(TokenEntity token){
+		this.token = token;
+	}
+
+	@Override
+	public String toString() {
+		return "PsTokenEntity{" +
+				"seq=" + seq +
+				'}';
+	}
 
 }

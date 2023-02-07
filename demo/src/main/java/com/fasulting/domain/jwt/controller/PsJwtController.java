@@ -2,7 +2,7 @@ package com.fasulting.domain.jwt.controller;
 
 import com.fasulting.common.resp.ResponseBody;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
-import com.fasulting.domain.jwt.service.UserJwtService;
+import com.fasulting.domain.jwt.service.PsJwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,22 +18,16 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/ps")
 @CrossOrigin("*") // 수정
-public class UserJwtController {
+public class PsJwtController {
 
-    private final UserJwtService userJwtService;
+    private final PsJwtService psJwtService;
 
-    /**
-     * 로그인 - jwt
-     *
-     * @param loginReqDto userEmail & userPassword
-     * @return userSeq
-     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletResponse response) {
 
-        Map<String, Object> map = userJwtService.login(loginReqDto);
+        Map<String, Object> map = psJwtService.login(loginReqDto);
 
         if (map != null) {
 
@@ -54,12 +48,12 @@ public class UserJwtController {
         }
     }
 
-    @GetMapping("/logout/{userSeq}")
-    public ResponseEntity<?> logout(@PathVariable Long userSeq, HttpServletRequest request) {
+    @GetMapping("/logout/{psSeq}")
+    public ResponseEntity<?> logout(@PathVariable Long psSeq, HttpServletRequest request) {
 
         String accessToken = request.getHeader("Authorization");
 
-        if(userJwtService.logout(userSeq)){
+        if(psJwtService.logout(psSeq)){
             HttpSession session = request.getSession();
             session.setAttribute(accessToken, accessToken);
             session.setMaxInactiveInterval(30 * 60);
@@ -68,5 +62,4 @@ public class UserJwtController {
 
         return ResponseEntity.status(403).body(ResponseBody.create(403, "fail"));
     }
-
 }

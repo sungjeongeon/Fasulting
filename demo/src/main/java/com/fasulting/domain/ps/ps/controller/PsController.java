@@ -22,48 +22,6 @@ public class PsController {
 
     private PsService psService;
 
-    @Autowired
-    public PsController(PsService psService) {
-
-        this.psService = psService;
-    }
-
-    /**
-     * 로그인 - jwt
-     *
-     * @param psInfo email & password
-     * @return seq & 가입 승인 여부
-     */
-    @PostMapping("/login")
-    @ApiOperation(value = "병원 계정 로그인", notes = "..")
-    public ResponseEntity<?> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) PsWithoutSeqReqDto psInfo) {
-
-        log.info("ps Login - Call");
-
-        PsLoginRespDto ps = psService.login(psInfo);
-
-        if (ps != null) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", ps));
-        }
-        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
-
-    }
-
-    /**
-     * 로그아웃 - jwt
-     *
-     * @param seq
-     * @return fail OR success
-     */
-    @GetMapping("/logout/{seq}")
-    @ApiOperation(value = "병원 계정 로그아웃", notes = "..")
-    public ResponseEntity<?> logout(@PathVariable @ApiParam(value = "로그아웃 정보 (ps seq)", required = true) int seq) {
-
-        // ㅂㅂ
-
-        return null; // fail OR successs
-    }
-
     /**
      * 병원 계정 가입
      *

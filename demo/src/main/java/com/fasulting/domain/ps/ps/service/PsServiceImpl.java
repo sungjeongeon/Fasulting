@@ -220,20 +220,19 @@ public class PsServiceImpl implements PsService {
     @Transactional
     @Override
     public boolean resetPassword(PsWithoutSeqReqDto psInfo) {
-        if (psRepository.findPsByEmail(psInfo.getEmail()).isPresent()) {
-            // email이 있다면 그 email 가진 ps 찾기
-            PsEntity ps = psRepository.findPsByEmail(psInfo.getEmail()).orElseThrow(() -> {
-                throw new NullPointerException();
-            });
+        // email이 있다면 그 email 가진 ps 찾기
+        PsEntity ps = psRepository.findPsByEmail(psInfo.getEmail()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
 //            log.info(psInfo.getPassword());
-
-            // password update
-            ps.resetPassword(psInfo.getPassword());
-            return true;
+        if (passwordEncoder.matches(psInfo.getPassword(), ps.getPassword())) {
+            return false;
         }
+        // password update
+        ps.resetPassword(passwordEncoder.encode(psInfo.getPassword()));
+        return true;
 
-        return false;
     }
 
     // 이메일 조회 및 중복 확인
@@ -412,16 +411,14 @@ public class PsServiceImpl implements PsService {
     @Transactional
     public boolean checkPassword(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
-        if (psRepository.findById(seq).isPresent()) {
-            PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
-                throw new NullPointerException();
-            });
-            String password = ps.getPassword();
+        PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
-            if (password.equals(psInfo.getPassword())) {
-                return true;
-            }
+        if (passwordEncoder.matches(psInfo.getPassword(), ps.getPassword())) {
+            return true;
         }
+
 
         return false;
     }
