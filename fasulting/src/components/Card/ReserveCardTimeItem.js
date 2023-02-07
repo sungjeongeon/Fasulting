@@ -120,12 +120,17 @@ function ReserveCardTimeItem({ times, getReserveTime }) {
     const tempo = timeTable.map((t) => {
       return { id: t.id, time: t.time, isPossible: false };
     });
-    for (const t of times) {
-      tempo[t].isPossible = true;
+    console.log("tempo", tempo);
+    console.log("times", times);
+    for (const time of times) {
+      for (const t of time) {
+        console.log("t", t);
+        tempo[t].isPossible = true;
+        setTimeTable(tempo);
+        // props 바뀌면 선택됐던 시간 idx 리셋
+        setSelectedIdx("");
+      }
     }
-    setTimeTable(tempo);
-    // props 바뀌면 선택됐던 시간 idx 리셋
-    setSelectedIdx("");
   }, [times]);
 
   return (

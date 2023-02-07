@@ -48,16 +48,22 @@
 
 .inputfile {
   margin: 10px;
-  padding: 6px 25px;
-  background-color: #72a1a6;
+  padding: 2px 10px;
+  border-color: #72a1a6;
   border-radius: 4px;
-  color: white;
+  color: #72a1a6;
+  border: 2px solid #72a1a6;
   cursor: pointer;
+}
+.inputfile:hover {
+  background-color: #72a1a6;
+  color: white;
 }
 .margin {
   margin: 10px;
 }
-.ptag {
-  margin-top: 2px;
+/* .ptag {
+  margin-top: 5px;
   font-size: small;
-}
+  color: #414750;
+} */

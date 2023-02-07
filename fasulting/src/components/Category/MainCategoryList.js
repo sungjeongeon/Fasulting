@@ -55,7 +55,6 @@ function MainCategoryList() {
       setMaincategory(res.data.responseObj);
     });
   }, []);
-
   const param = useParams();
 
   return (

@@ -29,6 +29,7 @@ function Detail() {
       setReshospital(res.data.responseObj);
     });
   }, []);
+  console.log("res", reshospital);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0}>

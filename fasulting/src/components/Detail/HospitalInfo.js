@@ -73,7 +73,7 @@ function HospitalInfo({ detailhospital }) {
       );
     }
   };
-  console.log(detailhospital.defaultTime);
+  //console.log(detailhospital.defaultTime);
   return (
     <div>
       <p className={styles.title}>병원 정보</p>

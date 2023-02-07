@@ -42,6 +42,7 @@ function HospitalList({ selectSub }) {
   const param = useParams();
   const [hospitalList, setHospitalList] = useState([]);
   useEffect(() => {
+    //메인 선택시 병원
     axios.get(`/main/ps-list/${param.seq}`).then((res) => {
       //console.log(res.data);
       setHospitalList(res.data.responseObj);

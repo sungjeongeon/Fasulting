@@ -90,14 +90,18 @@ export default function ReserveCard({ reshospital }) {
     setMonth(date.month);
     setDay(date.day);
     // 병원의 7일간 모든 운영시간 중에 사용자가 선택한 날짜와 일치하는 data만 filtering
-    console.log("reshospital", reshospital);
-    const filterByDate = operatingTime.filter(
+    //console.log("reshospital", reshospital);
+    //console.log("res", reshospital);
+    const filterByDate = reshospital.operatingTime.filter(
       (time) =>
         time.year === date.year &&
         time.month === date.month &&
         time.day === date.day
     );
-    const times = filterByDate.map((o) => o.hour);
+    console.log("filter", filterByDate);
+    //const times = filterByDate.time.map((o) => o.hour);
+    const times = filterByDate.map((o) => o.time);
+    console.log("time", times);
     setOperingByDate(times);
     setExpanded("panel1");
   };
@@ -119,20 +123,23 @@ export default function ReserveCard({ reshospital }) {
     console.log(
       `${year}년 ${month}월 ${day}일 시간${hour} 동의여부 ${isAgree}`
     );
-    console.log(consultItem);
-  };
-
-  //파일(이미지) 업로드
-  const onChange = (e) => {
-    const img = e.target.files[0];
-    const formData = new FormData();
-    formData.append("file", img);
+    console.log("consultItem", consultItem);
+    console.log("");
   };
 
   // 예약하기 클릭 시 모달 창
   const [ModalOpen, setModalOpen] = useState(false);
   const ModalStateChange = () => setModalOpen((current) => !current);
 
+  const [img, setImg] = useState([]);
+  //파일(이미지) 업로드
+  const onChange = (e) => {
+    const img = e.target.files[0];
+    setImg(img);
+    // const formData = new FormData();
+    // formData.append("file", img);
+  };
+  console.log(img);
   return (
     <div className={styles.outerDiv}>
       {/* 날짜 선택 구간 */}
@@ -167,8 +174,9 @@ export default function ReserveCard({ reshospital }) {
         </AccordionDetails>
       </Accordion>
       <div className={styles.margin}>
+        {/* <p className={styles.ptag}>반드시 정면이 나온 사진을 첨부해주세요</p> */}
         <label className={styles.inputfile} for="inputfile">
-          사진 업로드
+          파일 선택
         </label>
         <input
           type="file"
@@ -178,7 +186,7 @@ export default function ReserveCard({ reshospital }) {
           onChange={onChange}
           style={{ display: "none" }}
         ></input>
-        <p className={styles.ptag}>* 정면이 나온 사진을 첨부해주세요 *</p>
+        {img.name}
       </div>
       <div className={styles.inFooterDiv}>
         <p className={styles.agree}>개인정보 제공 동의</p>
@@ -190,7 +198,8 @@ export default function ReserveCard({ reshospital }) {
           </p>
         </div>
         <Button
-          onClick={ModalStateChange}
+          onClick={reservate}
+          //onClick={ModalStateChange}
           type="submit"
           variant="contained"
           sx={{ mt: 3, mb: 2, fontWeight: 600 }}

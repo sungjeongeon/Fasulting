@@ -29,6 +29,7 @@ function SimpleInfo({ detailhospital }) {
   const onClick = () => {
     setLiked((current) => !current);
   };
+
   return (
     <div>
       {/* 프로필 사진 */}
