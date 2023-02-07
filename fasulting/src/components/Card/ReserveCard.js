@@ -122,6 +122,13 @@ export default function ReserveCard({ reshospital }) {
     console.log(consultItem);
   };
 
+  //파일(이미지) 업로드
+  const onChange = (e) => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", img);
+  };
+
   // 예약하기 클릭 시 모달 창
   const [ModalOpen, setModalOpen] = useState(false);
   const ModalStateChange = () => setModalOpen((current) => !current);
@@ -159,7 +166,12 @@ export default function ReserveCard({ reshospital }) {
           <ReserveCardCategoryItem getConsultItem={getConsultItem} />
         </AccordionDetails>
       </Accordion>
-
+      <input
+        type="file"
+        accept="image/jpg,impge/png,image/jpeg,image/gif"
+        name="profile_img"
+        onChange={onChange}
+      ></input>
       <div className={styles.inFooterDiv}>
         <p className={styles.agree}>개인정보 제공 동의</p>
         <div className={styles.checkBox}>
