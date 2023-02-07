@@ -1,5 +1,6 @@
 package com.fasulting.domain.user.reservation.controller;
 
+import com.fasulting.common.resp.ResponseBody;
 import com.fasulting.domain.user.reservation.dto.reqDto.CancelReservationReqDto;
 import com.fasulting.domain.user.reservation.dto.reqDto.RegReservationReqDto;
 import com.fasulting.domain.user.reservation.dto.respDto.PostReservationRespDto;
@@ -7,7 +8,6 @@ import com.fasulting.domain.user.reservation.dto.respDto.PreReservationRespDto;
 import com.fasulting.domain.user.reservation.dto.respDto.ReportRespDto;
 import com.fasulting.domain.user.reservation.dto.respDto.ReservationTableRespDto;
 import com.fasulting.domain.user.reservation.service.ReservationService;
-import com.fasulting.common.resp.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,11 +42,7 @@ public class ReservationController {
 
         ReservationTableRespDto resp = reservationService.getReservationTable(psSeq, current);
 
-        if (resp != null) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
-        }
-
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
     }
 
     /**
@@ -60,11 +56,9 @@ public class ReservationController {
 
         log.info(regReservationReqDto.toString());
 
-        if (reservationService.addReservation(regReservationReqDto)) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-        }
+        reservationService.addReservation(regReservationReqDto);
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
     }
 
     // 지난 예약 조회
@@ -73,11 +67,11 @@ public class ReservationController {
 
         List<PreReservationRespDto> resp = reservationService.getPreReservationList(userSeq);
 
-        if (resp != null) {
+        if (!resp.isEmpty()) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
 
@@ -87,7 +81,7 @@ public class ReservationController {
 
         List<PostReservationRespDto> resp = reservationService.getPostReservationList(userSeq);
 
-        if (resp != null) {
+        if (!resp.isEmpty()) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
 

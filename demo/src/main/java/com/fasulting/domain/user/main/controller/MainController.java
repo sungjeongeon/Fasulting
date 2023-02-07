@@ -36,11 +36,11 @@ public class MainController {
     public ResponseEntity<?> getMainList() {
         List<MainCategoryRespDto> resp = mainService.getMainCategoryList();
 
-        if (resp != null) {
+        if (!resp.isEmpty()) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
     /**
@@ -52,15 +52,15 @@ public class MainController {
     public ResponseEntity<?> getSubList(@PathVariable Long mainSeq) {
         List<SubCategoryRespDto> resp = mainService.getSubcategoryList(mainSeq);
 
-        if (resp != null) {
+        if (!resp.isEmpty()) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
     /**
-     * 메인 카테고리에 속하는 의사 리스트 조회
+     * 메인 카테고리에 속하는 병원 리스트 조회
      * @param mainSeq
      * @return
      */
@@ -68,11 +68,11 @@ public class MainController {
     public ResponseEntity<?> getPsList(@PathVariable Long mainSeq) {
         List<PsListRespDto> resp = mainService.getPsList(mainSeq);
 
-        if (resp != null) {
+        if (!resp.isEmpty()) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
     /**
@@ -90,6 +90,6 @@ public class MainController {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 }

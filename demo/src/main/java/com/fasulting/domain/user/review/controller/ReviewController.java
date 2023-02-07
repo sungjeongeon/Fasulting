@@ -47,10 +47,10 @@ public class ReviewController {
 
         List<ReviewRespDto> resp = reviewService.getReviewList(userSeq);
 
-        if(resp != null){
+        if(!resp.isEmpty()){
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
 }

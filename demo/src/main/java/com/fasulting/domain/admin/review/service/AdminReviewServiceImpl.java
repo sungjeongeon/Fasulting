@@ -23,6 +23,10 @@ public class AdminReviewServiceImpl implements AdminReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewSubRepository reviewSubRepository;
 
+    /**
+     * 신고된 리뷰 리스트 반환
+     * @return
+     */
     @Transactional
     @Override
     public List<ReviewRespDto> getAccusedReviewList() {
@@ -31,10 +35,6 @@ public class AdminReviewServiceImpl implements AdminReviewService {
         // 신고된 리뷰 리스트
         List<ReviewEntity> reviewList = reviewRepository.findAllByDecYnAndDelYn("Y", "N");
 
-        if(reviewList.isEmpty()){
-
-            // 처리
-        }
 
         List<ReviewRespDto> accusedReviewList = new ArrayList<>();
 
@@ -64,7 +64,9 @@ public class AdminReviewServiceImpl implements AdminReviewService {
     @Override
     public boolean deleteReview(AdminReviewReqDto adminReviewReqDto) {
 
-        ReviewEntity review = reviewRepository.findById(adminReviewReqDto.getReviewSeq()).get();
+        ReviewEntity review = reviewRepository.findById(adminReviewReqDto.getReviewSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         review.updateByDel("admin_" + adminReviewReqDto.getAdminSeq(), LocalDateTime.now());
 

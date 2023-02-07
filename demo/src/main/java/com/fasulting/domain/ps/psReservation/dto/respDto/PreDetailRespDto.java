@@ -18,4 +18,7 @@ public class PreDetailRespDto {
     private String content;
     private String estimate;
 
+    private String beforeImg;
+    private String afterImg;
+
 }

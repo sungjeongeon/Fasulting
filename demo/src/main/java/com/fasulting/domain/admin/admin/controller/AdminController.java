@@ -36,7 +36,7 @@ public class AdminController {
         if(ps != null) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", ps));
         }
-        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail")); // 없는 계정
 
     }
 

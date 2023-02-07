@@ -65,7 +65,7 @@ public class PsReservationController {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
 
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
 
