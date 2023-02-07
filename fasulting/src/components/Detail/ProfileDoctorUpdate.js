@@ -4,16 +4,23 @@ import Button from "@mui/material/Button";
 import DoctorCard from "../Card/DoctorCard";
 import CloseIcon from "@mui/icons-material/Close";
 import AddDoctor from "../Modal/AddDoctor"
+import DeleteDialog from "../Dialog/DeleteDialog";
 
 function ProfileDoctorUpdate({ doctors }) {
   // 의사 등록 모달창
   const [ModalOpen, setModalOpen] = useState(false)
   const ModalStateChange = () => setModalOpen((current) => !current)
 
-  const deleteDoc = (e) => {
-    // X 클릭하면 해당 의사 id 값 출력
-    console.log(e.target.value);
-  };
+  // 의사 id값
+  const [doctorId, setDoctorId] = useState(0)
+
+  // 삭제 dialog 창
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const DialogStateChange = ((e) => {
+    setDialogOpen((current) => !current)
+    dialogOpen ? setDoctorId(0) : setDoctorId(e.target.value) 
+  })
+
   return (
     <div>
       <div className={styles.titleDiv}>
@@ -34,12 +41,13 @@ function ProfileDoctorUpdate({ doctors }) {
             <button
               value={doc.id}
               className={styles.deleteBtn}
-              onClick={deleteDoc}
+              onClick={DialogStateChange}
             >
               <CloseIcon color="error" />
             </button>
           </div>
         ))}
+        {dialogOpen && <DeleteDialog DialogStateChange={DialogStateChange} doctorId={doctorId}/>}
       </div>
       <hr />
     </div>

@@ -17,6 +17,10 @@ import ProfileTimeUpdate from "../../components/Detail/ProfileTimeUpdate";
 import { useState } from "react";
 
 function MypageHo() {
+
+  // 병원 정보 axios 요청
+  // /ps/info/{seq}
+
   const hospital = {
     ps_id: 1,
     ps_name: "아이디병원",

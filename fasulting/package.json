@@ -79,6 +79,5 @@
   "devDependencies": {
     "devextreme-themebuilder": "^22.2.3",
     "webpack-cli": "^5.0.1"
-  },
-  "proxy": "https://i8e106.p.ssafy.io:8080/"
+  }
 }
