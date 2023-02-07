@@ -21,5 +21,9 @@ public class ExceptionHandler {
         return new ResponseEntity(new ErrorRespDto(INTERNAL_SERVER_ERROR.value(), "서버 내부 오류"), INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * UnAuthorizedException
+     * code : 403
+     */
 
 }

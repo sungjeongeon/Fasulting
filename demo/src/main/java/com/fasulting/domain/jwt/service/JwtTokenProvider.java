@@ -1,12 +1,12 @@
 package com.fasulting.domain.jwt.service;
 
+import com.fasulting.common.RoleType;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +27,8 @@ public class JwtTokenProvider {
     // refresh 토큰 유효시간 하루
     private final long REFRESH_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000L;
 
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailServiceImpl customUserDetailService;
+    private final CustomPsDetailServiceImpl customPsDetailService;
 
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
     @PostConstruct
@@ -70,7 +71,18 @@ public class JwtTokenProvider {
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserEmail(token));
+        String email = this.getUserEmail(token);
+        String domain = this.getDomain(token);
+        UserDetails userDetails = null;
+
+        // domain 에 따라 구현한 UserDetailService 사용
+        if(domain.equals(RoleType.USER) || domain.equals(RoleType.ADMIN)) {
+            userDetails = customUserDetailService.loadUserByUsername(email);
+        }
+        else if(domain.equals(RoleType.PS)) {
+            userDetails = customPsDetailService.loadUserByUsername(email);
+        }
+
 
         log.info(userDetails.getAuthorities().toString());
 

@@ -62,18 +62,18 @@ public class UserServiceImpl implements UserService {
             throw new NullPointerException();
         });
 
-        String prePassword = user.getPassword();
 
         log.info(userInfo.getPassword());
 
-        // password update
-        user.resetPassword(userInfo.getPassword());
-
-        String postPassword = user.getPassword();
-
-        if (prePassword.equals(postPassword)) {
+        if (passwordEncoder.matches(userInfo.getPassword(), user.getPassword())) {
             return false;
         }
+
+        // password update
+        user.resetPassword(passwordEncoder.encode(userInfo.getPassword()));
+//        userRepository.save(user);
+
+
         return true;
 
     }
@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
             throw new NullPointerException();
         }).getPassword();
 
-        if (password.equals(userInfo.getPassword())) {
+        if (passwordEncoder.matches(userInfo.getPassword(), password)) {
             return true;
         }
 
