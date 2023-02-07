@@ -1,5 +1,6 @@
 package com.fasulting.domain.user.user.service;
 
+import com.fasulting.common.RoleType;
 import com.fasulting.domain.user.user.dto.reqDto.UserSeqReqDto;
 import com.fasulting.domain.user.user.dto.reqDto.UserWithoutSeqReqDto;
 import com.fasulting.domain.user.user.dto.respDto.UserInfoRespDto;
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
         // User-Role save
         RoleEntity roleEntity = RoleEntity.builder()
                 .user(user)
-                .authority("user")
+                .authority(RoleType.USER)
                 .build();
 
         roleRepository.save(roleEntity);
@@ -130,7 +131,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.findById(userInfo.getSeq()).isPresent()) {
             UserEntity user = userRepository.findById(userInfo.getSeq()).get();
 
-            user.updateByWithdrawal("Y", "user_" + userInfo.getSeq(), LocalDateTime.now());
+            user.updateByWithdrawal("Y", RoleType.USER + "" + userInfo.getSeq(), LocalDateTime.now());
 
             userRepository.save(user);
 

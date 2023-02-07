@@ -1,7 +1,9 @@
 package com.fasulting.config;
 
-import com.fasulting.common.jwt.JwtAuthenticationFilter;
-import com.fasulting.domain.jwt.service.JwtServiceImpl;
+import com.fasulting.common.RoleType;
+import com.fasulting.common.filter.jwt.JwtAuthenticationFilter;
+import com.fasulting.domain.jwt.service.JwtTokenProvider;
+import com.fasulting.repository.token.PsTokenRepository;
 import com.fasulting.repository.token.TokenRepository;
 import com.fasulting.repository.token.UserTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,20 +18,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final JwtServiceImpl jwtService;
+    private final JwtTokenProvider jwtService;
     private final UserTokenRepository userTokenRepository;
     private final TokenRepository tokenRepository;
+    private final PsTokenRepository psTokenRepository;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/test").authenticated()
-                .antMatchers("/admin/**").hasRole("admin")
-                .antMatchers("/favorite/**").access("hasAuthority('user')") // 쿠키에 토큰 저장됨
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/favorite/**").access("hasAuthority('USER')") // 쿠키에 토큰 저장됨
                 .antMatchers("/**").permitAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtService, userTokenRepository, tokenRepository),
+                .addFilterBefore(new JwtAuthenticationFilter(jwtService, userTokenRepository, psTokenRepository, tokenRepository),
                           UsernamePasswordAuthenticationFilter.class);
     }
 

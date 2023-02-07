@@ -1,5 +1,6 @@
 package com.fasulting.domain.admin.review.service;
 
+import com.fasulting.common.RoleType;
 import com.fasulting.domain.admin.review.dto.reqDto.AdminReviewReqDto;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
@@ -66,7 +67,7 @@ public class AdminReviewServiceImpl implements AdminReviewService {
 
         ReviewEntity review = reviewRepository.findById(adminReviewReqDto.getReviewSeq()).get();
 
-        review.updateByDel("admin_" + adminReviewReqDto.getAdminSeq(), LocalDateTime.now());
+        review.updateByDel(RoleType.ADMIN + "_" + adminReviewReqDto.getAdminSeq(), LocalDateTime.now());
 
         reviewRepository.save(review);
         return true;

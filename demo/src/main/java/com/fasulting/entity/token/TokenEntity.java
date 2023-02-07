@@ -27,6 +27,9 @@ public class TokenEntity extends BaseEntity {
 	@OneToOne(mappedBy = "token")
 	private UserTokenEntity userToken;
 
+	@OneToOne(mappedBy = "token")
+	private PsTokenEntity psToken;
+
 	@Builder
 	public TokenEntity(String refreshToken) {
 		this.refreshToken = refreshToken;

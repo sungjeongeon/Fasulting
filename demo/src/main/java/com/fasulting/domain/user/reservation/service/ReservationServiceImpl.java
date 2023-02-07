@@ -1,5 +1,6 @@
 package com.fasulting.domain.user.reservation.service;
 
+import com.fasulting.common.RoleType;
 import com.fasulting.common.dto.respDto.PsOperatingRespDto;
 import com.fasulting.common.util.Date2String;
 import com.fasulting.common.util.FileManage;
@@ -357,7 +358,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).get().getUser().getSeq() == uSeq) {
 
             ReservationEntity r = reservationRepository.findById(rSeq).get();
-            r.updateByCancel("user_" + uSeq, LocalDateTime.now());
+            r.updateByCancel(RoleType.USER + "_" + uSeq, LocalDateTime.now());
 
             reservationRepository.save(r);
 

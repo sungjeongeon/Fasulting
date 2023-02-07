@@ -1,9 +1,6 @@
 package com.fasulting.domain.jwt.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,13 +11,14 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class JwtServiceImpl  {
+public class JwtTokenProvider {
 
     private String secretKey = "myprojectsecret";
 
@@ -38,9 +36,10 @@ public class JwtServiceImpl  {
     }
 
     // JWT 토큰 생성
-    public String createAccessToken(String userEmail, String role) {
+    public String createAccessToken(String userEmail, String role, String domain) {
         Claims claims = Jwts.claims().setSubject(userEmail); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
         claims.put("role", role); // 정보는 key / value 쌍으로 저장된다.
+        claims.put("domain", domain);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
@@ -51,14 +50,15 @@ public class JwtServiceImpl  {
                 .compact();
     }
 
-    public String createRefreshToken(String userEmail, String role) {
+    public String createRefreshToken(String userEmail, String role, String domain) {
 
         Claims claims = Jwts.claims().setSubject(userEmail); // JWT payload 에 저장되는 정보단위
         claims.put("role", role); // 정보는 key / value 쌍으로 저장된다.
+        claims.put("domain", domain);
         Date now = new Date();
 
         //Refresh Token
-        return  Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claims) // 정보 저장
                 .setIssuedAt(now) // 토큰 발행 시간 정보
                 .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_VALID_TIME)) // set Expire Time
@@ -82,23 +82,51 @@ public class JwtServiceImpl  {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
+    public String getDomain(String token) {
+        return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("domain");
+    }
+
     // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }
 
-    // access 토큰의 유효성 + 만료일자 확인
-    public boolean validateToken(String jwtToken) {
+    // access 토큰 만료일자 확인
+    public boolean isExpiredToken(String jwtToken) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
+
+
+            long min = (claims.getBody().getExpiration().getTime() - new Date().getTime()) / 60000; // 분
+
+            return min > 30;
+        } catch (ExpiredJwtException e) {
+            return false;
+        }
+    }
+
+    // access 토큰 유효성
+    public boolean isValidToken(String jwtToken) {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+            return true;
         } catch (Exception e) {
             return false;
         }
     }
 
+    // access 토큰이 사용 가능한 토큰인가?
+    public boolean isBlockedToken(HttpServletRequest request, String jwtToken) {
+        HttpSession session = request.getSession();
+        if (session.getAttribute(jwtToken) == null) {
+            return true;
+        }
+        log.info(session.getAttribute(jwtToken) + "");
+        return false;
+    }
+
     // refresh 토큰 유효성 확인
-    public String validateRefreshToken(String refreshToken){
+    public String validateRefreshToken(String refreshToken) {
 
         try {
             // 검증
@@ -106,9 +134,9 @@ public class JwtServiceImpl  {
 
             //refresh 토큰의 만료시간이 지나지 않았을 경우, 새로운 access 토큰을 생성합니다.
             if (!claims.getBody().getExpiration().before(new Date())) {
-                return recreationAccessToken(claims.getBody().get("sub").toString(), claims.getBody().get("role"));
+                return recreationAccessToken(claims.getBody().get("sub").toString(), claims.getBody().get("role"), claims.getBody().get("domain"));
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
 
             //refresh 토큰이 만료되었을 경우, 로그인이 필요합니다.
             return null;
@@ -118,10 +146,11 @@ public class JwtServiceImpl  {
         return null;
     }
 
-    public String recreationAccessToken(String userEmail, Object roles){
+    public String recreationAccessToken(String userEmail, Object role, Object domain) {
 
         Claims claims = Jwts.claims().setSubject(userEmail); // JWT payload 에 저장되는 정보단위
-        claims.put("roles", roles); // 정보는 key / value 쌍으로 저장된다.
+        claims.put("role", role); // 정보는 key / value 쌍으로 저장된다.
+        claims.put("domain", domain);
         Date now = new Date();
 
         //Access Token

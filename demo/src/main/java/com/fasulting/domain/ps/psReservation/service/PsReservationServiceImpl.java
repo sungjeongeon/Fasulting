@@ -1,5 +1,6 @@
 package com.fasulting.domain.ps.psReservation.service;
 
+import com.fasulting.common.RoleType;
 import com.fasulting.entity.calendar.OperatingCalEntity;
 import com.fasulting.entity.calendar.ReservationCalEntity;
 import com.fasulting.entity.calendar.TimeEntity;
@@ -70,7 +71,7 @@ public class PsReservationServiceImpl implements PsReservationService {
         if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).get().getPs().getSeq() == pSeq) {
 
             ReservationEntity r = reservationRepository.findById(rSeq).get();
-            String delUser = "ps_" + pSeq;
+            String delUser = RoleType.PS +  "_" + pSeq;
             LocalDateTime delDate = LocalDateTime.now();
             r.updateByCancel(delUser, delDate);
 

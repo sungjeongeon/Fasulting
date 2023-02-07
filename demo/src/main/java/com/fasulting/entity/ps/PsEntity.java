@@ -1,6 +1,8 @@
 package com.fasulting.entity.ps;
 
 import com.fasulting.entity.BaseEntity;
+import com.fasulting.entity.token.PsTokenEntity;
+import com.fasulting.entity.token.UserTokenEntity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -21,6 +23,9 @@ public class PsEntity extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "seq")
 	private Long seq;
+
+	@OneToOne(mappedBy = "ps")
+	private PsTokenEntity psToken;
 
    	@Column(name = "email")
 	private String email;

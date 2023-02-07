@@ -34,21 +34,6 @@ public class UserController {
 
     private final UserService userService;
 
-
-    /**
-     * 로그아웃 - jwt
-     * @param seq
-     * @return fail OR success
-     */
-    @GetMapping("/logout/{seq}")
-    @ApiOperation(value = "상담자 계정 로그아웃", notes = "..")
-    public ResponseEntity<?> logout(@PathVariable @ApiParam(value = "로그인 정보", required = true) Long seq) {
-        
-        // ㅂㅂ
-        
-        return null; // fail OR successs
-    }
-
     /**
      * 회원가입
      * @param userInfo

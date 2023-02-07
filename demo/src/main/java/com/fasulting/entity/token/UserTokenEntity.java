@@ -26,13 +26,13 @@ public class UserTokenEntity extends BaseEntity implements Serializable {
 
 
    	/** FK setting */
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(referencedColumnName = "seq", name = "user_seq")
 	private UserEntity user;
 
 
    	/** FK setting */
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(referencedColumnName = "seq", name = "token_seq")
 	private TokenEntity token;
 

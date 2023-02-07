@@ -1,5 +1,6 @@
 package com.fasulting.domain.ps.ps.service;
 
+import com.fasulting.common.RoleType;
 import com.fasulting.common.dto.respDto.DoctorRespDto;
 import com.fasulting.common.dto.respDto.ReviewRespDto;
 import com.fasulting.common.util.FileManage;
@@ -374,7 +375,7 @@ public class PsServiceImpl implements PsService {
         if (psRepository.findById(seq).isPresent()) {
             PsEntity ps = psRepository.findById(seq).get();
 
-            ps.updateByWithdrawal("ps_" + psInfo.getSeq(), LocalDateTime.now());
+            ps.updateByWithdrawal(RoleType.PS + "_" + psInfo.getSeq(), LocalDateTime.now());
 
             psRepository.save(ps);
 
