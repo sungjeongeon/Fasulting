@@ -29,27 +29,27 @@ public class PsConsultingServiceImpl implements PsConsultingService {
     @Override
     public Map<String, String> getBeforeImg(Long reservationSeq) {
 
-        if(reservationRepository.findById(reservationSeq).isPresent()){
-            ReservationEntity reservation = reservationRepository.findById(reservationSeq).get();
+        ReservationEntity reservation = reservationRepository.findById(reservationSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
-            String beforeImgPath = reservation.getBeforeImgPath();
-            String beforeImgOrigin = reservation.getBeforeImgOrigin();
+        String beforeImgPath = reservation.getBeforeImgPath();
+        String beforeImgOrigin = reservation.getBeforeImgOrigin();
 
-            Map<String, String> resp = new HashMap<>();
-            resp.put("beforeImgPath", beforeImgPath);
-            resp.put("beforeImgOrigin", beforeImgOrigin);
+        Map<String, String> resp = new HashMap<>();
+        resp.put("beforeImgPath", beforeImgPath);
+        resp.put("beforeImgOrigin", beforeImgOrigin);
 
-            return  resp;
-        }
+        return resp;
 
-
-        return null;
     }
 
     @Override
     public boolean writeResult(ResultReqDto resultReq) {
 
-        ConsultingEntity consulting = consultingRepository.findById(resultReq.getConsultingSeq()).get();
+        ConsultingEntity consulting = consultingRepository.findById(resultReq.getConsultingSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         MultipartFile afterImgFile = resultReq.getAfterImg();
 
@@ -58,7 +58,7 @@ public class PsConsultingServiceImpl implements PsConsultingService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            afterImgUrl = FileManage.uploadFile(afterImgFile, uuid,null, FileManage.psProfileImgDirPath);
+            afterImgUrl = FileManage.uploadFile(afterImgFile, uuid, null, FileManage.psProfileImgDirPath);
         }
 
 

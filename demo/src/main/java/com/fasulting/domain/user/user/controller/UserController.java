@@ -40,7 +40,7 @@ public class UserController {
 
     /**
      * 로그인 - jwt
-     * @param userIngo
+     * @param userInfo
      * userEmail & userPassword
      * @return
      * userSeq
@@ -84,10 +84,8 @@ public class UserController {
     public ResponseEntity<?> userRegister(@RequestBody  @ApiParam(value = "회원 가입 정보", required = true) UserWithoutSeqReqDto userInfo) {
         log.info("userRegister - Call");
 
-        if(userService.userRegister(userInfo)) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-        }
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        userService.userRegister(userInfo);
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
     }
     
 
@@ -104,11 +102,11 @@ public class UserController {
         log.info("check Email - Call");
         if(userService.checkEmail(email)) {
             // 이메일 존재
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "존재하는 이메일입니다."));
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
 
         // userEmail & DB userEmail 비교
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "존재하지 않는 이메일입니다."));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
     /**
@@ -128,7 +126,7 @@ public class UserController {
         }
 
         // 회원 수정 실패
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
     /**
@@ -145,9 +143,8 @@ public class UserController {
 
         UserInfoRespDto userInfo = userService.getUserInfo(seq);
 
-        if(userInfo != null) {
+        if(userInfo != null)
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", userInfo));
-        }
 
         return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
@@ -163,11 +160,8 @@ public class UserController {
         log.info("withdraw - Call");
 
         // 로그인 했는지 검사 필요
-
-        if(userService.withdrawUser(userInfo)) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-        }
-        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
+        userService.withdrawUser(userInfo);
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
     }
 
     /**
@@ -185,7 +179,7 @@ public class UserController {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         // 비밀번호 다름
-        return ResponseEntity.status(500).body(ResponseBody.create(200, "fail"));
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
     }
 
 

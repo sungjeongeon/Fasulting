@@ -53,6 +53,7 @@ public class PsConsultingController {
         }
     }
 
+    // 상담 결과 작성
     @PostMapping("/result")
     public ResponseEntity<?> writeResult(@ModelAttribute ResultReqDto resultReq) {
 

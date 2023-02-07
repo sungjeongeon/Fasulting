@@ -68,7 +68,9 @@ public class PsReservationServiceImpl implements PsReservationService {
         Long pSeq = reservationReqDto.getPsSeq();
 
         // 예약 delYn >> Y로 변경
-        if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).get().getPs().getSeq() == pSeq) {
+        if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        }).getPs().getSeq() == pSeq) {
 
             ReservationEntity r = reservationRepository.findById(rSeq).get();
             String delUser = "ps_" + pSeq;
@@ -90,9 +92,13 @@ public class PsReservationServiceImpl implements PsReservationService {
                             r.getReservationCal().getYear(),
                             r.getReservationCal().getMonth(),
                             r.getReservationCal().getDay())
-                    .get();
+                    .orElseThrow(() -> {
+                        throw new NullPointerException();
+                    });
 
-            TimeEntity time = timeRepository.findById(r.getTime().getSeq()).get();
+            TimeEntity time = timeRepository.findById(r.getTime().getSeq()).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
 
             PsOperatingEntity psOperating = PsOperatingEntity.builder()
                     .ps(ps)
@@ -109,6 +115,12 @@ public class PsReservationServiceImpl implements PsReservationService {
 
     }
 
+    /**
+     * 미래 예약 조회 & 2주치 운영 시간 조회
+     * @param psSeq
+     * @param current
+     * @return
+     */
     @Transactional
     @Override
     public PsPostRespDto getPostReservationList(Long psSeq, LocalDateTime current) {
@@ -194,6 +206,12 @@ public class PsReservationServiceImpl implements PsReservationService {
         return postReservationRespDto;
     }
 
+    /**
+     * 지난 예약 조회
+     * @param psSeq
+     * @param current
+     * @return
+     */
     @Transactional
     @Override
     public List<PreReservationRespDto> getPreReservationList(Long psSeq, LocalDateTime current) {
@@ -201,7 +219,11 @@ public class PsReservationServiceImpl implements PsReservationService {
 
         List<PreReservationRespDto> respList = new ArrayList<>();
 
-        List<ConsultingEntity> cList = consultingRepository.findAllByPs(psRepository.findById(psSeq).get());
+        PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+
+        List<ConsultingEntity> cList = consultingRepository.findAllByPs(ps);
 
 //        log.info(cList.toString());
 
@@ -236,12 +258,19 @@ public class PsReservationServiceImpl implements PsReservationService {
         return respList;
     }
 
+    /**
+     * 상담 결과 상세 조회
+     */
     @Transactional
     @Override
     public PreDetailRespDto getPreDetail(Long consultingSeq) {
-        ConsultingEntity consulting = consultingRepository.findById(consultingSeq).get();
+        ConsultingEntity consulting = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
         UserEntity user = consulting.getUser();
-        ReportEntity report = reportRepository.findByConsulting(consulting).get();
+        ReportEntity report = reportRepository.findByConsulting(consulting).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
         ReservationCalEntity reservationCal = consulting.getReservation().getReservationCal();
 
         PreDetailRespDto preDetail = PreDetailRespDto.builder()

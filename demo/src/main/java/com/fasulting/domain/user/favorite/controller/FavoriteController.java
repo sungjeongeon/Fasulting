@@ -1,6 +1,7 @@
 package com.fasulting.domain.user.favorite.controller;
 
 import com.fasulting.domain.user.favorite.dto.reqDto.FavoriteReq;
+import com.fasulting.domain.user.favorite.dto.respDto.FavoriteResp;
 import com.fasulting.domain.user.favorite.service.FavoriteService;
 import com.fasulting.common.resp.ResponseBody;
 import io.swagger.annotations.Api;
@@ -8,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(value = "즐겨찾기 관련 API", tags = {"FavoriteController"})
 @Slf4j
@@ -30,7 +33,11 @@ public class FavoriteController {
      */
     @GetMapping("/{userSeq}")
     public ResponseEntity<?> favoriteList(@PathVariable Long userSeq) {
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success", favoriteService.getFavoriteList(userSeq)));
+        List<FavoriteResp> favoriteRespList = favoriteService.getFavoriteList(userSeq);
+        if(!favoriteRespList.isEmpty()){
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", favoriteRespList));
+        }
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
     /**
@@ -44,7 +51,7 @@ public class FavoriteController {
         if(favoriteService.addFavorite(favoriteReq)){
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(200).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
 
@@ -59,6 +66,6 @@ public class FavoriteController {
         if(favoriteService.deleteFavorite(favoriteReq)){
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-        return ResponseEntity.status(200).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 }
