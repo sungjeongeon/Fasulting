@@ -6,25 +6,24 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import IconButton from "@mui/material/IconButton";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
-import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
 import Input from "@mui/material/Input";
 import FormControl from "@mui/material/FormControl";
 
 import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
 import styles from "./LeaveConsulting.module.css";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function LeaveConsulting({ leaveSession }) {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [content, setContent] = useState("");
+  const [cost, setCost] = useState(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -38,11 +37,17 @@ export default function LeaveConsulting({ leaveSession }) {
   const contentChanged = (e) => {
     setContent(e.target.value);
   };
+  const costChanged = (e) => {
+    setCost(e.target.value);
+  };
 
   const submitReport = () => {
     leaveSession();
     // 소견서 제출 api ( + 상담 id )
+    console.log(content);
+    console.log(cost);
     // 예약 스케줄 페이지로 라우팅
+    navigate("/myreservationho");
   };
 
   const subCategory = ["쌍커풀", "앞트임"];
@@ -83,6 +88,8 @@ export default function LeaveConsulting({ leaveSession }) {
               <FormControl
                 variant="standard"
                 sx={{ m: 1, mt: 4, width: "13ch" }}
+                value={cost}
+                onChange={costChanged}
               >
                 <Input
                   id="standard-adornment-weight"
