@@ -22,7 +22,6 @@ import { toast, ToastContainer } from "react-toastify";
 import PsRegistFormComplete from "./PsRegistFormComplete";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import axiosApi from "../../api/axiosApi";
 import { useState } from "react";
 const steps = ["개인 정보", "병원 관련 등록", "병원 인증"];
 const { formId, formField } = checkoutFormModel;
@@ -81,7 +80,7 @@ export default function PsRegist() {
       console.log(value);
     }
     try {
-      await axiosApi.post("/ps/regist", {
+      await axios.post("/ps/regist", {
         headers: {
           "Content-Type": "multiaprt/form",
         },
