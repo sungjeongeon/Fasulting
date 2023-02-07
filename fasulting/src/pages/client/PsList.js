@@ -3,15 +3,15 @@ import MainCategoryList from "../../components/Category/MainCategoryList";
 import SubCategoryList from "../../components/Category/SubCategoryList";
 import { useState } from "react";
 import { useEffect } from "react";
-import axiosApi from "../../api/axiosApi";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 function PsList() {
   const param = useParams();
   const [subcategory, setSubcategory] = useState([]);
   const [selectedSub, setSelectedSub] = useState([]);
   useEffect(() => {
-    axiosApi.get(`/main/sub/${param.seq}`).then((res) => {
+    axios.get(`/main/sub/${param.seq}`).then((res) => {
       //console.log(res.data);
       setSubcategory(res.data.responseObj);
       setSelectedSub([]); //선택된 배열 초기화

@@ -166,12 +166,20 @@ export default function ReserveCard({ reshospital }) {
           <ReserveCardCategoryItem getConsultItem={getConsultItem} />
         </AccordionDetails>
       </Accordion>
-      <input
-        type="file"
-        accept="image/jpg,impge/png,image/jpeg,image/gif"
-        name="profile_img"
-        onChange={onChange}
-      ></input>
+      <div className={styles.margin}>
+        <label className={styles.inputfile} for="inputfile">
+          사진 업로드
+        </label>
+        <input
+          type="file"
+          id="inputfile"
+          accept="image/jpg,impge/png,image/jpeg,image/gif"
+          name="profile_img"
+          onChange={onChange}
+          style={{ display: "none" }}
+        ></input>
+        <p className={styles.ptag}>* 정면이 나온 사진을 첨부해주세요 *</p>
+      </div>
       <div className={styles.inFooterDiv}>
         <p className={styles.agree}>개인정보 제공 동의</p>
         <div className={styles.checkBox}>

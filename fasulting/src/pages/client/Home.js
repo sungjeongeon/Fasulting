@@ -5,9 +5,8 @@ import { Container } from "@mui/system";
 // import axios from "axios";
 import Footer from "../../components/Footer";
 
-//import axios from "../../api/axiosApi";
-import axiosApi from "../../api/axiosApi";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Home() {
   //통신 테스트
@@ -23,7 +22,7 @@ function Home() {
 
   const [maincategory, setMaincategory] = useState([]);
   useEffect(() => {
-    axiosApi.get("/main").then((res) => {
+    axios.get("/main").then((res) => {
       setMaincategory(res.data.responseObj);
     });
   }, []);

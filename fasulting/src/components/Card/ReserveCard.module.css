@@ -16,7 +16,7 @@
   vertical-align: bottom;
 } */
 .inFooterDiv {
-  margin-top: 5rem;
+  margin-top: 2rem;
   margin-bottom: 0;
 }
 
@@ -44,4 +44,20 @@
   font-size: 0.5rem;
 
   color: #414750;
+}
+
+.inputfile {
+  margin: 10px;
+  padding: 6px 25px;
+  background-color: #72a1a6;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+.margin {
+  margin: 10px;
+}
+.ptag {
+  margin-top: 2px;
+  font-size: small;
 }

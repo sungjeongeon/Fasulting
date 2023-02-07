@@ -15,11 +15,11 @@ import {
 } from "@mui/material";
 import styles from "./Form.module.css";
 import Paper from "@mui/material/Paper";
-import axios from "../../api/axiosApi";
 import { setRefreshToken } from "../../storage/Cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/user";
+import axios from "axios";
 
 const validationSchema = yup.object({
   usertype: yup.bool().oneOf([true], "회원유형을 선택해주세요."),
