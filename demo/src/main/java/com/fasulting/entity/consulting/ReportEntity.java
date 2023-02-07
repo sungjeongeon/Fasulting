@@ -1,10 +1,7 @@
 package com.fasulting.entity.consulting;
 
 import com.fasulting.entity.BaseEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -52,5 +49,14 @@ public class ReportEntity extends BaseEntity {
    	@Column(name = "estimate")
 	private String estimate;
 
-
+	@Builder
+	public ReportEntity(ConsultingEntity consulting, String beforeImgPath, String beforeImgOrigin, String afterImgPath, String afterImgOrigin, String content, String estimate) {
+		this.consulting = consulting;
+		this.beforeImgPath = beforeImgPath;
+		this.beforeImgOrigin = beforeImgOrigin;
+		this.afterImgPath = afterImgPath;
+		this.afterImgOrigin = afterImgOrigin;
+		this.content = content;
+		this.estimate = estimate;
+	}
 }

@@ -44,7 +44,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     public List<FavoriteResp> getFavoriteList(Long userSeq) {
 
-        List<FavoriteResp> favoriteRespList= new ArrayList<>();
+        List<FavoriteResp> favoriteRespList = new ArrayList<>();
         List<FavoriteEntity> list = favoriteRepository.findAllByUserSeq(userSeq);
 
         for(FavoriteEntity favorite : list){
@@ -72,8 +72,12 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     public boolean addFavorite(FavoriteReq favoriteReq) {
 
-        UserEntity user = userRepository.findById(favoriteReq.getUserSeq()).get();
-        PsEntity ps = psRepository.findById(favoriteReq.getPsSeq()).get();
+        UserEntity user = userRepository.findById(favoriteReq.getUserSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+        PsEntity ps = psRepository.findById(favoriteReq.getPsSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         if(user != null && ps != null){
             FavoriteEntity favorite = FavoriteEntity.builder()
@@ -93,11 +97,20 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     public boolean deleteFavorite(FavoriteReq favoriteReq) {
-        Long userSeq = userRepository.findById(favoriteReq.getUserSeq()).get().getSeq();
-        Long psSeq = psRepository.findById(favoriteReq.getPsSeq()).get().getSeq();
+        UserEntity user = userRepository.findById(favoriteReq.getUserSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+        Long userSeq = user.getSeq();
+
+        PsEntity ps = psRepository.findById(favoriteReq.getPsSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+        Long psSeq = ps.getSeq();
 
         if(userSeq != null && psSeq != null){
-            FavoriteEntity favorite = favoriteRepository.findByUserSeqPsSeq(userSeq, psSeq).get();
+            FavoriteEntity favorite = favoriteRepository.findByUserSeqPsSeq(userSeq, psSeq).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
 
             if(favorite != null) {
                 favoriteRepository.delete(favorite);

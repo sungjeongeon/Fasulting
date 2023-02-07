@@ -37,13 +37,13 @@ public class AdminReviewController {
 
         List<ReviewRespDto> accusedReviewList = adminReviewService.getAccusedReviewList();
 
-        log.info(accusedReviewList.toString());
+//        log.info(accusedReviewList.toString());
 
-        if (accusedReviewList != null) {
+        if (!accusedReviewList.isEmpty()) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", accusedReviewList));
         }
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail")); // 작성한 리뷰 없음
 
     }
 
@@ -58,7 +58,7 @@ public class AdminReviewController {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail")); // 리뷰 삭제 실패
 
     }
 

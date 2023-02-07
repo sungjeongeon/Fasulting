@@ -79,7 +79,9 @@ public class MainServiceImpl implements MainService {
     @Override
     public List<SubCategoryRespDto> getSubcategoryList(Long mainSeq) {
 
-        MainCategoryEntity main = mainCategoryRepository.findById(mainSeq).get();
+        MainCategoryEntity main = mainCategoryRepository.findById(mainSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         List<SubCategoryEntity> list = subCategoryRepository.findByMainCategory(main);
 
@@ -139,12 +141,9 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public PsDetailRespDto getPsDetail(Long userSeq, Long psSeq) {
-        PsEntity ps = psRepository.findById(psSeq).get();
-
-        if(ps == null){
-
-            // 처리
-        }
+        PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         // 운영시간
         List<PsDefaultEntity> psDefaultList = psDefaultRepository.findAllByPsSeq(psSeq);
@@ -165,10 +164,6 @@ public class MainServiceImpl implements MainService {
             map.put(dayOfWeek, value);
 
         }
-        if(psDefaultList == null){
-
-            // 처리
-        }
 
 
         // 의사
@@ -187,19 +182,10 @@ public class MainServiceImpl implements MainService {
             docDtoList.add(doctorRespDto);
         }
 
-        if(psDefaultList == null){
-
-            // 처리
-        }
 
         // 리뷰
         List<ReviewEntity> reviewList = reviewRepository.findAllByPsSeq(psSeq);
 
-
-        if(reviewList == null){
-
-            // 처리
-        }
 
         List<ReviewRespDto> reviewRespDtoList = new ArrayList<>();
 

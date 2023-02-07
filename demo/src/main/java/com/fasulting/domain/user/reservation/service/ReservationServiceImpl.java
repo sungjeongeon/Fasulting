@@ -190,7 +190,9 @@ public class ReservationServiceImpl implements ReservationService {
         if (!operatingCalRepository.findByYearAndMonthAndDay(year, month, day).isPresent()) {
             return false;
         }
-        OperatingCalEntity oc = operatingCalRepository.findByYearAndMonthAndDay(year, month, day).get();
+        OperatingCalEntity oc = operatingCalRepository.findByYearAndMonthAndDay(year, month, day).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         log.info(oc.toString());
 
@@ -199,7 +201,9 @@ public class ReservationServiceImpl implements ReservationService {
         if (!timeRepository.findByNum(timeNum).isPresent()) {
             return false;
         }
-        TimeEntity t = timeRepository.findByNum(timeNum).get();
+        TimeEntity t = timeRepository.findByNum(timeNum).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         PsOperatingId poId = PsOperatingId.builder()
                 .ps(regReservationReqDto.getPsSeq())
@@ -210,16 +214,24 @@ public class ReservationServiceImpl implements ReservationService {
         if (!psOperatingRepository.findById(poId).isPresent()) {
             return false;
         }
-        PsOperatingEntity po = psOperatingRepository.findById(poId).get();
+        PsOperatingEntity po = psOperatingRepository.findById(poId).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         log.info(" 예약 등록");
         if (!reservationCalRepository.findByYearAndMonthAndDay(year, month, day).isPresent()) {
             return false;
         }
 
-        ReservationCalEntity rc = reservationCalRepository.findByYearAndMonthAndDay(year, month, day).get();
-        PsEntity ps = psRepository.findById(regReservationReqDto.getPsSeq()).get();
-        UserEntity user = userRepository.findById(regReservationReqDto.getUserSeq()).get();
+        ReservationCalEntity rc = reservationCalRepository.findByYearAndMonthAndDay(year, month, day).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+        PsEntity ps = psRepository.findById(regReservationReqDto.getPsSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+        UserEntity user = userRepository.findById(regReservationReqDto.getUserSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         MultipartFile beforeImgFile = regReservationReqDto.getBeforeImg();
 
@@ -247,7 +259,9 @@ public class ReservationServiceImpl implements ReservationService {
         List<Long> subSeqList = regReservationReqDto.getSubCategory();
 
         for(Long subSeq : subSeqList) {
-            SubCategoryEntity sub = subCategoryRepository.findById(subSeq).get();
+            SubCategoryEntity sub = subCategoryRepository.findById(subSeq).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
 
             ReservationSubEntity rs = ReservationSubEntity.builder()
                     .reservation(reservation)
@@ -271,7 +285,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<PreReservationRespDto> respList = new ArrayList<>();
 
-        List<ConsultingEntity> cList = consultingRepository.findAllByUser(userRepository.findById(userSeq).get());
+        List<ConsultingEntity> cList = consultingRepository.findAllByUser(userRepository.findById(userSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        }));
 
 //        log.info(cList.toString());
 
@@ -282,26 +298,27 @@ public class ReservationServiceImpl implements ReservationService {
             String estimate = "";
             boolean isReported = false;
             if (reportRepository.findByConsulting(c).isPresent()) {
-                estimate = reportRepository.findByConsulting(c).get().getEstimate();
+                estimate = reportRepository.findByConsulting(c).orElseThrow(() -> {
+                    throw new NullPointerException();
+                }).getEstimate();
                 isReported = true;
+                PreReservationRespDto respDto = PreReservationRespDto.builder()
+                        .consultingSeq(c.getSeq())
+                        .psName(c.getPs().getName())
+                        .estimate(estimate)
+                        .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
+                        .date(Date2String.date2String(c.getReservation().getReservationCal().getYear(),
+                                c.getReservation().getReservationCal().getMonth(),
+                                c.getReservation().getReservationCal().getDay(),
+                                c.getReservation().getReservationCal().getDayOfWeek(),
+                                c.getReservation().getTime().getStartHour(),
+                                c.getReservation().getTime().getStartMin()))
+                        .isReviewed(reviewRepository.findByConsulting(c).isPresent())
+                        .isReported(isReported)
+                        .build();
+
+                respList.add(respDto);
             }
-
-            PreReservationRespDto respDto = PreReservationRespDto.builder()
-                    .consultingSeq(c.getSeq())
-                    .psName(c.getPs().getName())
-                    .estimate(estimate)
-                    .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
-                    .date(Date2String.date2String(c.getReservation().getReservationCal().getYear(),
-                            c.getReservation().getReservationCal().getMonth(),
-                            c.getReservation().getReservationCal().getDay(),
-                            c.getReservation().getReservationCal().getDayOfWeek(),
-                            c.getReservation().getTime().getStartHour(),
-                            c.getReservation().getTime().getStartMin()))
-                    .isReviewed(reviewRepository.findByConsulting(c).isPresent())
-                    .isReported(isReported)
-                    .build();
-
-            respList.add(respDto);
         }
 
 
@@ -315,7 +332,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<PostReservationRespDto> respList = new ArrayList<>();
 
-        List<ReservationEntity> rList = reservationRepository.findAllByUserSeq(userRepository.findById(userSeq).get().getSeq());
+        List<ReservationEntity> rList = reservationRepository.getPostByUser(userSeq, LocalDateTime.now().minusMinutes(30));
 
         for (ReservationEntity r : rList) {
 
@@ -355,9 +372,13 @@ public class ReservationServiceImpl implements ReservationService {
         Long uSeq = cancelReservationReqDto.getUserSeq();
 
         // 예약 delYn >> Y로 변경
-        if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).get().getUser().getSeq() == uSeq) {
+        if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        }).getUser().getSeq() == uSeq) {
 
-            ReservationEntity r = reservationRepository.findById(rSeq).get();
+            ReservationEntity r = reservationRepository.findById(rSeq).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
             r.updateByCancel(RoleType.USER + "_" + uSeq, LocalDateTime.now());
 
             reservationRepository.save(r);
@@ -377,7 +398,9 @@ public class ReservationServiceImpl implements ReservationService {
                             r.getReservationCal().getDay())
                     .get();
 
-            TimeEntity time = timeRepository.findById(r.getTime().getSeq()).get();
+            TimeEntity time = timeRepository.findById(r.getTime().getSeq()).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
 
             PsOperatingEntity psOperating = PsOperatingEntity.builder()
                     .ps(ps)
@@ -400,14 +423,18 @@ public class ReservationServiceImpl implements ReservationService {
 
         if (consultingRepository.findById(consultingSeq).isPresent()) {
 
-            ConsultingEntity c = consultingRepository.findById(consultingSeq).get();
+            ConsultingEntity c = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
 
             if(c.getUser().getSeq() != consultingSeq){
                 return null;
             }
 
             // 병원
-            PsEntity ps = consultingRepository.findById(consultingSeq).get().getPs();
+            PsEntity ps = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
+                throw new NullPointerException();
+            }).getPs();
 
             // 병원 운영시간
             List<PsDefaultEntity> psDefaultList = psDefaultRepository.findAllByPsSeq(ps.getSeq());
@@ -430,7 +457,9 @@ public class ReservationServiceImpl implements ReservationService {
             }
 
             // 소견서 내용
-            ReportEntity report = reportRepository.findByConsulting(c).get();
+            ReportEntity report = reportRepository.findByConsulting(c).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
 
             ReportRespDto respDto = ReportRespDto.builder()
                     .psSeq(ps.getSeq())

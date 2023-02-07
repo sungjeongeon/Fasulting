@@ -21,7 +21,7 @@ public class AdminServiceImpl implements AdminService{
 
             UserEntity admin = userRepository.findAdminByEmailAndPassword(adminLoginReq.getEmail(), adminLoginReq.getPassword()).get();
 
-            log.info(admin.toString());
+//            log.info(admin.toString());
 
             AdminLoginRespDto adminInfoRespDto = AdminLoginRespDto.builder()
                     .adminSeq(admin.getSeq())

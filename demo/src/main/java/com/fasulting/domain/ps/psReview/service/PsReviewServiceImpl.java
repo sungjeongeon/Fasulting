@@ -41,12 +41,16 @@ public class PsReviewServiceImpl implements PsReviewService {
             return false;
         }
 
-        ReviewEntity review = reviewRepository.findById(accuseReviewReq.getReviewSeq()).get();
+        ReviewEntity review = reviewRepository.findById(accuseReviewReq.getReviewSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         review.updateByDec(RoleType.PS + "_" + accuseReviewReq.getPsSeq(), LocalDateTime.now());
         reviewRepository.save(review);
 
-        TotalRatingEntity totalRating = totalRatingRepository.findByPs(review.getPs()).get();
+        TotalRatingEntity totalRating = totalRatingRepository.findByPs(review.getPs()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
         totalRating.updateByDel(review.getPoint());
 
         totalRatingRepository.save(totalRating);

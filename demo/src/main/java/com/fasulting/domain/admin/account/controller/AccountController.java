@@ -36,11 +36,11 @@ public class AccountController {
 
         List<PsWaitRespDto> psWaitList = accountService.getPsWaitList();
 
-        if (psWaitList != null) {
+        if (!psWaitList.isEmpty()) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", psWaitList));
         }
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
 
     }
 
@@ -58,7 +58,7 @@ public class AccountController {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
 
-        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+        return ResponseEntity.status(401).body(ResponseBody.create(401, "fail")); // 권한 없음
 
     }
 

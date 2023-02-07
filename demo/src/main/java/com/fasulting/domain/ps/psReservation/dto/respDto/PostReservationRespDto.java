@@ -12,7 +12,10 @@ import java.util.List;
 public class PostReservationRespDto {
 
     private Long reservationSeq;
-    private String userName;
+    private String title; // useName
     private List<String> subCategoryName;
-    private String date; // yyyy.MM.dd (요일) 00시
+    private String reservationDateStart; // yyyy-MM-ddTHH:mm
+    private String reservationDateEnd; // yyyy-MM-ddTHH:mm
+    private String dayOfWeek;
+
 }

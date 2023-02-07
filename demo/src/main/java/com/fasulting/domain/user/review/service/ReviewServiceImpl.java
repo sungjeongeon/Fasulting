@@ -40,7 +40,9 @@ public class ReviewServiceImpl implements ReviewService{
 
         Long consultingSeq = reviewReqDto.getConsultingSeq();
 
-        ConsultingEntity consulting = consultingRepository.findById(consultingSeq).get();
+        ConsultingEntity consulting = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
         PsEntity ps = consulting.getPs();
         UserEntity user = consulting.getUser();
 
@@ -78,7 +80,9 @@ public class ReviewServiceImpl implements ReviewService{
         }
 
         // 통계 평점 최신화
-        TotalRatingEntity totalRating = totalRatingRepository.findByPs(ps).get();
+        TotalRatingEntity totalRating = totalRatingRepository.findByPs(ps).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
         totalRating.updateByReg(reviewReqDto.getPoint());
         totalRatingRepository.save(totalRating);
 
@@ -90,12 +94,6 @@ public class ReviewServiceImpl implements ReviewService{
 
         // 리뷰
         List<ReviewEntity> reviewList = reviewRepository.findAllByUserSeq(userSeq);
-
-
-        if(reviewList == null){
-
-            // 처리
-        }
 
         List<ReviewRespDto> reviewRespDtoList = new ArrayList<>();
 

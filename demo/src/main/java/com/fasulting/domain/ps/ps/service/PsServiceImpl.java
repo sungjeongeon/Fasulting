@@ -10,6 +10,7 @@ import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsLoginRespDto;
+import com.fasulting.domain.user.user.dto.respDto.UserInfoRespDto;
 import com.fasulting.entity.calendar.DefaultCalEntity;
 import com.fasulting.entity.calendar.OperatingCalEntity;
 import com.fasulting.entity.calendar.TimeEntity;
@@ -19,6 +20,7 @@ import com.fasulting.entity.doctor.DoctorEntity;
 import com.fasulting.entity.doctor.DoctorMainEntity;
 import com.fasulting.entity.ps.*;
 import com.fasulting.entity.review.ReviewEntity;
+import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.calendar.DefaultCalRepository;
 import com.fasulting.repository.calendar.OperatingCalRepository;
 import com.fasulting.repository.calendar.TimeRepository;
@@ -31,6 +33,7 @@ import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,14 +63,18 @@ public class PsServiceImpl implements PsService {
     private final PsDefaultRepository psDefaultRepository;
     private final ReviewRepository reviewRepository;
     private final TotalRatingRepository totalRatingRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 로그인
     @Override
     public PsLoginRespDto login(PsWithoutSeqReqDto psInfo) {
 
-        if(psRepository.findByEmailAndPassword(psInfo.getEmail(), psInfo.getPassword()).isPresent()) {
+        if (psRepository.findByEmailAndPassword(psInfo.getEmail(), psInfo.getPassword()).isPresent()) {
 
-            PsEntity ps = psRepository.findByEmailAndPassword(psInfo.getEmail(), psInfo.getPassword()).get();
+            PsEntity ps = psRepository.findByEmailAndPassword(psInfo.getEmail(), psInfo.getPassword()).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
+
 
             PsLoginRespDto psLoginRespDto = PsLoginRespDto.builder()
                     .psSeq(ps.getSeq())
@@ -79,6 +86,21 @@ public class PsServiceImpl implements PsService {
         }
 
         return null;
+
+//        if(psRepository.findPsByEmail(psInfo.getEmail()).isPresent()){
+//            PsEntity ps = psRepository.findPsByEmail(psInfo.getEmail()).get();
+//            if(passwordEncoder.matches(psInfo.getPassword(), ps.getPassword())){
+//                PsLoginRespDto psLoginRespDto = PsLoginRespDto.builder()
+//                        .psSeq(ps.getSeq())
+//                        .psName(ps.getName())
+//                        .build();
+//
+//                return psLoginRespDto;
+//            }
+//
+//        }
+//
+//        return null;
     }
 
     // 병원 회원 가입
@@ -94,7 +116,7 @@ public class PsServiceImpl implements PsService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,null, FileManage.psProfileImgDirPath);
+            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid, null, FileManage.psProfileImgDirPath);
         }
 
         String registrationImgUrl = null;
@@ -102,11 +124,11 @@ public class PsServiceImpl implements PsService {
         if (registrationImgFile != null && !registrationImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
-            registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid,null, FileManage.psRegImgDirPath);
+            registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid, null, FileManage.psRegImgDirPath);
         }
 
         PsEntity ps = PsEntity.builder().email(psInfo.getEmail())
-                .password(psInfo.getPassword())
+                .password(passwordEncoder.encode(psInfo.getPassword()))
                 .name(psInfo.getName())
                 .address(psInfo.getAddress())
                 .zipcode(psInfo.getZipcode())
@@ -159,7 +181,9 @@ public class PsServiceImpl implements PsService {
         /////////////// 병원 - 메인 카테고리 매핑 저장 => "PsMain" ///////////////
         for (String name : psInfo.getMainCategoryList()) {
 
-            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
 
             if (mainCategory != null) {
                 PsMainEntity psMain = PsMainEntity.builder().ps(ps)
@@ -173,7 +197,10 @@ public class PsServiceImpl implements PsService {
         /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
         for (String name : psInfo.getSubCategoryList()) {
 
-            SubCategoryEntity subCategory = subRepository.findMainByName(name).get();
+            SubCategoryEntity subCategory = subRepository.findMainByName(name).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
+
 
             MainCategoryEntity mainCategory = subCategory.getMainCategory();
 
@@ -195,9 +222,11 @@ public class PsServiceImpl implements PsService {
     public boolean resetPassword(PsWithoutSeqReqDto psInfo) {
         if (psRepository.findPsByEmail(psInfo.getEmail()).isPresent()) {
             // email이 있다면 그 email 가진 ps 찾기
-            PsEntity ps = psRepository.findPsByEmail(psInfo.getEmail()).get();
+            PsEntity ps = psRepository.findPsByEmail(psInfo.getEmail()).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
 
-            log.info(psInfo.getPassword());
+//            log.info(psInfo.getPassword());
 
             // password update
             ps.resetPassword(psInfo.getPassword());
@@ -222,12 +251,9 @@ public class PsServiceImpl implements PsService {
     // 병원 정보 조회
     @Override
     public PsInfoRespDto getPsInfo(Long psSeq) {
-        PsEntity ps = psRepository.findById(psSeq).get();
-
-        if (ps == null) {
-
-            // 처리
-        }
+        PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         // 운영시간
 
@@ -259,9 +285,15 @@ public class PsServiceImpl implements PsService {
                 list.add(-1);
                 map.put(i, list); // 1: 일요일 ~ 7 : 토요일
 
-                DefaultCalEntity defaultCal = defaultCalRepository.findByDayOfWeek(i).get();
+                DefaultCalEntity defaultCal = defaultCalRepository.findByDayOfWeek(i).orElseThrow(() -> {
+                    throw new NullPointerException();
+                });
 
-                TimeEntity time = timeRepository.findByNum(-1).get();
+
+                TimeEntity time = timeRepository.findByNum(-1).orElseThrow(() -> {
+                    throw new NullPointerException();
+                });
+
 
                 PsDefaultEntity psDefault = PsDefaultEntity.builder()
                         .ps(ps)
@@ -290,19 +322,9 @@ public class PsServiceImpl implements PsService {
             docDtoList.add(doctorRespDto);
         }
 
-        if (psDefaultList == null) {
-
-            // 처리
-        }
 
         // 리뷰
         List<ReviewEntity> reviewList = reviewRepository.findAllByPsSeq(psSeq);
-
-
-        if (reviewList == null) {
-
-            // 처리
-        }
 
         List<ReviewRespDto> reviewDtoList = new ArrayList<>();
 
@@ -391,7 +413,10 @@ public class PsServiceImpl implements PsService {
     public boolean checkPassword(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
         if (psRepository.findById(seq).isPresent()) {
-            String password = psRepository.findById(seq).get().getPassword();
+            PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
+            String password = ps.getPassword();
 
             if (password.equals(psInfo.getPassword())) {
                 return true;
@@ -407,23 +432,22 @@ public class PsServiceImpl implements PsService {
     public boolean editAddress(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
 
-        if (psRepository.findById(seq).isPresent()) {
-            PsEntity ps = psRepository.findById(seq).get();
+        PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
-            String preAddress = ps.getAddress();
+        String preAddress = ps.getAddress();
 
-            ps.updateAddress(psInfo.getAddress());
+        ps.updateAddress(psInfo.getAddress());
 
-            String postAddress = psInfo.getAddress();
+        String postAddress = psInfo.getAddress();
 
-            if (preAddress.equals(postAddress)) {
-                return false;
-            }
-
-            return true;
+        if (preAddress.equals(postAddress)) {
+            return false;
         }
 
-        return false;
+        return true;
+
     }
 
     // 소개말 수정
@@ -432,23 +456,23 @@ public class PsServiceImpl implements PsService {
     public boolean editIntro(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
 
-        if (psRepository.findById(seq).isPresent()) {
-            PsEntity ps = psRepository.findById(seq).get();
 
-            String preIntro = ps.getIntro();
+        PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
-            ps.updateIntro(psInfo.getIntro());
+        String preIntro = ps.getIntro();
 
-            String postIntro = psInfo.getIntro();
+        ps.updateIntro(psInfo.getIntro());
 
-            if (preIntro.equals(postIntro)) {
-                return false;
-            }
+        String postIntro = psInfo.getIntro();
 
-            return true;
+        if (preIntro.equals(postIntro)) {
+            return false;
         }
 
-        return false;
+        return true;
+
     }
 
     // 전화 번호 수정
@@ -457,24 +481,23 @@ public class PsServiceImpl implements PsService {
     public boolean editNumber(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
 
-        if (psRepository.findById(seq).isPresent()) {
-            PsEntity ps = psRepository.findById(seq).get();
 
-            String preNumber = ps.getNumber();
+        PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
-            ps.updateNumber(psInfo.getNumber());
+        String preNumber = ps.getNumber();
 
-            String postNumber = psInfo.getNumber();
+        ps.updateNumber(psInfo.getNumber());
 
-            if (preNumber.equals(postNumber)) {
-                return false;
-            }
+        String postNumber = psInfo.getNumber();
 
-            return true;
+        if (preNumber.equals(postNumber)) {
+            return false;
         }
 
+        return true;
 
-        return false;
     }
 
     // 홈페이지 주소 수정
@@ -483,23 +506,23 @@ public class PsServiceImpl implements PsService {
     public boolean editHomepage(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
 
-        if (psRepository.findById(seq).isPresent()) {
-            PsEntity ps = psRepository.findById(seq).get();
 
-            String preHomepage = ps.getHomepage();
+        PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
-            ps.updateHomepage(psInfo.getHomepage());
+        String preHomepage = ps.getHomepage();
 
-            String postHomepage = psInfo.getHomepage();
+        ps.updateHomepage(psInfo.getHomepage());
 
-            if (preHomepage.equals(postHomepage)) {
-                return false;
-            }
+        String postHomepage = psInfo.getHomepage();
 
-            return true;
+        if (preHomepage.equals(postHomepage)) {
+            return false;
         }
 
-        return false;
+        return true;
+
     }
 
     // 카테고리 수정
@@ -512,12 +535,17 @@ public class PsServiceImpl implements PsService {
         psMainSubRepository.deleteMainSubByPs(seq);
         psMainRepository.deleteMainByPs(seq);
 
-        PsEntity ps = psRepository.findById(seq).get();
+        PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         /////////////// 병원 - 메인 카테고리 매핑 저장 => "PsMain" ///////////////
         for (String name : psInfo.getMainCategoryList()) {
 
-            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
+            ;
 
             log.info(mainCategory.toString());
 
@@ -533,7 +561,9 @@ public class PsServiceImpl implements PsService {
         /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
         for (String name : psInfo.getSubCategoryList()) {
 
-            SubCategoryEntity subCategory = subRepository.findMainByName(name).get();
+            SubCategoryEntity subCategory = subRepository.findMainByName(name).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
             log.info(subCategory.toString());
 
             MainCategoryEntity mainCategory = subCategory.getMainCategory();
@@ -571,10 +601,13 @@ public class PsServiceImpl implements PsService {
 
         log.info(psDefaultReqDto.getPsSeq().toString());
 
-        log.info("ps is " + psRepository.findById(psDefaultReqDto.getPsSeq()).isPresent());
+//        log.info("ps is " + psRepository.findById(psDefaultReqDto.getPsSeq()).isPresent());
 
-        PsEntity ps = psRepository.findById(psDefaultReqDto.getPsSeq()).get();
-        log.info(ps + " : " +ps.toString());
+        PsEntity ps = psRepository.findById(psDefaultReqDto.getPsSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+
+        log.info(ps + " : " + ps.toString());
 
         //////////// default 운영 시간
         // delete
@@ -586,10 +619,15 @@ public class PsServiceImpl implements PsService {
         for (int i = 1; i <= 7; i++) {
             List<Integer> list = map.get(i + "");
 
-            DefaultCalEntity defaultCal = defaultCalRepository.findByDayOfWeek(i).get();
+            DefaultCalEntity defaultCal = defaultCalRepository.findByDayOfWeek(i).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
 
             for (Integer num : list) {
-                TimeEntity time = timeRepository.findByNum(num).get();
+                TimeEntity time = timeRepository.findByNum(num).orElseThrow(() -> {
+                    throw new NullPointerException();
+                });
+
 
                 PsDefaultEntity psDefault = PsDefaultEntity.builder()
                         .ps(ps)
@@ -617,7 +655,10 @@ public class PsServiceImpl implements PsService {
             for (OperatingCalEntity operatingCal : operatingCalList) {
 
                 for (Integer num : numList) {
-                    TimeEntity time = timeRepository.findByNum(num).get();
+                    TimeEntity time = timeRepository.findByNum(num).orElseThrow(() -> {
+                        throw new NullPointerException();
+                    });
+
 
                     PsOperatingEntity psOperating = PsOperatingEntity.builder()
                             .operatingCal(operatingCal)
@@ -636,14 +677,17 @@ public class PsServiceImpl implements PsService {
         return true;
     }
 
-    // 전문의 추가 설정
+    // 의사 현황 수정
     @Override
     @Transactional
     public boolean addDoctor(DoctorReqDto doctor) {
         // 파일
         MultipartFile imgFile = doctor.getImg();
 
-        PsEntity ps = psRepository.findById(doctor.getPsSeq()).get();
+        PsEntity ps = psRepository.findById(doctor.getPsSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+
 
         /////////////// 병원 - 전문의 리스트 저장 ///////////////
         String doctorImgUrl = null;
@@ -664,7 +708,10 @@ public class PsServiceImpl implements PsService {
 
         /////////////// 병원 - 전문의 - 메인 카테고리 매핑 저장 => "DoctorMain" ///////////////
         String name = doctor.getMainCategory();
-        MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
+        MainCategoryEntity mainCategory = mainRepository.findMainByName(name).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+
 
         DoctorMainEntity doctorMain = DoctorMainEntity.builder().doctor(doc)
                 .mainCategory(mainCategory).build();
