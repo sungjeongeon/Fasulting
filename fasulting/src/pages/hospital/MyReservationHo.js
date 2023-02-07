@@ -24,7 +24,7 @@ function MyReservationHo() {
   })
 
   return(
-    <div style={{ display: "grid", gridTemplateColumns: "5fr 3fr", marginTop: '2.5rem'}}>
+    <div style={{ display: "grid", gridTemplateColumns: "11fr 6fr", marginTop: '2.5rem'}}>
       {
       value === 0 ? 
       <div style={{display: "flex", flexDirection:"column"}}>

@@ -12,3 +12,8 @@
   font-size: 1.1rem;
   margin-top: 2.5rem;
 }
+
+.shadow {
+  box-shadow: 0 0.3em 1em rgba(114, 161, 166, 0.3);
+  /* box-shadow: none; */
+}

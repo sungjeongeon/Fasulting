@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import { Calendar, utils } from "@hassanmojab/react-modern-calendar-datepicker";
 import styles from "./CalendarCard.module.css"
-import NewReservationCard from "./NewReservationCard";
 import { useDispatch } from "react-redux";
 import { changeDate } from "../../redux/calendar"
 
@@ -30,18 +29,19 @@ const CalendarCard = () => {
     dispatch(changeDate(selectedDay))
   }, [dispatch, selectedDay])
   return (
-    <div>
+    <div style={{position: 'fixed'}}>
       <Calendar
         value={selectedDay}
         onChange={setSelectedDay}
         colorPrimary="#72a1a6"
+        calendarClassName={styles.shadow}
         calendarTodayClassName={styles.today}
         minimumDate={utils().getToday()}
         maximumDate={maxValue}
         shouldHighlightWeekends
       />
-      <p className={styles.p}>새로운 예약 알림</p>
-      <NewReservationCard/>
+      {/* <p className={styles.p}>새로운 예약 알림</p> */}
+      {/* <NewReservationCard/> */}
     </div>
 
   );

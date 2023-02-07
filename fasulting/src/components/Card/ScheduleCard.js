@@ -132,7 +132,7 @@ const Appointment = ({
 
     return (
     <Paper sx={{marginY: "2rem"}}>
-      <Scheduler data={appointmentsRedux} height={660}>
+      <Scheduler data={appointmentsRedux} height={'auto'}>
         <ViewState
         currentDate={current}
         />

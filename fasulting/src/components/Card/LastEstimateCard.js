@@ -5,7 +5,7 @@ import EstimateHocard from "./EstimateHoCard";
 
 function LastEstimateCard() {
   return (
-    <div style={{marginLeft: '1rem', marginTop: '1rem'}}>
+    <div style={{marginLeft: '3rem', marginTop: '1rem'}}>
       <BeforeAfterCard/>
       <div style={{display: 'flex', marginBottom: '3rem'}}>
         <ClientInfo/>
