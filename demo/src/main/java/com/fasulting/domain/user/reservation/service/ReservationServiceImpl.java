@@ -247,8 +247,9 @@ public class ReservationServiceImpl implements ReservationService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            beforeImgPath = FileManage.uploadFile(beforeImgFile, uuid, null, FileManage.beforeImgDirPath);
-            log.info(FileManage.beforeImgDirPath);
+
+            beforeImgPath = FileManage.uploadFile(beforeImgFile, uuid,"before/");
+
         }
 
         ReservationEntity reservation = ReservationEntity.builder()
