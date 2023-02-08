@@ -2,12 +2,12 @@ package com.fasulting.domain.jwt.service;
 
 import com.fasulting.common.RoleType;
 import com.fasulting.common.util.CheckInfo;
+import com.fasulting.domain.jwt.JwtTokenProvider;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
+import com.fasulting.domain.jwt.dto.respDtio.PsLoginRespDto;
 import com.fasulting.entity.ps.PsEntity;
 import com.fasulting.entity.token.PsTokenEntity;
 import com.fasulting.entity.token.TokenEntity;
-import com.fasulting.entity.token.UserTokenEntity;
-import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.ps.PsRepository;
 import com.fasulting.repository.token.PsTokenRepository;
 import com.fasulting.repository.token.TokenRepository;
@@ -34,9 +34,7 @@ public class PsJwtServiceImpl implements PsJwtService {
 
     @Transactional
     @Override
-    public Map<String, Object> login(LoginReqDto userInfo) {
-        Map<String, Object> resultMap = new HashMap<>();
-
+    public PsLoginRespDto login(LoginReqDto userInfo) {
         PsEntity ps = psRepository.findPsByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
 
         if (passwordEncoder.matches(userInfo.getPassword(), ps.getPassword())) {
@@ -79,12 +77,14 @@ public class PsJwtServiceImpl implements PsJwtService {
                 log.info(psToken.toString());
             }
 
+            PsLoginRespDto psLoginRespDto = PsLoginRespDto.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .psName(ps.getName())
+                    .psSeq(ps.getSeq())
+                    .build();
 
-            resultMap.put("access-token", accessToken);
-            resultMap.put("refresh-token", refreshToken);
-            resultMap.put("message", "success");
-
-            return resultMap;
+            return psLoginRespDto;
         }
 
         return null;
