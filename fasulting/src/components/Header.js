@@ -6,10 +6,20 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import Dropdown from "./Dropdown";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 function Header() {
   // 로그인 여부에 따라, nav bar 링크가 달라지므로 state 이용
-  const [login, setLogin] = useState(false);
+
+  const [is_login, setIsLogin] = useState(false);
   const userData = useSelector((store) => store.user);
+  console.log(userData);
+  useEffect(() => {
+    if (userData.userSeq !== "") {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [userData]);
   const nowpath = useLocation().pathname;
 
   // 병원회원인지에 따라 nav bar 또 변경
@@ -29,7 +39,7 @@ function Header() {
             alt="logo"
           />
         </Link>
-        {login ? (
+        {is_login ? (
           isHos ? (
             <div>
               <div className={`${styles.mypageho} ${styles.common}`}>
@@ -98,7 +108,7 @@ function Header() {
                 onClick={openState}
               >
                 <div>
-                  <span className={styles.activate}>username</span>
+                  <span className={styles.activate}>{userData.userName}</span>
                   <span>님</span>
                   <br />
                   <span className={styles.center}>

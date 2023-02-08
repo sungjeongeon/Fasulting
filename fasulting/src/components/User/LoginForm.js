@@ -50,9 +50,15 @@ export default function LoginForm() {
       } else if (usertype === "user") {
         try {
           await axiosAPi.post("/user/login", values).then((res) => {
-            if (res.data.message === "success") {
+            if (res.data.message == "success") {
+              console.log(res.data);
               dispatch(
-                loginUser({ userEmail: values.email, userPwd: values.password })
+                loginUser({
+                  userSeq: res.data.responseObj.userSeq,
+                  userName: res.data.responseObj.userName,
+                  userEmail: values.email,
+                  userPwd: values.password,
+                })
               );
               //토큰 받아오기
               const accessToken = res.data.responseObj.accessToken;
@@ -81,7 +87,7 @@ export default function LoginForm() {
           });
         } catch (e) {
           // 서버에서 받은 에러 메시지 출력
-          console.log(e.response.data.message);
+          console.log(e);
         }
       }
       // console.log(

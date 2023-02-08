@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
   name: "user", //리듀서 이름
   initialState: {
+    userSeq: "",
+    userName: "",
     userEmail: "",
     userPwd: "",
   }, //데이터 초기값
@@ -11,11 +13,13 @@ export const userSlice = createSlice({
     //로그인 성공시
     loginUser: (state, action) => {
       //state는 초기값의 value를 가져오고 actions안에 payload랑 type 이라는 친구가 있는데 우리가 바꾸고 싶은 데이터를 원하는 곳에다가 넘겨주는 역할
+      state.userSeq = action.payload.userSeq;
+      state.userName = action.payload.userName;
       state.userEmail = action.payload.userEmail;
       state.userPwd = action.payload.userPwd;
       return state;
     },
-    clearUser: (state) => {
+    logoutUser: (state) => {
       state.userEmail = "";
       state.userName = "";
       state.userBirth = "";
