@@ -12,6 +12,7 @@ import ReviewInfo from "../../components/Detail/ReviewInfo";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+import axiosAPi from "../../api/axiosApi";
 
 function Detail() {
   // const { id } = useParams();
@@ -20,11 +21,11 @@ function Detail() {
   const [detailhospital, setDetailhospital] = useState([]);
   const [reshospital, setReshospital] = useState([]);
   useEffect(() => {
-    axios.get("/main/ps-detail/1/3").then((res) => {
+    axiosAPi.get("/main/ps-detail/1/3").then((res) => {
       console.log("data", res.data);
       setDetailhospital(res.data.responseObj);
     });
-    axios.get("/reservation/1").then((res) => {
+    axiosAPi.get("/reservation/1").then((res) => {
       //console.log("reserve", res);
       setReshospital(res.data.responseObj);
     });

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import axiosAPi from "../../api/axiosApi";
 
 function PsList() {
   const param = useParams();
@@ -13,7 +14,7 @@ function PsList() {
 
   //서브 카테고리 반환
   useEffect(() => {
-    axios.get(`/main/sub/${param.seq}`).then((res) => {
+    axiosAPi.get(`/main/sub/${param.seq}`).then((res) => {
       //console.log(res.data);
       setSubcategory(res.data.responseObj);
       setSelectedSub([]); //선택된 배열 초기화

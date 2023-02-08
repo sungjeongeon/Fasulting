@@ -9,6 +9,7 @@ import Skeleton from "@mui/material/Skeleton";
 import OpenViduLayout from "./layout/openvidu-layout";
 import UserModel from "./models/user-model";
 import ToolbarComponent from "./toolbar/ToolbarComponent";
+import axiosAPi from "../../api/axiosApi";
 
 // 유저 생성
 var localUser = new UserModel();
@@ -659,7 +660,7 @@ class VideoRoom extends Component {
   }
 
   async createSession(sessionId) {
-    const response = await axios.post(
+    const response = await axiosAPi.post(
       APPLICATION_SERVER_URL + "api/sessions",
       { customSessionId: sessionId },
       {
@@ -670,7 +671,7 @@ class VideoRoom extends Component {
   }
 
   async createToken(sessionId) {
-    const response = await axios.post(
+    const response = await axiosAPi.post(
       APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
       {},
       {

@@ -4,6 +4,7 @@ import styles from "./MainCategoryList.module.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import axiosAPi from "../../api/axiosApi";
 function MainCategoryList() {
   const img = [
     {
@@ -51,7 +52,7 @@ function MainCategoryList() {
 
   const [maincategory, setMaincategory] = useState([]);
   useEffect(() => {
-    axios.get("/main").then((res) => {
+    axiosAPi.get("/main").then((res) => {
       setMaincategory(res.data.responseObj);
     });
   }, []);

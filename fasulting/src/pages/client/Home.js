@@ -7,6 +7,7 @@ import Footer from "../../components/Footer";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import axiosAPi from "../../api/axiosApi";
 
 function Home() {
   //통신 테스트
@@ -22,7 +23,8 @@ function Home() {
 
   const [maincategory, setMaincategory] = useState([]);
   useEffect(() => {
-    axios.get("/main").then((res) => {
+    axiosAPi.get("/main").then((res) => {
+      console.log(res.data);
       setMaincategory(res.data.responseObj);
     });
   }, []);
