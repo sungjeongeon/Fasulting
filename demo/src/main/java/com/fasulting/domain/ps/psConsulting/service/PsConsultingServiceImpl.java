@@ -26,9 +26,10 @@ public class PsConsultingServiceImpl implements PsConsultingService {
 
     private final ReservationRepository reservationRepository;
 
+
     @Override
     public Map<String, String> getBeforeImg(Long reservationSeq) {
-
+        log.info("getBeforeImg Service - Call");
         ReservationEntity reservation = reservationRepository.findById(reservationSeq).orElseThrow(() -> {
             throw new NullPointerException();
         });

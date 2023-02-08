@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Slf4j
-@Service
+@Component
 public class FileManage {
 
     private static AmazonS3Client amazonS3Client;
@@ -26,7 +27,6 @@ public class FileManage {
     }
 
 //    @Value("${cloud.aws.s3.bucket}")
-
     public static String bucket;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -51,11 +51,7 @@ public class FileManage {
         ObjectMetadata objMeta = new ObjectMetadata();
         String imgSaveUrl = uuid + "_" + imgFile.getOriginalFilename();
 
-//        try {
-//            objMeta.setContentLength(imgFile.getInputStream().available());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        objMeta.setContentType(imgFile.getContentType());
 
 //        log.info(imgFile.getOriginalFilename());
 //        log.info(objMeta.getContentLength());

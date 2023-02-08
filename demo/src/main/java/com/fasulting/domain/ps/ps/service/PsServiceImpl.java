@@ -214,7 +214,7 @@ public class PsServiceImpl implements PsService {
 
         }
 
-        log.info("dpd");
+//        log.info("dpd");
 
         /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
         for (String name : psInfo.getSubCategoryList()) {

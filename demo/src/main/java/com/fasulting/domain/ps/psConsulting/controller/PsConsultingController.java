@@ -1,56 +1,99 @@
 package com.fasulting.domain.ps.psConsulting.controller;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
 import com.fasulting.common.resp.ResponseBody;
 import com.fasulting.domain.ps.psConsulting.dto.ResultReqDto;
 import com.fasulting.domain.ps.psConsulting.service.PsConsultingService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Value;
 
 @RestController
 @Slf4j
 @RequestMapping("/ps-consulting")
+@RequiredArgsConstructor
 @CrossOrigin("*")
 public class PsConsultingController {
 
-    private PsConsultingService psConsultingService;
-    
-    public PsConsultingController(PsConsultingService psConsultingService) {
-        this.psConsultingService = psConsultingService;
+    private final PsConsultingService psConsultingService;
+    private final AmazonS3Client amazonS3Client;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+
+    private MediaType contentType(String name) {
+        String[] arr = name.split("\\.");
+        String type = arr[arr.length - 1];
+
+        switch(type) {
+            case "jpg":
+                return MediaType.IMAGE_JPEG;
+            case "png":
+                return MediaType.IMAGE_PNG;
+            default:
+                return MediaType.APPLICATION_OCTET_STREAM;
+        }
     }
 
     @GetMapping("/download/{reservationSeq}")
     public ResponseEntity<?> getBeforeImg(@PathVariable Long reservationSeq) {
+
+        log.info("getBeforeImg - Call");
 
         Map<String, String> map = psConsultingService.getBeforeImg(reservationSeq);
 
         String path = map.get("beforeImgPath");
         String originName = map.get("beforeImgOrigin");
 
+//        log.info(path + "\n" + originName);
+
+        S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucket, path));
+        S3ObjectInputStream objectInputStream =  s3Object.getObjectContent();
+
+        String[] arr = path.split("/");
+        String fullName = "";
+
+        
+
+//        for(String s : arr) {
+//            fullName += s;
+//        }
+
         try {
-            Path filePath = Paths.get(path);
-            Resource resource = new InputStreamResource(Files.newInputStream(filePath)); // 파일 resource 얻기
+            byte[] bytes = IOUtils.toByteArray(objectInputStream);
 
-            File file = new File(path);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(contentType(path));
+            httpHeaders.setContentLength(bytes.length);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(originName).build());  // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
+            String[] arr =
 
-            return new ResponseEntity<Object>(resource, headers, HttpStatus.OK); // 200
-        } catch(Exception e) {
-            return new ResponseEntity<Object>(null, HttpStatus.CONFLICT); // 409
+            httpHeaders.setContentDispositionFormData("attachment", originName);
+
+            return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+
+
     }
 
     // 상담 결과 작성
