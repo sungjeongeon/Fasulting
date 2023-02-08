@@ -1,7 +1,9 @@
 package com.fasulting.domain.user.reservation.service;
 
 import com.fasulting.common.RoleType;
+import com.fasulting.common.dto.respDto.MainCategoryRespDto;
 import com.fasulting.common.dto.respDto.PsOperatingRespDto;
+import com.fasulting.common.dto.respDto.SubCategoryRespDto;
 import com.fasulting.common.util.Date2String;
 import com.fasulting.common.util.FileManage;
 import com.fasulting.domain.user.reservation.dto.reqDto.CancelReservationReqDto;
