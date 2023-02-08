@@ -9,7 +9,6 @@ import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
-import com.fasulting.domain.jwt.dto.respDtio.PsLoginRespDto;
 import com.fasulting.entity.calendar.DefaultCalEntity;
 import com.fasulting.entity.calendar.OperatingCalEntity;
 import com.fasulting.entity.calendar.TimeEntity;
@@ -75,7 +74,7 @@ public class PsServiceImpl implements PsService {
 
         String profileImgUrl = null;
 
-        log.info(FileManage.psProfileImgDirPath);
+        log.info(FileManage.domain + FileManage.psProfileImgDirPath);
         if (profileImgFile != null && !profileImgFile.isEmpty()) {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
