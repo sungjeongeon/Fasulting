@@ -2,8 +2,8 @@ package com.fasulting.domain.jwt.controller;
 
 import com.fasulting.common.resp.ResponseBody;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
-import com.fasulting.domain.jwt.dto.respDtio.PsLoginRespDto;
-import com.fasulting.domain.jwt.service.PsJwtService;
+import com.fasulting.domain.jwt.dto.respDtio.AdminLoginRespDto;
+import com.fasulting.domain.jwt.service.AdminJwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -20,23 +20,23 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/ps")
+@RequestMapping("/admin")
 @CrossOrigin("*") // 수정
-public class PsJwtController {
+public class AdminJwtController {
 
-    private final PsJwtService psJwtService;
+    private final AdminJwtService adminJwtService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletResponse response) {
 
-        log.info("ps - login controller");
+        log.info("admin - login controller");
 
-        PsLoginRespDto psLoginRespDto = psJwtService.login(loginReqDto);
+        AdminLoginRespDto adminLoginRespDto = adminJwtService.login(loginReqDto);
 
-        if (psLoginRespDto != null) {
+        if (adminLoginRespDto != null) {
 
             // JWT 쿠키 저장(쿠키 명 : token)
-            Cookie cookie = new Cookie("refreshToken", psLoginRespDto.getRefreshToken());
+            Cookie cookie = new Cookie("refreshToken", adminLoginRespDto.getRefreshToken());
             cookie.setPath("/");
             cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
             // httpOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
@@ -44,9 +44,9 @@ public class PsJwtController {
             response.addCookie(cookie);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.AUTHORIZATION, psLoginRespDto.getAccessToken());
+            headers.add(HttpHeaders.AUTHORIZATION, adminLoginRespDto.getAccessToken());
 
-            return ResponseEntity.status(200).headers(headers).body(ResponseBody.create(200, "success", psLoginRespDto));
+            return ResponseEntity.status(200).headers(headers).body(ResponseBody.create(200, "success"));
         }
         // 로그인 정보가 비어있는 경우
         else {
@@ -54,14 +54,14 @@ public class PsJwtController {
         }
     }
 
-    @GetMapping("/logout/{psSeq}")
-    public ResponseEntity<?> logout(@PathVariable Long psSeq, HttpServletRequest request) {
+    @GetMapping("/logout/{adminSeq}")
+    public ResponseEntity<?> logout(@PathVariable Long adminSeq, HttpServletRequest request) {
 
-        log.info("ps - logout controller");
+        log.info("admin - logout controller");
 
         String accessToken = request.getHeader("Authorization");
 
-        if(psJwtService.logout(psSeq)){
+        if(adminJwtService.logout(adminSeq)){
             HttpSession session = request.getSession();
             session.setAttribute(accessToken, accessToken);
             session.setMaxInactiveInterval(30 * 60);

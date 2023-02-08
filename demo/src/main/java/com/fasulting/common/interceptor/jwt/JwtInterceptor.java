@@ -1,7 +1,7 @@
 package com.fasulting.common.interceptor.jwt;
 
 import com.fasulting.common.RoleType;
-import com.fasulting.domain.jwt.service.JwtTokenProvider;
+import com.fasulting.domain.jwt.JwtTokenProvider;
 import com.fasulting.entity.ps.PsEntity;
 import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.ps.PsRepository;
