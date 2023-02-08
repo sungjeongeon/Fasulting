@@ -3,6 +3,7 @@ import styles from "./SetOperatingTime.module.css";
 import SetOperatingTimeItem from "./SetOperatingTimeItem";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import axiosAPi from "../../api/axiosApi";
 
 function SetOperatingTime({ ModalStateChange }) {
   const week = [
@@ -42,6 +43,12 @@ function SetOperatingTime({ ModalStateChange }) {
     });
   };
   const saveSchedule = () => {
+    axiosAPi
+      .put("/ps/operating", {
+        psSeq: 1,
+        defaultTime: weekSchedule,
+      })
+      .then((res) => console.log(res));
     console.log(weekSchedule);
   };
   return (
