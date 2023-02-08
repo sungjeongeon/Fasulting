@@ -5,6 +5,7 @@ import com.fasulting.domain.ps.ps.dto.reqDto.DoctorReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.respDto.CategoryListRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.domain.ps.ps.service.PsService;
 import io.swagger.annotations.Api;
@@ -25,20 +26,28 @@ public class PsController {
 
     private final PsService psService;
 
+    @GetMapping("/regist")
+    @ApiOperation(value = "병원 계정 회원 가입 시 카테고리 목록 조회", notes = "가입 시 카테고리 등록을 위한 리스트")
+    public ResponseEntity<?> getCategoryList() {
+        log.info("getCategoryList Controller Call");
+
+        CategoryListRespDto resp = psService.getCategoryList();
+
+        if (resp != null) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
+
     /**
      * 병원 계정 가입
-     *
      * @param psInfo
      * @return fail or success
      */
     @PostMapping("/regist")
     @ApiOperation(value = "병원 계정 회원 가입", notes = "병원 기본 정보, 전문의 리스트 기입하여 회원 가입")
     public ResponseEntity<?> psRegister(@ModelAttribute @ApiParam(value = "회원 가입 정보", required = true) PsWithoutSeqReqDto psInfo) {
-        log.info("psRegister - Call");
-
-        log.info(psInfo.toString());
-        log.info("profile : " + psInfo.getProfileImg().getOriginalFilename());
-        log.info("reg : " + psInfo.getRegistrationImg().getOriginalFilename());
+        log.info("psRegister Controller Call");
 
         if (psService.psRegister(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
@@ -48,7 +57,6 @@ public class PsController {
 
     /**
      * 이메일 조회 및 중복 확인
-     *
      * @param email
      * @return fail or success
      * fail: email 중복

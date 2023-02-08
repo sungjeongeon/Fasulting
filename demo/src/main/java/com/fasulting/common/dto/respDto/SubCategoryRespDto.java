@@ -1,11 +1,11 @@
-package com.fasulting.domain.user.main.dto.respDto;
+package com.fasulting.common.dto.respDto;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-@Builder
 @Getter
+@Builder
 @ToString
 public class SubCategoryRespDto {
 

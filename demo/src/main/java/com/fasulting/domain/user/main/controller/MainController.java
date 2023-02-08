@@ -1,9 +1,7 @@
 package com.fasulting.domain.user.main.controller;
 
-import com.fasulting.domain.user.main.dto.respDto.MainCategoryRespDto;
 import com.fasulting.domain.user.main.dto.respDto.PsDetailRespDto;
 import com.fasulting.domain.user.main.dto.respDto.PsListRespDto;
-import com.fasulting.domain.user.main.dto.respDto.SubCategoryRespDto;
 import com.fasulting.domain.user.main.service.MainService;
 import com.fasulting.common.resp.ResponseBody;
 import io.swagger.annotations.Api;

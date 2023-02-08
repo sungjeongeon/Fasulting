@@ -4,8 +4,6 @@ import com.fasulting.common.RoleType;
 import com.fasulting.common.dto.respDto.PsOperatingRespDto;
 import com.fasulting.common.util.Date2String;
 import com.fasulting.common.util.FileManage;
-import com.fasulting.domain.user.main.dto.respDto.MainCategoryRespDto;
-import com.fasulting.domain.user.main.dto.respDto.SubCategoryRespDto;
 import com.fasulting.domain.user.reservation.dto.reqDto.CancelReservationReqDto;
 import com.fasulting.domain.user.reservation.dto.reqDto.RegReservationReqDto;
 import com.fasulting.domain.user.reservation.dto.respDto.PostReservationRespDto;
