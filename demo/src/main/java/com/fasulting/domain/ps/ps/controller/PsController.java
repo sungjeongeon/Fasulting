@@ -1,68 +1,29 @@
 package com.fasulting.domain.ps.ps.controller;
 
-import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
-import com.fasulting.domain.ps.ps.dto.respDto.PsLoginRespDto;
-import com.fasulting.domain.ps.ps.service.PsService;
 import com.fasulting.common.resp.ResponseBody;
-import com.fasulting.domain.ps.ps.dto.reqDto.*;
+import com.fasulting.domain.ps.ps.dto.reqDto.DoctorReqDto;
+import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
+import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
+import com.fasulting.domain.ps.ps.service.PsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Api(value = "병원 계정 관련 API", tags = {"PsController"})
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/ps")
 @CrossOrigin("*") // 수정
 public class PsController {
 
-    private PsService psService;
-
-    @Autowired
-    public PsController(PsService psService) {
-
-        this.psService = psService;
-    }
-
-    /**
-     * 로그인 - jwt
-     *
-     * @param psInfo email & password
-     * @return seq & 가입 승인 여부
-     */
-    @PostMapping("/login")
-    @ApiOperation(value = "병원 계정 로그인", notes = "..")
-    public ResponseEntity<?> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) PsWithoutSeqReqDto psInfo) {
-
-        log.info("ps Login - Call");
-
-        PsLoginRespDto ps = psService.login(psInfo);
-
-        if (ps != null) {
-            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", ps));
-        }
-        return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
-
-    }
-
-    /**
-     * 로그아웃 - jwt
-     *
-     * @param seq
-     * @return fail OR success
-     */
-    @GetMapping("/logout/{seq}")
-    @ApiOperation(value = "병원 계정 로그아웃", notes = "..")
-    public ResponseEntity<?> logout(@PathVariable @ApiParam(value = "로그아웃 정보 (ps seq)", required = true) int seq) {
-
-        // ㅂㅂ
-
-        return null; // fail OR successs
-    }
+    private final PsService psService;
 
     /**
      * 병원 계정 가입
@@ -76,7 +37,8 @@ public class PsController {
         log.info("psRegister - Call");
 
         log.info(psInfo.toString());
-        log.info(psInfo.getRegistrationImg().getOriginalFilename());
+        log.info("profile : " + psInfo.getProfileImg().getOriginalFilename());
+        log.info("reg : " + psInfo.getRegistrationImg().getOriginalFilename());
 
         if (psService.psRegister(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));

@@ -47,9 +47,12 @@ public class JwtInterceptor implements HandlerInterceptor {
                 PsEntity ps = psRepository.findPsByEmail(userEmail).get();
                 Long seq = ps.getSeq();
 
+                log.info(ps.toString());
                 LoginInfo.setSeq(seq);
                 LoginInfo.setEmail(userEmail);
                 LoginInfo.setDomain(domain);
+
+                log.info(LoginInfo.getEmail());
 
 
             } else if (RoleType.ADMIN.equals(domain)) {

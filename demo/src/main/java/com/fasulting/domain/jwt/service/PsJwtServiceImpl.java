@@ -3,12 +3,14 @@ package com.fasulting.domain.jwt.service;
 import com.fasulting.common.RoleType;
 import com.fasulting.common.util.CheckInfo;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
+import com.fasulting.entity.ps.PsEntity;
+import com.fasulting.entity.token.PsTokenEntity;
 import com.fasulting.entity.token.TokenEntity;
-import com.fasulting.entity.user.UserEntity;
 import com.fasulting.entity.token.UserTokenEntity;
+import com.fasulting.entity.user.UserEntity;
+import com.fasulting.repository.ps.PsRepository;
+import com.fasulting.repository.token.PsTokenRepository;
 import com.fasulting.repository.token.TokenRepository;
-import com.fasulting.repository.token.UserTokenRepository;
-import com.fasulting.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,29 +21,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-@Service
 @Slf4j
-public class UserJwtServiceImpl implements UserJwtService {
+@Service
+public class PsJwtServiceImpl implements PsJwtService {
 
-    private final UserRepository userRepository;
+    private final PsRepository psRepository;
     private final TokenRepository tokenRepository;
-    private final UserTokenRepository userTokenRepository;
+    private final PsTokenRepository psTokenRepository;
     private final JwtTokenProvider jwtService;
     private final PasswordEncoder passwordEncoder;
 
-    @Override
+
     @Transactional
+    @Override
     public Map<String, Object> login(LoginReqDto userInfo) {
         Map<String, Object> resultMap = new HashMap<>();
 
-        UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
+        PsEntity ps = psRepository.findPsByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
 
-        if (passwordEncoder.matches(userInfo.getPassword(), user.getPassword())) {
+        if (passwordEncoder.matches(userInfo.getPassword(), ps.getPassword())) {
 
-            String accessToken = jwtService.createAccessToken(user.getEmail(), user.getRole().getAuthority(), RoleType.USER);
-            String refreshToken = jwtService.createRefreshToken(user.getEmail(), user.getRole().getAuthority(), RoleType.USER);
+            String accessToken = jwtService.createAccessToken(ps.getEmail(), RoleType.PS, RoleType.PS);
+            String refreshToken = jwtService.createRefreshToken(ps.getEmail(), RoleType.PS, RoleType.PS);
 
-            log.info(user.toString());
+            log.info(ps.toString());
 
             TokenEntity token = TokenEntity.builder()
                     .refreshToken(refreshToken)
@@ -54,26 +57,26 @@ public class UserJwtServiceImpl implements UserJwtService {
             log.info(tokenRepository.findByRefreshToken(refreshToken).get().toString());
 
             // 기존 refresh 토큰 삭제
-            if (userTokenRepository.findByUser(user).isPresent()) {
-                UserTokenEntity userToken = userTokenRepository.findByUser(user).get();
+            if (psTokenRepository.findByPs(ps).isPresent()) {
+                PsTokenEntity psToken = psTokenRepository.findByPs(ps).get();
 
-                TokenEntity preToken = userToken.getToken();
+                TokenEntity preToken = psToken.getToken();
 
-                userToken.updateToken(tokenRepository.findByRefreshToken(refreshToken).get());
-                userTokenRepository.save(userToken);
+                psToken.updateToken(tokenRepository.findByRefreshToken(refreshToken).get());
+                psTokenRepository.save(psToken);
                 tokenRepository.delete(preToken);
 
             } else {
-                UserTokenEntity userToken = UserTokenEntity.builder()
-                        .user(user)
+                PsTokenEntity psToken = PsTokenEntity.builder()
+                        .ps(ps)
                         .token(tokenRepository.findByRefreshToken(refreshToken).get())
                         .build();
 
-                log.info(user.toString());
-                log.info(userToken.toString());
+                log.info(ps.toString());
+                log.info(psToken.toString());
 
-                userTokenRepository.save(userToken);
-                log.info(userToken.toString());
+                psTokenRepository.save(psToken);
+                log.info(psToken.toString());
             }
 
 
@@ -82,7 +85,6 @@ public class UserJwtServiceImpl implements UserJwtService {
             resultMap.put("message", "success");
 
             return resultMap;
-
         }
 
         return null;
@@ -90,33 +92,29 @@ public class UserJwtServiceImpl implements UserJwtService {
 
     @Transactional
     @Override
-    public boolean logout(Long userSeq) {
-
-        UserEntity user = userRepository.findById(userSeq).orElseThrow(
+    public boolean logout(Long psSeq) {
+        PsEntity ps = psRepository.findById(psSeq).orElseThrow(
                 () -> {
                     throw new NullPointerException();
                 });
 
         // 토큰에서 뽑은 정보와 매개변수로 받은 정보 비교
-        if (CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())) {
+        if (CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)) {
 
             // 기존 refresh 토큰 삭제
-            UserTokenEntity userToken = userTokenRepository.findByUser(user).orElseThrow(
+            PsTokenEntity psToken = psTokenRepository.findByPs(ps).orElseThrow(
                     () -> {
                         throw new NullPointerException();
                     });
 
-            TokenEntity preToken = userToken.getToken();
+            TokenEntity preToken = psToken.getToken();
 
-            userTokenRepository.delete(userToken);
+            psTokenRepository.delete(psToken);
             tokenRepository.delete(preToken);
 
             return true;
         }
 
         return false;
-
     }
-
-
 }

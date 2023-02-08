@@ -1,14 +1,21 @@
 package com.fasulting.entity.ps;
 
+import com.fasulting.common.RoleType;
 import com.fasulting.entity.BaseEntity;
 import com.fasulting.entity.token.PsTokenEntity;
 import com.fasulting.entity.token.UserTokenEntity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,7 +24,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "ps")
-public class PsEntity extends BaseEntity {
+public class PsEntity extends BaseEntity implements UserDetails {
 
    	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -144,4 +151,37 @@ public class PsEntity extends BaseEntity {
 		   this.confirmDate = confirmDate;
 
     }
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		String role = RoleType.PS;
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(role));
+		return authorities;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }
