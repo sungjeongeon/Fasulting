@@ -37,7 +37,7 @@ function ProfileDoctorUpdate({ doctors }) {
       <div className={styles.cardList}>
         {doctors.map((doc) => (
           <div key={doc.doctorSeq}>
-            <DoctorCard name={doc.name} main_category={doc.mainCategoryName} />
+            <DoctorCard name={doc.name} main_category={doc.mainCategoryName} profileImg={doc.profileImg}/>
             <button
               value={doc.doctorSeq}
               className={styles.deleteBtn}

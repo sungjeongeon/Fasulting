@@ -13,29 +13,32 @@ function AddDoctor({ModalStateChange}) {
   // 미리보기 위한 src
   const [imgSrc, setImgSrc] = useState('')
   // img 파일 객체 (서버에 보내줄 것)
-  const [imgFile, setImgFile] = useState(null)
+  const [imgFile, setImgFile] = useState([])
 
   // 의사 input value
   const onChange = (e) => {
     setDocName(e.target.value)
   }
 
-  // 이미지 미리보기 위한 url state 변경 
-  const saveImage = ((e) => {
-    setImgFile(e.target.files[0])
-    setImgSrc(URL.createObjectURL(e.target.files[0]))
-  })
-   // 파일 삭제 (서버 전송 이후)
-  const deleteImage = () => {
+  // 파일 객체 state에 저장 + 이미지 미리보기 위한 url state 변경 
+  const saveImage = (e) => {
+    const uploadImg = e.target.files[0]
+    // console.log(e.target.files[0])
+    setImgFile(uploadImg)
+    setImgSrc(URL.createObjectURL(uploadImg))
+  }
+
+  const deleteImgSrc = (e) => {
     URL.revokeObjectURL(imgSrc);
     setImgSrc("");
-  };
-
-  const prevent = ((e) => {
+  }
+  
+  const prevent = (e) => {
     e.preventDefault()
-  })
+  }
   // 병원 임시 id
   const psSeq = 1
+  // console.log(psSeq, docName, mainCtg, imgFile)
   const addDoctor = async () => {
     const formData = new FormData();
     formData.append("psSeq", psSeq)
@@ -50,7 +53,6 @@ function AddDoctor({ModalStateChange}) {
           "Content-Type": "multipart/form-data"
         },
       })
-      // deleteImage()
     } catch (e) {
       console.log(e)
     }
@@ -100,6 +102,7 @@ function AddDoctor({ModalStateChange}) {
                 onClick={() => {
                   ModalStateChange();
                   addDoctor();
+                  deleteImgSrc();
                 }}>
                 등록
               </button>

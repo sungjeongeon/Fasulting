@@ -2,72 +2,60 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import styles from "./ProfileUpdateForm.module.css";
 import TextField from "@mui/material/TextField";
-import axios from "axios";
+import axiosAPi from "../../api/axiosApi";
 
 function ProfileUpdateForm({ title, content }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [newContent, setNewContent] = useState();
+  const [newContent, setNewContent] = useState(content === null ? "" : content);
+  
+  // 임시 id
+  const psSeq = 1
+
   const onClick = (e) => {
     setIsEditing((current) => !current);
-    console.log(newContent);
     // isEditing === true 일 때만 api 요청 (내용 update)
-    // if (isEditing === true) {
-    //   if (title === "주소") {
-    //     axios.put('/ps/address', {
-    //       // headers:{
-    //       //   'Authorization': `Bearer ${token}`,
-                  // "Content-Type": 'application/json'
-    //       // },
-    //       body: {
-    //         "seq": psSeq,
-    //         "address": newContent
-    //       }
-    //     }).then(res => {
-    //       res.message === 200 ? console.log("success") : console.log("failed")
-    //     })
-    //   } else if (title === "소개말") {
-    //       axios.put('/ps/intro', {
-    //         // headers:{
-    //         //   'Authorization': `Bearer ${token}`
-    //         // },
-    //         body: {
-    //           "seq": psSeq,
-    //           "intro": newContent
-    //         }
-    //       }).then(res => {
-    //         res.message === 200 ? console.log("success") : console.log("failed")
-    //       })
-    //     } else if (title === "연락처") {
-    //         axios.put('/ps/number', {
-    //           // headers:{
-    //           //   'Authorization': `Bearer ${token}`
-    //           // },
-    //           body: {
-    //             "seq": psSeq,
-    //             "number": newContent
-    //           }
-    //         }).then(res => {
-    //           res.message === 200 ? console.log("success") : console.log("failed")
-    //         })
-    //       } else if (title === "홈페이지") {
-    //           axios.put('/ps/homepage', {
-    //             // headers:{
-    //             //   'Authorization': `Bearer ${token}`
-    //             // },
-    //             body: {
-    //               "seq": psSeq,
-    //               "homepage": newContent
-    //             }
-    //           }).then(res => {
-    //             res.message === 200 ? console.log("success") : console.log("failed")
-    //           })
-    //         }
-    //  }
-    
+    if (isEditing === true) {
+      if (title === "주소") {
+        axiosAPi.put('/ps/address', JSON.stringify({
+            "seq": psSeq,
+            "address": newContent,
+        }))
+        .then(res => console.log(res.data.message))
+        .catch(err => console.log(err))
+
+      } else if (title === "소개") {
+        axiosAPi.put('/ps/intro', {
+          "seq": psSeq,
+          "intro": newContent,
+        }, {
+          headers: { "Content-Type": "application/json;charset=UTF-8" }
+        }
+        )
+        .then(res => console.log(res.data.message))
+        .catch(err => console.log(err))
+      } else if (title === "연락처") {
+          axiosAPi.put('/ps/number', {
+            "seq": psSeq,
+            "number": newContent
+          })
+          .then(res => console.log(res.data.message))
+          .catch(err => console.log(err))
+        } else if (title === "홈페이지") {
+            axiosAPi.put('/ps/homepage', {
+              "seq": psSeq,
+              "homepage": newContent
+            })
+            .then(res => console.log(res.data.message))
+            .catch(err => console.log(err))
+          }
+     }
   };
+
+  // input 변경
   const changeInput = (e) => {
     setNewContent(e.target.value);
   };
+
   return (
     <div>
       <div className={styles.titleDiv}>
