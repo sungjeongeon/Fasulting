@@ -210,7 +210,7 @@ public class PsReservationServiceImpl implements PsReservationService {
     }
 
     /**
-     * 지난 예약 조회
+     * 지난 예약(상담) 조회
      * @param psSeq
      * @param current
      * @return
@@ -226,7 +226,7 @@ public class PsReservationServiceImpl implements PsReservationService {
             throw new NullPointerException();
         });
 
-        List<ConsultingEntity> cList = consultingRepository.findAllByPs(ps);
+        List<ConsultingEntity> cList = consultingRepository.getAllByPsSeq(ps.getSeq());
 
 //        log.info(cList.toString());
 
@@ -239,19 +239,20 @@ public class PsReservationServiceImpl implements PsReservationService {
             if (reportRepository.findByConsulting(c).isPresent()) {
                 estimate = reportRepository.findByConsulting(c).get().getEstimate();
 
-                PreReservationRespDto respDto = PreReservationRespDto.builder()
-                        .consultingSeq(c.getSeq())
-                        .userName(c.getUser().getName())
-                        .estimate(estimate)
-                        .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
-                        .year(c.getReservation().getReservationCal().getYear())
-                        .month(c.getReservation().getReservationCal().getMonth())
-                        .hour(c.getReservation().getTime().getStartHour())
-                        .minute(c.getReservation().getTime().getStartMin())
-                        .build();
-
-                respList.add(respDto);
             }
+
+            PreReservationRespDto respDto = PreReservationRespDto.builder()
+                    .consultingSeq(c.getSeq())
+                    .userName(c.getUser().getName())
+                    .estimate(estimate)
+                    .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
+                    .year(c.getReservation().getReservationCal().getYear())
+                    .month(c.getReservation().getReservationCal().getMonth())
+                    .hour(c.getReservation().getTime().getStartHour())
+                    .minute(c.getReservation().getTime().getStartMin())
+                    .build();
+
+            respList.add(respDto);
 
         }
 
