@@ -4,6 +4,7 @@ import propTypes from "prop-types";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Token } from "@mui/icons-material";
+import axiosAPi from "../../api/axiosApi";
 
 function Reservation(props) {
   // 임시 data
@@ -28,10 +29,10 @@ function Reservation(props) {
     formData.append("subCategory", props.subCategory);
 
     try {
-      await axios.post("/reservation/register", formData, {
+      await axiosAPi.post("/reservation/register", formData, {
         headers: {
-          //"access-token": Token,
-          "Content-Type": "mutlipart/form-data",
+          "Content-Type": "multipart/form-data",
+          //Authorization: localStorage.getItem("access_token")
         },
         withCredentials: true,
       });
@@ -47,6 +48,15 @@ function Reservation(props) {
         }
       );
     } catch (e) {
+      // FormData의 key 확인
+      for (let key of formData.keys()) {
+        console.log(key);
+      }
+
+      // FormData의 value 확인
+      for (let value of formData.values()) {
+        console.log(value);
+      }
       console.log(e.response.data.message);
     }
   };

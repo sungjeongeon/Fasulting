@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { Category } from "@mui/icons-material";
+import axiosAPi from "../../api/axiosApi";
 
 function HospitalList({ selectedSub }) {
   // 임시 data
@@ -44,7 +45,7 @@ function HospitalList({ selectedSub }) {
   const [hospitalList, setHospitalList] = useState([]);
   useEffect(() => {
     //메인 선택시 병원
-    axios.get(`/main/ps-list/${param.seq}`).then((res) => {
+    axiosAPi.get(`/main/ps-list/${param.seq}`).then((res) => {
       //console.log(res.data);
       setHospitalList(res.data.responseObj);
     });

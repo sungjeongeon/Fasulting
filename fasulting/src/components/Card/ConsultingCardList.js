@@ -3,9 +3,10 @@ import { Grid } from "@mui/material";
 import styles from "./FavResCard.module.css";
 import axios from "axios";
 import { useEffect } from "react";
+import axiosAPi from "../../api/axiosApi";
 function ConsultingCardList() {
   useEffect(() => {
-    axios.get("/reservation/post/1").then((res) => {
+    axiosAPi.get("/reservation/post/1").then((res) => {
       console.log(res);
     });
   }, []);

@@ -23,6 +23,7 @@ import PsRegistFormComplete from "./PsRegistFormComplete";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import axiosAPi from "../../api/axiosApi";
 const steps = ["개인 정보", "병원 관련 등록", "병원 인증"];
 const { formId, formField } = checkoutFormModel;
 
@@ -80,7 +81,7 @@ export default function PsRegist() {
       console.log(value);
     }
     try {
-      await axios.post("/ps/regist", {
+      await axiosAPi.post("/ps/regist", {
         headers: {
           "Content-Type": "multiaprt/form",
         },

@@ -17,6 +17,7 @@ import {
 import styles from "./Form.module.css";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
+import axiosAPi from "../../api/axiosApi";
 
 const validationSchema = yup.object({
   email: yup
@@ -68,7 +69,7 @@ export default function RegisterForm() {
     onSubmit: async (values) => {
       const { email, password, repassword, name, birth, number } = values;
       try {
-        await axios.post("/user/regist", {
+        await axiosAPi.post("/user/regist", {
           email,
           password,
           repassword,

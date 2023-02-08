@@ -20,6 +20,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/user";
 import axios from "axios";
+import axiosAPi from "../../api/axiosApi";
 
 const validationSchema = yup.object({
   usertype: yup.bool().oneOf([true], "회원유형을 선택해주세요."),
@@ -50,7 +51,7 @@ export default function LoginForm() {
         dispatch(
           loginUser({ userEmail: values.email, userPwd: values.password })
         );
-        await axios.post("/user/login", values).then((res) => {
+        await axiosAPi.post("/user/login", values).then((res) => {
           const token = res.data.token;
           localStorage.setItem("jwtToken", token);
         });
