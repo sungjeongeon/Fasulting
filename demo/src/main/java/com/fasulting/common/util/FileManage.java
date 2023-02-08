@@ -19,7 +19,7 @@ public class FileManage {
     public static final String doctorImgPath = "doctor/profile/";
 
 
-    public static final String domain = "file://home/ubuntu/fasulting/";
+    public static final String domain = "/home/ubuntu/fasulting/";
 
 
     public static String uploadFile(MultipartFile imgFile, UUID uuid, String imgUrl, String path) {
