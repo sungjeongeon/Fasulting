@@ -1,10 +1,7 @@
 package com.fasulting.domain.ps.ps.controller;
 
 import com.fasulting.common.resp.ResponseBody;
-import com.fasulting.domain.ps.ps.dto.reqDto.DoctorReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.reqDto.*;
 import com.fasulting.domain.ps.ps.dto.respDto.CategoryListRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.domain.ps.ps.service.PsService;
@@ -77,7 +74,6 @@ public class PsController {
 
     /**
      * 병원 정보 조회
-     *
      * @param psSeq
      * @return 회원 정보 OR fail
      */
@@ -96,8 +92,7 @@ public class PsController {
     }
 
     /**
-     * 병원 게정 탈퇴
-     *
+     * 병원 계정 탈퇴
      * @param psInfo (seq)
      * @return success OR fail
      */
@@ -119,7 +114,6 @@ public class PsController {
     /**
      * 보안 - 비밀번호 확인 (로그인 상태에서)
      * DB table 안의 기존 비밀 번호 & 새로 설정한 비밀번호 비교
-     *
      * @param psInfo (seq, password)
      * @return success OR fail
      */
@@ -138,7 +132,6 @@ public class PsController {
 
     /**
      * 비밀번호 수정 - 재설정 - 비밀번호만 update
-     *
      * @param psInfo
      * @return success OR fail
      * success: update 성공
@@ -160,7 +153,6 @@ public class PsController {
 
     /**
      * 주소 수정
-     *
      * @param psInfo ps seq, 주소
      * @return
      */
@@ -177,7 +169,6 @@ public class PsController {
 
     /**
      * 소개말 수정
-     *
      * @param psInfo ps seq, 소개말
      * @return
      */
@@ -194,7 +185,6 @@ public class PsController {
 
     /**
      * 번호 수정
-     *
      * @param psInfo
      * @return
      */
@@ -256,12 +246,12 @@ public class PsController {
     /**
      * 의사 삭제
      */
-    @DeleteMapping("/doctor/{doctorSeq}")
+    @DeleteMapping("/doctor")
     @ApiOperation(value = "의사 삭제", notes = "doctor seq 받아 삭제")
-    public ResponseEntity<?> deleteDoctor(@PathVariable Long doctorSeq) {
+    public ResponseEntity<?> deleteDoctor(@RequestBody DoctorDelReqDto doctorDelReqDto) {
         log.info("ps delete Doctor - Call");
 
-        if (psService.deleteDoctor(doctorSeq)) {
+        if (psService.deleteDoctor(doctorDelReqDto)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));

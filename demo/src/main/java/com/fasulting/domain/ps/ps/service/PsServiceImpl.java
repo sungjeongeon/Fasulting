@@ -7,10 +7,7 @@ import com.fasulting.common.dto.respDto.MainCategoryRespDto;
 import com.fasulting.common.dto.respDto.ReviewRespDto;
 import com.fasulting.common.dto.respDto.SubCategoryRespDto;
 import com.fasulting.common.util.FileManage;
-import com.fasulting.domain.ps.ps.dto.reqDto.DoctorReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.reqDto.*;
 import com.fasulting.domain.ps.ps.dto.respDto.CategoryListRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.entity.calendar.DefaultCalEntity;
@@ -605,7 +602,16 @@ public class PsServiceImpl implements PsService {
     // 전문의 삭제
     @Override
     @Transactional
-    public boolean deleteDoctor(Long doctorSeq) {
+    public boolean deleteDoctor(DoctorDelReqDto doctorDelReqDto) {
+
+        Long psSeq = doctorDelReqDto.getPsSeq();
+        Long doctorSeq = doctorDelReqDto.getDoctorSeq();
+
+        DoctorEntity doctor = doctorRepository.findById(doctorSeq).orElseThrow(() -> new NullPointerException());
+
+        if(doctor.getPs().getSeq() != psSeq){
+            return false;
+        }
 
         // delete
         doctorMainRepository.deleteMainByDoctor(doctorSeq);
