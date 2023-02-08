@@ -112,7 +112,7 @@ function Reservation(props) {
   const submitForm = async () => {
     const formData = new FormData();
     formData.append("userSeq", 1); //유저 변수 필요
-    formData.append("psSeq", id); //ps 변수 필요
+    formData.append("psSeq", 1); //ps 변수 필요
     formData.append("year", props.year);
     formData.append("month", props.month);
     formData.append("day", props.day);

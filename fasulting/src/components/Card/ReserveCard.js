@@ -91,6 +91,7 @@ export default function ReserveCard({ reshospital }) {
     setMonth(date.month);
     setDay(date.day);
     setDayOfWeek(date.dayOfWeek);
+
     // 병원의 7일간 모든 운영시간 중에 사용자가 선택한 날짜와 일치하는 data만 filtering
     //console.log("reshospital", reshospital);
     //console.log("res", reshospital);
@@ -213,7 +214,7 @@ export default function ReserveCard({ reshospital }) {
         {ModalOpen && (
           <Reservation
             psName={reshospital.psName}
-            psSeq={reshospital.psSeq}
+            //psSeq={reshospital.psSeq}
             year={year}
             month={month}
             day={day}

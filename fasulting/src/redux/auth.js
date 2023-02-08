@@ -12,7 +12,7 @@ export const tokenSlice = createSlice({
   reducers: {
     setToken: (state, action) => {
       state.authenticated = true; //현재 로그인 여부
-      state.accessToken = action.payload; //accessToken 저장
+      state.accessToken = action.payload.accessToken; //accessToken 저장
     },
     deleteToken: (state) => {
       state.authenticated = false;

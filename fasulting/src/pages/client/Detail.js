@@ -16,19 +16,19 @@ import axiosAPi from "../../api/axiosApi";
 import { useParams } from "react-router-dom";
 
 function Detail() {
-  const { id } = useParams();
+  const { psSeq } = useParams();
   // 병원 id로 병원 정보 요청 - 응답 받아서 각 컴포넌트로 전달 (예정)
 
   const [detailhospital, setDetailhospital] = useState([]);
   const [reshospital, setReshospital] = useState([]);
   useEffect(() => {
     //병원 선택 상세 조회
-    axiosAPi.get(`/main/ps-detail/1/${id}`).then((res) => {
+    axiosAPi.get(`/main/ps-detail/1/${psSeq}`).then((res) => {
       console.log("data", res.data);
       setDetailhospital(res.data.responseObj);
     });
     //병원 예약 테이블 조회
-    axiosAPi.get(`/reservation/${id}`).then((res) => {
+    axiosAPi.get(`/reservation/1`).then((res) => {
       //console.log("reserve", res);
       setReshospital(res.data.responseObj);
     });
