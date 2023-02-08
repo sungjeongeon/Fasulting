@@ -64,17 +64,23 @@ public class PsConsultingController {
 
 //        log.info(path + "\n" + originName);
 
-        S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucket, path));
-        S3ObjectInputStream objectInputStream =  s3Object.getObjectContent();
+        log.info(path);
 
         String[] arr = path.split("/");
         String fullName = "";
 
-        
+        for(int i = 3; i < arr.length; i++) {
+            fullName += arr[i];
 
-//        for(String s : arr) {
-//            fullName += s;
-//        }
+            if(i < arr.length - 1)
+                fullName += "/";
+        }
+
+        log.info(fullName);
+
+        S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucket, fullName));
+        S3ObjectInputStream objectInputStream =  s3Object.getObjectContent();
+
 
         try {
             byte[] bytes = IOUtils.toByteArray(objectInputStream);
@@ -83,9 +89,10 @@ public class PsConsultingController {
             httpHeaders.setContentType(contentType(path));
             httpHeaders.setContentLength(bytes.length);
 
-            String[] arr =
+            log.info(originName);
 
-            httpHeaders.setContentDispositionFormData("attachment", originName);
+            String fileName = URLEncoder.encode(originName, "UTF-8").replaceAll("\\+", "%20");
+            httpHeaders.setContentDisposition(ContentDisposition.builder("attachment").filename(originName).build());
 
             return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
         } catch (IOException e) {
