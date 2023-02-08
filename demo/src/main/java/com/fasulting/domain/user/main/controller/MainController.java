@@ -1,5 +1,7 @@
 package com.fasulting.domain.user.main.controller;
 
+import com.fasulting.common.dto.respDto.MainCategoryRespDto;
+import com.fasulting.common.dto.respDto.SubCategoryRespDto;
 import com.fasulting.domain.user.main.dto.respDto.PsDetailRespDto;
 import com.fasulting.domain.user.main.dto.respDto.PsListRespDto;
 import com.fasulting.domain.user.main.service.MainService;

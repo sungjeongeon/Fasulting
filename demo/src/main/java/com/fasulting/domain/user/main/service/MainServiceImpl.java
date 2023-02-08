@@ -1,7 +1,9 @@
 package com.fasulting.domain.user.main.service;
 
 import com.fasulting.common.dto.respDto.DoctorRespDto;
+import com.fasulting.common.dto.respDto.MainCategoryRespDto;
 import com.fasulting.common.dto.respDto.ReviewRespDto;
+import com.fasulting.common.dto.respDto.SubCategoryRespDto;
 import com.fasulting.domain.user.main.dto.respDto.PsDetailRespDto;
 import com.fasulting.domain.user.main.dto.respDto.PsListRespDto;
 import com.fasulting.entity.category.MainCategoryEntity;
