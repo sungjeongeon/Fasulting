@@ -17,8 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -82,6 +80,7 @@ public class PsJwtServiceImpl implements PsJwtService {
                     .refreshToken(refreshToken)
                     .psName(ps.getName())
                     .psSeq(ps.getSeq())
+                    .confirmYn(ps.getConfirmYn())
                     .build();
 
             return psLoginRespDto;

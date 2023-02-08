@@ -1,16 +1,14 @@
 package com.fasulting.domain.ps.psReservation.controller;
 
 
-import com.fasulting.repository.reservation.ReservationRepository;
-import com.fasulting.repository.review.ReviewRepository;
+import com.fasulting.common.resp.ResponseBody;
 import com.fasulting.domain.ps.psReservation.dto.reqDto.ReservationReqDto;
 import com.fasulting.domain.ps.psReservation.dto.respDto.PreDetailRespDto;
 import com.fasulting.domain.ps.psReservation.dto.respDto.PreReservationRespDto;
 import com.fasulting.domain.ps.psReservation.dto.respDto.PsPostRespDto;
 import com.fasulting.domain.ps.psReservation.service.PsReservationService;
-import com.fasulting.common.resp.ResponseBody;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,22 +17,12 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/ps-reservation")
 @CrossOrigin("*")
 public class PsReservationController {
-    private final ReservationRepository reservationRepository;
-    private final ReviewRepository reviewRepository;
 
-    private PsReservationService psReservationService;
-
-    @Autowired
-    public PsReservationController(PsReservationService psReservationService,
-                                   ReviewRepository reviewRepository,
-                                   ReservationRepository reservationRepository) {
-        this.psReservationService = psReservationService;
-        this.reviewRepository = reviewRepository;
-        this.reservationRepository = reservationRepository;
-    }
+    private final PsReservationService psReservationService;
 
     /**
      * 미래 예약 및 시간(앞으로 2주) 조회
