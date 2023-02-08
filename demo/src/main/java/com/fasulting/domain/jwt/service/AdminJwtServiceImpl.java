@@ -4,10 +4,10 @@ import com.fasulting.common.RoleType;
 import com.fasulting.common.util.CheckInfo;
 import com.fasulting.domain.jwt.JwtTokenProvider;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
-import com.fasulting.domain.jwt.dto.respDtio.UserLoginRespDto;
+import com.fasulting.domain.jwt.dto.respDtio.AdminLoginRespDto;
 import com.fasulting.entity.token.TokenEntity;
-import com.fasulting.entity.user.UserEntity;
 import com.fasulting.entity.token.UserTokenEntity;
+import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.token.TokenRepository;
 import com.fasulting.repository.token.UserTokenRepository;
 import com.fasulting.repository.user.UserRepository;
@@ -16,14 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-@Service
 @Slf4j
-public class UserJwtServiceImpl implements UserJwtService {
+@Service
+public class AdminJwtServiceImpl implements AdminJwtService{
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
@@ -32,15 +31,13 @@ public class UserJwtServiceImpl implements UserJwtService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional
-    public UserLoginRespDto login(LoginReqDto userInfo) {
-
+    public AdminLoginRespDto login(LoginReqDto userInfo) {
         UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
 
         if (passwordEncoder.matches(userInfo.getPassword(), user.getPassword())) {
 
-            String accessToken = jwtService.createAccessToken(user.getEmail(), user.getRole().getAuthority(), RoleType.USER);
-            String refreshToken = jwtService.createRefreshToken(user.getEmail(), user.getRole().getAuthority(), RoleType.USER);
+            String accessToken = jwtService.createAccessToken(user.getEmail(), user.getRole().getAuthority(), RoleType.ADMIN);
+            String refreshToken = jwtService.createRefreshToken(user.getEmail(), user.getRole().getAuthority(), RoleType.ADMIN);
 
             log.info(user.toString());
 
@@ -77,25 +74,23 @@ public class UserJwtServiceImpl implements UserJwtService {
                 log.info(userToken.toString());
             }
 
-            UserLoginRespDto userLoginRespDto = UserLoginRespDto.builder()
+            AdminLoginRespDto adminLoginRespDto = AdminLoginRespDto.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
-                    .userName(user.getName())
-                    .userSeq(user.getSeq())
+                    .adminName(user.getName())
+                    .adminSeq(user.getSeq())
                     .build();
 
-            return userLoginRespDto;
+            return adminLoginRespDto;
 
         }
 
         return null;
     }
 
-    @Transactional
     @Override
-    public boolean logout(Long userSeq) {
-
-        UserEntity user = userRepository.findById(userSeq).orElseThrow(
+    public boolean logout(Long adminSeq) {
+        UserEntity user = userRepository.findById(adminSeq).orElseThrow(
                 () -> {
                     throw new NullPointerException();
                 });
@@ -118,8 +113,5 @@ public class UserJwtServiceImpl implements UserJwtService {
         }
 
         return false;
-
     }
-
-
 }

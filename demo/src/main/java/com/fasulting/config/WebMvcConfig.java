@@ -1,7 +1,7 @@
 package com.fasulting.config;
 
 import com.fasulting.common.interceptor.jwt.JwtInterceptor;
-import com.fasulting.domain.jwt.service.JwtTokenProvider;
+import com.fasulting.domain.jwt.JwtTokenProvider;
 import com.fasulting.repository.ps.PsRepository;
 import com.fasulting.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -2,9 +2,11 @@ package com.fasulting.domain.jwt.controller;
 
 import com.fasulting.common.resp.ResponseBody;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
+import com.fasulting.domain.jwt.dto.respDtio.UserLoginRespDto;
 import com.fasulting.domain.jwt.service.UserJwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,24 +35,26 @@ public class UserJwtController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletResponse response) {
 
-        Map<String, Object> map = userJwtService.login(loginReqDto);
+        UserLoginRespDto userLoginRespDto = userJwtService.login(loginReqDto);
 
-        if (map != null) {
+        if (userLoginRespDto != null) {
 
             // JWT 쿠키 저장(쿠키 명 : token)
-            Cookie cookie = new Cookie("refreshToken", (String)map.get("refresh-token"));
+            Cookie cookie = new Cookie("refreshToken", userLoginRespDto.getRefreshToken());
             cookie.setPath("/");
             cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
             // httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
-            return new ResponseEntity<Map<String, Object>>(map, HttpStatus.ACCEPTED);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, userLoginRespDto.getAccessToken());
+
+            return ResponseEntity.status(200).headers(headers).body(ResponseBody.create(200, "success", userLoginRespDto));
         }
         // 로그인 정보가 비어있는 경우
         else {
-            map.put("message", "fail");
-            return new ResponseEntity<Map<String, Object>>(map, HttpStatus.ACCEPTED);
+            return ResponseEntity.status(403).body(ResponseBody.create(403, "fail"));
         }
     }
 

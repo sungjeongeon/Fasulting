@@ -1,7 +1,7 @@
 package com.fasulting.common.filter.jwt;
 
 import com.fasulting.common.RoleType;
-import com.fasulting.domain.jwt.service.JwtTokenProvider;
+import com.fasulting.domain.jwt.JwtTokenProvider;
 import com.fasulting.entity.user.UserEntity;
 import com.fasulting.exception.UnAuthorizedException;
 import com.fasulting.repository.token.PsTokenRepository;
@@ -64,6 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Authentication authentication = jwtService.getAuthentication(newAccessToken);
                 // SecurityContext 에 Authentication 객체를 저장합니다.
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                response.setHeader("Authorization", newAccessToken);
             }
             else {
                 throw new UnAuthorizedException();

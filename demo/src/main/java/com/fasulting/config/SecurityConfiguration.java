@@ -1,8 +1,7 @@
 package com.fasulting.config;
 
-import com.fasulting.common.RoleType;
 import com.fasulting.common.filter.jwt.JwtAuthenticationFilter;
-import com.fasulting.domain.jwt.service.JwtTokenProvider;
+import com.fasulting.domain.jwt.JwtTokenProvider;
 import com.fasulting.repository.token.PsTokenRepository;
 import com.fasulting.repository.token.TokenRepository;
 import com.fasulting.repository.token.UserTokenRepository;
@@ -31,8 +30,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/test").authenticated()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/favorite/**").access("hasAuthority('USER')") // 쿠키에 토큰 저장됨
+                .antMatchers("/ps/logout").access("hasAuthority('PS')")
+                .antMatchers("/user/logout").access("hasAuthority('USER')")
+                .antMatchers("/admin/logout").access("hasAuthority('ADMIN')")
                 .antMatchers("/**").permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtService, userTokenRepository, psTokenRepository, tokenRepository),

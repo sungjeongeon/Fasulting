@@ -9,7 +9,7 @@ import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
-import com.fasulting.domain.ps.ps.dto.respDto.PsLoginRespDto;
+import com.fasulting.domain.jwt.dto.respDtio.PsLoginRespDto;
 import com.fasulting.entity.calendar.DefaultCalEntity;
 import com.fasulting.entity.calendar.OperatingCalEntity;
 import com.fasulting.entity.calendar.TimeEntity;
@@ -62,44 +62,6 @@ public class PsServiceImpl implements PsService {
     private final ReviewRepository reviewRepository;
     private final TotalRatingRepository totalRatingRepository;
     private final PasswordEncoder passwordEncoder;
-
-    // 로그인
-    @Override
-    public PsLoginRespDto login(PsWithoutSeqReqDto psInfo) {
-
-        if (psRepository.findByEmailAndPassword(psInfo.getEmail(), psInfo.getPassword()).isPresent()) {
-
-            PsEntity ps = psRepository.findByEmailAndPassword(psInfo.getEmail(), psInfo.getPassword()).orElseThrow(() -> {
-                throw new NullPointerException();
-            });
-
-
-            PsLoginRespDto psLoginRespDto = PsLoginRespDto.builder()
-                    .psSeq(ps.getSeq())
-                    .psName(ps.getName())
-                    .build();
-
-            return psLoginRespDto;
-
-        }
-
-        return null;
-
-//        if(psRepository.findPsByEmail(psInfo.getEmail()).isPresent()){
-//            PsEntity ps = psRepository.findPsByEmail(psInfo.getEmail()).get();
-//            if(passwordEncoder.matches(psInfo.getPassword(), ps.getPassword())){
-//                PsLoginRespDto psLoginRespDto = PsLoginRespDto.builder()
-//                        .psSeq(ps.getSeq())
-//                        .psName(ps.getName())
-//                        .build();
-//
-//                return psLoginRespDto;
-//            }
-//
-//        }
-//
-//        return null;
-    }
 
     // 병원 회원 가입
     @Override
@@ -456,6 +418,8 @@ public class PsServiceImpl implements PsService {
     @Override
     @Transactional
     public boolean editIntro(PsSeqReqDto psInfo) {
+
+        log.info("ps edit intro - service call");
         Long seq = psInfo.getSeq();
 
 

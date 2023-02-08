@@ -5,7 +5,7 @@ import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
-import com.fasulting.domain.ps.ps.dto.respDto.PsLoginRespDto;
+import com.fasulting.domain.jwt.dto.respDtio.PsLoginRespDto;
 
 public interface PsService {
 
@@ -27,5 +27,4 @@ public interface PsService {
 
     PsInfoRespDto getPsInfo(Long psSeq); // 병원 회원 정보 조회
 
-    PsLoginRespDto login(PsWithoutSeqReqDto psInfo);
 }

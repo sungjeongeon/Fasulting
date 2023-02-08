@@ -1,4 +1,4 @@
-package com.fasulting.domain.jwt.service;
+package com.fasulting.domain.jwt;
 
 import com.fasulting.common.RoleType;
 import io.jsonwebtoken.*;
