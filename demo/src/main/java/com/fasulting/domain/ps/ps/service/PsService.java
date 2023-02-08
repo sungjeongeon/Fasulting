@@ -13,7 +13,7 @@ import java.util.List;
 public interface PsService {
 
     CategoryListRespDto getCategoryList();
-    boolean psRegister(PsWithoutSeqReqDto psInfo); // 회원가입
+    boolean psRegister(PsWithoutSeqReqDto psInfo) ; // 회원가입
     boolean resetPassword(PsWithoutSeqReqDto psResetInfo); // 비밀번호 재설정
     boolean withdrawPs(PsSeqReqDto psInfo); // 병원 회원 탈퇴
     boolean checkPassword(PsSeqReqDto psInfo); // 비밀번호 재확인 (로그인 상태에서)

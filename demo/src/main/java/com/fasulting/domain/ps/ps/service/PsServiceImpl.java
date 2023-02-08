@@ -1,5 +1,6 @@
 package com.fasulting.domain.ps.ps.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.fasulting.common.RoleType;
 import com.fasulting.common.dto.respDto.DoctorRespDto;
 import com.fasulting.common.dto.respDto.MainCategoryRespDto;
@@ -33,6 +34,7 @@ import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,6 +66,11 @@ public class PsServiceImpl implements PsService {
     private final ReviewRepository reviewRepository;
     private final TotalRatingRepository totalRatingRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final AmazonS3Client amazonS3Client;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @Override
     public CategoryListRespDto getCategoryList() {
@@ -119,12 +126,12 @@ public class PsServiceImpl implements PsService {
 
         String profileImgUrl = null;
 
-        log.info(FileManage.domain + FileManage.psProfileImgDirPath);
+
         if (profileImgFile != null && !profileImgFile.isEmpty()) {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid, null, FileManage.psProfileImgDirPath);
+            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,  "ps/profile/");
             log.info(profileImgUrl);
         }
 
@@ -133,9 +140,10 @@ public class PsServiceImpl implements PsService {
         if (registrationImgFile != null && !registrationImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
-            registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid, null, FileManage.psRegImgDirPath);
+            registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid, "ps/reg/");
             log.info(registrationImgUrl);
         }
+
 
         PsEntity ps = PsEntity.builder()
                 .email(psInfo.getEmail())
@@ -708,7 +716,7 @@ public class PsServiceImpl implements PsService {
         MultipartFile doctorImgFile = doctor.getImg();
         if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
-            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, null, FileManage.doctorImgPath);
+            doctorImgUrl = FileManage.uploadFile(imgFile, uuid,  "ps/profile/");
         }
 
         DoctorEntity doc = DoctorEntity.builder().ps(ps)

@@ -67,7 +67,6 @@ public class PsConsultingController {
 
     // 1. 상담 입장
     // 2. 상담 사전 진행
-    // 3. 상담 진행
-    // 4. 상담 결과 작성
+    // 3. 상담 종료
 
 }

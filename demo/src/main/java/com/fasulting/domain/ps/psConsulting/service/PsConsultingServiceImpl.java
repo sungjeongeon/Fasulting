@@ -58,7 +58,7 @@ public class PsConsultingServiceImpl implements PsConsultingService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            afterImgUrl = FileManage.uploadFile(afterImgFile, uuid, null, FileManage.psProfileImgDirPath);
+            afterImgUrl = FileManage.uploadFile(afterImgFile, uuid, "after/");
         }
 
 
