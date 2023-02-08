@@ -12,11 +12,11 @@ public class FileManage {
 
     // 배포할 때 경로 바꾸기
     // 배포할 때 경로 바꾸기
-    public static final String beforeImgDirPath = "before/";
-    public static final String afterImgDirPath = "after/";
-    public static final String psProfileImgDirPath = "ps/profile/";
-    public static final String psRegImgDirPath = "ps/reg/";
-    public static final String doctorImgPath = "doctor/profile/";
+    public static final String beforeImgDirPath = "before";
+    public static final String afterImgDirPath = "after";
+    public static final String psProfileImgDirPath = "ps/profile";
+    public static final String psRegImgDirPath = "ps/reg";
+    public static final String doctorImgPath = "doctor/profile";
 
 
     public static final String domain = "/home/ubuntu/fasulting/";
