@@ -11,16 +11,20 @@ import java.util.UUID;
 public class FileManage {
 
     // 배포할 때 경로 바꾸기
-    public static final String beforeImgDirPath = "C:/fasulting/before/";
-    public static final String afterImgDirPath = "C:/fasulting/after/";
-    public static final String psProfileImgDirPath = "C:/fasulting/ps/profile/";
-    public static final String psRegImgDirPath = "C:/fasulting/ps/reg";
-    public static final String doctorImgPath = "C:/fasulting/doctor/profile/";
+    // 배포할 때 경로 바꾸기
+    public static final String beforeImgDirPath = "before/";
+    public static final String afterImgDirPath = "after/";
+    public static final String psProfileImgDirPath = "ps/profile/";
+    public static final String psRegImgDirPath = "ps/reg";
+    public static final String doctorImgPath = "doctor/profile/";
 
-    public static final String domain = "https://localhost:8080/resources/upload/";
+
+    public static final String domain = "http://i8e106.p.ssafy.io/home/ubuntu/fasulting/";
 
 
-    public static String uploadFile(MultipartFile imgFile, UUID uuid, String imgUrl, String dirPath) {
+    public static String uploadFile(MultipartFile imgFile, UUID uuid, String imgUrl, String path) {
+
+        String dirPath = domain + path;
 
         File folder = new File(dirPath);
 
