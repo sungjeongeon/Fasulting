@@ -11,32 +11,52 @@ function ConsultingCardList() {
   }, []);
   const consulting = [
     {
-      user_id: 1,
-      ps_id: 1,
-      ps_name: "아이디 병원",
-      sub_category_name: "쌍커풀",
-      calender_id: "2023.12.30 10시 25분",
+      reservationSeq: 1,
+      userSeq: 1,
+      psSeq: 1,
+      psName: "아이디 병원",
+      subCategoryName: ["쌍커풀", "눈매교정"],
+      year: 2023,
+      month: 2,
+      day: 8,
+      hour: 21, // 24시간
+      minute: 12,
     },
     {
-      user_id: 2,
-      ps_id: 2,
-      ps_name: "더페이스 병원",
-      sub_category_name: "콧볼축소",
-      calender_id: "2022.01.31 12시 30분",
+      reservationSeq: 2,
+      userSeq: 2,
+      psSeq: 2,
+      psName: "더페이스 병원",
+      subCategoryName: ["콧볼축소", "콧대성형", "안면윤곽"],
+      year: 2023,
+      month: 2,
+      day: 8,
+      hour: 21, // 24시간
+      minute: 12,
     },
     {
-      user_id: 2,
-      ps_id: 2,
-      ps_name: "더페이스 병원",
-      sub_category_name: "콧볼축소",
-      calender_id: "2022.01.31 12시 30분",
+      reservationSeq: 3,
+      userSeq: 3,
+      psSeq: 3,
+      psName: "더페이스 병원",
+      subCategoryName: ["콧볼축소", "콧대성형"],
+      year: 2023,
+      month: 2,
+      day: 10,
+      hour: 21, // 24시간
+      minute: 12,
     },
     {
-      user_id: 2,
-      ps_id: 2,
-      ps_name: "더페이스 병원",
-      sub_category_name: "콧볼축소",
-      calender_id: "2022.01.31 12시 30분",
+      reservationSeq: 4,
+      userSeq: 4,
+      psSeq: 4,
+      psName: "더페이스 병원",
+      subCategoryName: ["콧볼축소", "콧대성형"],
+      year: 2023,
+      month: 2,
+      day: 10,
+      hour: 21, // 24시간
+      minute: 12,
     },
   ];
   return (
@@ -44,7 +64,7 @@ function ConsultingCardList() {
       <h2>진행중인 예약</h2>
       <div className={styles.flex}>
         {consulting.map((consult) => (
-          <ConsultingCard key={consult.ps_id.toString()} consult={consult} />
+          <ConsultingCard key={consult.psSeq.toString()} consult={consult} />
         ))}
       </div>
     </div>

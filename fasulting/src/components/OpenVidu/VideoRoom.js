@@ -28,7 +28,10 @@ class VideoRoom extends Component {
     this.hasBeenUpdated = false;
     this.localUserAccessAllowed = false;
     this.state = {
-      mySessionId: `${this.props.client}`,
+      mySessionId:
+        this.props.who === "client"
+          ? `u${this.props.client}`
+          : `p${this.props.hospital}`,
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       localUser: undefined,
@@ -552,7 +555,7 @@ class VideoRoom extends Component {
   async enteredChanged() {
     this.remotes = [];
     this.setState({
-      mySessionId: `${this.props.hospital}${this.props.client}`,
+      mySessionId: `p${this.props.hospital}u${this.props.client}`,
       subscribers: [],
       entered: true,
     });
