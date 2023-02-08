@@ -41,4 +41,10 @@ public class ConsultingEntity extends BaseEntity {
 	private UserEntity user;
 
 
+	@Builder
+	public ConsultingEntity(ReservationEntity reservation, PsEntity ps, UserEntity user) {
+		this.reservation = reservation;
+		this.ps = ps;
+		this.user = user;
+	}
 }

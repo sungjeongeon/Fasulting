@@ -23,7 +23,6 @@ import java.util.UUID;
 public class PsConsultingServiceImpl implements PsConsultingService {
     private final ReportRepository reportRepository;
     private final ConsultingRepository consultingRepository;
-
     private final ReservationRepository reservationRepository;
 
 
@@ -48,10 +47,20 @@ public class PsConsultingServiceImpl implements PsConsultingService {
     @Override
     public boolean writeResult(ResultReqDto resultReq) {
 
-        ConsultingEntity consulting = consultingRepository.findById(resultReq.getConsultingSeq()).orElseThrow(() -> {
+        ReservationEntity reservation = reservationRepository.findById(resultReq.getReservationSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
 
+        ///////////////// consultingEntity 생성
+        ConsultingEntity consulting = ConsultingEntity.builder()
+                .user(reservation.getUser())
+                .ps(reservation.getPs())
+                .reservation(reservation)
+                .build();
+
+        consultingRepository.save(consulting);
+
+        ///////////////// reportEntity 생성
         MultipartFile afterImgFile = resultReq.getAfterImg();
 
         String afterImgUrl = null;

@@ -8,10 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 public class ResultReqDto {
 
-    Long consultingSeq;
-    Long psSeq;
-    Long userSeq;
-
+    Long reservationSeq;
     String reportContent;
     String reportEstimate;
 
