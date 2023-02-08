@@ -13,12 +13,14 @@ function ReserveCardDateItem({ getDate }) {
       const month = newDay.getMonth() + 1;
       const day = newDay.getDate();
       const week = ["일", "월", "화", "수", "목", "금", "토"];
-      const dayOfWeek = week[today.getDay()];
+      const dayOfWeek2 = week[today.getDay()];
+      const dayOfWeek = week.indexOf(week[today.getDay()]);
       const newDayObj = {
         year,
         month,
         day,
         dayOfWeek,
+        dayOfWeek2,
       };
       return newDayObj;
     };
@@ -54,7 +56,7 @@ function ReserveCardDateItem({ getDate }) {
           className={styles.box}
           onClick={() => selectDate(date)}
         >
-          <p>{date.dayOfWeek}</p>
+          <p>{date.dayOfWeek2}</p>
           <p className={idx === selected ? styles.selected : null}>
             {date.day}
           </p>

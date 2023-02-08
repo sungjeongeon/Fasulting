@@ -6,7 +6,7 @@ import SetOperatingTime from "../Modal/SetOperatingTime";
 function ProfileTimeUpdate() {
   const [modal, setModal] = useState(false);
 
-  const week = ["", "일", "월", "화", "수", "목", "금", "토"];
+  const week = ["일", "월", "화", "수", "목", "금", "토"];
   const timeTable = [
     "9:00",
     "9:30",

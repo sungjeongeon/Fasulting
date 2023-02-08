@@ -4,26 +4,19 @@ import * as yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
-import {
-  Typography,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Typography, TextField, Button } from "@mui/material";
 import styles from "./Form.module.css";
 import Paper from "@mui/material/Paper";
-import { setRefreshToken } from "../../storage/Cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/user";
-import axios from "axios";
+import { setToken } from "../../redux/auth";
 import axiosAPi from "../../api/axiosApi";
+import { useEffect } from "react";
+import { useState } from "react";
+import setAuthorizationToken from "../../api/setAuthorizationToken";
 
 const validationSchema = yup.object({
-  usertype: yup.bool().oneOf([true], "회원유형을 선택해주세요."),
   email: yup
     .string()
     .email("올바른 이메일 형식을 입력해주세요.")
@@ -35,36 +28,61 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [usertype, setUsertype] = useState("");
+
+  const handleChange = (e) => {
+    console.log(`선택한 값 : ${e.target.value}`);
+    setUsertype(e.target.value);
+  };
   const formik = useFormik({
     initialValues: {
-      usertype: "",
       email: "",
       password: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      if (values.usertype === "") {
-        alert("회원유형을 선택해주세요.");
-      }
-      try {
-        console.log(values);
-        dispatch(
-          loginUser({ userEmail: values.email, userPwd: values.password })
-        );
-        await axiosAPi.post("/user/login", values).then((res) => {
-          const token = res.data.token;
-          localStorage.setItem("jwtToken", token);
-        });
-        toast.success(<h3>반갑습니다 !</h3>, {
+      if (usertype === "") {
+        toast.error(<h3>회원유형을 선택해주세요 !</h3>, {
           position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
+          autoClose: 1000,
+          hideProgressBar: true,
         });
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
-      } catch (e) {
-        // 서버에서 받은 에러 메시지 출력
-        console.log(e.response.data.message);
+      } else if (usertype === "user") {
+        try {
+          await axiosAPi.post("/user/login", values).then((res) => {
+            if (res.data.message === "success") {
+              dispatch(
+                loginUser({ userEmail: values.email, userPwd: values.password })
+              );
+              //토큰 받아오기
+              const accessToken = res.data.responseObj.accessToken;
+              console.log(accessToken);
+              dispatch(setToken({ accessToken: accessToken }));
+              // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+              // axiosAPi.defaults.headers.common[
+              //   "Authorization"
+              // ] = `Bearer ${accessToken}`;
+              setAuthorizationToken(accessToken);
+              //console.log(res.data);
+              toast.success(
+                <h3>
+                  로그인 완료 <br />
+                  반갑습니다 !{" "}
+                </h3>,
+                {
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 2000,
+                }
+              );
+              setTimeout(() => {
+                navigate("/");
+              }, 2000);
+            }
+          });
+        } catch (e) {
+          // 서버에서 받은 에러 메시지 출력
+          console.log(e.response.data.message);
+        }
       }
       // console.log(
       //   JSON.stringify(
@@ -86,17 +104,19 @@ export default function LoginForm() {
   });
 
   return (
-    <div className={styles.formwrapper}>
-      <Paper
-        variant="outlined"
-        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-      >
-        <Typography component="h1" variant="h4" align="center">
-          로그인
-        </Typography>
-        <form onSubmit={formik.handleSubmit}>
-          <div className={styles.inputForm}>
-            <FormControl>
+    <>
+      <ToastContainer />
+      <div className={styles.formwrapper}>
+        <Paper
+          variant="outlined"
+          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+        >
+          <Typography component="h1" variant="h4" align="center">
+            로그인
+          </Typography>
+          <form onSubmit={formik.handleSubmit}>
+            <div className={styles.inputForm}>
+              {/* <FormControl>
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
@@ -106,85 +126,108 @@ export default function LoginForm() {
                   control={<Radio />}
                   label="일반 회원"
                   name="usertype"
-                  onChange={() => formik.setFieldValue("usertype", "user")}
                 />
                 <FormControlLabel
                   control={<Radio />}
                   label="병원 회원"
                   name="usertype"
-                  onChange={() => formik.setFieldValue("usertype", "ps")}
                 />
               </RadioGroup>
-            </FormControl>
-            <div className={styles.inputItem}>
-              <div className={styles.label}>이메일</div>
-              <TextField
-                fullWidth
-                name="email"
-                placeholder="아이디(이메일)을 입력해주세요."
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email ? formik.errors.email : ""}
-              />
-            </div>
-            <div className={styles.inputItem}>
-              <div className={styles.flexBetween}>
-                <div className={styles.label}>비밀번호</div>
-                <Link
-                  to={"/findpw"}
-                  style={{ textDecoration: "none", color: "#72a1a6" }}
-                  variant="body2"
-                  className={styles.label}
-                >
-                  비밀번호를 잊으셨나요?
-                </Link>
+            </FormControl> */}
+              <div className={styles.radiogroup}>
+                <div className={styles.radio}>
+                  <input
+                    id="user"
+                    value="user"
+                    name="platform"
+                    type="radio"
+                    //checked={this.state.selectValue === "user"}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="user">일반회원</label>
+                </div>
+                <div className={styles.radio}>
+                  <input
+                    id="ps"
+                    value="ps"
+                    name="platform"
+                    type="radio"
+                    //checked={this.state.selectValue === "ps"}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="ps">병원회원</label>
+                </div>
               </div>
-              <TextField
+              <div className={styles.inputItem}>
+                <div className={styles.label}>이메일</div>
+                <TextField
+                  fullWidth
+                  name="email"
+                  placeholder="아이디(이메일)을 입력해주세요."
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email ? formik.errors.email : ""}
+                />
+              </div>
+              <div className={styles.inputItem}>
+                <div className={styles.flexBetween}>
+                  <div className={styles.label}>비밀번호</div>
+                  <Link
+                    to={"/findpw"}
+                    style={{ textDecoration: "none", color: "#72a1a6" }}
+                    variant="body2"
+                    className={styles.label}
+                  >
+                    비밀번호를 잊으셨나요?
+                  </Link>
+                </div>
+                <TextField
+                  fullWidth
+                  name="password"
+                  placeholder="비밀번호를 입력해주세요"
+                  type="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={
+                    formik.touched.password ? formik.errors.password : ""
+                  }
+                />
+              </div>
+              <Button
+                color="primary"
+                variant="contained"
                 fullWidth
-                name="password"
-                placeholder="비밀번호를 입력해주세요"
-                type="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
-                helperText={
-                  formik.touched.password ? formik.errors.password : ""
-                }
-              />
-            </div>
-            <Button
-              color="primary"
-              variant="contained"
-              fullWidth
-              type="submit"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              로그인
-            </Button>
-            <div className={styles.flexCenter}>
-              <div>아직 아이디가 없으신가요?</div>
-              <div>
-                <Link
-                  to={"/register"}
-                  style={{ textDecoration: "none", color: "#72a1a6" }}
-                >
-                  일반 회원가입 |{" "}
-                </Link>
-                <Link
-                  to={"/psregist"}
-                  style={{ textDecoration: "none", color: "#72a1a6" }}
-                >
-                  {" "}
-                  의사 회원가입
-                </Link>
+                type="submit"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                로그인
+              </Button>
+              <div className={styles.flexCenter}>
+                <div>아직 아이디가 없으신가요?</div>
+                <div>
+                  <Link
+                    to={"/register"}
+                    style={{ textDecoration: "none", color: "#72a1a6" }}
+                  >
+                    일반 회원가입 |{" "}
+                  </Link>
+                  <Link
+                    to={"/psregist"}
+                    style={{ textDecoration: "none", color: "#72a1a6" }}
+                  >
+                    {" "}
+                    의사 회원가입
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        </form>
-      </Paper>
-    </div>
+          </form>
+        </Paper>
+      </div>
+    </>
   );
 }

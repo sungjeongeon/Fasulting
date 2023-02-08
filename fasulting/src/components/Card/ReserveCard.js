@@ -76,7 +76,7 @@ export default function ReserveCard({ reshospital }) {
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
   const [day, setDay] = useState(0);
-  const [dayOfWeek, setDayOfWeek] = useState("");
+  const [dayOfWeek, setDayOfWeek] = useState(0);
   const [hour, setHour] = useState(-1);
   const [consultItem, setConsultItem] = useState([]);
   const [isAgree, setIsAgree] = useState(false);
@@ -94,16 +94,16 @@ export default function ReserveCard({ reshospital }) {
     // 병원의 7일간 모든 운영시간 중에 사용자가 선택한 날짜와 일치하는 data만 filtering
     //console.log("reshospital", reshospital);
     //console.log("res", reshospital);
-    const filterByDate = reshospital.operatingTime.filter(
+    const filterByDate = reshospital.operatingTimeList.filter(
       (time) =>
         time.year === date.year &&
         time.month === date.month &&
         time.day === date.day
     );
-    console.log("filter", filterByDate);
+    //console.log("filter", filterByDate);
     //const times = filterByDate.time.map((o) => o.hour);
     const times = filterByDate.map((o) => o.time);
-    console.log("time", times);
+    //console.log("time", times);
     setOperingByDate(times);
     setExpanded("panel1");
   };
@@ -141,7 +141,9 @@ export default function ReserveCard({ reshospital }) {
     // const formData = new FormData();
     // formData.append("file", img);
   };
-  console.log(img);
+  //console.log(img);
+
+  console.log("rehospital", reshospital);
   return (
     <div className={styles.outerDiv}>
       {/* 날짜 선택 구간 */}
@@ -177,7 +179,7 @@ export default function ReserveCard({ reshospital }) {
       </Accordion>
       <div className={styles.margin}>
         {/* <p className={styles.ptag}>반드시 정면이 나온 사진을 첨부해주세요</p> */}
-        <label className={styles.inputfile} for="inputfile">
+        <label className={styles.inputfile} htmlFor="inputfile">
           파일 선택
         </label>
         <input
@@ -218,7 +220,7 @@ export default function ReserveCard({ reshospital }) {
             dayOfWeek={dayOfWeek}
             time={hour}
             beforeImg={img}
-            subCategory={consultItem}
+            subCategory={reshospital.subCategoryList}
             ModalStateChange={ModalStateChange}
           />
         )}

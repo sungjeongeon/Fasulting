@@ -80,17 +80,17 @@ function ReserveCardCategoryItem({ getConsultItem }) {
   };
 
   // 해당 id 값이 이미 배열에 있으면 빼고, 없으면 더한다.
-  const selectSub = (name) => {
+  const selectSub = (id) => {
     // 선택 3개 이상 경고문구 리셋(showWarning = false)
     setShowWarning(false);
-    if (selectedSub.includes(name)) {
+    if (selectedSub.includes(id)) {
       // id값 이미 배열에 있으면 (제거)
-      setSelectedSub((current) => current.filter((resist) => resist !== name));
+      setSelectedSub((current) => current.filter((resist) => resist !== id));
     } else if (selectedSub.length === 3) {
       // 더했을 떄, 3개가 넘으면 경고문구 띄운다.
       setShowWarning(true);
     } else {
-      setSelectedSub((current) => [...current, name]);
+      setSelectedSub((current) => [...current, id]);
     }
   };
   useEffect(() => {
@@ -129,9 +129,9 @@ function ReserveCardCategoryItem({ getConsultItem }) {
           <div
             key={s.id}
             className={
-              selectedSub.includes(s.name) ? styles.subSelected : styles.sub
+              selectedSub.includes(s.id) ? styles.subSelected : styles.sub
             }
-            onClick={() => selectSub(s.name)}
+            onClick={() => selectSub(s.id)}
           >
             <p>{s.name}</p>
           </div>

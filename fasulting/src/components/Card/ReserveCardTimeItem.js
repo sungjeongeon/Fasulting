@@ -120,8 +120,8 @@ function ReserveCardTimeItem({ times, getReserveTime }) {
     const tempo = timeTable.map((t) => {
       return { id: t.id, time: t.time, isPossible: false };
     });
-    console.log("tempo", tempo);
-    console.log("times", times);
+    //console.log("tempo", tempo);
+    //console.log("times", times);
     for (const time of times) {
       for (const t of time) {
         console.log("t", t);
@@ -142,7 +142,7 @@ function ReserveCardTimeItem({ times, getReserveTime }) {
             key={t.id}
             onClick={() => {
               setSelectedIdx(t.id);
-              getReserveTime(t.time);
+              getReserveTime(t.id);
             }}
             className={
               t.isPossible
@@ -163,7 +163,7 @@ function ReserveCardTimeItem({ times, getReserveTime }) {
             key={t.id}
             onClick={() => {
               setSelectedIdx(t.id);
-              getReserveTime(t.time);
+              getReserveTime(t.id);
             }}
             className={
               t.isPossible
