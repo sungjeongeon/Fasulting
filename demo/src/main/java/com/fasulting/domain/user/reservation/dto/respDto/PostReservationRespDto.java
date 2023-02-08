@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @Getter
 @ToString
-public class PostReservationRespDto {
+public class PostReservationRespDto{
 
     private Long reservationSeq;
     private Long psSeq;
@@ -22,4 +22,5 @@ public class PostReservationRespDto {
     private int dayOfWeek;
     private int hour;
     private int minute;
+
 }
