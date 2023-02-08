@@ -112,6 +112,8 @@ public class PsServiceImpl implements PsService {
         log.info(registrationImgFile.getOriginalFilename());
 
         String profileImgUrl = null;
+
+        log.info(FileManage.psProfileImgDirPath);
         if (profileImgFile != null && !profileImgFile.isEmpty()) {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
@@ -183,6 +185,7 @@ public class PsServiceImpl implements PsService {
 //
 //        log.info(ps.toString());
 
+
         /////////////// 병원 - 메인 카테고리 매핑 저장 => "PsMain" ///////////////
         for (String name : psInfo.getMainCategoryList()) {
 
@@ -190,14 +193,14 @@ public class PsServiceImpl implements PsService {
                 throw new NullPointerException();
             });
 
-            if (mainCategory != null) {
-                PsMainEntity psMain = PsMainEntity.builder().ps(ps)
-                        .mainCategory(mainCategory).build();
+            PsMainEntity psMain = PsMainEntity.builder().ps(ps)
+                    .mainCategory(mainCategory).build();
+            psMainRepository.save(psMain);
 
-                psMainRepository.save(psMain);
-            }
 
         }
+
+        log.info("dpd");
 
         /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
         for (String name : psInfo.getSubCategoryList()) {
