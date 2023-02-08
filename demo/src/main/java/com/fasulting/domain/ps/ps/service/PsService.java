@@ -4,11 +4,15 @@ import com.fasulting.domain.ps.ps.dto.reqDto.DoctorReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.respDto.CategoryListRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.domain.jwt.dto.respDtio.PsLoginRespDto;
 
+import java.util.List;
+
 public interface PsService {
 
+    CategoryListRespDto getCategoryList();
     boolean psRegister(PsWithoutSeqReqDto psInfo); // 회원가입
     boolean resetPassword(PsWithoutSeqReqDto psResetInfo); // 비밀번호 재설정
     boolean withdrawPs(PsSeqReqDto psInfo); // 병원 회원 탈퇴

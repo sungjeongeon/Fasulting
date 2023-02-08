@@ -2,12 +2,15 @@ package com.fasulting.domain.ps.ps.service;
 
 import com.fasulting.common.RoleType;
 import com.fasulting.common.dto.respDto.DoctorRespDto;
+import com.fasulting.common.dto.respDto.MainCategoryRespDto;
 import com.fasulting.common.dto.respDto.ReviewRespDto;
+import com.fasulting.common.dto.respDto.SubCategoryRespDto;
 import com.fasulting.common.util.FileManage;
 import com.fasulting.domain.ps.ps.dto.reqDto.DoctorReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.respDto.CategoryListRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.entity.calendar.DefaultCalEntity;
 import com.fasulting.entity.calendar.OperatingCalEntity;
@@ -61,6 +64,48 @@ public class PsServiceImpl implements PsService {
     private final ReviewRepository reviewRepository;
     private final TotalRatingRepository totalRatingRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public CategoryListRespDto getCategoryList() {
+
+        List<MainCategoryRespDto> mainList = new ArrayList<>();
+
+        List<MainCategoryEntity> mList = mainRepository.findAll();
+
+        for(MainCategoryEntity m : mList){
+            MainCategoryRespDto main = MainCategoryRespDto.builder()
+                    .mainSeq(m.getSeq())
+                    .mainName(m.getName())
+                    .build();
+
+            mainList.add(main);
+        }
+
+        List<SubCategoryRespDto> subList = new ArrayList<>();
+
+        List<SubCategoryEntity> sList = subRepository.findAll();
+
+        for(SubCategoryEntity s : sList){
+            SubCategoryRespDto sub = SubCategoryRespDto.builder()
+                    .mainSeq(s.getSeq())
+                    .subSeq(s.getSeq())
+                    .subName(s.getName())
+                    .build();
+
+            subList.add(sub);
+        }
+
+        if(!mainList.isEmpty() && !subList.isEmpty()){
+            CategoryListRespDto resp = CategoryListRespDto.builder()
+                    .mainCategoryList(mainList)
+                    .subCategoryList(subList)
+                    .build();
+
+            return resp;
+        }
+
+        return null;
+    }
 
     // 병원 회원 가입
     @Override

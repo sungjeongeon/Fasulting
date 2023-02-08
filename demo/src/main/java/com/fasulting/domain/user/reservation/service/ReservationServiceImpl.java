@@ -4,8 +4,6 @@ import com.fasulting.common.RoleType;
 import com.fasulting.common.dto.respDto.PsOperatingRespDto;
 import com.fasulting.common.util.Date2String;
 import com.fasulting.common.util.FileManage;
-import com.fasulting.domain.user.main.dto.respDto.MainCategoryRespDto;
-import com.fasulting.domain.user.main.dto.respDto.SubCategoryRespDto;
 import com.fasulting.domain.user.reservation.dto.reqDto.CancelReservationReqDto;
 import com.fasulting.domain.user.reservation.dto.reqDto.RegReservationReqDto;
 import com.fasulting.domain.user.reservation.dto.respDto.PostReservationRespDto;
@@ -29,6 +27,7 @@ import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.calendar.OperatingCalRepository;
 import com.fasulting.repository.calendar.ReservationCalRepository;
 import com.fasulting.repository.calendar.TimeRepository;
+import com.fasulting.repository.category.MainCategoryRepository;
 import com.fasulting.repository.category.SubCategoryRepository;
 import com.fasulting.repository.consulting.ConsultingRepository;
 import com.fasulting.repository.consulting.ReportRepository;
@@ -66,17 +65,19 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationSubRepository reservationSubRepository;
     private final PsDefaultRepository psDefaultRepository;
     private final SubCategoryRepository subCategoryRepository;
+    private final MainCategoryRepository mainCategoryRepository;
 
 
     /**
      * 병원 예약 가능 테이블 조회
-     *
      * @param psSeq
      * @param current
      * @return
      */
     @Override
     public ReservationTableRespDto getReservationTable(Long psSeq, LocalDateTime current) {
+
+        log.info("getReservationTable Service Call");
 
         // 예약 가능 시간 테이블 조회, 오늘 포함 일주일 (총 7일)
         LocalDateTime post = current.plusDays(6);
@@ -121,10 +122,10 @@ public class ReservationServiceImpl implements ReservationService {
             poList.add(entrySet.getValue());
         }
 
-        // 병원 메인 카테고리 리스트
+        // 전체 메인 카테고리 리스트
         List<MainCategoryRespDto> mainList = new ArrayList<>();
 
-        List<MainCategoryEntity> mainEntityList = psMainRepository.getMainByPsSeq(psSeq);
+        List<MainCategoryEntity> mainEntityList = mainCategoryRepository.findAll();
 
         for (MainCategoryEntity main : mainEntityList) {
             MainCategoryRespDto mainDto = MainCategoryRespDto.builder()
@@ -142,6 +143,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         for (SubCategoryEntity sub : subEntityList) {
             SubCategoryRespDto subDto = SubCategoryRespDto.builder()
+                    .mainSeq(sub.getMainCategory().getSeq())
                     .subSeq(sub.getSeq())
                     .subName(sub.getName())
                     .build();
@@ -151,9 +153,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         // resp 담기
         ReservationTableRespDto respList = ReservationTableRespDto.builder()
-                .operatingTime(poList)
-                .mainCategory(mainList)
-                .subCategory(subList)
+                .operatingTimeList(poList)
+                .mainCategoryList(mainList)
+                .subCategoryList(subList)
                 .build();
 
         return respList;
@@ -161,14 +163,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     /**
      * 예약 등록
-     *
      * @param regReservationReqDto
      * @return true or false
      */
     @Override
     public boolean addReservation(RegReservationReqDto regReservationReqDto) {
 
-        log.info("addReservation - call");
+        log.info("addReservation Service Call");
 
         int year = regReservationReqDto.getYear();
         int month = regReservationReqDto.getMonth();
@@ -282,10 +283,15 @@ public class ReservationServiceImpl implements ReservationService {
         return true;
     }
 
+    /**
+     * 과거 예약 조회
+     * @param userSeq
+     * @return
+     */
     @Override
     public List<PreReservationRespDto> getPreReservationList(Long userSeq) {
 
-        log.info("getPreReservationList - call");
+        log.info("getPreReservationList Service Call");
 
         List<PreReservationRespDto> respList = new ArrayList<>();
 
@@ -329,10 +335,15 @@ public class ReservationServiceImpl implements ReservationService {
         return respList;
     }
 
+    /**
+     * 미래 예약 조회
+     * @param userSeq
+     * @return
+     */
     @Override
     public List<PostReservationRespDto> getPostReservationList(Long userSeq) {
 
-        log.info("getPostReservationList - call");
+        log.info("getPostReservationList Service Call");
 
         List<PostReservationRespDto> respList = new ArrayList<>();
 
@@ -344,13 +355,15 @@ public class ReservationServiceImpl implements ReservationService {
 
                 PostReservationRespDto respDto = PostReservationRespDto.builder()
                         .reservationSeq(r.getSeq())
+                        .userSeq(r.getUser().getSeq())
+                        .psSeq(r.getPs().getSeq())
                         .psName(r.getPs().getName())
-                        .date(Date2String.date2String(r.getReservationCal().getYear(),
-                                r.getReservationCal().getMonth(),
-                                r.getReservationCal().getDay(),
-                                r.getReservationCal().getDayOfWeek(),
-                                r.getTime().getStartHour(),
-                                r.getTime().getStartMin()))
+                        .year(r.getReservationCal().getYear())
+                        .month(r.getReservationCal().getMonth())
+                        .day(r.getReservationCal().getDay())
+                        .dayOfWeek(r.getReservationCal().getDayOfWeek())
+                        .hour(r.getTime().getStartHour())
+                        .minute(r.getTime().getStartMin())
                         .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(r.getSeq()))
                         .build();
 

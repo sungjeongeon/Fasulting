@@ -1,7 +1,6 @@
-package com.fasulting.domain.user.reservation.dto.respDto;
+package com.fasulting.domain.ps.ps.dto.respDto;
 
 import com.fasulting.common.dto.respDto.MainCategoryRespDto;
-import com.fasulting.common.dto.respDto.PsOperatingRespDto;
 import com.fasulting.common.dto.respDto.SubCategoryRespDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,9 +11,8 @@ import java.util.List;
 @Getter
 @Builder
 @ToString
-public class ReservationTableRespDto {
+public class CategoryListRespDto {
 
-    private List<PsOperatingRespDto> operatingTimeList;
     private List<MainCategoryRespDto> mainCategoryList;
     private List<SubCategoryRespDto> subCategoryList;
 }

@@ -12,6 +12,8 @@ import java.util.List;
 public class PostReservationRespDto {
 
     private Long reservationSeq;
+    private Long psSeq;
+    private Long userSeq;
     private String title; // useName
     private List<String> subCategoryName;
     private String reservationDateStart; // yyyy-MM-ddTHH:mm
