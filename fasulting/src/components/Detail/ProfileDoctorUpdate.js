@@ -36,10 +36,10 @@ function ProfileDoctorUpdate({ doctors }) {
       {/* 의사 카드 리스트 */}
       <div className={styles.cardList}>
         {doctors.map((doc) => (
-          <div key={doc.id}>
-            <DoctorCard name={doc.name} main_category={doc.main_category} />
+          <div key={doc.doctorSeq}>
+            <DoctorCard name={doc.name} main_category={doc.mainCategoryName} />
             <button
-              value={doc.id}
+              value={doc.doctorSeq}
               className={styles.deleteBtn}
               onClick={DialogStateChange}
             >

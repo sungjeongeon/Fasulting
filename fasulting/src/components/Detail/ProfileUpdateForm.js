@@ -6,7 +6,7 @@ import axios from "axios";
 
 function ProfileUpdateForm({ title, content }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [newContent, setNewContent] = useState(content);
+  const [newContent, setNewContent] = useState();
   const onClick = (e) => {
     setIsEditing((current) => !current);
     console.log(newContent);

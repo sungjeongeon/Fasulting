@@ -3,7 +3,8 @@ import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import styles from "./AddCategory.module.css";
 import AddCategoryListItem from './AddCategoryListItem';
-import DisabledByDefaultOutlinedIcon from '@mui/icons-material/DisabledByDefaultOutlined';
+// import DisabledByDefaultOutlinedIcon from '@mui/icons-material/DisabledByDefaultOutlined';
+import CloseIcon from "@mui/icons-material/Close";
 import propTypes from "prop-types"
 import { useEffect } from 'react';
 
@@ -259,10 +260,10 @@ export default function AddCategory({ModalStateChange, ctg_list}) {
         <ListSubheader component="div" id="nested-list-subheader"
           sx={{ color: 'black', fontSize: '1rem', fontWeight: 'bold', paddingTop: '1.2rem' }}
         >
-          <DisabledByDefaultOutlinedIcon
+          <CloseIcon
           fontSize="medium"
           onClick={ModalStateChange}
-          color="action"
+          color="error"
           className={styles.back}
         />
           항목 추가
