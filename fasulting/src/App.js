@@ -6,7 +6,6 @@ import Home from "./pages/client/Home";
 import Login from "./pages/client/Login";
 import PsList from "./pages/client/PsList";
 import Register from "./pages/client/Register";
-import MypageCl from "./pages/client/MypageCl";
 import Detail from "./pages/client/Detail";
 import MyActivity from "./pages/client/MyActivity.js";
 import { Container } from "@mui/system";
@@ -89,8 +88,6 @@ function App() {
               <Route path="/detail/:id" element={<Detail />} />
               {/* 나의 예약 */}
               <Route path="/myreservation" element={<MyReservation />} />
-              {/* 나의 정보 */}
-              <Route path="/mypagecl" element={<MypageCl />} />
               {/* 나의 활동 */}
               <Route path="/myactivity" element={<MyActivity />} />
               {/* 나의 견적서 */}

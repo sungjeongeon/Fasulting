@@ -1,0 +1,102 @@
+import React from "react";
+import IconButton from "@mui/material/IconButton";
+import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
+
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
+function AdminSignupAcceptModal({ ps }) {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const acceptSignUp = () => {
+    // 관리자seq(=유저seq), 병원seq 로 api 요청
+    console.log(ps.psSeq);
+    // 페이지 새로고침
+    window.location.reload();
+  };
+
+  // const descriptionElementRef = React.useRef(null);
+  // React.useEffect(() => {
+  //   if (open) {
+  //     const { current: descriptionElement } = descriptionElementRef;
+  //     if (descriptionElement !== null) {
+  //       descriptionElement.focus();
+  //     }
+  //   }
+  // }, [open]);
+  return (
+    <>
+      <IconButton edge="end" aria-label="comments" onClick={handleClickOpen}>
+        <ContentPasteSearchIcon />
+      </IconButton>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth="sm"
+        scroll="body"
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle id="scroll-dialog-title">제출 서류</DialogTitle>
+        <DialogContent dividers={false}>
+          <DialogContentText
+            id="scroll-dialog-description"
+            // ref={descriptionElementRef}
+            tabIndex={-1}
+            sx={{ mt: 3, mb: 4 }}
+          >
+            //프로필 사진//
+            <hr />
+            id : {ps.psSeq}
+            <br />
+            병원명 : {ps.name}
+            <br />
+            원장 : {ps.director}
+            <br />
+            소개글 : {ps.intro}
+            <br />
+            카테고리(메인) : {ps.mainCategoryList.join(", ")}
+            <br />
+            카테고리(서브) : {ps.subCategoryList.join(", ")}
+            <hr />
+            우편번호 : {ps.zipcode}
+            <br />
+            주소 : {ps.address}
+            <br />
+            연락처 : {ps.number}
+            <br />
+            e-mail : {ps.email}
+            <br />
+            홈페이지 : {ps.homepage}
+            <hr />
+            사업자등록증 : {ps.registeration}
+            <br />
+            // 사업자 등록증 사진 //
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ mx: 4, mb: 3 }}>
+          <Button onClick={handleClose} sx={{ mx: 3 }}>
+            돌아가기
+          </Button>
+          <Button variant="contained" onClick={acceptSignUp}>
+            승인
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+}
+
+export default AdminSignupAcceptModal;
