@@ -211,6 +211,8 @@ public class ReservationServiceImpl implements ReservationService {
                 .time(t.getSeq())
                 .build();
 
+        log.info(regReservationReqDto.getPsSeq() + " " + oc.getSeq() + " " + t.getSeq());
+
         if (!psOperatingRepository.findById(poId).isPresent()) {
             return false;
         }

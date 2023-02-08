@@ -13,6 +13,11 @@ public class PreReservationRespDto {
     String userName;
     String estimate;
     List<String> subCategoryName;
-    String date;
+    int year;
+    int month;
+    int day;
+    int hour;
+    int minute;
+    int dayOfWeek;
 
 }

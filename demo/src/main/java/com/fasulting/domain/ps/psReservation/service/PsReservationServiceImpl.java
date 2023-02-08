@@ -242,12 +242,10 @@ public class PsReservationServiceImpl implements PsReservationService {
                         .userName(c.getUser().getName())
                         .estimate(estimate)
                         .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
-                        .date(Date2String.date2String(c.getReservation().getReservationCal().getYear(),
-                                c.getReservation().getReservationCal().getMonth(),
-                                c.getReservation().getReservationCal().getDay(),
-                                c.getReservation().getReservationCal().getDayOfWeek(),
-                                c.getReservation().getTime().getStartHour(),
-                                c.getReservation().getTime().getStartMin()))
+                        .year(c.getReservation().getReservationCal().getYear())
+                        .month(c.getReservation().getReservationCal().getMonth())
+                        .hour(c.getReservation().getTime().getStartHour())
+                        .minute(c.getReservation().getTime().getStartMin())
                         .build();
 
                 respList.add(respDto);

@@ -9,8 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ResultReqDto {
 
     Long consultingSeq;
-    Long psId;
-    Long userId;
+    Long psSeq;
+    Long userSeq;
 
     String reportContent;
     String reportEstimate;

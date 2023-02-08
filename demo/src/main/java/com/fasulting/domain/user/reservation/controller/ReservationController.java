@@ -56,9 +56,11 @@ public class ReservationController {
 
         log.info(regReservationReqDto.toString());
 
-        reservationService.addReservation(regReservationReqDto);
+        if(reservationService.addReservation(regReservationReqDto)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
 
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
     // 지난 예약 조회

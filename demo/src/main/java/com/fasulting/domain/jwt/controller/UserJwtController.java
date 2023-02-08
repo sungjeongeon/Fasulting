@@ -20,7 +20,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @CrossOrigin("*") // 수정
-public class UserJwtController {
+public class
+UserJwtController {
 
     private final UserJwtService userJwtService;
 

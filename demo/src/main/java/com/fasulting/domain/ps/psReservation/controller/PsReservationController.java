@@ -79,7 +79,7 @@ public class PsReservationController {
 
         List<PreReservationRespDto> respDto = psReservationService.getPreReservationList(psSeq, LocalDateTime.now());
 
-        if(respDto != null){
+        if(!respDto.isEmpty()){
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", respDto));
         }
 
