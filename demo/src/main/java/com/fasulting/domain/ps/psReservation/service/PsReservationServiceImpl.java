@@ -137,6 +137,8 @@ public class PsReservationServiceImpl implements PsReservationService {
 
                 PostReservationRespDto respDto = PostReservationRespDto.builder()
                         .reservationSeq(r.getSeq())
+                        .userSeq(r.getUser().getSeq())
+                        .psSeq(r.getPs().getSeq())
                         .title(r.getUser().getName())
                         .reservationDateStart(Date2String.date2TString(r.getReservationCal().getYear(),
                                 r.getReservationCal().getMonth(),

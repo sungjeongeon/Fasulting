@@ -37,35 +37,43 @@ public class ReservationController {
      */
     @GetMapping("/{psSeq}")
     public ResponseEntity<?> getReservationTable(@PathVariable Long psSeq) {
-
+        log.info("getReservationTable Controller Call");
         LocalDateTime current = LocalDateTime.now();
 
         ReservationTableRespDto resp = reservationService.getReservationTable(psSeq, current);
 
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
+        if (resp != null) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
     /**
      * 예약 등록
-     *
      * @param regReservationReqDto
      * @return
      */
     @PostMapping("/register")
     public ResponseEntity<?> regReservation(@ModelAttribute RegReservationReqDto regReservationReqDto) {
 
-        log.info(regReservationReqDto.toString());
+        log.info("regReservation Controller Call");
 
-        if(reservationService.addReservation(regReservationReqDto)) {
+        if (reservationService.addReservation(regReservationReqDto)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
 
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
-    // 지난 예약 조회
+    /**
+     * 지난 예약 조회
+     * @param userSeq
+     * @return
+     */
     @GetMapping("/pre/{userSeq}")
     public ResponseEntity<?> getPreReservationList(@PathVariable Long userSeq) {
+
+        log.info("getPreReservationList Controller Call");
 
         List<PreReservationRespDto> resp = reservationService.getPreReservationList(userSeq);
 
@@ -77,9 +85,15 @@ public class ReservationController {
     }
 
 
-    // 미래 예약 조회
+    /**
+     * 미래예약 조회
+     * @param userSeq
+     * @return
+     */
     @GetMapping("/post/{userSeq}")
     public ResponseEntity<?> getPostReservationList(@PathVariable Long userSeq) {
+
+        log.info("getPostReservation Controller Call");
 
         List<PostReservationRespDto> resp = reservationService.getPostReservationList(userSeq);
 
@@ -88,7 +102,7 @@ public class ReservationController {
         }
 
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
-     }
+    }
 
     // 예약 취소
     @PatchMapping

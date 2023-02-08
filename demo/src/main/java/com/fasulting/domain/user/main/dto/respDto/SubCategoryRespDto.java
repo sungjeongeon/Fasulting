@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class SubCategoryRespDto {
 
+    private Long mainSeq;
     private Long subSeq;
-
     private String subName;
 }

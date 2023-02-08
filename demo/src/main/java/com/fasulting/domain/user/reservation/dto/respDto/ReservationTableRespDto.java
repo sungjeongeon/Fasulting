@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 public class ReservationTableRespDto {
 
-    private List<PsOperatingRespDto> operatingTime;
-    private List<MainCategoryRespDto> mainCategory;
-    private List<SubCategoryRespDto> subCategory;
+    private List<PsOperatingRespDto> operatingTimeList;
+    private List<MainCategoryRespDto> mainCategoryList;
+    private List<SubCategoryRespDto> subCategoryList;
 }

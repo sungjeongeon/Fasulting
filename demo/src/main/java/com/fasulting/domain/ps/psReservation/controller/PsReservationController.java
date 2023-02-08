@@ -37,7 +37,7 @@ public class PsReservationController {
     }
 
     /**
-     * 2주치 미래 예약 및 시간 조회
+     * 미래 예약 및 시간(앞으로 2주) 조회
      * @param psSeq
      * @return
      */
