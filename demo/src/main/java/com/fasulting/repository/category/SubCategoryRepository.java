@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface SubCategoryRepository extends JpaRepository<SubCategoryEntity, Long> {
 
-    Optional<SubCategoryEntity> findMainByName(String name);
+    Optional<SubCategoryEntity> findByName(String name);
 
     List<SubCategoryEntity> findByMainCategory(MainCategoryEntity main);
 

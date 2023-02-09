@@ -78,7 +78,7 @@ public class PsServiceImpl implements PsService {
 
         List<MainCategoryEntity> mList = mainRepository.findAll();
 
-        for(MainCategoryEntity m : mList){
+        for (MainCategoryEntity m : mList) {
             MainCategoryRespDto main = MainCategoryRespDto.builder()
                     .mainSeq(m.getSeq())
                     .mainName(m.getName())
@@ -91,7 +91,7 @@ public class PsServiceImpl implements PsService {
 
         List<SubCategoryEntity> sList = subRepository.findAll();
 
-        for(SubCategoryEntity s : sList){
+        for (SubCategoryEntity s : sList) {
             SubCategoryRespDto sub = SubCategoryRespDto.builder()
                     .mainSeq(s.getSeq())
                     .subSeq(s.getSeq())
@@ -101,7 +101,7 @@ public class PsServiceImpl implements PsService {
             subList.add(sub);
         }
 
-        if(!mainList.isEmpty() && !subList.isEmpty()){
+        if (!mainList.isEmpty() && !subList.isEmpty()) {
             CategoryListRespDto resp = CategoryListRespDto.builder()
                     .mainCategoryList(mainList)
                     .subCategoryList(subList)
@@ -130,7 +130,11 @@ public class PsServiceImpl implements PsService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
+<<<<<<< HEAD
             profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,  psProfileImgDirPath);
+=======
+            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid, "ps/profile/");
+>>>>>>> 4e27be48a842a9cc904cef517b5e9e76c62e5962
             log.info(profileImgUrl);
         }
 
@@ -218,7 +222,7 @@ public class PsServiceImpl implements PsService {
         /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
         for (String name : psInfo.getSubCategoryList()) {
 
-            SubCategoryEntity subCategory = subRepository.findMainByName(name).orElseThrow(() -> {
+            SubCategoryEntity subCategory = subRepository.findByName(name).orElseThrow(() -> {
                 throw new NullPointerException();
             });
 
@@ -545,7 +549,11 @@ public class PsServiceImpl implements PsService {
 
     }
 
-    // 카테고리 수정
+    /**
+     * 카테고리 수정
+     * @param psInfo
+     * @return
+     */
     @Override
     @Transactional
     public boolean editCategory(PsSeqReqDto psInfo) {
@@ -559,43 +567,32 @@ public class PsServiceImpl implements PsService {
             throw new NullPointerException();
         });
 
-        /////////////// 병원 - 메인 카테고리 매핑 저장 => "PsMain" ///////////////
-        for (String name : psInfo.getMainCategoryList()) {
-
-            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).orElseThrow(() -> {
-                throw new NullPointerException();
-            });
-            ;
-
-            log.info(mainCategory.toString());
-
-            if (mainCategory != null) {
-                PsMainEntity psMain = PsMainEntity.builder().ps(ps)
-                        .mainCategory(mainCategory).build();
-
-                psMainRepository.save(psMain);
-            }
-
-        }
-
-        /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
+        /////////////// 병원 - 메인 - 서브 카테고리 매핑 저장 ///////////////
         for (String name : psInfo.getSubCategoryList()) {
 
-            SubCategoryEntity subCategory = subRepository.findMainByName(name).orElseThrow(() -> {
+            SubCategoryEntity sub = subRepository.findByName(name).orElseThrow(() -> {
                 throw new NullPointerException();
             });
-            log.info(subCategory.toString());
 
-            MainCategoryEntity mainCategory = subCategory.getMainCategory();
-            log.info(mainCategory.toString());
+            MainCategoryEntity main = sub.getMainCategory();
 
-            if (subCategory != null) {
-                PsMainSubEntity psMainSub = PsMainSubEntity.builder().ps(ps)
-                        .mainCategory(mainCategory).subCategory(subCategory).build();
+            log.info(main.toString());
 
-                psMainSubRepository.save(psMainSub);
-            }
+            PsMainEntity psMain = PsMainEntity.builder()
+                    .ps(ps)
+                    .mainCategory(main)
+                    .build();
 
+            psMainRepository.save(psMain); // 병원 - 메인
+
+            PsMainSubEntity psMainSub = PsMainSubEntity.builder()
+                    .ps(ps)
+                    .mainCategory(main)
+                    .subCategory(sub)
+                    .build();
+
+            psMainSubRepository.save(psMainSub); // 병원 - 메인 - 서브
+            
         }
 
         return true;
@@ -611,7 +608,7 @@ public class PsServiceImpl implements PsService {
 
         DoctorEntity doctor = doctorRepository.findById(doctorSeq).orElseThrow(() -> new NullPointerException());
 
-        if(doctor.getPs().getSeq() != psSeq){
+        if (doctor.getPs().getSeq() != psSeq) {
             return false;
         }
 
@@ -724,7 +721,11 @@ public class PsServiceImpl implements PsService {
         MultipartFile doctorImgFile = doctor.getImg();
         if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
+<<<<<<< HEAD
             doctorImgUrl = FileManage.uploadFile(imgFile, uuid, doctorImgPath);
+=======
+            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, "ps/profile/");
+>>>>>>> 4e27be48a842a9cc904cef517b5e9e76c62e5962
         }
 
         DoctorEntity doc = DoctorEntity.builder().ps(ps)
