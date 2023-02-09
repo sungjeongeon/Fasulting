@@ -15,6 +15,5 @@ import java.util.List;
 public class ReservationTableRespDto {
 
     private List<PsOperatingRespDto> operatingTimeList;
-    private List<MainCategoryRespDto> mainCategoryList;
-    private List<SubCategoryRespDto> subCategoryList;
+    private List<ReservationMainRespDto> mainCategoryList;
 }

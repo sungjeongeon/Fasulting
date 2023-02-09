@@ -131,7 +131,7 @@ public class PsReservationServiceImpl implements PsReservationService {
         // 미래 예약 조회
         List<PostReservationRespDto> respList = new ArrayList<>();
 
-        List<ReservationEntity> rList = reservationRepository.getPostByPs(psSeq, current.minusMinutes(30));
+        List<ReservationEntity> rList = reservationRepository.getPostByPs(psSeq, current.minusMinutes(30).format(DateTimeFormatter.ofPattern("yyyyMMddHHss")));
 
         for (ReservationEntity r : rList) {
 

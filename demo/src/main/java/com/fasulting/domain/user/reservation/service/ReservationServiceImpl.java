@@ -8,10 +8,7 @@ import com.fasulting.common.util.Date2String;
 import com.fasulting.common.util.FileManage;
 import com.fasulting.domain.user.reservation.dto.reqDto.CancelReservationReqDto;
 import com.fasulting.domain.user.reservation.dto.reqDto.RegReservationReqDto;
-import com.fasulting.domain.user.reservation.dto.respDto.PostReservationRespDto;
-import com.fasulting.domain.user.reservation.dto.respDto.PreReservationRespDto;
-import com.fasulting.domain.user.reservation.dto.respDto.ReportRespDto;
-import com.fasulting.domain.user.reservation.dto.respDto.ReservationTableRespDto;
+import com.fasulting.domain.user.reservation.dto.respDto.*;
 import com.fasulting.entity.calendar.OperatingCalEntity;
 import com.fasulting.entity.calendar.ReservationCalEntity;
 import com.fasulting.entity.calendar.TimeEntity;
@@ -45,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.fasulting.common.util.FileManage.beforeImgDirPath;
@@ -129,39 +127,38 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         // 전체 메인 카테고리 리스트
-        List<MainCategoryRespDto> mainList = new ArrayList<>();
+        List<ReservationMainRespDto> mainList = new ArrayList<>();
 
         List<MainCategoryEntity> mainEntityList = mainCategoryRepository.findAll();
 
         for (MainCategoryEntity main : mainEntityList) {
-            MainCategoryRespDto mainDto = MainCategoryRespDto.builder()
+
+            List<SubCategoryEntity> subList = psMainSubRepository.findByMainCategory(main);
+            List<SubCategoryRespDto> sList = new ArrayList<>();
+
+            for(SubCategoryEntity sub : subList){
+                SubCategoryRespDto s = SubCategoryRespDto.builder()
+                        .mainSeq(main.getSeq())
+                        .subSeq(sub.getSeq())
+                        .subName(sub.getName())
+                        .build();
+
+                sList.add(s);
+            }
+
+            ReservationMainRespDto mainDto = ReservationMainRespDto.builder()
                     .mainSeq(main.getSeq())
                     .mainName(main.getName())
+                    .subCategoryList(sList)
                     .build();
 
             mainList.add(mainDto);
-        }
-
-        // 병원 서브 카테고리 리스트
-        List<SubCategoryRespDto> subList = new ArrayList<>();
-
-        List<SubCategoryEntity> subEntityList = psMainSubRepository.getSubByPsSeq(psSeq);
-
-        for (SubCategoryEntity sub : subEntityList) {
-            SubCategoryRespDto subDto = SubCategoryRespDto.builder()
-                    .mainSeq(sub.getMainCategory().getSeq())
-                    .subSeq(sub.getSeq())
-                    .subName(sub.getName())
-                    .build();
-
-            subList.add(subDto);
         }
 
         // resp 담기
         ReservationTableRespDto respList = ReservationTableRespDto.builder()
                 .operatingTimeList(poList)
                 .mainCategoryList(mainList)
-                .subCategoryList(subList)
                 .build();
 
         return respList;
@@ -355,7 +352,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<PostReservationRespDto> respList = new ArrayList<>();
 
-        List<ReservationEntity> rList = reservationRepository.getPostByUser(userSeq, LocalDateTime.now().minusMinutes(30));
+        String current = LocalDateTime.now().minusMinutes(30).format(DateTimeFormatter.ofPattern("yyyyMMddHHss"));
+
+        List<ReservationEntity> rList = reservationRepository.getPostByUser(userSeq, current);
 
         for (ReservationEntity r : rList) {
 
