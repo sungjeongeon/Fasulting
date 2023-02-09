@@ -117,20 +117,20 @@ function ReserveCardTimeItem({ times, getReserveTime }) {
   const [selectedIdx, setSelectedIdx] = useState("");
   // props (times) 가 변경되면 timeTable의 선택 가능/불가능 여부 리셋
   useEffect(() => {
-    const tempo = timeTable.map((t) => {
+    const temp = timeTable.map((t) => {
       return { id: t.id, time: t.time, isPossible: false };
     });
-    //console.log("tempo", tempo);
+    //console.log("temp", temp);
     //console.log("times", times);
     for (const time of times) {
       for (const t of time) {
         console.log("t", t);
-        tempo[t].isPossible = true;
-        setTimeTable(tempo);
-        // props 바뀌면 선택됐던 시간 idx 리셋
-        setSelectedIdx("");
+        temp[t].isPossible = true;
       }
     }
+    setTimeTable(temp);
+    // props 바뀌면 선택됐던 시간 idx 리셋
+    setSelectedIdx("");
   }, [times]);
 
   return (
