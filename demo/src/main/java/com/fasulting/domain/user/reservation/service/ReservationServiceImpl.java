@@ -133,7 +133,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         for (MainCategoryEntity main : mainEntityList) {
 
-            List<SubCategoryEntity> subList = psMainSubRepository.findByMainCategory(main);
+            List<SubCategoryEntity> subList = psMainSubRepository.findByMainCategory(main.getSeq());
             List<SubCategoryRespDto> sList = new ArrayList<>();
 
             for(SubCategoryEntity sub : subList){
