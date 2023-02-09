@@ -83,6 +83,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         log.info("getReservationTable Service Call");
 
+        PsEntity ps = psRepository.findById(psSeq).orElseThrow( () -> new NullPointerException());
+
         // 예약 가능 시간 테이블 조회, 오늘 포함 일주일 (총 7일)
         LocalDateTime post = current.plusDays(6);
 
@@ -133,7 +135,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         for (MainCategoryEntity main : mainEntityList) {
 
-            List<SubCategoryEntity> subList = psMainSubRepository.findByMainCategory(main.getSeq());
+            List<SubCategoryEntity> subList = psMainSubRepository.findAllByMainCategoryAndPs(main.getSeq(), ps.getSeq());
             List<SubCategoryRespDto> sList = new ArrayList<>();
 
             for(SubCategoryEntity sub : subList){
