@@ -719,7 +719,7 @@ public class PsServiceImpl implements PsService {
         if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
-            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, doctorImgPath);
+            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, doctorImgPath);a
         }
 
         DoctorEntity doc = DoctorEntity.builder().ps(ps)
