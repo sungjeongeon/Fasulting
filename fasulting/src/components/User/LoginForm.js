@@ -57,6 +57,7 @@ export default function LoginForm() {
                 loginUser({
                   userSeq: res.data.responseObj.userSeq,
                   userName: res.data.responseObj.userName,
+                  adminYn: res.data.responseObj.adminYn,
                   userEmail: values.email,
                   userPwd: values.password,
                 })
@@ -82,7 +83,11 @@ export default function LoginForm() {
                 }
               );
               setTimeout(() => {
-                navigate("/");
+                if (res.data.responseObj.adminYn === true) {
+                  navigate("/admin");
+                } else {
+                  navigate("/");
+                }
               }, 2000);
             }
           });

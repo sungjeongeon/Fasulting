@@ -15,11 +15,11 @@ import axiosAPi from "../../api/axiosApi";
 var localUser = new UserModel();
 // 애플리케이션 서버 URL
 const APPLICATION_SERVER_URL =
-  // process.env.NODE_ENV === "development"
-  //   ? "/"
-  //   : "https://i8e106.p.ssafy.io:8443/";
+  process.env.NODE_ENV === "development"
+    ? "/"
+    : "https://i8e106.p.ssafy.io:8443/";
 
-  process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
+// process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
 
 class VideoRoom extends Component {
   constructor(props) {
@@ -117,7 +117,7 @@ class VideoRoom extends Component {
       try {
         console.log("토큰get시도");
         var token = await this.getToken();
-        console.log(token);
+
         this.connect(token);
       } catch (error) {
         console.error(
