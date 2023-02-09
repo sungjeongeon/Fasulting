@@ -21,6 +21,8 @@ public interface PsMainSubRepository extends JpaRepository<PsMainSubEntity, PsMa
 
     List<PsMainSubEntity> findAllByPsSeq(Long psSeq);
 
-    List<SubCategoryEntity> findByMainCategory(MainCategoryEntity main);
+    @Query("SELECT p.subCategory " + "FROM PsMainSubEntity p " +
+            "WHERE p.mainCategory.seq = :main")
+    List<SubCategoryEntity> findByMainCategory(@Param("main") Long main);
 
 }
