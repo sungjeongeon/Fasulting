@@ -252,6 +252,7 @@ public class PsReservationServiceImpl implements PsReservationService {
                     .month(c.getReservation().getReservationCal().getMonth())
                     .hour(c.getReservation().getTime().getStartHour())
                     .minute(c.getReservation().getTime().getStartMin())
+                    .dayOfWeek(c.getReservation().getReservationCal().getDayOfWeek())
                     .build();
 
             respList.add(respDto);

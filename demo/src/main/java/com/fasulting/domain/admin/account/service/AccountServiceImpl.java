@@ -1,5 +1,6 @@
 package com.fasulting.domain.admin.account.service;
 
+import com.fasulting.common.RoleType;
 import com.fasulting.domain.admin.account.dto.reqDto.ConfirmPsReqDto;
 import com.fasulting.domain.admin.account.dto.respDto.PsWaitRespDto;
 import com.fasulting.entity.ps.PsEntity;
@@ -65,11 +66,11 @@ public class AccountServiceImpl implements AccountService {
             throw new NullPointerException();
         });
 
-        if (!"admin".equals(role.getAuthority())) {
+        if (!RoleType.ADMIN.equals(role.getAuthority())) {
             return false;
         }
 
-        ps.updateByConfirm("admin_" + confirmPsReqDto.getAdminSeq(), LocalDateTime.now());
+        ps.updateByConfirm(RoleType.ADMIN + "_" + confirmPsReqDto.getAdminSeq(), LocalDateTime.now());
 
         return true;
     }
