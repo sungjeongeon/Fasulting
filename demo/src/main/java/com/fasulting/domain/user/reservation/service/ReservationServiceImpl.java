@@ -6,6 +6,7 @@ import com.fasulting.common.dto.respDto.PsOperatingRespDto;
 import com.fasulting.common.dto.respDto.SubCategoryRespDto;
 import com.fasulting.common.util.Date2String;
 import com.fasulting.common.util.FileManage;
+import com.fasulting.common.util.String2Date;
 import com.fasulting.domain.user.reservation.dto.reqDto.CancelReservationReqDto;
 import com.fasulting.domain.user.reservation.dto.reqDto.RegReservationReqDto;
 import com.fasulting.domain.user.reservation.dto.respDto.*;
@@ -101,8 +102,18 @@ public class ReservationServiceImpl implements ReservationService {
 
             String key = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
 
+            int HH = po.getTime().getStartHour();
+            int mm = po.getTime().getStartMin();
+
+            LocalDateTime date = String2Date.string2Date(Date2String.date2TString(year, month, day, HH, mm));
+            date = date.plusHours(2);
+            if(current.isBefore(date)){
+                continue;
+            }
+
             if (map.get(key) == null) {
                 List<Integer> timeList = new ArrayList<>();
+
                 timeList.add(po.getTime().getNum());
 
                 PsOperatingRespDto value = PsOperatingRespDto.builder()
