@@ -7,6 +7,7 @@ import com.fasulting.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -24,5 +25,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new JwtInterceptor(jwtTokenProvider, userRepository, psRepository))
                 .addPathPatterns("/**") // 해당 경로에 접근하기 전에 인터셉터가 가로챈다.
                 .excludePathPatterns("/user/login", "ps/login", "admin/login"); // 해당 경로는 인터셉터가 가로채지 않는다.
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*");
     }
 }
