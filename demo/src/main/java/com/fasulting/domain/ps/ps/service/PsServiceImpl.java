@@ -37,7 +37,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -384,32 +383,6 @@ public class PsServiceImpl implements PsService {
         return resp;
     }
 
-    // 병원 회원 정보 수정
-//    @Override
-//    @Transactional
-//    public boolean editPsInfo(PsSeqReq psInfo) {
-//        Long seq = psInfo.getSeq();
-//        MultipartFile profileImgFile = psInfo.getProfileImg();
-//        if(psRepository.findById(seq).isPresent()) {
-//            PsEntity ps = psRepository.findById(seq).get();
-//
-//            String profileImgUrl = null;
-//            if(profileImgFile != null && !profileImgFile.isEmpty()) {
-//                // 파일 중복명 방지 uuid 생성
-//                UUID uuid = UUID.randomUUID();
-//
-//                profileImgUrl = uploadFile(uuid, profileImgFile, null);
-//            }
-//
-//            log.info(psInfo.toString());
-//            ps.updatePsEntity(psInfo, profileImgUrl);
-//
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
     // 병원 회원 탈퇴
     @Override
     @Transactional
@@ -593,6 +566,43 @@ public class PsServiceImpl implements PsService {
         }
 
         return true;
+    }
+
+    /**
+     * 프로필 사진 수정
+     * @param psInfo
+     * @return
+     */
+    @Override
+    @Transactional
+    public boolean editProfile(PsSeqReqDto psInfo) {
+        log.info("ps editProfile Service Start");
+        Long seq = psInfo.getSeq();
+
+        PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+
+        MultipartFile profileImgFile = psInfo.getProfileImg();
+        String profileImgUrl;
+
+        if (profileImgFile == null || profileImgFile.isEmpty()) {
+            return false;
+        }
+        else {
+            // 파일 중복명 방지 uuid 생성
+            UUID uuid = UUID.randomUUID();
+
+            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,  psProfileImgDirPath);
+        }
+
+        String profileOrigin = profileImgFile.getOriginalFilename();
+
+        ps.updateProfile(profileImgUrl, profileOrigin);
+        log.info("ps editProfile Service End");
+
+        return true;
+
     }
 
     // 전문의 삭제

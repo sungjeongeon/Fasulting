@@ -1,9 +1,7 @@
 package com.fasulting.domain.ps.ps.controller;
 
 import com.fasulting.common.resp.ResponseBody;
-import com.fasulting.common.util.FileManage;
 import com.fasulting.domain.ps.ps.dto.reqDto.*;
-
 import com.fasulting.domain.ps.ps.dto.respDto.CategoryListRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.domain.ps.ps.service.PsService;
@@ -226,6 +224,21 @@ public class PsController {
         log.info(psInfo.toString());
 
         if (psService.editCategory(psInfo)) {
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
+    }
+
+    /**
+     * 제공 수술 수정
+     */
+    @PutMapping("/profile")
+    public ResponseEntity<?> editProfile(@ModelAttribute PsSeqReqDto psInfo) {
+        log.info("ps editProfile Controller  - Call");
+
+        log.info(psInfo.toString());
+
+        if (psService.editProfile(psInfo)) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));

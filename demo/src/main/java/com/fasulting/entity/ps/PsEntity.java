@@ -3,7 +3,6 @@ package com.fasulting.entity.ps;
 import com.fasulting.common.RoleType;
 import com.fasulting.entity.BaseEntity;
 import com.fasulting.entity.token.PsTokenEntity;
-import com.fasulting.entity.token.UserTokenEntity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -134,6 +133,10 @@ public class PsEntity extends BaseEntity implements UserDetails {
 		this.homepage = homepage;
 	}
 
+	public void updateProfile(String profileImgPath, String profileImgOrigin) {
+		this.profileImgPath = profileImgPath;
+		this.profileImgOrigin = profileImgOrigin;
+	}
 
 	public void updateByWithdrawal(String delBy, LocalDateTime delDate) {
 		this.delYn = "Y";
