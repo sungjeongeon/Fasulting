@@ -34,63 +34,67 @@ export default function LoginForm() {
     console.log(`선택한 값 : ${e.target.value}`);
     setUsertype(e.target.value);
   };
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: validationSchema,
+  const formik = useFormik(
+    {
+      initialValues: {
+        email: "",
+        password: "",
+      },
+      validationSchema: validationSchema,
 
-    onSubmit: async (values) => {
-      if (usertype === "") {
-        toast.error(<h3>회원유형을 선택해주세요 !</h3>, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 1000,
-          hideProgressBar: true,
-        });
-      } else if (usertype === "user") {
-        try {
-          await axiosAPi.post("/user/login", values).then((res) => {
-            if (res.data.message === "success") {
-              console.log(res.data);
-              dispatch(
-                loginUser({
-                  userSeq: res.data.responseObj.userSeq,
-                  userName: res.data.responseObj.userName,
-                  userEmail: values.email,
-                  userPwd: values.password,
-                })
-              );
-              //토큰 받아오기
-              const accessToken = res.data.responseObj.accessToken;
-              //console.log(accessToken);
-              dispatch(setToken({ accessToken: accessToken }));
-              // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-              // axiosAPi.defaults.headers.common[
-              //   "Authorization"
-              // ] = `Bearer ${accessToken}`;
-              //setAuthorizationToken(accessToken);
-              //console.log(res.data);
-              toast.success(
-                <h3>
-                  로그인 완료 <br />
-                  반갑습니다 !{" "}
-                </h3>,
-                {
-                  position: toast.POSITION.TOP_CENTER,
-                  autoClose: 2000,
-                }
-              );
-              setTimeout(() => {
-                navigate("/");
-              }, 2000);
-            }
+      onSubmit: async (values) => {
+        if (usertype === "") {
+          toast.error(<h3>회원유형을 선택해주세요 !</h3>, {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1000,
+            hideProgressBar: true,
           });
-        } catch (e) {
-          // 서버에서 받은 에러 메시지 출력
-          console.log(e);
+        } else if (usertype === "user") {
+          try {
+            await axiosAPi.post("/user/login", values).then((res) => {
+              if (res.data.message === "success") {
+                console.log(res.data);
+                dispatch(
+                  loginUser({
+                    userSeq: res.data.responseObj.userSeq,
+                    userName: res.data.responseObj.userName,
+                    userEmail: values.email,
+                    userPwd: values.password,
+                  })
+                );
+                console.log(res.headers);
+                //토큰 받아오기
+                const accessToken = res.headers.get("Authorization");
+                console.log(accessToken);
+                //console.log(accessToken);
+                dispatch(setToken({ accessToken: accessToken }));
+                // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+                // axiosAPi.defaults.headers.common[
+                //   "Authorization"
+                // ] = `Bearer ${accessToken}`;
+                //setAuthorizationToken(accessToken);
+                //console.log(res.data);
+                toast.success(
+                  <h3>
+                    로그인 완료 <br />
+                    반갑습니다 !{" "}
+                  </h3>,
+                  {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 1000,
+                  }
+                );
+                setTimeout(() => {
+                  navigate("/");
+                }, 1000);
+              }
+            });
+          } catch (e) {
+            // 서버에서 받은 에러 메시지 출력
+            console.log(e);
+          }
         }
-      }
+      },
       // console.log(
       //   JSON.stringify(
       //     values,
@@ -98,7 +102,7 @@ export default function LoginForm() {
       //     2
       //   )
       // );
-    },
+    }
 
     //   // alert(JSON.stringify(values, null, 2));
     //   // if (
@@ -108,7 +112,7 @@ export default function LoginForm() {
     //   //   console.log("로그인 성공");
     //   //   return navigate("/");
     //   // }
-  });
+  );
 
   return (
     <>
