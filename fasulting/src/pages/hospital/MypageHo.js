@@ -57,7 +57,7 @@ function MypageHo() {
             content={hospital.psHomepage}
           />
           <ProfileTimeUpdate />
-          {/* <ProfileSubCategoryUpdate ctg_list={hospital.subCategoryName} /> */}
+          <ProfileSubCategoryUpdate ctg_list={hospital.subCategoryName} />
           <ProfileDoctorUpdate doctors={hospital.doctor} />
           <ReviewInfo />
         </Grid>

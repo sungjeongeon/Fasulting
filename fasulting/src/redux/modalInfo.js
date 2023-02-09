@@ -18,6 +18,7 @@ export const modalInfoSlice = createSlice({
       state.reservationId = action.payload.reservationSeq;
       state.reservationStart = action.payload.startDate;
       state.dayOfWeek = action.payload.dayOfWeek;
+      console.log(action.payload)
       return state
     },
     modalStateChange: (state) => {

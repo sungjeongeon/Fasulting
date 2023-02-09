@@ -15,7 +15,7 @@ export const appointmentsSlice = createSlice({
   },
   reducers: {
     update: (state, action) => {
-      // console.log(action.payload)
+      console.log(action.payload)
       state.appointmentList = action.payload
     },
     cancel: (state, action) => {

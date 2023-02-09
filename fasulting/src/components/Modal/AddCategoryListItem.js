@@ -6,28 +6,39 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import Checkbox from '@mui/material/Checkbox';
+import { useEffect } from "react";
+import { useState } from "react";
 
-function AddCategoryListItem ({mainId, mainName, subList, selectedMain, selectedSubList, increaseCnt, decreaseCnt}) {
+function AddCategoryListItem ({mainId, mainName, subList, selectedSubIdxList, increaseCnt, decreaseCnt, pushCtg, spliceCtg}) {
   
+  // 서버에 보낼 거 (기존 select -> selectedSubList)
+  // selectedSubList가 체크 박스 선택 여부에 따라서 바뀜 => 현재 (하위 컴포넌트)
+  // 등록 버튼 누르면 axios 요청 (put) => 부모 컴포넌트
+
+
   // 체크박스 state 생성 + 토글 함수 생성
-  const [checked, setChecked] = React.useState(selectedSubList);
+  const [checked, setChecked] = React.useState(selectedSubIdxList);
   const handleToggle = (value) => () => {
-  const currentIndex = checked.indexOf(value);
-  const newChecked = [...checked];
-  
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+    // console.log(subList[value])
 
-  if (currentIndex === -1) {
-    increaseCnt()
-    newChecked.push(value);
-  } else {
-    decreaseCnt()
-    newChecked.splice(currentIndex, 1);
-  }
 
-  setChecked(newChecked);
-  // updateItem(mainId, newChecked)
+    if (currentIndex === -1) {
+      increaseCnt()
+      newChecked.push(value);
+      pushCtg(subList[value])
+      // console.log(copyCtg)
+
+    } else {
+      decreaseCnt()
+      newChecked.splice(currentIndex, 1);
+      spliceCtg(subList[value])
+    }
+
+    setChecked(newChecked);
   };
-  const currentopen = selectedSubList.length === 0 ? false : true
+  const currentopen = selectedSubIdxList.length === 0 ? false : true
   const [open, setOpen] = React.useState(currentopen);
   const handleClick = () => {
     setOpen((current) => !current)
@@ -42,17 +53,17 @@ function AddCategoryListItem ({mainId, mainName, subList, selectedMain, selected
         <ListItemText primary={mainName} />
       </ListItemButton>
       {subList.map((sub, index) => {
-        const labelId = `${mainId}-${sub.id}`
+        const labelId = `${mainId}-${index}`
         return (
           <Collapse in={open} timeout="auto" unmountOnExit
-          key={labelId}
+            key={labelId}
           >
             <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 4 }} onClick={handleToggle(index)} dense>
                 <ListItemIcon>
                   <SubdirectoryArrowRightIcon />
                 </ListItemIcon>
-                <ListItemText id={labelId} primary={sub.name} />
+                <ListItemText id={labelId} primary={sub} />
                 <ListItemIcon>
                   <Checkbox
                     edge="end"
