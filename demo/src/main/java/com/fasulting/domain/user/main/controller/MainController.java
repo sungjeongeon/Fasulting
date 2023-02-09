@@ -84,7 +84,7 @@ public class MainController {
     @GetMapping("/ps-detail/{userSeq}/{psSeq}")
     public ResponseEntity<?> getPsDetail(@PathVariable Long userSeq, @PathVariable Long psSeq) {
 
-        PsDetailRespDto resp = mainService.getPsDetail(psSeq, userSeq);
+        PsDetailRespDto resp = mainService.getPsDetail(userSeq, psSeq);
 
         if (resp != null) {
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
