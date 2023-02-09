@@ -47,7 +47,7 @@ function MypageHo() {
         <BackgroundImage />
         <Grid xs={12} style={{ height: "15rem" }}></Grid>
         <Grid xs={9}>
-          <ProfileImageUpdate name={hospital.psName} />
+          <ProfileImageUpdate name={hospital.psName} profileImg={hospital.psProfileImg}/>
           <hr />
           <ProfileUpdateForm title={"소개"} content={hospital.psIntro} />
           <ProfileUpdateForm title={"주소"} content={hospital.psAddress} />
@@ -59,7 +59,7 @@ function MypageHo() {
           <ProfileTimeUpdate />
           <ProfileSubCategoryUpdate ctg_list={hospital.subCategoryName} />
           <ProfileDoctorUpdate doctors={hospital.doctor} />
-          <ReviewInfo />
+          {/* <ReviewInfo /> */}
         </Grid>
         <Grid xs={3}></Grid>
       </Grid>
