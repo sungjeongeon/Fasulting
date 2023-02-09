@@ -85,7 +85,7 @@ function App() {
               {/* 회원가입 */}
               <Route path="/register" element={<Register />} />
               {/* 상세페이지 */}
-              <Route path="/detail/:psSeq" element={<Detail />} />
+              <Route path="/detail/:id" element={<Detail />} />
               {/* 나의 예약 */}
               <Route path="/myreservation" element={<MyReservation />} />
               {/* 나의 활동 */}
