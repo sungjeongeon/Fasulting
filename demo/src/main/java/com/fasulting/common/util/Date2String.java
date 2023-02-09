@@ -1,8 +1,5 @@
 package com.fasulting.common.util;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class Date2String {
 
     public static String date2String(int year, int month, int day, int dayOfWeek, int hour, int min){
@@ -20,6 +17,16 @@ public class Date2String {
         String date = year + "-" +
                 String.format("%02d",month) + "-" +
                 String.format("%02d",day) + "T" +
+                String.format("%02d", hour) + ":" +
+                String.format("%02d", min);
+
+        return date;
+    }
+
+    public static String date2ParseString(int year, int month, int day, int hour, int min){
+        String date = year + "-" +
+                String.format("%02d",month) + "-" +
+                String.format("%02d",day) + " " +
                 String.format("%02d", hour) + ":" +
                 String.format("%02d", min);
 
