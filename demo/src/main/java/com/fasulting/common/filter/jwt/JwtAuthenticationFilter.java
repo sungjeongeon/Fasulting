@@ -64,7 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Authentication authentication = jwtService.getAuthentication(newAccessToken);
                 // SecurityContext 에 Authentication 객체를 저장합니다.
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                response.setHeader("Authorization", newAccessToken);
+                response.addHeader("Authorization", newAccessToken);
             }
             else {
                 throw new UnAuthorizedException();
