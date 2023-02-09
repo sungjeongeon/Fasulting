@@ -1,9 +1,6 @@
 package com.fasulting.domain.ps.ps.service;
 
-import com.fasulting.domain.ps.ps.dto.reqDto.DoctorReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.reqDto.*;
 import com.fasulting.domain.ps.ps.dto.respDto.CategoryListRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
 import com.fasulting.domain.jwt.dto.respDtio.PsLoginRespDto;
@@ -26,7 +23,7 @@ public interface PsService {
     boolean editHomepage(PsSeqReqDto psInfo); // 병원 홈페이지 수정
     boolean editCategory(PsSeqReqDto psInfo); // 병원 제공 수술 수정
     boolean addDoctor(DoctorReqDto doctor); // 의사 추가
-    boolean deleteDoctor(Long doctorSeq); // 의사 삭제
+    boolean deleteDoctor(DoctorDelReqDto doctorDelReqDto); // 의사 삭제
     boolean modifyPsDefault(PsDefaultReqDto psDefaultReqDto); // 운영 시간 수정
 
     PsInfoRespDto getPsInfo(Long psSeq); // 병원 회원 정보 조회
