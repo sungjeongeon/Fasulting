@@ -2,10 +2,7 @@ package com.fasulting.domain.ps.ps.controller;
 
 import com.fasulting.common.resp.ResponseBody;
 import com.fasulting.common.util.FileManage;
-import com.fasulting.domain.ps.ps.dto.reqDto.DoctorReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
-import com.fasulting.domain.ps.ps.dto.reqDto.PsWithoutSeqReqDto;
+import com.fasulting.domain.ps.ps.dto.reqDto.*;
 
 import com.fasulting.domain.ps.ps.dto.respDto.CategoryListRespDto;
 import com.fasulting.domain.ps.ps.dto.respDto.PsInfoRespDto;
