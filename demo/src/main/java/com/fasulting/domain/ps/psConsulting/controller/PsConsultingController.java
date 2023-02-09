@@ -1,23 +1,32 @@
 package com.fasulting.domain.ps.psConsulting.controller;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
 import com.fasulting.common.resp.ResponseBody;
 import com.fasulting.domain.ps.psConsulting.dto.ResultReqDto;
 import com.fasulting.domain.ps.psConsulting.service.PsConsultingService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Value;
 
 import io.openvidu.java.client.Connection;
 import io.openvidu.java.client.ConnectionProperties;
@@ -40,14 +49,30 @@ import javax.annotation.PostConstruct;
 @RestController
 @Slf4j
 @RequestMapping("/ps-consulting")
+@RequiredArgsConstructor
 @CrossOrigin("*")
 public class PsConsultingController {
 
-    private PsConsultingService psConsultingService;
-    
-    public PsConsultingController(PsConsultingService psConsultingService) {
-        this.psConsultingService = psConsultingService;
+    private final PsConsultingService psConsultingService;
+    private final AmazonS3Client amazonS3Client;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+
+    private MediaType contentType(String name) {
+        String[] arr = name.split("\\.");
+        String type = arr[arr.length - 1];
+
+        switch(type) {
+            case "jpg":
+                return MediaType.IMAGE_JPEG;
+            case "png":
+                return MediaType.IMAGE_PNG;
+            default:
+                return MediaType.APPLICATION_OCTET_STREAM;
+        }
     }
+
 
     @Value("${OPENVIDU_URL}")
     private String OPENVIDU_URL;
@@ -62,27 +87,58 @@ public class PsConsultingController {
         this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
     }
 
+
     @GetMapping("/download/{reservationSeq}")
     public ResponseEntity<?> getBeforeImg(@PathVariable Long reservationSeq) {
+
+        log.info("getBeforeImg - Call");
 
         Map<String, String> map = psConsultingService.getBeforeImg(reservationSeq);
 
         String path = map.get("beforeImgPath");
         String originName = map.get("beforeImgOrigin");
 
-        try {
-            Path filePath = Paths.get(path);
-            Resource resource = new InputStreamResource(Files.newInputStream(filePath)); // 파일 resource 얻기
+//        log.info(path + "\n" + originName);
 
-            File file = new File(path);
+        log.info(path);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(originName).build());  // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
+        String[] arr = path.split("/");
+        String fullName = "";
 
-            return new ResponseEntity<Object>(resource, headers, HttpStatus.OK); // 200
-        } catch(Exception e) {
-            return new ResponseEntity<Object>(null, HttpStatus.CONFLICT); // 409
+        for(int i = 3; i < arr.length; i++) {
+            fullName += arr[i];
+
+            if(i < arr.length - 1)
+                fullName += "/";
         }
+
+        log.info(fullName);
+
+        S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucket, fullName));
+        S3ObjectInputStream objectInputStream =  s3Object.getObjectContent();
+
+
+        try {
+            byte[] bytes = IOUtils.toByteArray(objectInputStream);
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(contentType(path));
+            httpHeaders.setContentLength(bytes.length);
+
+            log.info(originName);
+
+            // 일단 chrome 하나..
+            originName = new String(originName.getBytes("UTF-8"), "ISO-8859-1");
+//            httpHeaders.add("Content-Disposition", "attachment; filename=" + originName);
+            httpHeaders.setContentDisposition(ContentDisposition.builder("attachment").filename(originName).build());
+
+            return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
     }
 
     /** 세션 생성 및 초기화
