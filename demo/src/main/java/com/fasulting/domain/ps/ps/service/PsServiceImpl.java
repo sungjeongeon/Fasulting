@@ -130,11 +130,8 @@ public class PsServiceImpl implements PsService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-<<<<<<< HEAD
             profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,  psProfileImgDirPath);
-=======
-            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid, "ps/profile/");
->>>>>>> 4e27be48a842a9cc904cef517b5e9e76c62e5962
+
             log.info(profileImgUrl);
         }
 
@@ -721,11 +718,8 @@ public class PsServiceImpl implements PsService {
         MultipartFile doctorImgFile = doctor.getImg();
         if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
-<<<<<<< HEAD
+
             doctorImgUrl = FileManage.uploadFile(imgFile, uuid, doctorImgPath);
-=======
-            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, "ps/profile/");
->>>>>>> 4e27be48a842a9cc904cef517b5e9e76c62e5962
         }
 
         DoctorEntity doc = DoctorEntity.builder().ps(ps)
