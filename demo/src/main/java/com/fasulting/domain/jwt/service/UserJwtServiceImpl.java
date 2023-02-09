@@ -38,9 +38,18 @@ public class UserJwtServiceImpl implements UserJwtService {
         UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
 
         if (passwordEncoder.matches(userInfo.getPassword(), user.getPassword())) {
-
-            String accessToken = jwtService.createAccessToken(user.getEmail(), user.getRole().getAuthority(), RoleType.USER);
-            String refreshToken = jwtService.createRefreshToken(user.getEmail(), user.getRole().getAuthority(), RoleType.USER);
+            String accessToken = null;
+            String refreshToken = null;
+            boolean adminYn = false;
+            if(user.getRole().getAuthority().equals(RoleType.USER)) {
+                accessToken = jwtService.createAccessToken(user.getEmail(), user.getRole().getAuthority(), RoleType.USER);
+                refreshToken = jwtService.createRefreshToken(user.getEmail(), user.getRole().getAuthority(), RoleType.USER);
+            }
+            if(user.getRole().getAuthority().equals(RoleType.ADMIN)){
+                accessToken = jwtService.createAccessToken(user.getEmail(), user.getRole().getAuthority(), RoleType.ADMIN);
+                refreshToken = jwtService.createRefreshToken(user.getEmail(), user.getRole().getAuthority(), RoleType.ADMIN);
+                adminYn = true;
+            }
 
             log.info(user.toString());
 
@@ -82,6 +91,7 @@ public class UserJwtServiceImpl implements UserJwtService {
                     .refreshToken(refreshToken)
                     .userName(user.getName())
                     .userSeq(user.getSeq())
+                    .adminYn(adminYn)
                     .build();
 
             return userLoginRespDto;

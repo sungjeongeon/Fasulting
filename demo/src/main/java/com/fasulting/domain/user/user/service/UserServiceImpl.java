@@ -1,11 +1,13 @@
 package com.fasulting.domain.user.user.service;
 
 import com.fasulting.common.RoleType;
+import com.fasulting.common.util.CheckInfo;
 import com.fasulting.domain.user.user.dto.reqDto.UserSeqReqDto;
 import com.fasulting.domain.user.user.dto.reqDto.UserWithoutSeqReqDto;
 import com.fasulting.domain.user.user.dto.respDto.UserInfoRespDto;
 import com.fasulting.entity.user.RoleEntity;
 import com.fasulting.entity.user.UserEntity;
+import com.fasulting.exception.UnAuthorizedException;
 import com.fasulting.repository.role.RoleRepository;
 import com.fasulting.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -78,7 +80,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    // 회원 정보 조회
+    /**
+     * 회원 정보 조회
+     * @param seq
+     * @return
+     */
     @Override
     public UserInfoRespDto getUserInfo(Long seq) {
 
