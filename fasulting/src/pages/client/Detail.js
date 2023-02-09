@@ -19,26 +19,25 @@ import { useSelector } from "react-redux";
 function Detail() {
   const param = useParams();
   // 병원 id로 병원 정보 요청 - 응답 받아서 각 컴포넌트로 전달 (예정)
-  //console.log(param.psSeq);
   const [detailhospital, setDetailhospital] = useState([]);
   const [reshospital, setReshospital] = useState([]);
   const userData = useSelector((state) => state.user);
+
   useEffect(() => {
     //병원 선택 상세 조회
     axiosAPi
       .get(`/main/ps-detail/${userData.userSeq}/${param.psSeq}`)
       .then((res) => {
-        console.log("data", res.data);
+        //console.log("data", res.data);
         setDetailhospital(res.data.responseObj);
       });
     //병원 예약 테이블 조회
     axiosAPi.get(`/reservation/${param.psSeq}`).then((res) => {
-      //console.log("reserve", res);
+      console.log("res.data", res);
       setReshospital(res.data.responseObj);
     });
   }, []);
-  console.log("det", detailhospital);
-  console.log("res", reshospital);
+  console.log("reshospital", reshospital);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0}>

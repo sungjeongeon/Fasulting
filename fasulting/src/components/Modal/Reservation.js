@@ -6,12 +6,14 @@ import { toast, ToastContainer } from "react-toastify";
 import { Token } from "@mui/icons-material";
 import axiosAPi from "../../api/axiosApi";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Reservation(props) {
   const navigate = useNavigate();
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const timetable = [
     {
+      id: 0,
       time: "9:00",
     },
     {
@@ -109,11 +111,16 @@ function Reservation(props) {
   };
   //console.log(props.subCategory);
   const { id } = useParams();
-  console.log("time", props.time);
+
+  //console.log("time", props.time);
+  const userData = useSelector((state) => state.user);
+  const param = useParams();
+
+  console.log("userSeq", userData.userSeq);
   const submitForm = async () => {
     const formData = new FormData();
-    formData.append("userSeq", 1); //유저 변수 필요
-    formData.append("psSeq", 1); //ps 변수 필요
+    formData.append("userSeq", userData.userSeq); //유저 변수 필요
+    formData.append("psSeq", param.psSeq); //ps 변수 필요
     formData.append("year", props.year);
     formData.append("month", props.month);
     formData.append("day", props.day);
@@ -187,11 +194,11 @@ function Reservation(props) {
                 상담 항목
               </p>
               <div>
-                {props.subCategory.map((sub, index) => {
+                {props.subCategory.sub.map((sub, index) => {
                   return (
                     <div key={index}>
                       <span className={styles.color}>#</span>
-                      <span className={styles.mx}>{sub.subName}</span>
+                      <span className={styles.mx}>{sub}</span>
                     </div>
                   );
                 })}

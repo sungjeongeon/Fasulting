@@ -40,6 +40,7 @@ export default function LoginForm() {
       password: "",
     },
     validationSchema: validationSchema,
+
     onSubmit: async (values) => {
       if (usertype === "") {
         toast.error(<h3>회원유형을 선택해주세요 !</h3>, {
@@ -50,7 +51,7 @@ export default function LoginForm() {
       } else if (usertype === "user") {
         try {
           await axiosAPi.post("/user/login", values).then((res) => {
-            if (res.data.message == "success") {
+            if (res.data.message === "success") {
               console.log(res.data);
               dispatch(
                 loginUser({
@@ -62,13 +63,13 @@ export default function LoginForm() {
               );
               //토큰 받아오기
               const accessToken = res.data.responseObj.accessToken;
-              console.log(accessToken);
+              //console.log(accessToken);
               dispatch(setToken({ accessToken: accessToken }));
               // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
               // axiosAPi.defaults.headers.common[
               //   "Authorization"
               // ] = `Bearer ${accessToken}`;
-              setAuthorizationToken(accessToken);
+              //setAuthorizationToken(accessToken);
               //console.log(res.data);
               toast.success(
                 <h3>

@@ -50,7 +50,7 @@ function HospitalList({ selectedSub }) {
       setHospitalList(res.data.responseObj);
     });
   }, [param]);
-  console.log("hospitalList", hospitalList);
+  //console.log("hospitalList", hospitalList);
   return (
     <div>
       {hospitalList &&

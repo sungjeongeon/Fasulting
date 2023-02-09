@@ -126,8 +126,6 @@ export default function ReserveCard({ reshospital }) {
     console.log(
       `${year}년 ${month}월 ${day}일 시간${hour} 동의여부 ${isAgree}`
     );
-    console.log("consultItem", consultItem);
-    console.log("");
   };
 
   // 예약하기 클릭 시 모달 창
@@ -142,9 +140,7 @@ export default function ReserveCard({ reshospital }) {
     // const formData = new FormData();
     // formData.append("file", img);
   };
-  //console.log(img);
 
-  console.log("rehospital", reshospital);
   return (
     <div className={styles.outerDiv}>
       {/* 날짜 선택 구간 */}
@@ -221,7 +217,7 @@ export default function ReserveCard({ reshospital }) {
             dayOfWeek={dayOfWeek}
             time={hour}
             beforeImg={img}
-            subCategory={reshospital.subCategoryList}
+            subCategory={consultItem}
             ModalStateChange={ModalStateChange}
           />
         )}
