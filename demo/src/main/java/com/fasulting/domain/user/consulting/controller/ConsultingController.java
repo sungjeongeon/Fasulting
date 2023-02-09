@@ -79,12 +79,17 @@ public class ConsultingController {
     public ResponseEntity<String> createConnection(@PathVariable("sessionId") String sessionId,
                                                    @RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
+        log.info("세션 커넥션 입장");
         Session session = openvidu.getActiveSession(sessionId);
+        log.info("세션 ID 받음");
         if (session == null) {
+            log.info("세션 ID 없음 ㅠㅠ");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         ConnectionProperties properties = ConnectionProperties.fromJson(params).build();
+        log.info("커넥션 속성값 받음");
         Connection connection = session.createConnection(properties);
+        log.info("세션 커넥션 생성");
         return new ResponseEntity<>(connection.getToken(), HttpStatus.OK);
     }
 
