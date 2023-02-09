@@ -47,6 +47,9 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.fasulting.common.util.FileManage.beforeImgDirPath;
+import static com.fasulting.common.util.FileManage.domain;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -248,7 +251,7 @@ public class ReservationServiceImpl implements ReservationService {
             UUID uuid = UUID.randomUUID();
 
 
-            beforeImgPath = FileManage.uploadFile(beforeImgFile, uuid,"before/");
+            beforeImgPath = FileManage.uploadFile(beforeImgFile, uuid, beforeImgDirPath);
 
         }
 
@@ -492,8 +495,8 @@ public class ReservationServiceImpl implements ReservationService {
                     .psHomepage(ps.getHomepage())
                     .psNumber(ps.getNumber())
                     .defaultTime(map)
-                    .beforeImgPath(report.getBeforeImgPath())
-                    .afterImgPath(report.getAfterImgPath())
+                    .beforeImgPath(domain + report.getBeforeImgPath())
+                    .afterImgPath(domain + report.getAfterImgPath())
                     .content(report.getContent())
                     .estimate(report.getEstimate())
                     .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
