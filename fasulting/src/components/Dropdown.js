@@ -16,7 +16,7 @@ function Dropdown() {
       .get(`/user/logout/${userData.userSeq}`, {
         headers: {
           Authorization: token.accessToken,
-          "Access-Control-Allow-Origin": `http://localhost:3000`,
+          "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": "true",
         },
       })

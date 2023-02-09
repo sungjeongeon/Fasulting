@@ -94,6 +94,7 @@ function ReserveCardCategoryItem({ getConsultItem }) {
       setSelectedSub((current) => [...current, id]);
     }
   };
+
   useEffect(() => {
     const consultItem = {
       main: selectedMain,

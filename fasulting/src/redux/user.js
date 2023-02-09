@@ -20,10 +20,10 @@ export const userSlice = createSlice({
       return state;
     },
     logoutUser: (state) => {
-      state.userEmail = "";
+      state.userSeq = "";
       state.userName = "";
-      state.userBirth = "";
-      state.userNumber = "";
+      state.userEmail = "";
+      state.userPwd = "";
       return state;
     },
   },

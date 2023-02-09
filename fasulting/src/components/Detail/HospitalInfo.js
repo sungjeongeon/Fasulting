@@ -73,7 +73,6 @@ function HospitalInfo({ detailhospital }) {
       );
     }
   };
-  console.log(detailhospital);
   return (
     <div>
       <p className={styles.title}>병원 정보</p>

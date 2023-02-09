@@ -11,6 +11,8 @@ function ReviewInfo({ detailhospital }) {
   const totalScore = detailhospital.reviewTotalCount
     ? 0.0
     : detailhospital.reviewTotalCount;
+
+  console.log("totalScore", totalScore);
   // 총 리뷰 개수
   const totalCount = 100;
   const tempdata = [
@@ -56,7 +58,7 @@ function ReviewInfo({ detailhospital }) {
           <p className={styles.score}>
             {detailhospital.totalRatingResult == null
               ? "0.0"
-              : detailhospital.totalRatingResult}
+              : detailhospital.totalRatingResult.toFixed(1)}
           </p>
           {/* 별아이콘 + 리뷰 개수 (오른쪽) */}
           <div>
@@ -100,8 +102,7 @@ function ReviewInfo({ detailhospital }) {
                 <ReviewListItem
                   key={detailhospital.review.reviewSeq}
                   psName={detailhospital.psName}
-                  subCategory={detailhospital.subCategoryName}
-                  review={detailhospital.review}
+                  review={review}
                 />
               </div>
             ))}

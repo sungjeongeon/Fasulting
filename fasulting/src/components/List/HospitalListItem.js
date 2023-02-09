@@ -8,7 +8,6 @@ function HospitalListItem({ hospital }) {
   const navigate = useNavigate();
 
   const onClick = () => {
-    console.log("hospital", hospital);
     navigate(`/detail/${hospital.psSeq}`);
   };
   return (
