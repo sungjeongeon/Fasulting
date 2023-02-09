@@ -1,6 +1,7 @@
 package com.fasulting.domain.ps.ps.controller;
 
 import com.fasulting.common.resp.ResponseBody;
+import com.fasulting.common.util.FileManage;
 import com.fasulting.domain.ps.ps.dto.reqDto.DoctorReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsDefaultReqDto;
 import com.fasulting.domain.ps.ps.dto.reqDto.PsSeqReqDto;
@@ -282,6 +283,12 @@ public class PsController {
 
 
     }
+
+//    @DeleteMapping("/delete/{url}")
+//    public ResponseEntity<?> deleteFile(@PathVariable  String url) {
+//        FileManage.deleteFile("https://hotsix.s3.ap-northeast-2.amazonaws.com/before/4648a77c-11ea-42a2-9317-0ef8d73bc1ec_5AD1H");
+//        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+//    }
 
 
 }

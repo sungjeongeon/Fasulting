@@ -23,6 +23,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Value;
 
 @RestController
@@ -51,6 +53,7 @@ public class PsConsultingController {
                 return MediaType.APPLICATION_OCTET_STREAM;
         }
     }
+
 
     @GetMapping("/download/{reservationSeq}")
     public ResponseEntity<?> getBeforeImg(@PathVariable Long reservationSeq) {
@@ -91,7 +94,9 @@ public class PsConsultingController {
 
             log.info(originName);
 
-            String fileName = URLEncoder.encode(originName, "UTF-8").replaceAll("\\+", "%20");
+            // 일단 chrome 하나..
+            originName = new String(originName.getBytes("UTF-8"), "ISO-8859-1");
+//            httpHeaders.add("Content-Disposition", "attachment; filename=" + originName);
             httpHeaders.setContentDisposition(ContentDisposition.builder("attachment").filename(originName).build());
 
             return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);

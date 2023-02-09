@@ -1,7 +1,11 @@
 package com.fasulting.common.util;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import java.util.UUID;
 
 @Slf4j
@@ -45,16 +50,29 @@ public class FileManage {
 //
 //    public static final String domain = "/home/ubuntu/fasulting/";
 
+    public static String getRandomCode() {
+        String words = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+
+        StringBuffer code = new StringBuffer();
+        for (int i = 0; i < 5; i++) {
+            code.append(words.charAt(random.nextInt(words.length())));
+        }
+
+        return code.toString();
+    }
 
     public static String uploadFile(MultipartFile imgFile, UUID uuid, String path) {
 
         ObjectMetadata objMeta = new ObjectMetadata();
-        String imgSaveUrl = uuid + "_" + imgFile.getOriginalFilename();
+        String imgSaveUrl = uuid + "_" + getRandomCode();
 
         objMeta.setContentType(imgFile.getContentType());
 
 //        log.info(imgFile.getOriginalFilename());
 //        log.info(objMeta.getContentLength());
+
+//        log.info("ddddd " + imgSaveUrl);
 
         try {
             amazonS3Client.putObject(bucket, path + imgSaveUrl, imgFile.getInputStream(), objMeta);
@@ -64,23 +82,31 @@ public class FileManage {
 
         return amazonS3Client.getUrl(bucket, path + imgSaveUrl).toString();
 
-//        String dirPath = domain + path;
-//
-//        File folder = new File(dirPath);
-//
-//        if (!folder.exists()) {
-//            folder.mkdirs(); // 폴더 생성
-//        }
-//
-//        String imgSaveUrl = uuid + "_" + imgFile.getOriginalFilename();
-//        File file = new File(dirPath + File.separator + imgSaveUrl);
-//
-//        try {
-//            imgFile.transferTo(file); // 이미지 최종 경로로 보내줘서 저장
-//            return dirPath + File.separator + imgSaveUrl;
-//        } catch (IOException e) {
-//            log.info(e.getMessage());
-//        }
-//        return null;
     }
+
+    //파일 삭제
+    public static boolean deleteFile(String url) {
+
+        String[] arr = url.split("/");
+        String path = "";
+
+        for(int i = 3; i < arr.length; i++) {
+            path += arr[i];
+
+            if(i < arr.length - 1)
+                path += "/";
+        }
+
+        log.info(path);
+
+        try {
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, path));
+        } catch (AmazonServiceException e) {
+            log.error(e.getMessage());
+        } catch (SdkClientException e) {
+            log.error(e.getMessage());
+        }
+        return true;
+    }
+
 }
