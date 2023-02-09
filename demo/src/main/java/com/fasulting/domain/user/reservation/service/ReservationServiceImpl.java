@@ -1,7 +1,6 @@
 package com.fasulting.domain.user.reservation.service;
 
 import com.fasulting.common.RoleType;
-import com.fasulting.common.dto.respDto.MainCategoryRespDto;
 import com.fasulting.common.dto.respDto.PsOperatingRespDto;
 import com.fasulting.common.dto.respDto.SubCategoryRespDto;
 import com.fasulting.common.util.Date2String;
@@ -105,9 +104,10 @@ public class ReservationServiceImpl implements ReservationService {
             int HH = po.getTime().getStartHour();
             int mm = po.getTime().getStartMin();
 
-            LocalDateTime date = String2Date.string2Date(Date2String.date2TString(year, month, day, HH, mm));
-            date = date.plusHours(2);
-            if(current.isBefore(date)){
+            LocalDateTime date = String2Date.string2Date(Date2String.date2ParseString(year, month, day, HH, mm));
+            current = current.plusHours(2);
+
+            if(date.isBefore(current)){
                 continue;
             }
 
