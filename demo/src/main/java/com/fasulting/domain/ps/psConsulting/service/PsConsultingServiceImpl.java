@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.fasulting.common.util.FileManage.afterImgDirPath;
+import static com.fasulting.common.util.FileManage.domain;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -68,7 +71,7 @@ public class PsConsultingServiceImpl implements PsConsultingService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            afterImgUrl = FileManage.uploadFile(afterImgFile, uuid, "after/");
+            afterImgUrl = FileManage.uploadFile(afterImgFile, uuid, afterImgDirPath);
         }
 
 

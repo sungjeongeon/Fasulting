@@ -41,14 +41,14 @@ public class FileManage {
 
     // 배포할 때 경로 바꾸기
     // 배포할 때 경로 바꾸기
-//    public static final String beforeImgDirPath = "before";
-//    public static final String afterImgDirPath = "after";
-//    public static final String psProfileImgDirPath = "ps/profile";
-//    public static final String psRegImgDirPath = "ps/reg";
-//    public static final String doctorImgPath = "doctor/profile";
+    public static final String beforeImgDirPath = "before/";
+    public static final String afterImgDirPath = "after/";
+    public static final String psProfileImgDirPath = "ps/profile/";
+    public static final String psRegImgDirPath = "ps/reg/";
+    public static final String doctorImgPath = "doctor/profile/";
 //
 //
-//    public static final String domain = "/home/ubuntu/fasulting/";
+    public static final String domain = "https://hotsix.s3.ap-northeast-2.amazonaws.com/";
 
     public static String getRandomCode() {
         String words = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -80,24 +80,13 @@ public class FileManage {
             throw new RuntimeException(e);
         }
 
-        return amazonS3Client.getUrl(bucket, path + imgSaveUrl).toString();
+        return path + imgSaveUrl;
 
     }
 
     //파일 삭제
-    public static boolean deleteFile(String url) {
+    public static boolean deleteFile(String path) {
 
-        String[] arr = url.split("/");
-        String path = "";
-
-        for(int i = 3; i < arr.length; i++) {
-            path += arr[i];
-
-            if(i < arr.length - 1)
-                path += "/";
-        }
-
-        log.info(path);
 
         try {
             amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, path));

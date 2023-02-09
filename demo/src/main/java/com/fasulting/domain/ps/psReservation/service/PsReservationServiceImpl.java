@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static com.fasulting.common.util.FileManage.domain;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -283,8 +285,8 @@ public class PsReservationServiceImpl implements PsReservationService {
                 .subCategoryName(reservationSubEntityRepository.getSubCategoryNameByReservationSeq(consulting.getReservation().getSeq()))
                 .content(report.getContent())
                 .estimate(report.getEstimate())
-                .beforeImg(report.getBeforeImgPath())
-                .afterImg(report.getAfterImgPath())
+                .beforeImg(domain + report.getBeforeImgPath())
+                .afterImg(domain + report.getAfterImgPath())
                 .build();
 
         return preDetail;

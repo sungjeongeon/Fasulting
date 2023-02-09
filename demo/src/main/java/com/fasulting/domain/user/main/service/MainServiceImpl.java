@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.fasulting.common.util.FileManage.domain;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -124,7 +126,7 @@ public class MainServiceImpl implements MainService {
             PsListRespDto resp = PsListRespDto.builder()
                     .psSeq(psSeq)
                     .psName(ps.getName())
-                    .psProfileImg("server domain" + File.separator + ps.getProfileImgPath())
+                    .psProfileImg(domain + ps.getProfileImgPath())
                     .psIntro(ps.getIntro())
                     .psAddress(ps.getAddress())
                     .subCategoryName(psMainSubRepository.getSubNameByPsSeq(psSeq))
@@ -209,7 +211,7 @@ public class MainServiceImpl implements MainService {
                 .psName(ps.getName())
                 .psIntro(ps.getIntro())
                 .psAddress(ps.getAddress())
-                .psProfileImg("server domain" + File.separator + ps.getProfileImgPath())
+                .psProfileImg(domain + ps.getProfileImgPath())
                 .psNumber(ps.getNumber())
                 .psEmail(ps.getEmail())
                 .isFavorite(favoriteRepository.findByUserSeqPsSeq(userSeq, psSeq).isPresent())

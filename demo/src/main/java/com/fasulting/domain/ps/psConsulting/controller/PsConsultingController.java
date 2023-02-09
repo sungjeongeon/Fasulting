@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 
+import static com.fasulting.common.util.FileManage.domain;
 
 
 @RestController
@@ -98,23 +99,11 @@ public class PsConsultingController {
         String path = map.get("beforeImgPath");
         String originName = map.get("beforeImgOrigin");
 
-//        log.info(path + "\n" + originName);
+        log.info(path + "\n" + originName);
 
         log.info(path);
 
-        String[] arr = path.split("/");
-        String fullName = "";
-
-        for(int i = 3; i < arr.length; i++) {
-            fullName += arr[i];
-
-            if(i < arr.length - 1)
-                fullName += "/";
-        }
-
-        log.info(fullName);
-
-        S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucket, fullName));
+        S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucket, path));
         S3ObjectInputStream objectInputStream =  s3Object.getObjectContent();
 
 

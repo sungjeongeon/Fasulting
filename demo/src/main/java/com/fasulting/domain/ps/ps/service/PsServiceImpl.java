@@ -42,6 +42,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static com.fasulting.common.util.FileManage.*;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -128,7 +130,8 @@ public class PsServiceImpl implements PsService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid, "ps/profile/");
+            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,  psProfileImgDirPath);
+
             log.info(profileImgUrl);
         }
 
@@ -137,7 +140,7 @@ public class PsServiceImpl implements PsService {
         if (registrationImgFile != null && !registrationImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
-            registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid, "ps/reg/");
+            registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid, psRegImgDirPath);
             log.info(registrationImgUrl);
         }
 
@@ -366,7 +369,7 @@ public class PsServiceImpl implements PsService {
                 .psName(ps.getName())
                 .psIntro(ps.getIntro())
                 .psAddress(ps.getAddress())
-                .psProfileImg("server domain" + File.separator + ps.getProfileImgPath())
+                .psProfileImg(domain + ps.getProfileImgPath())
                 .psNumber(ps.getNumber())
                 .psEmail(ps.getEmail())
                 .subCategoryName(psMainSubRepository.getSubNameByPsSeq(psSeq))
@@ -715,7 +718,8 @@ public class PsServiceImpl implements PsService {
         MultipartFile doctorImgFile = doctor.getImg();
         if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
-            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, "ps/profile/");
+
+            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, doctorImgPath);a
         }
 
         DoctorEntity doc = DoctorEntity.builder().ps(ps)
