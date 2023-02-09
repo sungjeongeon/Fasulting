@@ -17,13 +17,15 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, Lo
 
     List<ConsultingEntity> findAllByUser(UserEntity userSeq);
 
-    @Query("SELECT c " + "FROM ConsultingEntity c " + "WHERE c.reservation.user.seq = :userSeq " + "ORDER BY c.reservation.reservationCal.date DESC")
+    @Query("SELECT c " + "FROM ConsultingEntity c " + "WHERE c.reservation.user.seq = :userSeq " +
+            "ORDER BY c.reservation.reservationCal.date, c.reservation.time.startHour, c.reservation.time.startMin DESC")
     List<ConsultingEntity> getAllByUserSeq(@Param("userSeq") Long userSeq);
 
     Optional<ConsultingEntity> findByReservation(ReservationEntity reservation);
 
     List<ConsultingEntity> findAllByPs(PsEntity psEntity);
 
-    @Query("SELECT c " + "FROM ConsultingEntity c " + "WHERE c.reservation.ps.seq = :psSeq " + "ORDER BY c.reservation.reservationCal.date DESC")
+    @Query("SELECT c " + "FROM ConsultingEntity c " + "WHERE c.reservation.ps.seq = :psSeq " +
+            "ORDER BY c.reservation.reservationCal.date, c.reservation.time.startHour, c.reservation.time.startMin DESC")
     List<ConsultingEntity> getAllByPsSeq(@Param("psSeq") Long psSeq);
 }
