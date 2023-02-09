@@ -2,12 +2,13 @@ import React from "react";
 import styles from "./Reservation.module.css";
 import propTypes from "prop-types";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Token } from "@mui/icons-material";
 import axiosAPi from "../../api/axiosApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Reservation(props) {
+  const navigate = useNavigate();
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const timetable = [
     {
@@ -137,13 +138,16 @@ function Reservation(props) {
         <h3>
           예약이 완료되었습니다.
           <br />
-          나의 예약탭에서 확인하세요😄
+          나의 예약탭에서 확인하세요
         </h3>,
         {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,
         }
       );
+      setTimeout(() => {
+        navigate("/myreservation");
+      }, 2000);
     } catch (e) {
       // FormData의 key 확인
       for (let key of formData.keys()) {
@@ -160,53 +164,58 @@ function Reservation(props) {
 
   console.log("sub", props.subCategory);
   return (
-    <div className={styles.background}>
-      <div className={styles.modalbox}>
-        <div className={styles.flexcol}>
-          <h2 className={styles.confirm}>예약 확인</h2>
-          <p className={`${styles.color} ${styles.hospital}`}>{props.psName}</p>
-          <div className={styles.line}></div>
-          <div className={`${styles.flexrow} ${styles.mt}`}>
-            <p className={`${styles.color} ${styles.mr}`}>예약 일정</p>
-            <span>{props.year}.</span>
-            <span className={styles.span}>{props.month}.</span>
-            <span className={styles.span}>{props.day}.</span>
-            <span className={styles.span}>({week[props.dayOfWeek]})</span>
-            <span className={styles.span}>{timetable[props.time].time}</span>
-          </div>
-          <div className={`${styles.flextop} ${styles.mb}`}>
-            <p className={`${styles.color} ${styles.mr} ${styles.nomt}`}>
-              상담 항목
+    <>
+      <ToastContainer />
+      <div className={styles.background}>
+        <div className={styles.modalbox}>
+          <div className={styles.flexcol}>
+            <h2 className={styles.confirm}>예약 확인</h2>
+            <p className={`${styles.color} ${styles.hospital}`}>
+              {props.psName}
             </p>
-            <div>
-              {props.subCategory.map((sub) => {
-                return (
-                  <div>
-                    <span className={styles.color}>#</span>
-                    <span className={styles.mx}>{sub.subName}</span>
-                  </div>
-                );
-              })}
+            <div className={styles.line}></div>
+            <div className={`${styles.flexrow} ${styles.mt}`}>
+              <p className={`${styles.color} ${styles.mr}`}>예약 일정</p>
+              <span>{props.year}.</span>
+              <span className={styles.span}>{props.month}.</span>
+              <span className={styles.span}>{props.day}.</span>
+              <span className={styles.span}>({week[props.dayOfWeek]})</span>
+              <span className={styles.span}>{timetable[props.time].time}</span>
             </div>
-          </div>
-          <div className={`${styles.warninggray} ${styles.mb} ${styles.mt}`}>
-            성형 부작용에 대한 법적 책임은 페이설팅에게 없으며 병원과 충분한
-            상담 후 신중한 결정 하시길 바랍니다.
-          </div>
-          <div className={`${styles.warningred} ${styles.mb}`}>
-            “ 섣부른 선택이 평생 상처로 이어질 수 있습니다 ”
-          </div>
-          <div className={styles.flexbtn}>
-            <button className={styles.okay} onClick={submitForm}>
-              예약
-            </button>
-            <button className={styles.back} onClick={props.ModalStateChange}>
-              취소
-            </button>
+            <div className={`${styles.flextop} ${styles.mb}`}>
+              <p className={`${styles.color} ${styles.mr} ${styles.nomt}`}>
+                상담 항목
+              </p>
+              <div>
+                {props.subCategory.map((sub, index) => {
+                  return (
+                    <div key={index}>
+                      <span className={styles.color}>#</span>
+                      <span className={styles.mx}>{sub.subName}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className={`${styles.warninggray} ${styles.mb} ${styles.mt}`}>
+              성형 부작용에 대한 법적 책임은 페이설팅에게 없으며 병원과 충분한
+              상담 후 신중한 결정 하시길 바랍니다.
+            </div>
+            <div className={`${styles.warningred} ${styles.mb}`}>
+              “ 섣부른 선택이 평생 상처로 이어질 수 있습니다 ”
+            </div>
+            <div className={styles.flexbtn}>
+              <button className={styles.okay} onClick={submitForm}>
+                예약
+              </button>
+              <button className={styles.back} onClick={props.ModalStateChange}>
+                취소
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

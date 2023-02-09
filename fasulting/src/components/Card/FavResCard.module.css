@@ -1,5 +1,6 @@
 .flex {
   display: flex;
+  flex-wrap: wrap;
 }
 .card:hover {
   cursor: pointer;
@@ -14,7 +15,7 @@
 }
 .column {
   width: 25%;
-  padding: 0 10px;
+  padding: 10px;
 }
 .margin {
   margin-top: 3rem;

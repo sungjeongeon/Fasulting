@@ -16,7 +16,7 @@
 
   /* 최상단 위치 */
   z-index: 999;
-  
+
   /* 중앙 배치 */
   /* top, bottom, left, right 는 브라우저 기준으로 작동한다. */
   /* translate는 본인의 크기 기준으로 작동한다. */
@@ -55,7 +55,6 @@
   margin-left: 0.3rem;
 }
 
-
 .flexcol {
   display: flex;
   justify-content: center;
@@ -85,17 +84,17 @@
 .line {
   width: 75%;
   height: 0.15rem;
-  background: #D9D9D9;
+  background: #d9d9d9;
 }
 
 .color {
-  color: #72A1A6;
+  color: #72a1a6;
   font-weight: bold;
 }
 
 .warninggray {
   width: 75%;
-  color: #B7B7B7;
+  color: #b7b7b7;
   font-weight: bold;
   font-size: 0.89rem;
   text-align: center;
@@ -103,14 +102,14 @@
 
 .warningred {
   width: 75%;
-  color: #E56565;
+  color: #e56565;
   font-weight: bold;
   font-size: 0.92rem;
   text-align: center;
 }
 
 .okay {
-  background: #72A1A6;
+  background: #72a1a6;
   width: 8rem;
   height: 2rem;
   border-radius: 0.625rem;
@@ -120,21 +119,22 @@
   color: white;
   font-size: 0.9rem;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .back {
-  background: #D9D4CF;
+  background: #d9d4cf;
   width: 8rem;
   height: 2rem;
   border-radius: 0.625rem;
   margin-top: 0.3rem;
-  
+
   border: none;
-  color: #7C7877;
+  color: #7c7877;
   font-size: 0.9rem;
   font-weight: bold;
+  cursor: pointer;
 }
-
 
 .flexbtn {
   display: flex;

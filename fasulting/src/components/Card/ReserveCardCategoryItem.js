@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./ReserveCardCategoryItem.module.css";
 
 function ReserveCardCategoryItem({ getConsultItem }) {
+  console.log(getConsultItem);
   const categoryList = [
     { id: 0, sub: [] },
     {

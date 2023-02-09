@@ -10,11 +10,20 @@ import setAuthorizationToken from "../api/setAuthorizationToken";
 function Dropdown() {
   //로그아웃 onClickHandler
   const userData = useSelector((store) => store.user);
+  const token = useSelector((store) => store.authToken);
   const logout = () => {
-    axiosAPi.get(`/user/logout/${userData.userSeq}`).then((res) => {
-      setAuthorizationToken();
-      console.log(res.data);
-    });
+    axiosAPi
+      .get(`/user/logout/${userData.userSeq}`, {
+        headers: {
+          Authorization: token.accessToken,
+          "Access-Control-Allow-Origin": `http://localhost:3000`,
+          "Access-Control-Allow-Credentials": "true",
+        },
+      })
+      .then((res) => {
+        setAuthorizationToken();
+        console.log(res.data);
+      });
   };
   return (
     <ul className={styles.box}>

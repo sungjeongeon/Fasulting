@@ -56,7 +56,7 @@ function SimpleInfo({ detailhospital }) {
       {/* 주소 */}
       <div className={styles.address}>
         <LocationOnIcon />
-        <p>{detailhospital.psAddress}null</p>
+        <p>{detailhospital.psAddress}</p>
       </div>
       {/* 수술 분야 (세부) */}
       {/* {detailhospital &&

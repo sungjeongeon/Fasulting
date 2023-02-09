@@ -20,18 +20,22 @@ function DoctorCardList({ detailhospital }) {
       main_category: "안티에이징",
     },
   ];
-  console.log(detailhospital.doctor);
+  console.log("doctor", detailhospital.doctor);
   return (
     <div>
       <p className={styles.title}>의사 현황</p>
       <div className={styles.cardList}>
-        {/* {detailhospital.doctor.map((doc) => (
-          <DoctorCard
-            key={doc.doctorSeq}
-            name={doc.name}
-            main_category={doc.mainCategoryName}
-          />
-        ))} */}
+        {!detailhospital.doctor ? (
+          <div>의사 현황이 존재하지 않습니다</div>
+        ) : (
+          detailhospital.doctor.map((doc) => (
+            <DoctorCard
+              key={doc.doctorSeq}
+              name={doc.name}
+              main_category={doc.mainCategoryName}
+            />
+          ))
+        )}
       </div>
     </div>
   );
