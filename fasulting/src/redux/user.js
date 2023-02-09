@@ -7,6 +7,7 @@ export const userSlice = createSlice({
     userName: "",
     userEmail: "",
     userPwd: "",
+    adminYn: "",
   }, //데이터 초기값
   reducers: {
     //상태가 변하면 어떻게 실행될지
@@ -17,6 +18,7 @@ export const userSlice = createSlice({
       state.userName = action.payload.userName;
       state.userEmail = action.payload.userEmail;
       state.userPwd = action.payload.userPwd;
+      state.adminYn = action.payload.adminYn;
       return state;
     },
     logoutUser: (state) => {
@@ -24,6 +26,7 @@ export const userSlice = createSlice({
       state.userName = "";
       state.userEmail = "";
       state.userPwd = "";
+      state.adminYn = "";
       return state;
     },
   },

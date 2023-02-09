@@ -141,6 +141,7 @@ function Reservation(props) {
         },
         withCredentials: false,
       });
+      props.ModalStateChange();
       toast.success(
         <h3>
           예약이 완료되었습니다.

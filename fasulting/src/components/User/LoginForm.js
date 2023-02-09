@@ -58,10 +58,67 @@ export default function LoginForm() {
                   loginUser({
                     userSeq: res.data.responseObj.userSeq,
                     userName: res.data.responseObj.userName,
+                    adminYn: res.data.responseObj.adminYn,
                     userEmail: values.email,
                     userPwd: values.password,
                   })
                 );
+                //토큰 받아오기
+                const accessToken = res.data.responseObj.accessToken;
+                //console.log(accessToken);
+                dispatch(setToken({ accessToken: accessToken }));
+                // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+                // axiosAPi.defaults.headers.common[
+                //   "Authorization"
+                // ] = `Bearer ${accessToken}`;
+                //setAuthorizationToken(accessToken);
+                //console.log(res.data);
+                toast.success(
+                  <h3>
+                    로그인 완료 <br />
+                    반갑습니다 !{" "}
+                  </h3>,
+                  {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 2000,
+                  }
+                );
+                setTimeout(() => {
+                  if (res.data.responseObj.adminYn === true) {
+                    navigate("/admin");
+                  } else {
+                    navigate("/");
+                  }
+                }, 2000);
+              } else if (res.data.message === "fail") {
+                toast.success(
+                  <h3>
+                    아이디나 비밀번호가 <br />
+                    존재하지 않습니다 !{" "}
+                  </h3>,
+                  {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 2000,
+                  }
+                );
+              }
+            });
+          } catch (e) {
+            console.log(e);
+          }
+        } else if (usertype === "ps") {
+          try {
+            await axiosAPi.post("/ps/login", values).then((res) => {
+              if (res.data.message === "success") {
+                console.log(res.data);
+                // dispatch(
+                //   loginUser({
+                //     userSeq: res.data.responseObj.userSeq,
+                //     userName: res.data.responseObj.userName,
+                //     userEmail: values.email,
+                //     userPwd: values.password,
+                //   })
+                // );
                 console.log(res.headers);
                 //토큰 받아오기
                 const accessToken = res.headers.get("Authorization");

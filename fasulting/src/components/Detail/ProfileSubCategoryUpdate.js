@@ -27,16 +27,12 @@ function ProfileSubCategoryUpdate({ ctg_list }) {
         />}
       </div>
       <div className={styles.subDiv}>
-        {ctg_list.map((main, index) => {
+        {ctg_list.map((sub, index) => {
           return (
-            main.sub_ctg.map((sub, subidx) => {
-              return (
-                <button key={subidx} className={styles.subCategory}>
-                  <TagIcon sx={{ fontSize: 12 }} /> {sub.name}
-                </button>
-              )
-            })
-          );
+            <button key={index} className={styles.subCategory}>
+              <TagIcon sx={{ fontSize: 12 }} /> {sub}
+            </button>
+          )
         })}
       </div>
       <hr className={styles.hr} />

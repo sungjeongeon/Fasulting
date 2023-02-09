@@ -8,6 +8,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import axiosAPi from "../../api/axiosApi";
+import { useSelector } from "react-redux";
 
 function AdminSignupAcceptModal({ ps }) {
   const [open, setOpen] = React.useState(false);
@@ -19,22 +21,25 @@ function AdminSignupAcceptModal({ ps }) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const adminSeq = useSelector((store) => store.user.userSeq);
   const acceptSignUp = () => {
     // 관리자seq(=유저seq), 병원seq 로 api 요청
     console.log(ps.psSeq);
+    axiosAPi
+      .patch("/admin/account/ps", {
+        adminSeq: adminSeq,
+        psSeq: ps.psSeq,
+      })
+      .then((res) => {
+        console.log("요청보냄");
+        console.log(res);
+      })
+      .catch((e) => console.log(e));
     // 페이지 새로고침
-    window.location.reload();
+    // window.location.reload();
   };
 
-  // const descriptionElementRef = React.useRef(null);
-  // React.useEffect(() => {
-  //   if (open) {
-  //     const { current: descriptionElement } = descriptionElementRef;
-  //     if (descriptionElement !== null) {
-  //       descriptionElement.focus();
-  //     }
-  //   }
-  // }, [open]);
   return (
     <>
       <IconButton edge="end" aria-label="comments" onClick={handleClickOpen}>
