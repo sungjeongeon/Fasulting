@@ -29,7 +29,6 @@ import javax.annotation.PostConstruct;
 
 @Slf4j
 @RestController
-@RequestMapping("/consulting")
 @CrossOrigin("*") // 수정
 public class ConsultingController {
 
