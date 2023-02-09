@@ -62,11 +62,11 @@ public class ConsultingController {
     @PostMapping("/api/sessions")
     public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
-
+        log.info("세션 커넥션 생성");
         SessionProperties properties = SessionProperties.fromJson(params).build();
-
+        log.info("세션 속성 받기");
         Session session = openvidu.createSession(properties);
-
+        log.info("세션 생성");
         return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
     }
 
