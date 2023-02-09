@@ -13,16 +13,16 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<ReservationEntity, Long> {
 
     @Query("select r from ReservationEntity r where r.ps.seq = :psSeq " +
-            "and CONCAT(DATE_FORMAT(r.reservationCal.date, '%Y-%m-%d'), ' ', lpad(r.time.startHour, '2', '0'), ':', lpad(r.time.startMin, '2', '0')) >= " +
-            "DATE_FORMAT(:current, '%Y-%m-%d %H:%i') and ( r.delYn LIKE 'N' OR r.delYn IS NULL )" +
+            "AND CONCAT(DATE_FORMAT(r.reservationCal.date, '%Y%m%d'), lpad(r.time.startHour, '2', '0'), lpad(r.time.startMin, '2', '0')) >= :current " +
+            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" +
             "ORDER BY r.reservationCal.date, r.time.startHour, r.time.endMin")
-    List<ReservationEntity> getPostByPs(@Param("psSeq") Long psSeq, @Param("current") LocalDateTime current);
+    List<ReservationEntity> getPostByPs(@Param("psSeq") Long psSeq, @Param("current") String current);
 
     @Query("select r from ReservationEntity r where r.user.seq = :userSeq " +
-            "and CONCAT(DATE_FORMAT(r.reservationCal.date, '%Y-%m-%d'), ' ', lpad(r.time.startHour, '2', '0'), ':', lpad(r.time.startMin, '2', '0')) >= " +
-            "DATE_FORMAT(:current, '%Y-%m-%d %H:%i') and ( r.delYn LIKE 'N' OR r.delYn IS NULL ) " +
+            "AND CONCAT(DATE_FORMAT(r.reservationCal.date, '%Y%m%d'), lpad(r.time.startHour, '2', '0'), lpad(r.time.startMin, '2', '0')) >= :current " +
+            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" +
             "ORDER BY r.reservationCal.date, r.time.startHour, r.time.endMin")
-    List<ReservationEntity> getPostByUser(@Param("userSeq") Long psSeq, @Param("current") LocalDateTime current);
+    List<ReservationEntity> getPostByUser(@Param("userSeq") Long psSeq, @Param("current") String current);
 
 
 //    @Query("select r from ReservationEntity r where r.ps.seq = :psSeq " +

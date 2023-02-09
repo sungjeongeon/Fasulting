@@ -1,5 +1,6 @@
 package com.fasulting.repository.ps;
 
+import com.fasulting.entity.category.MainCategoryEntity;
 import com.fasulting.entity.ps.PsMainSubEntity;
 import com.fasulting.entity.category.SubCategoryEntity;
 import com.fasulting.entity.compositeId.PsMainId;
@@ -19,5 +20,7 @@ public interface PsMainSubRepository extends JpaRepository<PsMainSubEntity, PsMa
     List<SubCategoryEntity> getSubByPsSeq(@Param("psSeq") Long psSeq);
 
     List<PsMainSubEntity> findAllByPsSeq(Long psSeq);
+
+    List<SubCategoryEntity> findByMainCategory(MainCategoryEntity main);
 
 }
