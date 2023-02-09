@@ -6,9 +6,11 @@ import Button from "@mui/material/Button";
 import { useLocation } from "react-router-dom";
 import ReviewReport from "../Modal/ReviewReport";
 
-function ReviewInfo() {
+function ReviewInfo({ detailhospital }) {
   // 별점 평균
-  const totalScore = 3.5;
+  const totalScore = detailhospital.reviewTotalCount
+    ? 0.0
+    : detailhospital.reviewTotalCount;
   // 총 리뷰 개수
   const totalCount = 100;
   const tempdata = [
@@ -41,9 +43,9 @@ function ReviewInfo() {
     useLocation().pathname.slice(1, 9) === "mypageho" ? true : false;
 
   // 모달
-  const [ModalOpen, setModalOpen] = useState(false)
-  const ModalStateChange = () => setModalOpen((current) => !current)
-  
+  const [ModalOpen, setModalOpen] = useState(false);
+  const ModalStateChange = () => setModalOpen((current) => !current);
+
   return (
     <div>
       <p className={styles.title}>리뷰</p>
@@ -51,7 +53,11 @@ function ReviewInfo() {
         {/* 리뷰 총점 box */}
         <div className={styles.oneLine}>
           {/* 평균 별점 (왼쪽) */}
-          <p className={styles.score}>{totalScore}</p>
+          <p className={styles.score}>
+            {detailhospital.totalRatingResult == null
+              ? "0.0"
+              : detailhospital.totalRatingResult}
+          </p>
           {/* 별아이콘 + 리뷰 개수 (오른쪽) */}
           <div>
             {/* 별 5개 */}
@@ -59,45 +65,46 @@ function ReviewInfo() {
               <Rating
                 name="half-rating"
                 defaultValue={totalScore}
-                precision={0.5}
+                precision={0.1}
                 size="large"
                 readOnly
               />
             </div>
-            <p className={styles.reviewCount}>{totalCount} 개의 리뷰</p>
+            <p className={styles.reviewCount}>
+              {detailhospital.reviewTotalCount} 개의 리뷰
+            </p>
           </div>
         </div>
-        <hr />
-        {tempdata.map((review) => (
-          <div key={review.id} className={styles.reviewList}>
-            {isHospitalPage ? (
-              <div className={styles.claimBtn} onClick={reviewClaim}>
-                <Button
-                  variant="text"
-                  className={styles.btn}
-                  color="error"
-                  value={review.id}
-                  onClick={ModalStateChange}
-                >
-                <p className={styles.btnTextRed}>신고</p>
-                </Button>
-                {ModalOpen && 
-                    <ReviewReport
-                      ModalStateChange={ModalStateChange}
-                  />}
-              </div>
-            ) : null}
+        <hr className={styles.hr} />
+        {!detailhospital.review
+          ? "리뷰가 존재하지 않습니다."
+          : detailhospital.review.map((review) => (
+              <div key={review.id} className={styles.reviewList}>
+                {isHospitalPage ? (
+                  <div className={styles.claimBtn} onClick={reviewClaim}>
+                    <Button
+                      variant="text"
+                      className={styles.btn}
+                      color="error"
+                      value={review.id}
+                      onClick={ModalStateChange}
+                    >
+                      <p className={styles.btnTextRed}>신고</p>
+                    </Button>
+                    {ModalOpen && (
+                      <ReviewReport ModalStateChange={ModalStateChange} />
+                    )}
+                  </div>
+                ) : null}
 
-            <ReviewListItem
-              username={review.name}
-              content={review.content}
-              date={review.date}
-              hospital={review.hospital}
-              subcategory={review.subcategory}
-              rating={review.rating}
-            />
-          </div>
-        ))}
+                <ReviewListItem
+                  key={detailhospital.review.reviewSeq}
+                  psName={detailhospital.psName}
+                  subCategory={detailhospital.subCategoryName}
+                  review={detailhospital.review}
+                />
+              </div>
+            ))}
       </div>
     </div>
   );

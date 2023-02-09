@@ -50,12 +50,11 @@ function HospitalList({ selectedSub }) {
       setHospitalList(res.data.responseObj);
     });
   }, [param]);
-  console.log(hospitalList);
-  console.log(selectedSub);
+  console.log("hospitalList", hospitalList);
   return (
     <div>
       {hospitalList &&
-        (selectedSub.length === 0
+        (!selectedSub.length
           ? hospitalList.map((hospital) => (
               <HospitalListItem key={hospital.psSeq} hospital={hospital} />
             ))

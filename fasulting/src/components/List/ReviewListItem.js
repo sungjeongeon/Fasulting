@@ -4,47 +4,36 @@ import styles from "./ReviewListItem.module.css";
 import StarIcon from "@mui/icons-material/Star";
 import { useLocation } from "react-router-dom";
 
-function ReviewListItem({
-  username,
-  content,
-  date,
-  hospital,
-  subcategory,
-  rating,
-}) {
+function ReviewListItem({ psName, subCategory, review }) {
   // 현재 path가 detail이거나 (병원)mypage 이면 병원이름 보여주지 않음
   const displayHospital =
     useLocation().pathname.slice(1, 7) === "detail" || "mypage" ? true : false;
 
+  console.log(subCategory);
   return (
     <div>
-      <p className={styles.name}>{username.charAt(0) + "**"}</p>
+      {/* 테스트이메일 문제<p className={styles.name}>{review.userEmail.charAt(0) + "**"}</p> */}
       <div className={styles.oneLine}>
         <StarIcon sx={{ fontSize: 18, color: "#EECC51" }} />
-        <p className={styles.rating}>{rating.toFixed(1)}</p>
-        {displayHospital ? null : <p className={styles.gray}>{hospital}</p>}
+        <p className={styles.rating}>{review.point}</p>
+        {displayHospital ? null : <p className={styles.gray}>{psName}</p>}
         {displayHospital ? null : <p className={styles.gray}>|</p>}
-        {subcategory.map((sub, index) => (
+        {subCategory.map((sub, index) => (
           <p key={index} className={styles.gray}>
             {sub}
           </p>
         ))}
       </div>
-      <p className={styles.content}>{content}</p>
-      <p className={styles.date}>{date}</p>
+      <p className={styles.content}>{review.content}</p>
+      <p className={styles.date}>{review.regDate}</p>
       <hr />
     </div>
   );
 }
 
 ReviewListItem.propTypes = {
-  username: propTypes.string.isRequired,
-  content: propTypes.string.isRequired,
-  date: propTypes.string.isRequired,
-  // date: propTypes.instanceOf(Date).isRequired,
-  hospital: propTypes.string.isRequired,
-  subcategory: propTypes.arrayOf(propTypes.string.isRequired),
-  rating: propTypes.number.isRequired,
+  psName: propTypes.string.isRequired,
+  //review: propTypes.arrayOf(propTypes.string.isRequired),
 };
 
 export default ReviewListItem;

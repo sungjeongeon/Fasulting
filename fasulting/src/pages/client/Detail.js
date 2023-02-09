@@ -14,21 +14,25 @@ import { useState } from "react";
 import axios from "axios";
 import axiosAPi from "../../api/axiosApi";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Detail() {
-  const { psSeq } = useParams();
+  const param = useParams();
   // 병원 id로 병원 정보 요청 - 응답 받아서 각 컴포넌트로 전달 (예정)
-
+  //console.log(param.psSeq);
   const [detailhospital, setDetailhospital] = useState([]);
   const [reshospital, setReshospital] = useState([]);
+  const userData = useSelector((state) => state.user);
   useEffect(() => {
     //병원 선택 상세 조회
-    axiosAPi.get(`/main/ps-detail/1/${psSeq}`).then((res) => {
-      console.log("data", res.data);
-      setDetailhospital(res.data.responseObj);
-    });
+    axiosAPi
+      .get(`/main/ps-detail/${userData.userSeq}/${param.psSeq}`)
+      .then((res) => {
+        console.log("data", res.data);
+        setDetailhospital(res.data.responseObj);
+      });
     //병원 예약 테이블 조회
-    axiosAPi.get(`/reservation/1`).then((res) => {
+    axiosAPi.get(`/reservation/${param.psSeq}`).then((res) => {
       //console.log("reserve", res);
       setReshospital(res.data.responseObj);
     });

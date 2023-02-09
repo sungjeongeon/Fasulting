@@ -4,21 +4,32 @@ import LastConsulting from "../../components/Table/LastConsulting";
 import { useEffect } from "react";
 import axiosAPi from "../../api/axiosApi";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function MyReservation() {
   // const [loading, setLoading] = useState(true);
-  const [consulting, setConsulting] = useState([]);
+  const [postConsult, setPostConsult] = useState([]);
+  const [preConsult, setPreCounsult] = useState([]);
+  const userSeq = useSelector((store) => store.user.userSeq);
   useEffect(() => {
-    axiosAPi.get("/reservation/post/1").then((res) => {
-      setConsulting(res.data.responseObj);
-      // setLoading(false);
-    });
+    console.log(userSeq);
+    axiosAPi
+      .get(`/reservation/post/${userSeq}`)
+      .then((res) => {
+        setPostConsult(res.data.responseObj);
+        // setLoading(false);
+        console.log(res);
+      })
+      .catch((e) => console.log(e));
+    axiosAPi
+      .get(`/reservation/pre/${userSeq}`)
+      .then((res) => setPreCounsult(res.data.responseObj));
   }, []);
 
   // if (loading) return <div>Loading...</div>;
   return (
     <>
-      <ConsultingCardList consulting={consulting} />
+      <ConsultingCardList consulting={postConsult} />
       <LastConsulting />
     </>
   );

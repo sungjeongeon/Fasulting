@@ -80,26 +80,42 @@ function HospitalInfo({ detailhospital }) {
       <div className={styles.bodyMargin}>
         <div className={styles.iconTextDiv}>
           <LocationOnIcon color="primary" sx={{ fontSize: 28 }} />
-          <p>{detailhospital.psAddress}address</p>
+          <p>
+            {detailhospital.psAddress
+              ? detailhospital.psAddress
+              : "주소 정보가 존재하지 않습니다."}
+          </p>
         </div>
         <div className={styles.iconTextDiv}>
           <LocalPhoneRoundedIcon color="primary" sx={{ fontSize: 28 }} />
-          <p>{detailhospital.psNumber}number</p>
+          <p>
+            {detailhospital.psNumber
+              ? detailhospital.psNumber
+              : "전화번호 정보가 존재하지 않습니다."}
+          </p>
         </div>
         <div className={styles.iconTextDiv}>
           <MailOutlineRoundedIcon color="primary" sx={{ fontSize: 28 }} />
-          <p>{detailhospital.psNumber}email</p>
+          <p>
+            {detailhospital.psEmail
+              ? detailhospital.psEmail
+              : "이메일 정보가 존재하지 않습니다."}
+          </p>
         </div>
         <div className={styles.iconTextDiv}>
           <LinkIcon color="primary" sx={{ fontSize: 28 }} />
-          <p>{detailhospital.psHomepage}homepage</p>
+          <p>
+            {detailhospital.psHomepage
+              ? detailhospital.psHomepag
+              : "홈페이지 주소가 존재하지 않습니다."}
+          </p>
         </div>
         <div className={styles.iconTextDiv}>
           <AccessTimeIcon color="primary" sx={{ fontSize: 28 }} />
           <p>운영 시간</p>
         </div>
         <p>
-          {/* {detailhospital.defaultTime.length !== 0 &&
+          {/* {detailhospital.defaultTime &&
             detailhospital.defaultTime.map((time) => {
               return (
                 <div className={styles.dayDiv} key={time.key}>
