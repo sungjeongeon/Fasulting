@@ -10,6 +10,7 @@ import com.fasulting.repository.consulting.ReportRepository;
 import com.fasulting.repository.reservation.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,6 +46,16 @@ public class PsConsultingServiceImpl implements PsConsultingService {
 
         return resp;
 
+    }
+
+    @Override
+    public ResponseEntity<String> initializeSession(Map<String, Object> params) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<String> createConnection(String sessionId, Map<String, Object> params) {
+        return null;
     }
 
     @Override
