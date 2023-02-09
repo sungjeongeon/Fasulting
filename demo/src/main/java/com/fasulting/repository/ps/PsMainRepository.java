@@ -16,7 +16,7 @@ public interface PsMainRepository extends JpaRepository<PsMainEntity, PsMainId>,
     @Query("SELECT  pm.ps " + "FROM PsMainEntity pm " +
             "WHERE pm.mainCategory.seq = :mainSeq " +
             "AND ( pm.ps.delYn LIKE 'N' OR pm.ps.delYn IS NULL )" +
-            "AND ( pm.ps.confirmYn LIKE 'N' OR pm.ps.confirmYn IS NULL )")
+            "AND ( pm.ps.confirmYn LIKE 'Y' OR pm.ps.confirmYn IS NULL )")
     List<PsEntity> findPsByMainSeq(@Param("mainSeq") Long mainSeq);
 
     @Query("SELECT  pm.mainCategory " + "FROM PsMainEntity pm " + "WHERE pm.ps.seq = :psSeq" )
