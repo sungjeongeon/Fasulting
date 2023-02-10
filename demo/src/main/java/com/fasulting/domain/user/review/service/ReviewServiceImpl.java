@@ -102,6 +102,8 @@ public class ReviewServiceImpl implements ReviewService{
         for(ReviewEntity review : reviewList){
 
             ReviewRespDto reviewRespDto = ReviewRespDto.builder()
+                    .userSeq(review.getUser().getSeq())
+                    .psSeq(review.getPs().getSeq())
                     .reviewSeq(review.getSeq())
                     .userEmail(review.getUser().getEmail())
                     .point(review.getPoint())
