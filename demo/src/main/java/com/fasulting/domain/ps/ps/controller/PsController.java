@@ -230,7 +230,7 @@ public class PsController {
     }
 
     /**
-     * 제공 수술 수정
+     * 프로필 이미지 수정
      */
     @PutMapping("/profile")
     public ResponseEntity<?> editProfile(@ModelAttribute PsSeqReqDto psInfo) {
