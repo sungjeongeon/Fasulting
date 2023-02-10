@@ -41,11 +41,11 @@ UserJwtController {
         if (userLoginRespDto != null) {
 
             // JWT 쿠키 저장(쿠키 명 : token)
-            Cookie cookie = new Cookie("refreshToken", userLoginRespDto.getRefreshToken());
-            cookie.setPath("/");
+            Cookie cookie = new Cookie("loginReqDto", userLoginRespDto.getRefreshToken());
+//            cookie.setPath("/");
             cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
-            // httoOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
-            cookie.setHttpOnly(true);
+            // httpOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
+//            cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
             HttpHeaders headers = new HttpHeaders();
@@ -55,7 +55,7 @@ UserJwtController {
         }
         // 로그인 정보가 비어있는 경우
         else {
-            return ResponseEntity.status(403).body(ResponseBody.create(403, "fail"));
+            return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
         }
     }
 
