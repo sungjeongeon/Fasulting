@@ -525,6 +525,7 @@ public class PsServiceImpl implements PsService {
 
         DoctorEntity doctor = doctorRepository.findById(doctorSeq).orElseThrow(() -> new NullPointerException());
 
+        log.info(doctor.toString());
         if (doctor.getPs().getSeq() != psSeq) {
             return false;
         }
