@@ -149,7 +149,6 @@ public class PsServiceImpl implements PsService {
                 .password(passwordEncoder.encode(psInfo.getPassword()))
                 .name(psInfo.getName())
                 .address(psInfo.getAddress())
-                .zipcode(psInfo.getZipcode())
                 .registration(psInfo.getRegistration())
                 .regImgPath(registrationImgUrl)
                 .regImgOrigin(registrationImgFile.getOriginalFilename())
@@ -164,75 +163,6 @@ public class PsServiceImpl implements PsService {
         psRepository.save(ps);
 
         log.info("save ps");
-
-
-//        /////////////// 병원 - 전문의 리스트 저장 ///////////////
-//        for (DoctorReqDto doctor : psInfo.getDoctorList()) {
-//            String doctorImgUrl = null;
-//
-//            MultipartFile doctorImgFile = doctor.getImg();
-//            if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
-//                UUID uuid = UUID.randomUUID();
-//
-//                doctorImgUrl = uploadFile(uuid, doctor.getImg(), null);
-//            }
-//
-//            DoctorEntity doc = DoctorEntity.builder().ps(ps)
-//                    .img(doctorImgUrl)
-//                    .name(doctor.getName())
-//                    .build();
-//
-//            doctorRepository.save(doc);
-//
-//            /////////////// 병원 - 전문의 - 메인 카테고리 매핑 저장 => "DoctorMain" ///////////////
-//            String name = doctor.getMainCategory();
-//            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).get();
-//
-//
-//            DoctorMainEntity doctorMain = DoctorMainEntity.builder().doctor(doc)
-//                    .mainCategory(mainCategory).build();
-//
-//            doctorMainRepository.save(doctorMain);
-//
-//        }
-//
-//        log.info(ps.toString());
-
-
-        /////////////// 병원 - 메인 카테고리 매핑 저장 => "PsMain" ///////////////
-        for (String name : psInfo.getMainCategoryList()) {
-
-            MainCategoryEntity mainCategory = mainRepository.findMainByName(name).orElseThrow(() -> {
-                throw new NullPointerException();
-            });
-
-            PsMainEntity psMain = PsMainEntity.builder().ps(ps)
-                    .mainCategory(mainCategory).build();
-            psMainRepository.save(psMain);
-
-
-        }
-
-//        log.info("dpd");
-
-        /////////////// 병원 - 서브 카테고리 매핑 저장 => "PasMainSub" ///////////////
-        for (String name : psInfo.getSubCategoryList()) {
-
-            SubCategoryEntity subCategory = subRepository.findByName(name).orElseThrow(() -> {
-                throw new NullPointerException();
-            });
-
-
-            MainCategoryEntity mainCategory = subCategory.getMainCategory();
-
-            if (subCategory != null) {
-                PsMainSubEntity psMainSub = PsMainSubEntity.builder().ps(ps)
-                        .mainCategory(mainCategory).subCategory(subCategory).build();
-
-                psMainSubRepository.save(psMainSub);
-            }
-
-        }
 
         return true;
     }
@@ -335,7 +265,7 @@ public class PsServiceImpl implements PsService {
             DoctorRespDto doctorRespDto = DoctorRespDto.builder()
                     .doctorSeq(doctor.getSeq())
                     .name(doctor.getName())
-                    .profileImg(doctor.getImgPath())
+                    .profileImg(domain + doctor.getImgPath())
                     .mainCategoryName(doctorMainRepository.getMainCategoryByDoctorSeq(doctor.getSeq()))
                     .build();
 
@@ -498,7 +428,6 @@ public class PsServiceImpl implements PsService {
 
     /**
      * 카테고리 수정
-     *
      * @param psInfo
      * @return
      */
@@ -552,7 +481,6 @@ public class PsServiceImpl implements PsService {
 
     /**
      * 프로필 사진 수정
-     *
      * @param psInfo
      * @return
      */
