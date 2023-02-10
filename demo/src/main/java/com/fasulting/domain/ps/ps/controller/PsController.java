@@ -202,7 +202,7 @@ public class PsController {
     /**
      * 홈페이지 수정
      */
-    @PutMapping("/hompage")
+    @PutMapping("/homepage")
     @ApiOperation(value = "홈페이지 수정", notes = "ps seq, 홈페이지 받아 수정")
     public ResponseEntity<?> editHomepage(@RequestBody @ApiParam(value = "병원 seq, 홈페이지", required = true) PsSeqReqDto psInfo) {
         log.info("ps edit homepage - Call");
