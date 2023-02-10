@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./SimpleInfo.module.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -9,6 +9,7 @@ import axiosAPi from "../../api/axiosApi";
 import { useSelector } from "react-redux";
 
 function SimpleInfo({ detailhospital }) {
+  console.log("디테일병원", detailhospital);
   // const ps_name = "더성형외과의원";
   // const ps_address = "부산 강서구 녹산산단 335로 7, 송삼빌딩 1층";
   // const sub_category = [
@@ -27,26 +28,39 @@ function SimpleInfo({ detailhospital }) {
   // ];
   // console.log(detailhospital);
   // liked(좋아요 상태) t/f
-  const [liked, setLiked] = useState(detailhospital.favoriate);
+  const [liked, setLiked] = useState(detailhospital.favorite);
   const userData = useSelector((state) => state.user);
+
   const onClick = () => {
     if (!liked) {
+      console.log(liked, userData.userSeq, detailhospital.psSeq);
       axiosAPi
-        .post("favorite", {
+        .post("/favorite", {
           userSeq: userData.userSeq,
           psSeq: detailhospital.psSeq,
         })
-        .then((res) => setLiked((current) => !current));
+        .then((res) => {
+          console.log("1번", res);
+          setLiked((current) => !current);
+        });
     } else {
+      console.log(liked, userData.userSeq, detailhospital.psSeq);
       axiosAPi
-        .delete("favorite", {
+        .delete("/favorite", {
           userSeq: userData.userSeq,
           psSeq: detailhospital.psSeq,
         })
-        .then((res) => setLiked((current) => !current));
+        .then((res) => setLiked((current) => !current))
+        .catch((e) => console.log(e));
     }
   };
-
+  useEffect(() => {
+    console.log("setLiked");
+    setLiked(detailhospital.favorite);
+  }, []);
+  useEffect(() => {
+    console.log("liked", liked);
+  }, [liked]);
   return (
     <div>
       {/* 프로필 사진 */}
