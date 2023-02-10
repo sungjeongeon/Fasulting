@@ -46,6 +46,7 @@ export default function LastConsulting({ preConsult }) {
   // 모달창
   const [ModalOpen, setModalOpen] = useState(false);
   const ModalStateChange = () => setModalOpen((current) => !current);
+  const [selectedConsultSeq, setSelectedConsultSeq] = useState(0);
 
   return (
     <>
@@ -81,7 +82,10 @@ export default function LastConsulting({ preConsult }) {
                   <Button
                     variant="outlined"
                     startIcon={<AssignmentIcon />}
-                    onClick={ModalStateChange}
+                    onClick={() => {
+                      ModalStateChange();
+                      setSelectedConsultSeq(consult.consultingSeq);
+                    }}
                     disabled={consult.reviewed ? true : false}
                   >
                     리뷰작성
@@ -89,7 +93,7 @@ export default function LastConsulting({ preConsult }) {
                   {ModalOpen && (
                     <Review
                       ModalStateChange={ModalStateChange}
-                      consultingSeq={consult.consultingSeq}
+                      consultingSeq={selectedConsultSeq}
                     />
                   )}
                 </TableCell>
@@ -99,7 +103,7 @@ export default function LastConsulting({ preConsult }) {
                     style={{ color: "white" }}
                     startIcon={<BorderColorIcon />}
                     onClick={() => {
-                      pgEstimate(consult.ps_id);
+                      pgEstimate(consult.consultingSeq);
                     }}
                   >
                     견적상세

@@ -54,7 +54,12 @@ function ConsultingCard({ consult }) {
 
   const enterConsultingRoom = () => {
     navigate("/consult", {
-      state: { userSeq: userData.userSeq, psSeq: consult.psSeq, who: "client" },
+      state: {
+        userSeq: userData.userSeq,
+        psSeq: consult.psSeq,
+        reservationSeq: consult.reservationSeq,
+        who: "client",
+      },
     });
   };
   useEffect(() => {

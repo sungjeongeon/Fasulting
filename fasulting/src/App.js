@@ -91,7 +91,7 @@ function App() {
               {/* 나의 활동 */}
               <Route path="/myactivity" element={<MyActivity />} />
               {/* 나의 견적서 */}
-              <Route path="/myestimate/:seq" element={<MyEstimate />} />
+              <Route path="/myestimate/:consultSeq" element={<MyEstimate />} />
 
               {/* ========= hospital ========== */}
               {/* 병원 회원가입 */}

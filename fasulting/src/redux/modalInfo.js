@@ -9,6 +9,8 @@ export const modalInfoSlice = createSlice({
     reservationId: null,
     reservationStart: null,
     dayOfWeek: null,
+    psSeq: null,
+    userSeq: null,
   },
   reducers: {
     changeInfo: (state, action) => {
@@ -18,16 +20,17 @@ export const modalInfoSlice = createSlice({
       state.reservationId = action.payload.reservationSeq;
       state.reservationStart = action.payload.startDate;
       state.dayOfWeek = action.payload.dayOfWeek;
-      console.log(action.payload)
-      return state
+      state.userSeq = action.payload.userSeq;
+      state.psSeq = action.payload.psSeq;
+      console.log(action.payload);
+      return state;
     },
     modalStateChange: (state) => {
       state.modalstate = !state.modalstate;
-      return state
+      return state;
     },
-  }
+  },
+});
 
-})
-
-export const { changeInfo, modalStateChange } = modalInfoSlice.actions
+export const { changeInfo, modalStateChange } = modalInfoSlice.actions;
 export default modalInfoSlice.reducer;

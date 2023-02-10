@@ -21,22 +21,30 @@ function HospitalReservation() {
       subList: state.modalInfo.subList,
       reservationTime: state.modalInfo.reservationStart,
       dayOfWeek: state.modalInfo.dayOfWeek,
+      userSeq: state.modalInfo.userSeq,
+      psSeq: state.modalInfo.psSeq,
+      reservationSeq: state.modalInfo.reservationId,
     };
   });
-
-  // 상담방 입장 (병원)
-  const navigate = useNavigate();
-  const enterConsultingRoom = () => {
-    // 병원 미래 예약 조회 api 구현 후 전달 바람 ==> 미림
-    // navigate("/consult", {
-    //   state: { userSeq: consult.userSeq, psSeq: consult.psSeq, who: "hospital" },
-    // });
-  };
 
   // 모달창 닫기 위한 action
   const dispatch = useDispatch();
   const modalClose = () => {
     dispatch(modalStateChange());
+  };
+  // 상담방 입장 (병원)
+  const navigate = useNavigate();
+  const enterConsultingRoom = () => {
+    modalClose();
+    // 병원 미래 예약 조회 api 구현 후 전달 바람 ==> 미림
+    navigate("/consult", {
+      state: {
+        userSeq: ReservationManage.userSeq,
+        psSeq: ReservationManage.psSeq,
+        reservationSeq: ReservationManage.reservationSeq,
+        who: "hospital",
+      },
+    });
   };
 
   const twolen = (num) => {
@@ -105,7 +113,9 @@ function HospitalReservation() {
                   <button className={`${styles.okay} ${styles.mr}`}>
                     이미지 다운로드
                   </button>
-                  <button className={styles.okay}>상담 입장</button>
+                  <button className={styles.okay} onClick={enterConsultingRoom}>
+                    상담 입장
+                  </button>
                 </div>
               </div>
             ) : cancelTime < new Date() ? (
@@ -134,9 +144,7 @@ function HospitalReservation() {
                       />
                     )}
                   </button>
-                  <button className={styles.yet} onClick={enterConsultingRoom}>
-                    상담 입장
-                  </button>
+                  <button className={styles.yet}>상담 입장</button>
                 </div>
                 <p className={styles.color}>아직 상담시간이 아닙니다 !</p>
               </div>

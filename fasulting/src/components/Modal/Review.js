@@ -7,6 +7,7 @@ import axiosAPi from "../../api/axiosApi";
 
 function Review({ ModalStateChange, consultingSeq }) {
   const userSeq = useSelector((store) => store.user.userSeq);
+  console.log("consultingSeq", consultingSeq);
 
   const [value, setValue] = React.useState(0);
   const [content, setContent] = useState("");
@@ -29,8 +30,8 @@ function Review({ ModalStateChange, consultingSeq }) {
       })
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
-    // 모달 창 닫기
-    ModalStateChange();
+    // 모달 창 닫기 -> 페이지 새로고침
+    window.location.reload();
   };
   return (
     <div className={styles.background}>

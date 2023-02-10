@@ -135,7 +135,11 @@ export default class ToolbarComponent extends Component {
               className="navButton"
               id="navLeaveButton"
             >
-              <LeaveConsulting leaveSession={this.leaveSession} />
+              <LeaveConsulting
+                leaveSession={this.leaveSession}
+                reservationSeq={this.props.reservationSeq}
+                who={this.props.who}
+              />
             </IconButton>
           </div>
         </Toolbar>
