@@ -18,6 +18,8 @@ public class ReviewRespDto {
 
     private Long psSeq;
 
+    private String psName;
+
     private String userEmail;
 
     private BigDecimal point;

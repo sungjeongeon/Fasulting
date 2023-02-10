@@ -104,6 +104,7 @@ public class ReviewServiceImpl implements ReviewService{
             ReviewRespDto reviewRespDto = ReviewRespDto.builder()
                     .userSeq(review.getUser().getSeq())
                     .psSeq(review.getPs().getSeq())
+                    .psName(review.getPs().getName())
                     .reviewSeq(review.getSeq())
                     .userEmail(review.getUser().getEmail())
                     .point(review.getPoint())
