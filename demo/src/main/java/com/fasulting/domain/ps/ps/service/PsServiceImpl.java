@@ -371,6 +371,7 @@ public class PsServiceImpl implements PsService {
                 .psProfileImg(domain + ps.getProfileImgPath())
                 .psNumber(ps.getNumber())
                 .psEmail(ps.getEmail())
+                .psHomepage(ps.getHomepage())
                 .subCategoryName(psMainSubRepository.getSubNameByPsSeq(psSeq))
                 .totalRatingResult(totalRatingRepository.getResultByPsSeq(psSeq))
                 .reviewTotalCount(reviewRepository.getCountByPsSeq(psSeq))
