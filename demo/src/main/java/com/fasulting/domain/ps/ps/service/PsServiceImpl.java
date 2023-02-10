@@ -129,7 +129,7 @@ public class PsServiceImpl implements PsService {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,  psProfileImgDirPath);
+            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid, psProfileImgDirPath);
 
             log.info(profileImgUrl);
         }
@@ -428,18 +428,11 @@ public class PsServiceImpl implements PsService {
             throw new NullPointerException();
         });
 
-        String preAddress = ps.getAddress();
-
-        ps.updateAddress(psInfo.getAddress());
-
-        String postAddress = psInfo.getAddress();
-
-        if (preAddress.equals(postAddress)) {
-            return false;
+        if(psInfo.getAddress() != null){
+            ps.updateAddress(psInfo.getAddress());
+            return true;
         }
-
-        return true;
-
+        return false;
     }
 
     // 소개말 수정
@@ -455,17 +448,11 @@ public class PsServiceImpl implements PsService {
             throw new NullPointerException();
         });
 
-        String preIntro = ps.getIntro();
-
-        ps.updateIntro(psInfo.getIntro());
-
-        String postIntro = psInfo.getIntro();
-
-        if (preIntro.equals(postIntro)) {
-            return false;
+        if(psInfo.getIntro() != null){
+            ps.updateIntro(psInfo.getIntro());
+            return true;
         }
-
-        return true;
+        return false;
 
     }
 
@@ -480,17 +467,12 @@ public class PsServiceImpl implements PsService {
             throw new NullPointerException();
         });
 
-        String preNumber = ps.getNumber();
-
-        ps.updateNumber(psInfo.getNumber());
-
-        String postNumber = psInfo.getNumber();
-
-        if (preNumber.equals(postNumber)) {
-            return false;
+        if(psInfo.getNumber() != null) {
+            ps.updateNumber(psInfo.getNumber());
+            return true;
         }
 
-        return true;
+        return false;
 
     }
 
@@ -505,22 +487,17 @@ public class PsServiceImpl implements PsService {
             throw new NullPointerException();
         });
 
-        String preHomepage = ps.getHomepage();
-
-        ps.updateHomepage(psInfo.getHomepage());
-
-        String postHomepage = psInfo.getHomepage();
-
-        if (preHomepage.equals(postHomepage)) {
-            return false;
+        if (psInfo.getHomepage() != null) {
+            ps.updateHomepage(psInfo.getHomepage());
+            return true;
         }
-
-        return true;
+        return false;
 
     }
 
     /**
      * 카테고리 수정
+     *
      * @param psInfo
      * @return
      */
@@ -528,6 +505,10 @@ public class PsServiceImpl implements PsService {
     @Transactional
     public boolean editCategory(PsSeqReqDto psInfo) {
         Long seq = psInfo.getSeq();
+
+        if(psInfo.getSubCategoryList().isEmpty()){
+            return false;
+        }
 
         // delete 하고
         psMainSubRepository.deleteMainSubByPs(seq);
@@ -562,7 +543,7 @@ public class PsServiceImpl implements PsService {
                     .build();
 
             psMainSubRepository.save(psMainSub); // 병원 - 메인 - 서브
-            
+
         }
 
         return true;
@@ -570,6 +551,7 @@ public class PsServiceImpl implements PsService {
 
     /**
      * 프로필 사진 수정
+     *
      * @param psInfo
      * @return
      */
@@ -588,12 +570,11 @@ public class PsServiceImpl implements PsService {
 
         if (profileImgFile == null || profileImgFile.isEmpty()) {
             return false;
-        }
-        else {
+        } else {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
 
-            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid,  psProfileImgDirPath);
+            profileImgUrl = FileManage.uploadFile(profileImgFile, uuid, psProfileImgDirPath);
         }
 
         String profileOrigin = profileImgFile.getOriginalFilename();
