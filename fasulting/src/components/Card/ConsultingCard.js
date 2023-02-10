@@ -117,7 +117,7 @@ function ConsultingCard({ consult }) {
           <Button
             variant="contained"
             style={{ color: "white" }}
-            color={enterPossible ? "primary" : "disabled"}
+            disabled={enterPossible ? false : true}
             className={styles.width}
             onClick={enterPossible ? enterConsultingRoom : null}
           >
