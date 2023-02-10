@@ -1,9 +1,7 @@
 import React from "react";
 import styles from "./Reservation.module.css";
 import propTypes from "prop-types";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import { Token } from "@mui/icons-material";
 import axiosAPi from "../../api/axiosApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -142,7 +140,6 @@ function Reservation(props) {
         },
         withCredentials: false,
       });
-      //props.ModalStateChange();
       toast.success(
         <h3>
           예약이 완료되었습니다.

@@ -568,6 +568,7 @@ class VideoRoom extends Component {
     const localUser = this.state.localUser;
     const mySessionId = this.state.mySessionId;
     const isEntered = this.state.entered;
+    const who = this.props.who;
 
     return (
       <div>
@@ -613,21 +614,39 @@ class VideoRoom extends Component {
             <div className={styles.div}>
               <StreamComponent user={localUser} isMe={"test"} />
               <div className={styles.alert}>
-                <div>
-                  <p className={styles.title}>
-                    ✅ 상담방에 입장하기 전 오디오와 비디오를 체크해주세요.
-                  </p>
+                {who === "client" ? (
+                  <div>
+                    <p className={styles.title}>
+                      ✅ 상담방에 입장하기 전 오디오와 비디오를 체크해주세요.
+                    </p>
 
-                  <h1 className={styles.warning}>🤔 주의하세요!</h1>
-                  <p className={styles.content}>
-                    상담 중 보여드리는 Before & After 사진은 실제 시술 결과와
-                    다를 수 있습니다.
-                  </p>
-                  <p className={styles.content}>
-                    시술을 결정하기 전, 전문의의 경험과 결과를 주의 깊게
-                    살펴보고 충분히 고민해주세요.
-                  </p>
-                </div>
+                    <h1 className={styles.warning}>🤔 주의하세요!</h1>
+                    <p className={styles.content}>
+                      상담 중 보여드리는 Before & After 사진은 실제 시술 결과와
+                      다를 수 있습니다.
+                    </p>
+                    <p className={styles.content}>
+                      시술을 결정하기 전, 전문의의 경험과 결과를 주의 깊게
+                      살펴보고 충분히 고민해주세요.
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p className={styles.title}>
+                      ✅ 상담방에 입장하기 전 오디오와 비디오를 체크해주세요.
+                    </p>
+
+                    <h1 className={styles.warning}>🤔 주의하세요!</h1>
+                    <p className={styles.content}>
+                      상담자에게 시술 과정, 부작용에 대한 충분한 고지를
+                      해주세요.
+                    </p>
+                    <p className={styles.content}>
+                      무리한 시술 권장이 적발될 시, 사이트 이용에 영구적 제한이
+                      있을 수 있습니다.
+                    </p>
+                  </div>
+                )}
 
                 <div onClick={this.enteredChanged} className={styles.enter}>
                   <Button variant="contained" size="large">
@@ -640,6 +659,8 @@ class VideoRoom extends Component {
 
         <div className={styles.toolbar}>
           <ToolbarComponent
+            reservationSeq={this.props.reservationSeq}
+            who={who}
             sessionId={mySessionId}
             user={localUser}
             showNotification={this.state.messageReceived}

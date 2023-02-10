@@ -92,9 +92,7 @@ export default function LoginForm() {
                 }, 2000);
               }
             });
-          } catch (e) {
-            console.log(e);
-          }
+          } catch {}
         } else if (usertype === "ps") {
           try {
             await axiosAPi.post("/ps/login", values).then((res) => {
@@ -104,14 +102,13 @@ export default function LoginForm() {
                 //   loginUser({
                 //     userSeq: res.data.responseObj.userSeq,
                 //     userName: res.data.responseObj.userName,
+                //     adminYn: res.data.responseObj.adminYn,
                 //     userEmail: values.email,
                 //     userPwd: values.password,
                 //   })
                 // );
-                console.log(res.headers);
                 //토큰 받아오기
-                const accessToken = res.headers.get("Authorization");
-                console.log(accessToken);
+                const accessToken = res.data.responseObj.accessToken;
                 //console.log(accessToken);
                 dispatch(setToken({ accessToken: accessToken }));
                 // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
@@ -127,16 +124,19 @@ export default function LoginForm() {
                   </h3>,
                   {
                     position: toast.POSITION.TOP_CENTER,
-                    autoClose: 1000,
+                    autoClose: 2000,
                   }
                 );
                 setTimeout(() => {
-                  navigate("/");
-                }, 1000);
+                  if (res.data.responseObj.adminYn === true) {
+                    navigate("/admin");
+                  } else {
+                    navigate("/");
+                  }
+                }, 2000);
               }
             });
           } catch (e) {
-            // 서버에서 받은 에러 메시지 출력
             console.log(e);
           }
         }

@@ -18,19 +18,19 @@ function MyReservation() {
       .then((res) => {
         setPostConsult(res.data.responseObj);
         // setLoading(false);
-        console.log(res);
       })
       .catch((e) => console.log(e));
-    axiosAPi
-      .get(`/reservation/pre/${userSeq}`)
-      .then((res) => setPreCounsult(res.data.responseObj));
+    axiosAPi.get(`/reservation/pre/${userSeq}`).then((res) => {
+      setPreCounsult(res.data.responseObj);
+      console.log(res.data.responseObj);
+    });
   }, []);
 
   // if (loading) return <div>Loading...</div>;
   return (
     <>
       <ConsultingCardList consulting={postConsult} />
-      <LastConsulting />
+      <LastConsulting preConsult={preConsult} />
     </>
   );
 }

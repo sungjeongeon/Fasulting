@@ -11,6 +11,7 @@ function OpenViduRoom() {
       <VideoRoom
         hospital={location.state.psSeq}
         client={location.state.userSeq}
+        reservationSeq={location.state.reservationSeq}
         who={location.state.who}
       />
       {/* <VideoRoomComponent hospital={13} client={14} /> */}

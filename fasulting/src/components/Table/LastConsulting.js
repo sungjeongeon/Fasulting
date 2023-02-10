@@ -14,28 +14,28 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useNavigate } from "react-router-dom";
 import Review from "../Modal/Review";
 
-const preConsult = [
-  {
-    consultingSeq: 1,
-    psName: "김싸피병원",
-    estimate: 200,
-    subCategoryName: ["쌍커풀, 안검하수"],
-    date: "2023.01.23(월요일) 09시",
-    reviewed: false,
-    reported: false,
-  },
-  {
-    consultingSeq: 2,
-    psName: "장싸피병원",
-    estimate: 300,
-    subCategoryName: ["쌍커풀, 안검하수"],
-    date: "2023.01.20(금요일) 17시 30분",
-    reviewed: true,
-    reported: false,
-  },
-];
+// const preConsult = [
+//   {
+//     consultingSeq: 1,
+//     psName: "김싸피병원",
+//     estimate: 200,
+//     subCategoryName: ["쌍커풀, 안검하수"],
+//     date: "2023.01.23(월요일) 09시",
+//     reviewed: false,
+//     reported: false,
+//   },
+//   {
+//     consultingSeq: 2,
+//     psName: "장싸피병원",
+//     estimate: 300,
+//     subCategoryName: ["쌍커풀, 안검하수"],
+//     date: "2023.01.20(금요일) 17시 30분",
+//     reviewed: true,
+//     reported: false,
+//   },
+// ];
 
-export default function LastConsulting() {
+export default function LastConsulting({ preConsult }) {
   const navigate = useNavigate();
 
   const pgEstimate = (id) => {
@@ -46,6 +46,7 @@ export default function LastConsulting() {
   // 모달창
   const [ModalOpen, setModalOpen] = useState(false);
   const ModalStateChange = () => setModalOpen((current) => !current);
+  const [selectedConsultSeq, setSelectedConsultSeq] = useState(0);
 
   return (
     <>
@@ -55,12 +56,12 @@ export default function LastConsulting() {
           {/* <TableHead className={classes.root}> */}
           <TableHead>
             <TableRow>
-              <TableCell>병원명</TableCell>
-              <TableCell>견적</TableCell>
-              <TableCell>상담내용&nbsp;</TableCell>
-              <TableCell>상담일시&nbsp;</TableCell>
-              <TableCell>리뷰작성&nbsp;</TableCell>
-              <TableCell>견적확인&nbsp;</TableCell>
+              <TableCell align="center">병원명</TableCell>
+              <TableCell align="center">견적</TableCell>
+              <TableCell align="center">상담내용&nbsp;</TableCell>
+              <TableCell align="center">상담일시&nbsp;</TableCell>
+              <TableCell align="center">리뷰작성&nbsp;</TableCell>
+              <TableCell align="center">견적확인&nbsp;</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -69,34 +70,40 @@ export default function LastConsulting() {
                 key={consult.consultingSeq}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell align="center" component="th" scope="row">
                   {consult.psName}
                 </TableCell>
-                <TableCell>{consult.estimate} 만원</TableCell>
-                <TableCell>{consult.subCategoryName.join(" ")}</TableCell>
-                <TableCell>{consult.date}</TableCell>
-                <TableCell>
+                <TableCell align="center">{consult.estimate} 만원</TableCell>
+                <TableCell align="center">
+                  {consult.subCategoryName.join(" ")}
+                </TableCell>
+                <TableCell align="center">{consult.date}</TableCell>
+                <TableCell align="center">
                   <Button
                     variant="outlined"
                     startIcon={<AssignmentIcon />}
-                    onClick={ModalStateChange}
+                    onClick={() => {
+                      ModalStateChange();
+                      setSelectedConsultSeq(consult.consultingSeq);
+                    }}
+                    disabled={consult.reviewed ? true : false}
                   >
                     리뷰작성
                   </Button>
                   {ModalOpen && (
                     <Review
                       ModalStateChange={ModalStateChange}
-                      consultingSeq={consult.consultingSeq}
+                      consultingSeq={selectedConsultSeq}
                     />
                   )}
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                   <Button
                     variant="contained"
                     style={{ color: "white" }}
                     startIcon={<BorderColorIcon />}
                     onClick={() => {
-                      pgEstimate(consult.ps_id);
+                      pgEstimate(consult.consultingSeq);
                     }}
                   >
                     견적상세

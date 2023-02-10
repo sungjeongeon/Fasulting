@@ -29,8 +29,8 @@ function Review({ ModalStateChange, consultingSeq }) {
       })
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
-    // 모달 창 닫기
-    ModalStateChange();
+    // 모달 창 닫기 -> 페이지 새로고침
+    window.location.reload();
   };
   return (
     <div className={styles.background}>
