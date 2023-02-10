@@ -13,6 +13,7 @@ import ReserveCardTimeItem from "./ReserveCardTimeItem";
 import MainCategoryListSmall from "../Category/MainCategoryListSmall";
 import ReserveCardCategoryItem from "./ReserveCardCategoryItem";
 import Reservation from "../Modal/Reservation";
+import Detail from "../../pages/client/Detail";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -81,7 +82,7 @@ export default function ReserveCard({ reshospital }) {
   const [consultItem, setConsultItem] = useState([]);
   const [isAgree, setIsAgree] = useState(false);
   // 사용자 선택 날짜로 필터링된 운영시간 Array (시간선택 component에 넘길 것)
-  const [operatingByDate, setOperingByDate] = useState([]);
+  const [operatingByDate, setOperatingByDate] = useState([]);
 
   const getDate = (date) => {
     // 하위항목 리셋 (선택하다가 날짜 바꿨을 때)
@@ -101,11 +102,11 @@ export default function ReserveCard({ reshospital }) {
         time.month === date.month &&
         time.day === date.day
     );
-    //console.log("filter", filterByDate);
+    // console.log("filter", filterByDate);
     //const times = filterByDate.time.map((o) => o.hour);
     const times = filterByDate.map((o) => o.time);
-    //console.log("time", times);
-    setOperingByDate(times);
+    // console.log("time", times);
+    setOperatingByDate(times);
     setExpanded("panel1");
   };
 
@@ -171,7 +172,10 @@ export default function ReserveCard({ reshospital }) {
           <Typography>상담 항목</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ReserveCardCategoryItem getConsultItem={getConsultItem} />
+          <ReserveCardCategoryItem
+            getConsultItem={getConsultItem}
+            categoryList={reshospital.mainCategoryList}
+          />
         </AccordionDetails>
       </Accordion>
       <div className={styles.margin}>
@@ -217,7 +221,7 @@ export default function ReserveCard({ reshospital }) {
             dayOfWeek={dayOfWeek}
             time={hour}
             beforeImg={img}
-            subCategory={consultItem}
+            consultItem={consultItem}
             ModalStateChange={ModalStateChange}
           />
         )}

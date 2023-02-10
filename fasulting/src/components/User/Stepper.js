@@ -51,35 +51,42 @@ export default function PsRegist() {
   const isLastStep = activeStep === steps.length - 1;
 
   async function _submitForm(values, actions) {
-    console.log(values);
+    console.log("values", values);
     console.log(actions);
     alert(JSON.stringify(values, null, 2));
     actions.setSubmitting(false);
 
     const formData = new FormData();
-    const dataSet = {
-      email: values.email,
-      password: values.password,
-      psname: values.psname,
-      psaddress: values.psaddress,
-      pszipcode: values.pszipcode,
-      psregistration: values.psregistration,
-      psnumber: values.psnumber,
-      psdirector: values.psdirector,
-      pshompage: values.pshompage,
-      psintro: values.psintro,
-    };
-    console.log(dataSet);
-    formData.append("ps", JSON.stringify(dataSet));
+    // const dataSet = {
+    //   email: values.email,
+    //   password: values.password,
+    //   name: values.psname,
+    //   address: values.psaddress,
+    //   registration: values.psregistration,
+    //   number: values.psnumber,
+    //   director: values.psdirector,
+    //   hompage: values.pshompage,
+    //   intro: values.psintro,
+    // };
+    //console.log(dataSet);
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    formData.append("name", values.psname);
+    formData.append("address", values.psaddress);
+    formData.append("registration", values.psregistration);
+    formData.append("number", values.psnumber);
+    formData.append("director", values.psdirector);
+    formData.append("hompage", values.pshompage); //null가능
+    formData.append("intro", values.psintro); //null 가능
     formData.append("registrationImg", values.psregistrationimg);
-    formData.append("profileImg", values.profileImg);
-    for (var key of formData.keys()) {
-      console.log(key);
-    }
+    formData.append("profileImg", values.profileImg); //null 가능
+    // for (var key of formData.keys()) {
+    //   console.log(key);
+    // }
 
-    for (var value of formData.values()) {
-      console.log(value);
-    }
+    // for (var value of formData.values()) {
+    //   console.log(value);
+    // }
     try {
       await axiosAPi.post("/ps/regist", {
         headers: {

@@ -15,6 +15,7 @@ import Cancel from "../Modal/Cancel";
 import styles from "./FavResCard.module.css";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -31,9 +32,11 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 function ConsultingCard({ consult }) {
   const navigate = useNavigate();
+  const userData = useSelector((store) => store.user);
   // 모달창
   const [ModalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(0);
+  const [enterPossible, setEnterPossible] = useState(false);
 
   const ModalStateChange = () => {
     const today = new Date();
@@ -51,7 +54,7 @@ function ConsultingCard({ consult }) {
 
   const enterConsultingRoom = () => {
     navigate("/consult", {
-      state: { userSeq: consult.userSeq, psSeq: consult.psSeq, who: "client" },
+      state: { userSeq: userData.userSeq, psSeq: consult.psSeq, who: "client" },
     });
   };
   useEffect(() => {
@@ -67,6 +70,11 @@ function ConsultingCard({ consult }) {
     const diff = (consultDate.getTime() - today.getTime()) / (60 * 60 * 1000);
     const loading = (1 - diff / (7 * 24)) * 100;
     setLoading(loading);
+
+    // 상담 입장 버튼 활성화 / 비활성화
+    if (diff * 60 <= 30) {
+      setEnterPossible(true);
+    }
   }, []);
 
   return (
@@ -80,12 +88,16 @@ function ConsultingCard({ consult }) {
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             {consult.subCategoryName.join(" / ")}
           </Typography>
-          <Typography variant="body2">
+          <Typography sx={{ mb: 1 }} variant="body2">
             {consult.year}년 {consult.month}월 {consult.day}일 {consult.hour}시{" "}
             {consult.minute}분
           </Typography>
 
-          <BorderLinearProgress variant="determinate" value={loading} />
+          <BorderLinearProgress
+            sx={{ mb: 3 }}
+            variant="determinate"
+            value={loading}
+          />
         </div>
         <div className={styles.button}>
           <Button
@@ -105,8 +117,9 @@ function ConsultingCard({ consult }) {
           <Button
             variant="contained"
             style={{ color: "white" }}
+            color={enterPossible ? "primary" : "disabled"}
             className={styles.width}
-            onClick={enterConsultingRoom}
+            onClick={enterPossible ? enterConsultingRoom : null}
           >
             상담입장
           </Button>

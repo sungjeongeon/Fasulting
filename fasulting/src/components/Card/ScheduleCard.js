@@ -7,11 +7,14 @@ import {
   WeekView,
   Appointments,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import appointments from '../../demo-data/today-appointments';
+// import appointments from '../../demo-data/today-appointments';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeInfo } from "../../redux/modalInfo"
 import { useEffect } from 'react';
 import { update } from '../../redux/appointments';
+import moment from 'moment';
+import { useState } from 'react';
+import axiosAPi from "../../api/axiosApi"
 
 
 const PREFIX = 'Demo';
@@ -78,6 +81,12 @@ const DayScaleCell = (props) => {
 };
 
 
+///////////////////////////
+// axios 요청 더미데이터 const로 들고오고, 해당 변수를 map으로 돌려서 function의 result를 받기
+
+
+
+
 // 스케줄 각 데이터 색깔 커스텀
 const Appointment = ({
   children,
@@ -98,12 +107,12 @@ const Appointment = ({
             width: '111%',
             textAlign: "center",
             fontSize: "13px",
-            lineHeight: "46px",
+            lineHeight: "44px",
             overflow: "hidden",
           }}
-          onClick={appointments => 
+          onClick={appointment => 
             // {console.log(JSON.parse(JSON.stringify(appointments.data)).startDate)}
-            dispatch(changeInfo(JSON.parse(JSON.stringify(appointments.data))))
+            dispatch(changeInfo(JSON.parse(JSON.stringify(appointment.data))))
           }
         >
           {/* <React.Fragment> */}
@@ -120,19 +129,75 @@ const Appointment = ({
     const changeDate = useSelector(state => state.calendar)
     let current= `${changeDate.year}-${changeDate.month}-${changeDate.day}`
     
+
+    // 계산하는 함수
+    const currentDate = moment();
+    let date = currentDate.date();
+    // console.log(date)
+    const makeAppointment = (reservationDateStart, reservationDateEnd) => {
+      // console.log(year)
+      const startDate = new Date(reservationDateStart)
+      const endDate = new Date(reservationDateEnd)
+
+      const nextStartDate = moment(startDate)
+      const nextEndDate = moment(endDate)
+      // console.log(nextStartDate.format('YYYY-MM-DD HH:mm'))
+      return {
+        startDate: nextStartDate.format(),
+        endDate: nextEndDate.format(),
+      };
+    };
+
+    // axios 요청을 위한 resSeq 들고오기 (일단 임시 resSeq)
+    // const resSeq = useSelector(state => state.)
+    const resSeq = 1
+    // loading 처리
+    // const [loading, setLoading] = useState(true)
+    // // axios 요청으로 데이터 들고오기
+    const [allAppointments, setAllAppointments] = useState([])
+    const [operatingTime, setOperatingTime] = useState([])
+    useEffect(() => {
+      axiosAPi.get(`/ps-reservation/post/${resSeq}`)
+        // .then(res => console.log(res.data.responseObj.reservation))
+        .then(res => {
+          setAllAppointments(res.data.responseObj.reservation)
+          setOperatingTime(res.data.responseObj.operatingTime)
+        })
+        .catch(err => console.log(err))
+    }, [])
+
+    // axios로 요청한 데이터를 가공한 것을 appointments로 생성
+    const appointments = 
+      allAppointments.map(({ reservationDateStart, reservationDateEnd, ...restArgs }) => {
+        const result = {
+          ...makeAppointment(reservationDateStart, reservationDateEnd),
+          ...restArgs,
+        };
+        date += 1;
+        if (date > 31) date = 1;
+        // console.log(result)
+        return result;
+      });
+    // console.log(makeData)
+    // const [appointments, setAppointments] = useState()
+    // console.log(appointments)
+
+
     const dispatch = useDispatch()
     // 모든 appointment 리덕스에 추가
     useEffect(() => {
-      dispatch(update(appointments))
-    }, [dispatch])
+      console.log(appointments)
+      // dispatch(update(appointments))
+    }, [])
 
     // 리덕스로부터 들고온 appointments로 렌더링
     const appointmentsRedux = useSelector(state => state.appointments.appointmentList)
     // console.log(appointmentsRedux)
 
     return (
+      // loading ? <div></div> :
     <Paper sx={{marginY: "2rem"}}>
-      <Scheduler data={appointmentsRedux} height={'auto'}>
+      <Scheduler data={appointments} height={'auto'}>
         <ViewState
         currentDate={current}
         />

@@ -6,6 +6,7 @@ import { useState } from "react";
 import AddDoctor from "../Modal/AddDoctor";
 import AddCategory from "../Modal/AddCategory";
 import { Formik } from "formik";
+import TagIcon from "@mui/icons-material/Tag";
 
 export default function PsRegistForm03(props) {
   // 의사 등록 모달창
@@ -14,9 +15,10 @@ export default function PsRegistForm03(props) {
   //   setdoctorModalOpen((current) => !current);
 
   // 카테고리 등록 모달창
-  const [categoryModalOpen, setcategoryModalOpen] = useState(false);
-  const categoryModalStateChange = () =>
-    setcategoryModalOpen((current) => !current);
+  const [modal, setModal] = useState(false);
+  const onClick = (e) => {
+    setModal((current) => !current);
+  };
 
   const {
     formField: {
@@ -29,6 +31,7 @@ export default function PsRegistForm03(props) {
     },
   } = props;
 
+  const ctg_list = []; //ctg_list 빈 배열
   return (
     <>
       <div className={styles.inputItem}>
@@ -74,22 +77,6 @@ export default function PsRegistForm03(props) {
         )}
         <div></div>
       </div> */}
-      <div className={styles.inputItem}>
-        <div className={styles.label}>병원 카테고리 선택</div>
-        <p style={{ color: "gray" }}>
-          제공 가능한 수술 카테고리를 선택해주세요.
-        </p>
-        <Button
-          variant="text"
-          className={styles.btn}
-          onClick={categoryModalStateChange}
-        >
-          병원 카테고리 선택
-        </Button>
-        {categoryModalOpen && (
-          <AddCategory categoryModalStateChange={categoryModalStateChange} />
-        )}
-      </div>
     </>
   );
 }

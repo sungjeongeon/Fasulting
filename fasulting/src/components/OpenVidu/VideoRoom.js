@@ -117,7 +117,7 @@ class VideoRoom extends Component {
       try {
         console.log("토큰get시도");
         var token = await this.getToken();
-        console.log(token);
+
         this.connect(token);
       } catch (error) {
         console.error(

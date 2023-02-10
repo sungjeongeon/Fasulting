@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch } from 'react-redux';
 import { cancel } from "../../redux/appointments"
+import axiosAPi from '../../api/axiosApi';
 
 export default function CancelDialog({ReservationManage, modalClose}) {
   const [dialogOpen, setDialogOpen] = React.useState(true)
@@ -15,6 +16,18 @@ export default function CancelDialog({ReservationManage, modalClose}) {
     setDialogOpen(false);
   };
   const dispatch = useDispatch()
+  // 병원 임시 id
+  const psSeq = 1
+
+  // 삭제 axios 요청 필요..
+  const cancelReservation = (id) => {
+    axiosAPi.patch('/ps-reservation', {
+      "reservationSeq": id,
+      "psSeq": psSeq
+    })
+      .then(res => console.log(res.data.message))
+      .catch(err => console.log(err))
+  }
 
   return (
     <div>
@@ -36,7 +49,7 @@ export default function CancelDialog({ReservationManage, modalClose}) {
         <DialogActions>
           <Button 
             onClick={() => {
-              dispatch(cancel(ReservationManage.id));
+              cancelReservation(ReservationManage.id);
               modalClose();
               handleClose();
             }}

@@ -46,7 +46,7 @@ const validationSchema = [
       .string()
       .matches(
         /^(0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4]))-(\d{3,4})-(\d{4})$/,
-        "전화번호 형식에 맞게 입력해주세요."
+        "하이픈(-)을 포함한 전화번호를 입력해주세요."
       )
       .required("병원 전화번호를 입력해주세요."),
     [pshomepage.name]: yup
@@ -54,8 +54,7 @@ const validationSchema = [
       .matches(
         /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/,
         "올바른 주소를 입력해주세요."
-      )
-      .required("병원 홈페이지 주소를 입력해주세요."),
+      ),
   }),
   yup.object().shape({
     [psdirector.name]: yup

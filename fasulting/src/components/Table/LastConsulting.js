@@ -14,46 +14,28 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useNavigate } from "react-router-dom";
 import Review from "../Modal/Review";
 
-const lastconsulting = [
+const preConsult = [
   {
-    user_email: "이메일",
-    ps_name: "아이디 병원",
-    ps_id: 1,
-    consulting_time: "2020.12.30 10시 25분",
-    sub_category_name: "쌍커풀",
-    sq_content: "소견 내용",
-    sq_estimate: "300만원",
-    //     "consulting_time" : "예약 시간",
-    //     "sub_category" : {
-    //         "sub_category_name" : "예약한 서브 카테고리 이름"
-    //
+    consultingSeq: 1,
+    psName: "김싸피병원",
+    estimate: 200,
+    subCategoryName: ["쌍커풀, 안검하수"],
+    date: "2023.01.23(월요일) 09시",
+    reviewed: false,
+    reported: false,
   },
   {
-    user_email: "이메일",
-    ps_name: "더페이스 병원",
-    ps_id: 2,
-    consulting_time: "2020.12.30 10시 25분",
-    sub_category_name: "안검하수",
-    sq_content: "소견 내용",
-    sq_estimate: "300만원",
-    //     "consulting_time" : "예약 시간",
-    //     "sub_category" : {
-    //         "sub_category_name" : "예약한 서브 카테고리 이름"
-    //
+    consultingSeq: 2,
+    psName: "장싸피병원",
+    estimate: 300,
+    subCategoryName: ["쌍커풀, 안검하수"],
+    date: "2023.01.20(금요일) 17시 30분",
+    reviewed: true,
+    reported: false,
   },
 ];
 
-// const useStyles = makeStyles({
-//   root: {
-//     "& .MuiTableCell-head": {
-//       color: "#72A1A6",
-//       fontWeight: "bold",
-//     },
-//   },
-// });
-
 export default function LastConsulting() {
-  // const classes = useStyles();
   const navigate = useNavigate();
 
   const pgEstimate = (id) => {
@@ -82,17 +64,17 @@ export default function LastConsulting() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {lastconsulting.map((lastconsult) => (
+            {preConsult.map((consult) => (
               <TableRow
-                key={lastconsult.ps_id}
+                key={consult.consultingSeq}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {lastconsult.ps_name}
+                  {consult.psName}
                 </TableCell>
-                <TableCell>{lastconsult.sq_estimate}</TableCell>
-                <TableCell>{lastconsult.sub_category_name}</TableCell>
-                <TableCell>{lastconsult.consulting_time}</TableCell>
+                <TableCell>{consult.estimate} 만원</TableCell>
+                <TableCell>{consult.subCategoryName.join(" ")}</TableCell>
+                <TableCell>{consult.date}</TableCell>
                 <TableCell>
                   <Button
                     variant="outlined"
@@ -101,7 +83,12 @@ export default function LastConsulting() {
                   >
                     리뷰작성
                   </Button>
-                  {ModalOpen && <Review ModalStateChange={ModalStateChange} />}
+                  {ModalOpen && (
+                    <Review
+                      ModalStateChange={ModalStateChange}
+                      consultingSeq={consult.consultingSeq}
+                    />
+                  )}
                 </TableCell>
                 <TableCell>
                   <Button
@@ -109,7 +96,7 @@ export default function LastConsulting() {
                     style={{ color: "white" }}
                     startIcon={<BorderColorIcon />}
                     onClick={() => {
-                      pgEstimate(lastconsult.ps_id);
+                      pgEstimate(consult.ps_id);
                     }}
                   >
                     견적상세

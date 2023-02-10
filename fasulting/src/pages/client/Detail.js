@@ -28,16 +28,16 @@ function Detail() {
     axiosAPi
       .get(`/main/ps-detail/${userData.userSeq}/${param.psSeq}`)
       .then((res) => {
-        //console.log("data", res.data);
         setDetailhospital(res.data.responseObj);
       });
     //병원 예약 테이블 조회
     axiosAPi.get(`/reservation/${param.psSeq}`).then((res) => {
-      console.log("res.data", res);
       setReshospital(res.data.responseObj);
     });
   }, []);
+
   console.log("reshospital", reshospital);
+  console.log("detail", detailhospital);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0}>
