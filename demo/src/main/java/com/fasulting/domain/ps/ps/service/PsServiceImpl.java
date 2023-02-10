@@ -523,9 +523,11 @@ public class PsServiceImpl implements PsService {
         Long psSeq = doctorDelReqDto.getPsSeq();
         Long doctorSeq = doctorDelReqDto.getDoctorSeq();
 
+        log.info(doctorSeq + " " + psSeq + " " + LocalDateTime.now());
+
         DoctorEntity doctor = doctorRepository.findById(doctorSeq).orElseThrow(() -> new NullPointerException());
 
-        log.info(doctor.toString());
+//        log.info(doctor.toString());
         if (doctor.getPs().getSeq() != psSeq) {
             return false;
         }
