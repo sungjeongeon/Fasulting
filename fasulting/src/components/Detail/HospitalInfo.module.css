@@ -24,3 +24,24 @@
 .bodyMargin {
   margin-left: 1.06rem;
 }
+
+.dayDiv {
+  display: flex;
+  margin: 0.63rem 0 0 1.25rem;
+  font-weight: 500;
+  font-size: 0.75rem;
+
+  color: #1d3124;
+}
+.dayDiv p {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.day {
+  margin-right: 0.63rem;
+}
+
+.redText {
+  color: #e64c3c;
+}

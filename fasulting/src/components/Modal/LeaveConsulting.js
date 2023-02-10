@@ -112,12 +112,12 @@ export default function LeaveConsulting({ leaveSession, reservationSeq, who }) {
                 확인해주세요.
               </DialogContentText>
             </DialogContent>
-            <DialogActions sx={{ mx: 3 }}>
+            <DialogActions sx={{ mx: 3, mt: 2, mb: 2 }}>
               <Button variant="text" onClick={handleClose} sx={{ mx: 3 }}>
                 돌아가기
               </Button>
               <Button variant="contained" onClick={clientLeave}>
-                제출
+                확인
               </Button>
             </DialogActions>
           </div>

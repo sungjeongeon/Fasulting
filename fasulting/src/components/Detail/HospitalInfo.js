@@ -5,19 +5,11 @@ import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import LinkIcon from "@mui/icons-material/Link";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { useEffect } from "react";
 
 function HospitalInfo({ detailhospital }) {
-  const hospital = {
-    ps_id: 1,
-    ps_address: "부산 강서구 녹산산단 335로 7, 송삼빌딩 1층",
-    ps_number: "02-547-0050",
-    ps_email: "id@idhospital.com",
-    ps_homepage: "https://www.idhospital.com/",
-    // 운영시간 데이터 형태 아직 ....
-    ps_time: "임시",
-    total_rating_result: 3.0,
-    total_rating_count: 30,
-  };
+  // console.log(detailhospital.defaultTime.values());
+
   const week = ["", "일", "월", "화", "수", "목", "금", "토"];
   const timeTable = [
     "9:00",
@@ -105,7 +97,7 @@ function HospitalInfo({ detailhospital }) {
           <LinkIcon color="primary" sx={{ fontSize: 28 }} />
           <p>
             {detailhospital.psHomepage
-              ? detailhospital.psHomepag
+              ? detailhospital.psHomepage
               : "홈페이지 주소가 존재하지 않습니다."}
           </p>
         </div>
@@ -114,15 +106,15 @@ function HospitalInfo({ detailhospital }) {
           <p>운영 시간</p>
         </div>
         <p>
-          {/* {detailhospital.defaultTime &&
-            detailhospital.defaultTime.map((time) => {
+          {detailhospital.defaultTime &&
+            Object.values(detailhospital.defaultTime).map((time, index) => {
               return (
-                <div className={styles.dayDiv} key={time.key}>
-                  <p className={styles.day}>{week[time.key]}</p>
+                <div className={styles.dayDiv} key={index}>
+                  <p className={styles.day}>{week[index + 1]}</p>
                   {getTimeString(time)}
                 </div>
               );
-            })} */}
+            })}
         </p>
       </div>
     </div>
