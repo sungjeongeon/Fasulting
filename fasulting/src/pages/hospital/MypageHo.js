@@ -44,7 +44,7 @@ function MypageHo() {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0}>
         {/* 프로필(배경) 이미지 */}
-        <BackgroundImage />
+        <BackgroundImage hospital={hospital}/>
         <Grid xs={12} style={{ height: "15rem" }}></Grid>
         <Grid xs={9}>
           <ProfileImageUpdate name={hospital.psName} profileImg={hospital.psProfileImg}/>

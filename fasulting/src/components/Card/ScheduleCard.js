@@ -152,9 +152,9 @@ const Appointment = ({
     // const resSeq = useSelector(state => state.)
     const resSeq = 1
     // loading 처리
-    // const [loading, setLoading] = useState(true)
     // // axios 요청으로 데이터 들고오기
-    const [allAppointments, setAllAppointments] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [allAppointments, setAllAppointments] = useState([]) // 기존 전체 
     const [operatingTime, setOperatingTime] = useState([])
     useEffect(() => {
       axiosAPi.get(`/ps-reservation/post/${resSeq}`)
@@ -163,6 +163,7 @@ const Appointment = ({
           setAllAppointments(res.data.responseObj.reservation)
           setOperatingTime(res.data.responseObj.operatingTime)
         })
+        .then(setLoading(false))
         .catch(err => console.log(err))
     }, [])
 
@@ -182,20 +183,12 @@ const Appointment = ({
     // const [appointments, setAppointments] = useState()
     // console.log(appointments)
 
+    console.log(appointments)
 
-    const dispatch = useDispatch()
-    // 모든 appointment 리덕스에 추가
-    useEffect(() => {
-      console.log(appointments)
-      // dispatch(update(appointments))
-    }, [])
 
-    // 리덕스로부터 들고온 appointments로 렌더링
-    const appointmentsRedux = useSelector(state => state.appointments.appointmentList)
-    // console.log(appointmentsRedux)
 
     return (
-      // loading ? <div></div> :
+      loading ? <div></div> :
     <Paper sx={{marginY: "2rem"}}>
       <Scheduler data={appointments} height={'auto'}>
         <ViewState

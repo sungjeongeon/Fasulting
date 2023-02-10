@@ -24,6 +24,7 @@ function EstimateHocard() {
   // console.log(estimate)
   
   return (
+    estimate.loading ? <div></div> :
     <Card sx={{ width: 330, marginLeft: '4rem'}}>
       <CardContent sx={{ width: '92%', margin: 'auto'}}>
         <Typography variant="h5" component="div" fontWeight={"bold"} sx={{ marginTop: '0.7rem'}}>

@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import axiosAPi from '../../api/axiosApi';
 
-export default function AddCategory({ModalStateChange, ctg_list}) {
+export default function AddCategory({ModalStateChange, ctg_list, setUpdateCtg}) {
   // 카테고리 데이터 생성 
   const categorylists = [
     {
@@ -89,7 +89,7 @@ export default function AddCategory({ModalStateChange, ctg_list}) {
       "seq": psSeq,
       "subCategoryList": copyCtg,
     })
-    .then(res => console.log(res.data))
+    .then(setUpdateCtg(copyCtg))
     .catch(err => console.log(err))
   }
 

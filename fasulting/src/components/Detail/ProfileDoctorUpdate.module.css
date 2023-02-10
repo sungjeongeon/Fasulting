@@ -29,6 +29,7 @@
   display: flex;
   position: relative;
   margin-left: 1.25rem;
+  flex-wrap: wrap;
 }
 
 .deleteBtn {

@@ -7,9 +7,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axiosAPi from '../../api/axiosApi';
 
-export default function DeleteDialog({DialogStateChange, doctorId}) {
+export default function DeleteDialog({ DialogStateChange, doctorId, doctorList, setDoctorList }) {
   const [open, setOpen] = React.useState(true);
+  console.log(doctorId)
 
+  const newList = doctorList.filter((doctor) => doctor.doctorSeq !== Number(doctorId))
+  
   const handleClose = () => {
     setOpen(false);
   };
@@ -23,9 +26,13 @@ export default function DeleteDialog({DialogStateChange, doctorId}) {
         "doctorSeq": doctorId
       }
     })
-    .then(res => console.log(res.data.message))
+    .then((res) => {
+      console.log(res)
+      setDoctorList(newList)
+    })
     .catch(err => console.log(err))
   }
+
 
   return (
     <div>

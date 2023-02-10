@@ -7,6 +7,9 @@ import AddDoctor from "../Modal/AddDoctor"
 import DeleteDialog from "../Dialog/DeleteDialog";
 
 function ProfileDoctorUpdate({ doctors }) {
+  const [doctorList, setDoctorList] = useState(doctors)
+
+
   // 의사 등록 모달창
   const [ModalOpen, setModalOpen] = useState(false)
   const ModalStateChange = () => setModalOpen((current) => !current)
@@ -31,12 +34,15 @@ function ProfileDoctorUpdate({ doctors }) {
         {ModalOpen && 
         <AddDoctor 
           ModalStateChange={ModalStateChange}
+          doctorList={doctorList}
+          setDoctorList={setDoctorList}
+          // updateDoctor={updateDoctor}
         />}
       </div>
       {/* 의사 카드 리스트 */}
       <div className={styles.cardList}>
-        {doctors.map((doc) => (
-          <div key={doc.doctorSeq}>
+        {doctorList.map((doc, index) => (
+          <div key={index}>
             <DoctorCard name={doc.name} main_category={doc.mainCategoryName} profileImg={doc.profileImg}/>
             <button
               value={doc.doctorSeq}
@@ -47,7 +53,13 @@ function ProfileDoctorUpdate({ doctors }) {
             </button>
           </div>
         ))}
-        {dialogOpen && <DeleteDialog DialogStateChange={DialogStateChange} doctorId={doctorId}/>}
+        { dialogOpen && 
+          <DeleteDialog
+            DialogStateChange={DialogStateChange}
+            doctorId={doctorId}
+            doctorList={doctorList}
+            setDoctorList={setDoctorList}
+          />}
       </div>
       <hr />
     </div>

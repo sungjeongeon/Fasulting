@@ -5,6 +5,10 @@ import Button from "@mui/material/Button";
 import AddCategory from "../Modal/AddCategory";
 
 function ProfileSubCategoryUpdate({ ctg_list }) {
+  // useState로 재렌더링 수정해보기
+  const [updateCtg, setUpdateCtg] = useState(ctg_list)
+
+
   const [modal, setModal] = useState(false);
   const onClick = (e) => {
     setModal((current) => !current);
@@ -23,11 +27,12 @@ function ProfileSubCategoryUpdate({ ctg_list }) {
         {modal && 
         <AddCategory 
           ModalStateChange={onClick}
-          ctg_list={ctg_list}
+          ctg_list={updateCtg}
+          setUpdateCtg={setUpdateCtg}
         />}
       </div>
       <div className={styles.subDiv}>
-        {ctg_list.map((sub, index) => {
+        {updateCtg.map((sub, index) => {
           return (
             <button key={index} className={styles.subCategory}>
               <TagIcon sx={{ fontSize: 12 }} /> {sub}

@@ -16,10 +16,13 @@ function ProfileUpdateForm({ title, content }) {
     // isEditing === true 일 때만 api 요청 (내용 update)
     if (isEditing === true) {
       if (title === "주소") {
-        axiosAPi.put('/ps/address', JSON.stringify({
+        axiosAPi.put('/ps/address', {
             "seq": psSeq,
             "address": newContent,
-        }))
+        }, {
+          headers: { "Content-Type": "application/json" }
+        }
+        )
         .then(res => console.log(res.data.message))
         .catch(err => console.log(err))
 
@@ -28,7 +31,7 @@ function ProfileUpdateForm({ title, content }) {
           "seq": psSeq,
           "intro": newContent,
         }, {
-          headers: { "Content-Type": "application/json;charset=UTF-8" }
+          headers: { "Content-Type": "application/json" }
         }
         )
         .then(res => console.log(res.data.message))
@@ -37,14 +40,20 @@ function ProfileUpdateForm({ title, content }) {
           axiosAPi.put('/ps/number', {
             "seq": psSeq,
             "number": newContent
-          })
+          }, {
+            headers: { "Content-Type": "application/json" }
+          }
+          )
           .then(res => console.log(res.data.message))
           .catch(err => console.log(err))
         } else if (title === "홈페이지") {
             axiosAPi.put('/ps/homepage', {
               "seq": psSeq,
               "homepage": newContent
-            })
+            }, {
+              headers: { "Content-Type": "application/json" }
+            }
+            )
             .then(res => console.log(res.data.message))
             .catch(err => console.log(err))
           }

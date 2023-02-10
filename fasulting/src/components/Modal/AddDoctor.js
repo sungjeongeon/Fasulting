@@ -6,14 +6,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import axiosAPi from "../../api/axiosApi";
 
 
-function AddDoctor({ModalStateChange}) {
+function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
   const basicsrc = "../../assets/images/doctorBasic.png"
   const [docName, setDocName] = useState('')
   const [mainCtg, setMainCtg] = useState('')
   // 미리보기 위한 src
   const [imgSrc, setImgSrc] = useState('')
   // img 파일 객체 (서버에 보내줄 것)
-  const [imgFile, setImgFile] = useState([])
+  const [imgFile, setImgFile] = useState(null)
 
   // 의사 input value
   const onChange = (e) => {
@@ -22,15 +22,16 @@ function AddDoctor({ModalStateChange}) {
 
   // 파일 객체 state에 저장 + 이미지 미리보기 위한 url state 변경 
   const saveImage = (e) => {
+  // if (e.target.files) {
     const uploadImg = e.target.files[0]
     // console.log(e.target.files[0])
     setImgFile(uploadImg)
     setImgSrc(URL.createObjectURL(uploadImg))
+  // }
   }
 
   const deleteImgSrc = (e) => {
     URL.revokeObjectURL(imgSrc);
-    setImgSrc("");
   }
   
   const prevent = (e) => {
@@ -38,7 +39,7 @@ function AddDoctor({ModalStateChange}) {
   }
   // 병원 임시 id
   const psSeq = 1
-  // console.log(psSeq, docName, mainCtg, imgFile)
+  console.log(psSeq, docName, mainCtg, imgFile)
   const addDoctor = async () => {
     const formData = new FormData();
     formData.append("psSeq", psSeq)
@@ -57,6 +58,16 @@ function AddDoctor({ModalStateChange}) {
       console.log(e)
     }
   }
+
+  // 재렌더링 할 수 있도록
+  console.log(doctorList)
+  const newDoc = {
+    name: docName,
+    profileImg: imgSrc,
+    mainCategoryName: mainCtg
+  }
+  
+
 
   return (
     <div className={styles.background}>
