@@ -8,11 +8,10 @@ import ReviewReport from "../Modal/ReviewReport";
 
 function ReviewInfo({ detailhospital }) {
   // 별점 평균
-  const totalScore = detailhospital.reviewTotalCount
-    ? 0.0
-    : detailhospital.reviewTotalCount;
+  const totalScore = detailhospital.totalRatingResult;
 
   console.log("totalScore", totalScore);
+  console.log("detail", detailhospital);
   // 총 리뷰 개수
   const totalCount = 100;
   const tempdata = [
@@ -66,7 +65,7 @@ function ReviewInfo({ detailhospital }) {
             <div className={styles.star}>
               <Rating
                 name="half-rating"
-                defaultValue={totalScore}
+                value={totalScore}
                 precision={0.1}
                 size="large"
                 readOnly

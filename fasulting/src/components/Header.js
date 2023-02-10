@@ -12,7 +12,7 @@ function Header() {
 
   const [is_login, setIsLogin] = useState(false);
   const userData = useSelector((store) => store.user);
-  console.log(userData);
+  //console.log(userData);
   useEffect(() => {
     if (userData.userSeq) {
       setIsLogin(true);

@@ -13,6 +13,7 @@ import ReserveCardTimeItem from "./ReserveCardTimeItem";
 import MainCategoryListSmall from "../Category/MainCategoryListSmall";
 import ReserveCardCategoryItem from "./ReserveCardCategoryItem";
 import Reservation from "../Modal/Reservation";
+import Detail from "../../pages/client/Detail";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -171,7 +172,10 @@ export default function ReserveCard({ reshospital }) {
           <Typography>상담 항목</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ReserveCardCategoryItem getConsultItem={getConsultItem} />
+          <ReserveCardCategoryItem
+            getConsultItem={getConsultItem}
+            categoryList={reshospital.mainCategoryList}
+          />
         </AccordionDetails>
       </Accordion>
       <div className={styles.margin}>
@@ -217,7 +221,7 @@ export default function ReserveCard({ reshospital }) {
             dayOfWeek={dayOfWeek}
             time={hour}
             beforeImg={img}
-            subCategory={consultItem}
+            consultItem={consultItem}
             ModalStateChange={ModalStateChange}
           />
         )}

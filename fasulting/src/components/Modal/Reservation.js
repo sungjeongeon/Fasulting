@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Reservation(props) {
+  //console.log("reserve consult", props.consultItem);
   const navigate = useNavigate();
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const timetable = [
@@ -127,8 +128,8 @@ function Reservation(props) {
     formData.append("dayOfWeek", props.dayOfWeek); //숫자로
     formData.append("time", props.time); //숫자로
     formData.append("beforeImg", props.beforeImg);
-    for (let i = 0; i < props.subCategory.length; i++) {
-      formData.append("subCategory", props.subCategory[i].subSeq);
+    for (let i = 0; i < props.consultItem.sub.length; i++) {
+      formData.append("subCategory", props.consultItem.sub[i]);
     }
 
     //formData.append("subCategory", [1, 2]);
@@ -141,7 +142,7 @@ function Reservation(props) {
         },
         withCredentials: false,
       });
-      props.ModalStateChange();
+      //props.ModalStateChange();
       toast.success(
         <h3>
           예약이 완료되었습니다.
@@ -170,7 +171,7 @@ function Reservation(props) {
     }
   };
 
-  console.log("sub", props.subCategory);
+  //console.log("sub", props.consultItem);
   return (
     <>
       <ToastContainer />
@@ -195,11 +196,11 @@ function Reservation(props) {
                 상담 항목
               </p>
               <div>
-                {props.subCategory.sub.map((sub, index) => {
+                {props.consultItem.subName.map((subname, index) => {
                   return (
                     <div key={index}>
                       <span className={styles.color}>#</span>
-                      <span className={styles.mx}>{sub}</span>
+                      <span className={styles.mx}>{subname}</span>
                     </div>
                   );
                 })}

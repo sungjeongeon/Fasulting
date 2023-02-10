@@ -5,6 +5,8 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import TagIcon from "@mui/icons-material/Tag";
 import { IconButton } from "@mui/material";
+import axiosAPi from "../../api/axiosApi";
+import { useSelector } from "react-redux";
 
 function SimpleInfo({ detailhospital }) {
   // const ps_name = "더성형외과의원";
@@ -25,9 +27,24 @@ function SimpleInfo({ detailhospital }) {
   // ];
   // console.log(detailhospital);
   // liked(좋아요 상태) t/f
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(detailhospital.favoriate);
+  const userData = useSelector((state) => state.user);
   const onClick = () => {
-    setLiked((current) => !current);
+    if (!liked) {
+      axiosAPi
+        .post("favorite", {
+          userSeq: userData.userSeq,
+          psSeq: detailhospital.psSeq,
+        })
+        .then((res) => setLiked((current) => !current));
+    } else {
+      axiosAPi
+        .delete("favorite", {
+          userSeq: userData.userSeq,
+          psSeq: detailhospital.psSeq,
+        })
+        .then((res) => setLiked((current) => !current));
+    }
   };
 
   return (

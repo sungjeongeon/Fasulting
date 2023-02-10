@@ -90,17 +90,6 @@ export default function LoginForm() {
                     navigate("/");
                   }
                 }, 2000);
-              } else if (res.data.message === "fail") {
-                toast.success(
-                  <h3>
-                    아이디나 비밀번호가 <br />
-                    존재하지 않습니다 !{" "}
-                  </h3>,
-                  {
-                    position: toast.POSITION.TOP_CENTER,
-                    autoClose: 2000,
-                  }
-                );
               }
             });
           } catch (e) {
