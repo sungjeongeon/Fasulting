@@ -84,6 +84,8 @@ public class MainController {
     @GetMapping("/ps-detail/{userSeq}/{psSeq}")
     public ResponseEntity<?> getPsDetail(@PathVariable Long userSeq, @PathVariable Long psSeq) {
 
+        log.info("getPsDetail - call");
+
         PsDetailRespDto resp = mainService.getPsDetail(userSeq, psSeq);
 
         if (resp != null) {
