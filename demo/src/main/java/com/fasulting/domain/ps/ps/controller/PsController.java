@@ -251,11 +251,11 @@ public class PsController {
     @ApiOperation(value = "의사 추가", notes = "ps seq, 의사 정보 받아 추가")
     public ResponseEntity<?> addDoctor(@ModelAttribute @ApiParam(value = "병원 seq, 의사 정보(doctor seq, 이미지 | 이름, 전문 분야)", required = true) DoctorReqDto doctor) {
         log.info("ps add Doctor - Call");
+        log.info(doctor.toString());
 
         psService.addDoctor(doctor);
 
         return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-
     }
 
     /**

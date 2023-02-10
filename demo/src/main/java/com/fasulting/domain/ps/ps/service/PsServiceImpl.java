@@ -628,7 +628,6 @@ public class PsServiceImpl implements PsService {
     @Transactional
     public boolean addDoctor(DoctorReqDto doctor) {
         // 파일
-        MultipartFile imgFile = doctor.getImg();
 
         PsEntity ps = psRepository.findById(doctor.getPsSeq()).orElseThrow(() -> {
             throw new NullPointerException();
@@ -642,7 +641,7 @@ public class PsServiceImpl implements PsService {
         if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
-            doctorImgUrl = FileManage.uploadFile(imgFile, uuid, doctorImgPath);
+            doctorImgUrl = FileManage.uploadFile(doctorImgFile, uuid, doctorImgPath);
         }
 
         DoctorEntity doc = DoctorEntity.builder().ps(ps)
