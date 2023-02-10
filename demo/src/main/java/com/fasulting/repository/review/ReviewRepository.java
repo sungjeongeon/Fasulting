@@ -26,7 +26,7 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     List<ReviewEntity> findAllByPsSeq(@Param("psSeq") Long psSeq);
 
     @Query("SELECT r " + "FROM ReviewEntity r " +
-            "WHERE r.ps.seq = :userSeq " +
+            "WHERE r.user.seq = :userSeq " +
             "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" +
             "AND ( r.decYn LIKE 'N' OR r.decYn IS NULL )")
     List<ReviewEntity> findAllByUserSeq(@Param("userSeq") Long userSeq);
