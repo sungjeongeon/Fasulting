@@ -23,7 +23,7 @@ public class JwtTokenProvider {
     private String secretKey = "myprojectsecret";
 
     // 토큰 유효시간 30분
-    private final long ACCESS_TOKEN_VALID_TIME = 30 * 60 * 1000L;
+    private final long ACCESS_TOKEN_VALID_TIME = 1 * 10 * 1000L;
     // refresh 토큰 유효시간 하루
     private final long REFRESH_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000L;
 

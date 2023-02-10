@@ -83,7 +83,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         log.info("getReservationTable Service Call");
 
-        PsEntity ps = psRepository.findById(psSeq).orElseThrow( () -> new NullPointerException());
+        PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> new NullPointerException());
 
         // 예약 가능 시간 테이블 조회, 오늘 포함 일주일 (총 7일)
         LocalDateTime post = current.plusDays(6);
@@ -107,7 +107,7 @@ public class ReservationServiceImpl implements ReservationService {
             LocalDateTime date = String2Date.string2Date(Date2String.date2ParseString(year, month, day, HH, mm));
             current = current.plusHours(2);
 
-            if(date.isBefore(current)){
+            if (date.isBefore(current)) {
                 continue;
             }
 
@@ -149,7 +149,7 @@ public class ReservationServiceImpl implements ReservationService {
             List<SubCategoryEntity> subList = psMainSubRepository.findAllByMainCategoryAndPs(main.getSeq(), ps.getSeq());
             List<SubCategoryRespDto> sList = new ArrayList<>();
 
-            for(SubCategoryEntity sub : subList){
+            for (SubCategoryEntity sub : subList) {
                 SubCategoryRespDto s = SubCategoryRespDto.builder()
                         .mainSeq(main.getSeq())
                         .subSeq(sub.getSeq())
@@ -302,6 +302,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     /**
      * 과거 예약(상담 내역) 조회
+     *
      * @param userSeq
      * @return
      */
@@ -326,7 +327,7 @@ public class ReservationServiceImpl implements ReservationService {
             boolean isReported = false;
 
 
-            if(reportRepository.findByConsulting(c).isPresent()) {
+            if (reportRepository.findByConsulting(c).isPresent()) {
                 estimate = reportRepository.findByConsulting(c).get().getEstimate();
                 isReported = true;
             }
@@ -457,67 +458,61 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReportRespDto getReport(Long userSeq, Long consultingSeq) {
 
-        log.info("getReport - call");
+        log.info("getReport Service - Call");
 
-        if (consultingRepository.findById(consultingSeq).isPresent()) {
+        ConsultingEntity c = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
-            ConsultingEntity c = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
-                throw new NullPointerException();
-            });
-
-            if (c.getUser().getSeq() != consultingSeq) {
-                return null;
-            }
-
-            // 병원
-            PsEntity ps = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
-                throw new NullPointerException();
-            }).getPs();
-
-            // 병원 운영시간
-            List<PsDefaultEntity> psDefaultList = psDefaultRepository.findAllByPsSeq(ps.getSeq());
-
-            Map<Integer, List<Integer>> map = new HashMap<>();
-
-            for (int i = 1; i <= 7; i++) {
-                map.put(i, new ArrayList<>()); // 1: 일요일 ~ 7 : 토요일
-            }
-
-            for (PsDefaultEntity psDefault : psDefaultList) {
-                int dayOfWeek = psDefault.getDefaultCal().getDayOfWeek();
-                int time = psDefault.getTime().getNum();
-
-                List<Integer> value = map.get(dayOfWeek);
-
-                value.add(time);
-                map.put(dayOfWeek, value);
-
-            }
-
-            // 소견서 내용
-            ReportEntity report = reportRepository.findByConsulting(c).orElseThrow(() -> {
-                throw new NullPointerException();
-            });
-
-            ReportRespDto respDto = ReportRespDto.builder()
-                    .psSeq(ps.getSeq())
-                    .psAddress(ps.getAddress())
-                    .psName(ps.getName())
-                    .psEmail(ps.getEmail())
-                    .psHomepage(ps.getHomepage())
-                    .psNumber(ps.getNumber())
-                    .defaultTime(map)
-                    .beforeImgPath(domain + report.getBeforeImgPath())
-                    .afterImgPath(domain + report.getAfterImgPath())
-                    .content(report.getContent())
-                    .estimate(report.getEstimate())
-                    .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
-                    .build();
-
-            return respDto;
+        if (c.getUser().getSeq() != userSeq) {
+            return null;
         }
 
+        // 병원
+        PsEntity ps = c.getPs();
 
-        return null;
+        // 병원 운영시간
+        List<PsDefaultEntity> psDefaultList = psDefaultRepository.findAllByPsSeq(ps.getSeq());
+
+        Map<Integer, List<Integer>> map = new HashMap<>();
+
+        for (int i = 1; i <= 7; i++) {
+            map.put(i, new ArrayList<>()); // 1: 일요일 ~ 7 : 토요일
+        }
+
+        for (PsDefaultEntity psDefault : psDefaultList) {
+            int dayOfWeek = psDefault.getDefaultCal().getDayOfWeek();
+            int time = psDefault.getTime().getNum();
+
+            List<Integer> value = map.get(dayOfWeek);
+
+            value.add(time);
+            map.put(dayOfWeek, value);
+
+        }
+
+        // 소견서 내용
+        ReportEntity report = reportRepository.findByConsulting(c).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+
+        ReportRespDto respDto = ReportRespDto.builder()
+                .psSeq(ps.getSeq())
+                .psAddress(ps.getAddress())
+                .psName(ps.getName())
+                .psEmail(ps.getEmail())
+                .psHomepage(ps.getHomepage())
+                .psNumber(ps.getNumber())
+                .defaultTime(map)
+                .beforeImgPath(domain + report.getBeforeImgPath())
+                .afterImgPath(domain + report.getAfterImgPath())
+                .content(report.getContent())
+                .estimate(report.getEstimate())
+                .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
+                .build();
+
+        return respDto;
+
+
     }
 }

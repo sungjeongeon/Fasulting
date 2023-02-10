@@ -37,23 +37,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 헤더에서 JWT 를 받아옵니다.
         String token = jwtService.resolveToken(request);
 
-        // 이미 사용된 토큰이 들어오는 경우
-        if(token != null && !jwtService.isBlockedToken(request, token)){
-            throw new UnAuthorizedException();
-        }
-        // access 토큰이 존재하지만 유효하지 않을 때
-        if(token != null && !jwtService.isValidToken(token)){
-            throw new UnAuthorizedException();
-        }
+
         // access 토큰이 만료되기 전일 때
-        if (token != null && jwtService.isExpiredToken(token)) {
+        if (token != null && jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
+                !jwtService.isBlockedToken(request, token)) {
             // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
             Authentication authentication = jwtService.getAuthentication(token);
             // SecurityContext 에 Authentication 객체를 저장합니다.
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         // access 토큰이 만료되었을 때
-        else if(token != null && !jwtService.isExpiredToken(token)){
+        else if(token != null && !jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
+                !jwtService.isBlockedToken(request, token)){
             // 쿠키에 저장된 refreshToken
             String refreshToken = getRefreshToken(request);
             // 쿠키에 저장된 refreshToken 유효성 확인으로 새로운 accessToken 생성
@@ -65,9 +60,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // SecurityContext 에 Authentication 객체를 저장합니다.
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 response.addHeader("Authorization", newAccessToken);
-            }
-            else {
-                throw new UnAuthorizedException();
             }
         }
 
