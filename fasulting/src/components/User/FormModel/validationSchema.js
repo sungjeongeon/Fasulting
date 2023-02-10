@@ -41,7 +41,7 @@ const validationSchema = [
     [psname.name]: yup.string().required("병원명을 입력해주세요."),
     [psprofile.name]: yup.string(),
     [psintro.name]: yup.string(),
-    [psaddress.name]: yup.string(),
+    [psaddress.name]: yup.string().required("병원 주소를 입력해주세요."),
     [psnumber.name]: yup
       .string()
       .matches(

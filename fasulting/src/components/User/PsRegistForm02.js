@@ -9,23 +9,25 @@ export default function PsRegistForm01(props) {
     formField: { psname, psprofile, psintro, psaddress, psnumber, pshomepage },
   } = props;
 
-  //주소 검색 API 열기
-  const [isOpen, setIsOpen] = useState(false);
-  //주소 검색 열고 닫기
-  const onToggleModal = () => {
-    setIsOpen((prev) => !prev);
-  };
-  //선택한 주소 관리
-  const [psAddress, setpsAddress] = useState({
-    address: "",
-  });
-  //INPUT에 주소 넣기 위해
-  const handleInput = (e) => {
-    setpsAddress({
-      ...psAddress,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // //주소 검색 API 열기
+  // const [isOpen, setIsOpen] = useState(false);
+  // //주소 검색 열고 닫기
+  // const onToggleModal = () => {
+  //   setIsOpen((prev) => !prev);
+  // };
+  // //선택한 주소 관리
+  // const [psAddress, setpsAddress] = useState({
+  //   address: "",
+  // });
+  // //INPUT에 주소 넣기 위해
+  // const handleInput = (e) => {
+  //   setpsAddress({
+  //     ...psAddress,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
+  // console.log(psAddress);
 
   // const fileInput = React.useRef(null);
   // //파일 업로드 버튼
@@ -64,26 +66,33 @@ export default function PsRegistForm01(props) {
         />
       </div>
       <div className={styles.inputItem}>
-        <div className={styles.label}>병원 주소 (선택)</div>
+        <div className={styles.label}>병원 주소</div>
+        <InputField
+          fullWidth
+          placeholder="병원 주소를 입력해주세요"
+          name={psaddress.name}
+        />
+      </div>
+      {/* <div className={styles.inputItem}>
+        <div className={styles.label}>병원 주소 </div>
         {isOpen && (
           <DaumPost
             onToggleModal={onToggleModal}
             address={psAddress}
-            setpsAddress={setpsAddress}
+            setAddress={setpsAddress}
           />
         )}
         <InputField
           fullWidth
           placeholder="병원 주소를 입력해주세요."
           name={psaddress.name}
-          onChange={handleInput}
-          value={psAddress.address}
+          value={psAddress}
           onClick={onToggleModal}
         />
         {/* <Button type="primary" onClick={onToggleModal}>
           주소 찾기
-        </Button> */}
-      </div>
+        </Button> *
+      </div> */}
       <div className={styles.inputItem}>
         <div className={styles.label}>병원 전화번호</div>
         <InputField
@@ -93,10 +102,10 @@ export default function PsRegistForm01(props) {
         />
       </div>
       <div className={styles.inputItem}>
-        <div className={styles.label}>병원 홈페이지 주소</div>
+        <div className={styles.label}>병원 홈페이지URL (선택)</div>
         <InputField
           fullWidth
-          placeholder="병원 홈페이지 주소를 입력해주세요."
+          placeholder="병원 홈페이지URL을 입력해주세요."
           name={pshomepage.name}
         />
       </div>

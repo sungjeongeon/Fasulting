@@ -89,3 +89,6 @@ input[type="radio"]:checked:after {
   align-items: center;
   margin-right: 20px;
 }
+
+addressStyle {
+}

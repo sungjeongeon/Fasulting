@@ -16,7 +16,7 @@ export default function PsRegistForm03(props) {
 
   // 카테고리 등록 모달창
   const [modal, setModal] = useState(false);
-  const onClick = (e) => {
+  const onClick = () => {
     setModal((current) => !current);
   };
 
@@ -31,6 +31,11 @@ export default function PsRegistForm03(props) {
     },
   } = props;
 
+  const [resimg, setResimg] = useState([]);
+  const changeImg = (e) => {
+    setResimg(e.target.files[0]);
+    console.log(resimg);
+  };
   const ctg_list = []; //ctg_list 빈 배열
   return (
     <>
@@ -63,6 +68,7 @@ export default function PsRegistForm03(props) {
           //   //props.setFieldValue(event.currentTarget.files[0]);
           // }}
           type="file"
+          onChange={changeImg}
           name={psregistrationimg.name}
         />
       </div>

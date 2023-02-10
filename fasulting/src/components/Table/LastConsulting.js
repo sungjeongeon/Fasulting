@@ -65,52 +65,56 @@ export default function LastConsulting({ preConsult }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {preConsult.map((consult) => (
-              <TableRow
-                key={consult.consultingSeq}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="center" component="th" scope="row">
-                  {consult.psName}
-                </TableCell>
-                <TableCell align="center">{consult.estimate} 만원</TableCell>
-                <TableCell align="center">
-                  {consult.subCategoryName.join(" ")}
-                </TableCell>
-                <TableCell align="center">{consult.date}</TableCell>
-                <TableCell align="center">
-                  <Button
-                    variant="outlined"
-                    startIcon={<AssignmentIcon />}
-                    onClick={() => {
-                      ModalStateChange();
-                      setSelectedConsultSeq(consult.consultingSeq);
-                    }}
-                    disabled={consult.reviewed ? true : false}
-                  >
-                    리뷰작성
-                  </Button>
-                  {ModalOpen && (
-                    <Review
-                      ModalStateChange={ModalStateChange}
-                      consultingSeq={selectedConsultSeq}
-                    />
-                  )}
-                </TableCell>
-                <TableCell align="center">
-                  <Button
-                    variant="contained"
-                    style={{ color: "white" }}
-                    startIcon={<BorderColorIcon />}
-                    onClick={() => {
-                      pgEstimate(consult.consultingSeq);
-                    }}
-                  >
-                    견적상세
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {preConsult ? (
+              preConsult.map((consult) => (
+                <TableRow
+                  key={consult.consultingSeq}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="center" component="th" scope="row">
+                    {consult.psName}
+                  </TableCell>
+                  <TableCell align="center">{consult.estimate} 만원</TableCell>
+                  <TableCell align="center">
+                    {consult.subCategoryName.join(" ")}
+                  </TableCell>
+                  <TableCell align="center">{consult.date}</TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="outlined"
+                      startIcon={<AssignmentIcon />}
+                      onClick={() => {
+                        ModalStateChange();
+                        setSelectedConsultSeq(consult.consultingSeq);
+                      }}
+                      disabled={consult.reviewed ? true : false}
+                    >
+                      리뷰작성
+                    </Button>
+                    {ModalOpen && (
+                      <Review
+                        ModalStateChange={ModalStateChange}
+                        consultingSeq={selectedConsultSeq}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="contained"
+                      style={{ color: "white" }}
+                      startIcon={<BorderColorIcon />}
+                      onClick={() => {
+                        pgEstimate(consult.consultingSeq);
+                      }}
+                    >
+                      견적상세
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <h5>지난 예약이 존재하지 않습니다.</h5>
+            )}
           </TableBody>
         </Table>
       </TableContainer>

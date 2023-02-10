@@ -80,13 +80,13 @@ export default function PsRegist() {
     formData.append("intro", values.psintro); //null 가능
     formData.append("registrationImg", values.psregistrationimg);
     formData.append("profileImg", values.profileImg); //null 가능
-    // for (var key of formData.keys()) {
-    //   console.log(key);
-    // }
+    for (var key of formData.keys()) {
+      console.log(key);
+    }
 
-    // for (var value of formData.values()) {
-    //   console.log(value);
-    // }
+    for (var value of formData.values()) {
+      console.log(value);
+    }
     try {
       await axiosAPi.post("/ps/regist", {
         headers: {
