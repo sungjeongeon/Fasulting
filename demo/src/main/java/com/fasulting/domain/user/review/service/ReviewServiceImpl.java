@@ -91,7 +91,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public List<ReviewRespDto> getReviewList(Long userSeq) {
-        
+
         log.info(userSeq + "");
 
         // 리뷰

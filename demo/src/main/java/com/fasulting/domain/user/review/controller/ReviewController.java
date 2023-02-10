@@ -45,6 +45,8 @@ public class ReviewController {
     @GetMapping("/{userSeq}")
     public ResponseEntity<?> getReviewList(@PathVariable Long userSeq) {
 
+        log.info("getReviewList - call");
+
         List<ReviewRespDto> resp = reviewService.getReviewList(userSeq);
 
         if(!resp.isEmpty()){
