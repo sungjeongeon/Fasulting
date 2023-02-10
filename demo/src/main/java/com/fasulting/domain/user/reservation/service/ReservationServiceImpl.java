@@ -110,7 +110,7 @@ public class ReservationServiceImpl implements ReservationService {
 //            current = current.plusHours(2);
 
 
-            log.info(current.toString());
+//            log.info(current.toString());
             if (date.isBefore(current)) {
                 continue;
             }
