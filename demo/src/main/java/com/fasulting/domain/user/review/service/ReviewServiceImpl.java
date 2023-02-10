@@ -113,6 +113,8 @@ public class ReviewServiceImpl implements ReviewService{
             reviewRespDtoList.add(reviewRespDto);
         }
 
+        log.info(reviewRespDtoList.toString());
+
         return reviewRespDtoList;
     }
 }
