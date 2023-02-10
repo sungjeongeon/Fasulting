@@ -250,8 +250,10 @@ public class PsController {
     @PostMapping("/doctor")
     @ApiOperation(value = "의사 추가", notes = "ps seq, 의사 정보 받아 추가")
     public ResponseEntity<?> addDoctor(@ModelAttribute @ApiParam(value = "병원 seq, 의사 정보(doctor seq, 이미지 | 이름, 전문 분야)", required = true) DoctorReqDto doctor) {
-        log.info("ps add Doctor - Call");
-        log.info(doctor.toString());
+        log.info("ps add Doctor - Call" + doctor.toString());
+        if(doctor.getImg().isEmpty()) {
+            log.info("안오노");
+        }
 
         psService.addDoctor(doctor);
 

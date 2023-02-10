@@ -3,9 +3,11 @@ package com.fasulting.domain.ps.ps.dto.reqDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
+@ToString
 @ApiModel(value = "Doctor", description = "전문의 정보")
 public class DoctorReqDto {
 
