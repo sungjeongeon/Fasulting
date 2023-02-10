@@ -92,7 +92,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<PsOperatingEntity> psOperatingList = psOperatingRepository.getByPsSeqAndCurrent(psSeq, current, post);
 
+        log.info(current.toString());
         current = current.plusHours(2);
+        log.info(current.toString());
 
         for (PsOperatingEntity po : psOperatingList) {
 
@@ -107,10 +109,7 @@ public class ReservationServiceImpl implements ReservationService {
             int mm = po.getTime().getStartMin();
 
             LocalDateTime date = String2Date.string2Date(Date2String.date2ParseString(year, month, day, HH, mm));
-//            current = current.plusHours(2);
 
-
-//            log.info(current.toString());
             if (date.isBefore(current)) {
                 continue;
             }
