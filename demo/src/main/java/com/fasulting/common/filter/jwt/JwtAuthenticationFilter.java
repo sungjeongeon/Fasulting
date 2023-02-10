@@ -42,11 +42,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throw new UnAuthorizedException();
         }
         // access 토큰이 존재하지만 유효하지 않을 때
-        else if(token != null && !jwtService.isValidToken(token)){
+        if(token != null && !jwtService.isValidToken(token)){
             throw new UnAuthorizedException();
         }
         // access 토큰이 만료되기 전일 때
-        else if (token != null && jwtService.isExpiredToken(token)) {
+        if (token != null && jwtService.isExpiredToken(token)) {
             // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
             Authentication authentication = jwtService.getAuthentication(token);
             // SecurityContext 에 Authentication 객체를 저장합니다.

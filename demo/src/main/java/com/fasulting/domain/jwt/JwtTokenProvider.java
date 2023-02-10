@@ -108,10 +108,9 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
 
+            long min = (claims.getBody().getExpiration().getTime() - new Date().getTime()) / 6000L; // 분
 
-            long min = (claims.getBody().getExpiration().getTime() - new Date().getTime()) / 60000; // 분
-
-            return min > 30;
+            return min > 30L;
         } catch (ExpiredJwtException e) {
             return false;
         }
