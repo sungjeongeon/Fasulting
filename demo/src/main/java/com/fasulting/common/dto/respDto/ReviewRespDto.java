@@ -28,5 +28,7 @@ public class ReviewRespDto {
 
     private String content;
 
+    private String userName;
+
     private List<String> subCategoryName;
 }

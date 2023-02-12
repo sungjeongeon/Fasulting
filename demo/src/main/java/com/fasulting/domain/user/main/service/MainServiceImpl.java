@@ -195,7 +195,11 @@ public class MainServiceImpl implements MainService {
 
             ReviewRespDto reviewRespDto = ReviewRespDto.builder()
                     .reviewSeq(review.getSeq())
+                    .userSeq(review.getUser().getSeq())
                     .userEmail(review.getUser().getEmail())
+                    .userName(review.getUser().getName())
+                    .psSeq(review.getPs().getSeq())
+                    .psName(review.getPs().getName())
                     .point(review.getPoint())
                     .regDate(review.getRegDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                     .content(review.getContent())
