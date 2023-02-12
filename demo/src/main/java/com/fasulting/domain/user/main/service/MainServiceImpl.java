@@ -193,11 +193,13 @@ public class MainServiceImpl implements MainService {
 
         for(ReviewEntity review : reviewList){
 
+            String userName = review.getUser().getName();
+
             ReviewRespDto reviewRespDto = ReviewRespDto.builder()
                     .reviewSeq(review.getSeq())
                     .userSeq(review.getUser().getSeq())
                     .userEmail(review.getUser().getEmail())
-                    .userName(review.getUser().getName())
+                    .userName(userName.charAt(0) + userName.replaceAll("[^/]", "*").substring(1))
                     .psSeq(review.getPs().getSeq())
                     .psName(review.getPs().getName())
                     .point(review.getPoint())
