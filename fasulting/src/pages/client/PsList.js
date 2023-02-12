@@ -31,6 +31,7 @@ function PsList() {
     }
   };
 
+  //console.log(selectedSub);
   return (
     <div>
       <MainCategoryList />

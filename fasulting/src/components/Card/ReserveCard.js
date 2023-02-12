@@ -117,6 +117,7 @@ export default function ReserveCard({ reshospital }) {
 
   const getConsultItem = (i) => {
     setConsultItem(i);
+    setExpanded("panel3");
   };
 
   const getAgree = () => {
@@ -150,7 +151,11 @@ export default function ReserveCard({ reshospital }) {
       </div>
       {/* 시간 선택 구간 */}
       <Accordion
-        expanded={expanded === "panel1" || expanded === "panel2"}
+        expanded={
+          expanded === "panel1" ||
+          expanded === "panel2" ||
+          expanded === "panel3"
+        }
         onChange={handleChange("panel1")}
       >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
@@ -165,7 +170,7 @@ export default function ReserveCard({ reshospital }) {
       </Accordion>
       {/* 상담항목 선택 구간 */}
       <Accordion
-        expanded={expanded === "panel2"}
+        expanded={expanded === "panel2" || expanded === "panel3"}
         onChange={handleChange("panel2")}
       >
         <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
@@ -178,21 +183,33 @@ export default function ReserveCard({ reshospital }) {
           />
         </AccordionDetails>
       </Accordion>
-      <div className={styles.margin}>
-        {/* <p className={styles.ptag}>반드시 정면이 나온 사진을 첨부해주세요</p> */}
-        <label className={styles.inputfile} htmlFor="inputfile">
-          파일 선택
-        </label>
-        <input
-          type="file"
-          id="inputfile"
-          accept="image/jpg,impge/png,image/jpeg,image/gif"
-          name="profile_img"
-          onChange={onChange}
-          style={{ display: "none" }}
-        ></input>
-        {img.name}
-      </div>
+      <Accordion
+        expanded={expanded === "panel3"}
+        onChange={handleChange("panel3")}
+      >
+        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
+          <Typography>비포 사진 업로드</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div className={styles.margin}>
+            <label className={styles.inputfile} htmlFor="inputfile">
+              파일 선택
+            </label>
+            <input
+              type="file"
+              id="inputfile"
+              accept="image/jpg,impge/png,image/jpeg,image/gif"
+              name="profile_img"
+              onChange={onChange}
+              style={{ display: "none" }}
+            ></input>
+            {img.name}
+            <p className={styles.ptag}>
+              보정되지 않은 정면사진을 첨부해주세요.
+            </p>
+          </div>
+        </AccordionDetails>
+      </Accordion>
       <div className={styles.inFooterDiv}>
         <p className={styles.agree}>개인정보 제공 동의</p>
         <div className={styles.checkBox}>

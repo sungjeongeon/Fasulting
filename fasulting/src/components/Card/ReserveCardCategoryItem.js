@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./ReserveCardCategoryItem.module.css";
 
 function ReserveCardCategoryItem({ getConsultItem, categoryList }) {
@@ -68,14 +68,16 @@ function ReserveCardCategoryItem({ getConsultItem, categoryList }) {
       setSelectedSubName((current) => [...current, name]);
     }
   };
-
   useEffect(() => {
-    const consultItem = {
-      sub: selectedSub,
-      subName: selectedSubName,
-    };
-    getConsultItem(consultItem);
-  }, [selectedMain, selectedSub]);
+    if (selectedSub.length === 0) {
+    } else {
+      const consultItem = {
+        sub: selectedSub,
+        subName: selectedSubName,
+      };
+      getConsultItem(consultItem);
+    }
+  }, [selectedSub]);
 
   return (
     <div>

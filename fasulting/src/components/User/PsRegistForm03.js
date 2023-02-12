@@ -14,12 +14,6 @@ export default function PsRegistForm03(props) {
   // const doctorModalStateChange = () =>
   //   setdoctorModalOpen((current) => !current);
 
-  // 카테고리 등록 모달창
-  const [modal, setModal] = useState(false);
-  const onClick = () => {
-    setModal((current) => !current);
-  };
-
   const {
     formField: {
       psdirector,
@@ -31,11 +25,7 @@ export default function PsRegistForm03(props) {
     },
   } = props;
 
-  const [resimg, setResimg] = useState([]);
-  const changeImg = (e) => {
-    setResimg(e.target.files[0]);
-    console.log(resimg);
-  };
+  //console.log(resimg);
   const ctg_list = []; //ctg_list 빈 배열
   return (
     <>
@@ -57,7 +47,7 @@ export default function PsRegistForm03(props) {
       </div>
       <div className={styles.inputItem}>
         <div className={styles.label}>병원 사업자 등록증</div>
-        <InputField
+        <input
           fullWidth
           placeholder="병원 사업자 등록증을 업로드 해주세요"
           // onChange={(event) => {
@@ -68,7 +58,10 @@ export default function PsRegistForm03(props) {
           //   //props.setFieldValue(event.currentTarget.files[0]);
           // }}
           type="file"
-          onChange={changeImg}
+          onChange={(event) => {
+            props.setResimg(event.currentTarget.files[0]);
+            //props.setFieldValue(event.currentTarget.files[0]);
+          }}
           name={psregistrationimg.name}
         />
       </div>

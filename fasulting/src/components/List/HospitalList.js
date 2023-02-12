@@ -50,7 +50,17 @@ function HospitalList({ selectedSub }) {
       setHospitalList(res.data.responseObj);
     });
   }, [param]);
-  //console.log("hospitalList", hospitalList);
+  console.log("selectedSub", selectedSub);
+  hospitalList.map(
+    (hospital) =>
+      console.log(
+        "merong",
+        hospital.subCategoryName.filter((sub) => selectedSub.includes(sub))
+      )
+    // hospital.subCategoryName.filter((subcategory) =>
+    //   console.log(subcategory.includes(selectedSub).length)
+    // )
+  );
   return (
     <div>
       {hospitalList &&
@@ -60,8 +70,8 @@ function HospitalList({ selectedSub }) {
             ))
           : hospitalList.map(
               (hospital) =>
-                hospital.subCategoryName.filter((subcategory) =>
-                  subcategory.includes(selectedSub)
+                hospital.subCategoryName.filter((sub) =>
+                  selectedSub.includes(sub)
                 ).length === selectedSub.length && (
                   <HospitalListItem key={hospital.psSeq} hospital={hospital} />
                 )

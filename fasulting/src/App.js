@@ -23,6 +23,8 @@ import { createGlobalStyle } from "styled-components";
 import OpenViduRoom from "./pages/OpenViduRoom";
 import { SignLanguage } from "@mui/icons-material";
 import AdminMain from "./pages/admin/AdminMain";
+import PrivateRoute from "./api/PrivateRoute";
+import { useSelector } from "react-redux";
 
 const GlobalStyle = createGlobalStyle`
 text: {
@@ -65,6 +67,8 @@ const theme = createTheme({
   },
 });
 function App() {
+  const token = useSelector((state) => state.authToken);
+  console.log(token);
   return (
     <ThemeProvider theme={theme}>
       <React.Fragment>
@@ -79,20 +83,26 @@ function App() {
               <Route path="/findpw" element={<FindPw />} />
               {/* 로그인 */}
               <Route path="/login" element={<Login />} />
-
               {/* 병원리스트 */}
               <Route path="/pslist/:seq" element={<PsList />} />
               {/* 회원가입 */}
               <Route path="/register" element={<Register />} />
               {/* 상세페이지 */}
-              <Route path="/detail/:psSeq" element={<Detail />} />
+              <Route
+                path="/detail/:psSeq"
+                element={
+                  <PrivateRoute
+                    authenticated={token.accessToken}
+                    component={<Detail />}
+                  />
+                }
+              />
               {/* 나의 예약 */}
               <Route path="/myreservation" element={<MyReservation />} />
               {/* 나의 활동 */}
               <Route path="/myactivity" element={<MyActivity />} />
               {/* 나의 견적서 */}
               <Route path="/myestimate/:consultSeq" element={<MyEstimate />} />
-
               {/* ========= hospital ========== */}
               {/* 병원 회원가입 */}
               <Route path="/psregist" element={<PsRegister />} />
@@ -100,13 +110,10 @@ function App() {
               <Route path="/mypageho" element={<MypageHo />} />
               {/* 병원 예약관리 */}
               <Route path="/myreservationho" element={<MyReservationHo />} />
-
               {/* ========= admin ========== */}
               <Route path="/admin" element={<AdminMain />} />
-
               {/* 모달 테스트용 페이지욤.. */}
               <Route path="/test" element={<ModalTest />} />
-
               {/* 상담page */}
               <Route path="/consult" element={<OpenViduRoom />} />
               {/* 메인 */}

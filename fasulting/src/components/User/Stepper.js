@@ -27,18 +27,14 @@ import axiosAPi from "../../api/axiosApi";
 const steps = ["개인 정보", "병원 관련 등록", "병원 인증"];
 const { formId, formField } = checkoutFormModel;
 
-const getStepContent = (step, setFieldValue) => {
+const getStepContent = (step, setResimg) => {
   switch (step) {
     case 0:
       return <PsRegistForm01 formField={formField} />;
     case 1:
-      return (
-        <PsRegistForm02 formField={formField} setFieldValue={setFieldValue} />
-      );
+      return <PsRegistForm02 formField={formField} setResimg={setResimg} />;
     case 2:
-      return (
-        <PsRegistForm03 formField={formField} setFieldValue={setFieldValue} />
-      );
+      return <PsRegistForm03 formField={formField} setResimg={setResimg} />;
     default:
       throw new Error("Unknown step");
   }
@@ -55,7 +51,6 @@ export default function PsRegist() {
     console.log(actions);
     alert(JSON.stringify(values, null, 2));
     actions.setSubmitting(false);
-
     const formData = new FormData();
     // const dataSet = {
     //   email: values.email,
@@ -78,7 +73,7 @@ export default function PsRegist() {
     formData.append("director", values.psdirector);
     formData.append("hompage", values.pshompage); //null가능
     formData.append("intro", values.psintro); //null 가능
-    formData.append("registrationImg", values.psregistrationimg);
+    formData.append("registrationImg", resimg);
     formData.append("profileImg", values.profileImg); //null 가능
     for (var key of formData.keys()) {
       console.log(key);
@@ -127,6 +122,8 @@ export default function PsRegist() {
     setActiveStep(activeStep - 1);
   }
 
+  const [resimg, setResimg] = useState([]);
+
   return (
     <>
       <ToastContainer />
@@ -159,9 +156,9 @@ export default function PsRegist() {
                 validationSchema={currentValidationSchema}
                 onSubmit={_handleSubmit}
               >
-                {({ setFieldValue, ...rest }) => (
+                {({ setResimg, ...rest }) => (
                   <Form id={formId}>
-                    {getStepContent(activeStep, setFieldValue)}
+                    {getStepContent(activeStep, setResimg)}
 
                     <div className={styles.buttons}>
                       {activeStep !== 0 && (

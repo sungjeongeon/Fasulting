@@ -15,6 +15,7 @@ import axiosAPi from "../../api/axiosApi";
 import { useEffect } from "react";
 import { useState } from "react";
 import setAuthorizationToken from "../../api/setAuthorizationToken";
+import { loginPs, loginps } from "../../redux/ps";
 
 const validationSchema = yup.object({
   email: yup
@@ -98,15 +99,14 @@ export default function LoginForm() {
             await axiosAPi.post("/ps/login", values).then((res) => {
               if (res.data.message === "success") {
                 console.log(res.data);
-                // dispatch(
-                //   loginUser({
-                //     userSeq: res.data.responseObj.userSeq,
-                //     userName: res.data.responseObj.userName,
-                //     adminYn: res.data.responseObj.adminYn,
-                //     userEmail: values.email,
-                //     userPwd: values.password,
-                //   })
-                // );
+                dispatch(
+                  loginPs({
+                    psSeq: res.data.responseObj.psSeq,
+                    psName: res.data.responseObj.psName,
+                    psEmail: values.email,
+                    psPwd: values.password,
+                  })
+                );
                 //토큰 받아오기
                 const accessToken = res.data.responseObj.accessToken;
                 //console.log(accessToken);
@@ -128,11 +128,7 @@ export default function LoginForm() {
                   }
                 );
                 setTimeout(() => {
-                  if (res.data.responseObj.adminYn === true) {
-                    navigate("/admin");
-                  } else {
-                    navigate("/");
-                  }
+                  navigate("/myreservationho");
                 }, 2000);
               }
             });
