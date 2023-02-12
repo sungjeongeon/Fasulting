@@ -17,74 +17,15 @@ import { useState } from 'react';
 import axiosAPi from "../../api/axiosApi"
 
 
-const PREFIX = 'Demo';
-// const Vertical = 'VerticalAppointment'
-
-const classes = {
-  todayCell: `${PREFIX}-todayCell`,
-  disabledCell: `${PREFIX}-disabledCell`,
-  today: `${PREFIX}-today`,
-  disabled: `${PREFIX}-disabled`,
+const AppointmentContent = ({ style, ...restProps }) => {
+  return (
+    <Appointments.AppointmentContent {...restProps}>
+      <div className={restProps.container} style={{margin: "auto"}}>
+        <div>{restProps.data.title}</div>
+      </div>
+    </Appointments.AppointmentContent>
+  );
 };
-
-const StyledWeekViewTimeTableCell = styled(WeekView.TimeTableCell)(({ theme }) => ({
-  [`&.${classes.todayCell}`]: {
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.primary.main, 0.14),
-    },
-    '&:focus': {
-      backgroundColor: alpha(theme.palette.primary.main, 0.16),
-    },
-  },
-  [`&.${classes.disabledCell}`]: {
-    backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
-    // pointerEvents: "none",
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
-    },
-    '&:focus': {
-      backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
-    },
-  },
-}));
-
-const StyledWeekViewDayScaleCell = styled(WeekView.DayScaleCell)(({ theme }) => ({
-  [`&.${classes.today}`]: {
-    backgroundColor: alpha(theme.palette.primary.main, 0.16),
-  },
-  [`&.${classes.disabled}`]: {
-    backgroundColor: alpha(theme.palette.action.disabledBackground, 0.06),
-  },
-}));
-
-const TimeTableCell = (props) => {
-  const { startDate } = props;
-  const date = new Date(startDate);
-  const dateNow = new Date();
-  // onclick=((event)=> console.log(event.target.getAttribute('class')))
-
-  if (date.getDate() === new Date().getDate()) {
-    return <StyledWeekViewTimeTableCell {...props} className={classes.todayCell} />;
-  } if (date < dateNow || date.getDate() > dateNow.getDate()+13) {
-    return <StyledWeekViewTimeTableCell {...props} className={classes.disabledCell} />;
-  } return <StyledWeekViewTimeTableCell {...props} />;
-};
-
-const DayScaleCell = (props) => {
-  const { startDate, today } = props;
-  const dateNow = new Date();
-  if (today) {
-    return <StyledWeekViewDayScaleCell {...props} className={classes.today} />;
-  } if (startDate < dateNow || startDate.getDate() > dateNow.getDate()+13) {
-    return <StyledWeekViewDayScaleCell {...props} className={classes.disabled} />;
-  } return <StyledWeekViewDayScaleCell {...props} />;
-};
-
-
-///////////////////////////
-// axios 요청 더미데이터 const로 들고오고, 해당 변수를 map으로 돌려서 function의 result를 받기
-
-
 
 
 // 스케줄 각 데이터 색깔 커스텀
@@ -133,15 +74,12 @@ const Appointment = ({
     // 계산하는 함수
     const currentDate = moment();
     let date = currentDate.date();
-    // console.log(date)
     const makeAppointment = (reservationDateStart, reservationDateEnd) => {
-      // console.log(year)
       const startDate = new Date(reservationDateStart)
       const endDate = new Date(reservationDateEnd)
 
       const nextStartDate = moment(startDate)
       const nextEndDate = moment(endDate)
-      // console.log(nextStartDate.format('YYYY-MM-DD HH:mm'))
       return {
         startDate: nextStartDate.format(),
         endDate: nextEndDate.format(),
@@ -149,19 +87,19 @@ const Appointment = ({
     };
 
     // axios 요청을 위한 resSeq 들고오기 (일단 임시 resSeq)
-    // const resSeq = useSelector(state => state.)
-    const resSeq = 1
+    const psSeq = 1
     // loading 처리
     // // axios 요청으로 데이터 들고오기
     const [loading, setLoading] = useState(true)
     const [allAppointments, setAllAppointments] = useState([]) // 기존 전체 
     const [operatingTime, setOperatingTime] = useState([])
     useEffect(() => {
-      axiosAPi.get(`/ps-reservation/post/${resSeq}`)
+      axiosAPi.get(`/ps-reservation/post/${psSeq}`)
         // .then(res => console.log(res.data.responseObj.reservation))
         .then(res => {
           setAllAppointments(res.data.responseObj.reservation)
           setOperatingTime(res.data.responseObj.operatingTime)
+          // console.log(operatingTime)
         })
         .then(setLoading(false))
         .catch(err => console.log(err))
@@ -176,34 +114,136 @@ const Appointment = ({
         };
         date += 1;
         if (date > 31) date = 1;
-        // console.log(result)
         return result;
       });
-    // console.log(makeData)
-    // const [appointments, setAppointments] = useState()
-    // console.log(appointments)
-
-    console.log(appointments)
 
 
+    const twolen = (num) => {
+      if (num < 10) {
+        return '0'+num.toString()
+      } return num.toString()
+    }
+
+    // 필요한 데이터로 operating 다시 만들기
+    let dayTimeList = []
+    operatingTime.map((obj) => {
+      let h = 0
+      let m = 0
+      obj.time.map((timeItem) => {
+        if (timeItem%2) {
+          h = 9+parseInt(timeItem/2)
+          m = '30'
+        } else {
+          h = 9+parseInt(timeItem/2)
+          m = '00'
+        }
+        // day + hour + minute을 문자열로 합침
+        dayTimeList.push(twolen(obj.day) + twolen(h) + m)
+      })
+    })
+    // console.log(dayTimeList)
+
+
+    const PREFIX = 'Demo';
+
+    const classes = {
+      allCell: `${PREFIX}-allCell`,
+      fixedDisabledCell: `${PREFIX}-fixedDisabledCell`,
+      disabledCell: `${PREFIX}-disabledCell`,
+      today: `${PREFIX}-today`,
+      disabled: `${PREFIX}-disabled`,
+    };
+    
+    const StyledWeekViewTimeTableCell = styled(WeekView.TimeTableCell)(({ theme }) => ({
+      [`&.${classes.allCell}`]: {
+        '&:hover': {
+          backgroundColor: alpha(theme.palette.primary.main, 0.14),
+        },
+        '&:focus': {
+          backgroundColor: alpha(theme.palette.primary.main, 0.16),
+        },
+      },
+      [`&.${classes.fixedDisabledCell}`]: {
+        backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
+        '&:hover': {
+          backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
+        },
+        '&:focus': {
+          backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
+        },
+      },
+      [`&.${classes.disabledCell}`]: {
+        backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
+      },
+    }));
+    
+    const StyledWeekViewDayScaleCell = styled(WeekView.DayScaleCell)(({ theme }) => ({
+      [`&.${classes.today}`]: {
+        backgroundColor: alpha(theme.palette.primary.main, 0.16),
+      },
+      [`&.${classes.disabled}`]: {
+        backgroundColor: alpha(theme.palette.action.disabledBackground, 0.06),
+      },
+    }));
+    
+    const TimeTableCell = (props) => {
+      const { startDate } = props;
+      const date = new Date(startDate);
+      const dateNow = new Date();
+      // onclick=((event)=> console.log(event.target.getAttribute('class')))
+      // onclick = ((e) => console.log(e.target.getAttribute('class').includes("include-time")))
+      // onclick = ((e) => console.log(e.target.getAttribute('class').indexOf("date-")))
+      // onclick = ((e) => console.log(e.target.getAttribute('class').substr(106,6)))
+
+      const dateStr = twolen(date.getDate()) + twolen(date.getHours()) + twolen(date.getMinutes())
+    
+
+      if (date.getDate() < dateNow.getDate() || date.getDate() > dateNow.getDate()+13 ) {
+        return <StyledWeekViewTimeTableCell {...props} className={classes.fixedDisabledCell} />;
+      } 
+      // if (!(dayTimeList.includes(dateStr))) {
+      //   return <StyledWeekViewTimeTableCell {...props} className={`${classes.disabledCell} ${classes.allCell}`} />;
+      // }
+      //  if (date.getDate() === new Date().getDate()) {
+      //   return <StyledWeekViewTimeTableCell {...props} className={classes.todayCell} />;
+      // } 
+        return <StyledWeekViewTimeTableCell {...props} className={dayTimeList.includes(dateStr) ? `${classes.allCell} ${`date-${dateStr}`} ${"include-time"}` : `${classes.disabledCell} ${classes.allCell} ${`date-${dateStr}`} ${"exclude-time"}`}/>;
+    };
+    
+    const DayScaleCell = (props) => {
+      const { startDate, today } = props;
+      const dateNow = new Date();
+    
+      if (today) {
+        return <StyledWeekViewDayScaleCell {...props} className={classes.today} />;
+      } if (startDate < dateNow || startDate.getDate() > dateNow.getDate()+13) {
+        return <StyledWeekViewDayScaleCell {...props} className={classes.disabled} />;
+      } return <StyledWeekViewDayScaleCell {...props} />;
+    };
+    
+    
 
     return (
       loading ? <div></div> :
-    <Paper sx={{marginY: "2rem"}}>
-      <Scheduler data={appointments} height={'auto'}>
-        <ViewState
-        currentDate={current}
-        />
-        <WeekView 
-          startDayHour={9} 
-          endDayHour={20}
-          timeTableCellComponent={TimeTableCell}
-          dayScaleCellComponent={DayScaleCell}
-        />
-        <Appointments
-          appointmentComponent={Appointment}
-        />
-      </Scheduler>
-    </Paper>
+      <Paper sx={{marginY: "2rem"}}>
+        <Scheduler
+          data={appointments}
+          height={'auto'}
+        >
+          <ViewState
+          currentDate={current}
+          />
+          <WeekView 
+            startDayHour={9} 
+            endDayHour={20}
+            timeTableCellComponent={TimeTableCell}
+            dayScaleCellComponent={DayScaleCell}
+          />
+          <Appointments
+            appointmentComponent={Appointment}
+            appointmentContentComponent={AppointmentContent}
+          />
+        </Scheduler>
+      </Paper>
     );
   }

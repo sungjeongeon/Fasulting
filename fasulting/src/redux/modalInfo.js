@@ -11,6 +11,7 @@ export const modalInfoSlice = createSlice({
     dayOfWeek: null,
     psSeq: null,
     userSeq: null,
+    // operatingTimeList: null,
   },
   reducers: {
     changeInfo: (state, action) => {
@@ -29,6 +30,10 @@ export const modalInfoSlice = createSlice({
       state.modalstate = !state.modalstate;
       return state;
     },
+    // settingOperatingTime: (state, action) => {
+    //   console.log(action.payload)
+    //   return state
+    // }
   },
 });
 

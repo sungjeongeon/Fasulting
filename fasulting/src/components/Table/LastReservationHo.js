@@ -7,8 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useDispatch, useSelector } from "react-redux";
-import { changeReserveInfo } from "../../redux/lastReservationHo"
 import axiosApi from "../../api/axiosApi"
 import LastReservationHoItem from "./LastReservationHoItem";
 
@@ -16,6 +14,8 @@ import LastReservationHoItem from "./LastReservationHoItem";
 export default function LastReservationHo({search}) {
   // search 결과를 렌더링해야함 + 처음에는 모든 지난 예약 보기
   const [totalRes, setTotalRes] = useState([])
+  // 현재 활성화된 예약 강조
+  const [nowShow, setNowShow] = useState(0)
 
   // 지난 예약 조회 axios
   const psId = 1
@@ -27,41 +27,13 @@ export default function LastReservationHo({search}) {
       )
       .catch(err => console.log(err))
   }, [])
-  // console.log(totalRes)
+
 
   //검색 결과와 확인 필요
   const searchRes = totalRes.filter(
       (item) => 
       item.userName.includes(search) || item.subCategoryName.includes(search)
     ) 
-
-  // console.log(selectedId)
-  // const selectedId = useSelector(state => state.lastReservationHo.reservation_id)
-  // console.log(selectedId)
-  // useEffect(() => {
-  //   axiosApi.get(`/ps-reservation/pre/detail/${selectedId}`)
-  //   .then(res => {
-  //     const info = res.data.responseObj
-  //     dispatch(changeReserveInfo(info))
-  //   })
-  //   .catch(err => console.log(err))
-  // }, [dispatch, selectedId])
-
-  // const onClickHandler = ((selectedId) => {
-  //   axiosApi.get(`/ps-reservation/pre/detail/${selectedId}`)
-  //   .then(res => {
-  //     const info = res.data.responseObj
-  //     dispatch(changeReserveInfo(info))
-  //   })
-  //   .catch(err => console.log(err))
-  // })
-
-
-  // useEffect(() => {
-  //   dispatch(changeReserveId(nowInfo))
-  // }, [dispatch, nowInfo])
-
-
 
   return (
     <>
@@ -80,6 +52,8 @@ export default function LastReservationHo({search}) {
               <LastReservationHoItem
                 key={reservation.consultingSeq}
                 reservation={reservation} 
+                nowShow={nowShow}
+                setNowShow={setNowShow}
               />
             ))}
           </TableBody>

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { changeReserveInfo, changeLoading } from "../../redux/lastReservationHo"
 import axiosAPi from "../../api/axiosApi";
 
 
-function LastReservationHoItem({reservation}) {
+function LastReservationHoItem({reservation, nowShow, setNowShow}) {
   const twolen = (num) => {
     return '0' + num.toString()
   }
@@ -32,24 +32,27 @@ function LastReservationHoItem({reservation}) {
   }
 
 
+
   const dispatch = useDispatch()
   const onClickHandler = () => {
     axiosAPi.get(`/ps-reservation/pre/detail/${reservation.consultingSeq}`)
     .then(res => {
-      // setNowInfo(res.data.responseObj)
       dispatch(changeReserveInfo(res.data.responseObj))
       dispatch(changeLoading())
+      setNowShow(reservation.consultingSeq)
     })
     .catch(err => console.log(err))
   }
 
   return (
     <TableRow
-      sx={{ "&:last-child td, &:last-child th": { border: 0 }, cursor: 'pointer' }}
-      onClick={() => 
-        // axios 요청 필요
-        onClickHandler()
-      }
+      sx={{ 
+        "&:last-child td, &:last-child th": { border: 0 }, 
+        cursor: 'pointer', 
+        "&:hover": {backgroundColor : "#72A1A640"}, 
+        backgroundColor: (nowShow === reservation.consultingSeq ? "#72A1A640" : "white") 
+      }}
+      onClick={onClickHandler}
     >
       <TableCell component="th" scope="row" sx={{fontWeight: "bold"}}>
         {reservation.userName}
