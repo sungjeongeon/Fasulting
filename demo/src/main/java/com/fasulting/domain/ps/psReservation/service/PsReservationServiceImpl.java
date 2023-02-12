@@ -278,10 +278,13 @@ public class PsReservationServiceImpl implements PsReservationService {
         });
         ReservationCalEntity reservationCal = consulting.getReservation().getReservationCal();
 
+        String number = user.getNumber().substring(0, 3) + "-" + user.getNumber().substring(3, 7) + "-" + user.getNumber().substring(7);
+        String birth = user.getBirth().substring(0, 4) + "-" + user.getBirth().substring(4, 6) + "-" + user.getBirth().substring(6);
+
         PreDetailRespDto preDetail = PreDetailRespDto.builder()
                 .userName(user.getName())
-                .userNumber(user.getNumber())
-                .userBirth(user.getBirth())
+                .userNumber(number)
+                .userBirth(birth)
                 .date(reservationCal.getDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                 .subCategoryName(reservationSubEntityRepository.getSubCategoryNameByReservationSeq(consulting.getReservation().getSeq()))
                 .content(report.getContent())
