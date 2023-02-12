@@ -39,7 +39,7 @@ function ProfileImageUpdate({ name, profileImg }) {
 
   return (
     <div className={styles.outerDiv}>
-      <div>
+      <div className={styles.profileDiv}>
         <img src={profileImg === null ? null : nowProfile} alt="프로필" className={styles.profileImg}/>
         <label htmlFor="hospital-profile" className={styles.label}>
           +

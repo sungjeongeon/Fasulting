@@ -27,6 +27,7 @@ export default function CancelDialog({ReservationManage, modalClose}) {
     })
       .then(res => console.log(res.data.message))
       .catch(err => console.log(err))
+    window.location.reload();
   }
 
   return (

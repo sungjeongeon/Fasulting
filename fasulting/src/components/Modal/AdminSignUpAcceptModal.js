@@ -37,7 +37,7 @@ function AdminSignupAcceptModal({ ps }) {
       })
       .catch((e) => console.log(e));
     // 페이지 새로고침
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (
@@ -62,7 +62,7 @@ function AdminSignupAcceptModal({ ps }) {
             tabIndex={-1}
             sx={{ mt: 3, mb: 4 }}
           >
-            //프로필 사진//
+            <img src={ps.profileImg} alt="프로필이미지" />
             <hr />
             id : {ps.psSeq}
             <br />
@@ -88,7 +88,7 @@ function AdminSignupAcceptModal({ ps }) {
             <hr />
             사업자등록증 : {ps.registeration}
             <br />
-            // 사업자 등록증 사진 //
+            <img src={ps.registerationImg} alt="사업자등록증" />
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ mx: 4, mb: 3 }}>

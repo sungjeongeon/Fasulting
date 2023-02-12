@@ -10,34 +10,10 @@ function ReviewInfo({ detailhospital }) {
   // 별점 평균
   const totalScore = detailhospital.totalRatingResult;
 
-  console.log("totalScore", totalScore);
-  console.log("detail", detailhospital);
-  // 총 리뷰 개수
-  const totalCount = 100;
-  const tempdata = [
-    {
-      id: 1,
-      name: "김싸피",
-      content:
-        "너무 친절하시고, 구체적으로 설명해주셔서 좋아요너무 친절하시고, 구체적으로 설명해주셔서 좋아요너무 친절하시고, 구체적으로 설명해주셔서 좋아요너무 친절하시고, 구체적으로 설명해주셔서 좋아요너무 친절하시고, 구체적으로 설명해주셔서 좋아요",
-      date: "2023.01.06",
-      hospital: "아이디병원",
-      subcategory: ["안검하수", "눈매교정", "트임"],
-      rating: 3.5,
-    },
-    {
-      id: 2,
-      name: "이싸피",
-      content: "설명 잘해주시네요",
-      date: "2023.01.17",
-      hospital: "더성형병원",
-      subcategory: ["콧등", "콧볼축소"],
-      rating: 4.0,
-    },
-  ];
   // 신고 버튼 누르면 해당 review id 넘버 받아옴 (e.target.value)
+  const [reviewId, setReviewId] = useState(0)
   const reviewClaim = (e) => {
-    console.log(e.target.value);
+    setReviewId(e.target.value)
   };
 
   const isHospitalPage =
@@ -45,7 +21,9 @@ function ReviewInfo({ detailhospital }) {
 
   // 모달
   const [ModalOpen, setModalOpen] = useState(false);
-  const ModalStateChange = () => setModalOpen((current) => !current);
+  const ModalStateChange = (e) => {
+    setModalOpen((current) => !current);
+  }
 
   return (
     <div>
@@ -77,34 +55,38 @@ function ReviewInfo({ detailhospital }) {
           </div>
         </div>
         <hr className={styles.hr} />
+        <div>
         {!detailhospital.review
           ? "리뷰가 존재하지 않습니다."
           : detailhospital.review.map((review) => (
-              <div key={review.id} className={styles.reviewList}>
+              <div key={review.reviewSeq} className={styles.reviewList}>
                 {isHospitalPage ? (
-                  <div className={styles.claimBtn} onClick={reviewClaim}>
+                  <div className={styles.claimBtn}>
                     <Button
                       variant="text"
                       className={styles.btn}
                       color="error"
-                      value={review.id}
-                      onClick={ModalStateChange}
+                      value={review.reviewSeq}
+                      onClick={(e) => {
+                        ModalStateChange();
+                        reviewClaim(e)
+                      }}
                     >
                       <p className={styles.btnTextRed}>신고</p>
                     </Button>
-                    {ModalOpen && (
-                      <ReviewReport ModalStateChange={ModalStateChange} />
-                    )}
                   </div>
                 ) : null}
 
                 <ReviewListItem
                   key={detailhospital.review.reviewSeq}
-                  psName={detailhospital.psName}
                   review={review}
                 />
               </div>
             ))}
+            {ModalOpen && (
+              <ReviewReport ModalStateChange={ModalStateChange} reviewId={reviewId} psSeq={detailhospital.psSeq}/>
+            )}
+            </div>
       </div>
     </div>
   );

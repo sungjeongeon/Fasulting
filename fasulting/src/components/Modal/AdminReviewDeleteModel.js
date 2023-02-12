@@ -7,8 +7,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useSelector } from "react-redux";
+import axiosAPi from "../../api/axiosApi";
 
 function AdminReviewDeleteModal({ review }) {
+  const adminSeq = useSelector((store) => store.user.userSeq);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -20,7 +23,16 @@ function AdminReviewDeleteModal({ review }) {
   };
   const deleteReview = () => {
     // 관리자seq(=유저seq), 리뷰seq 로 api 요청
-    // console.log(review.reviewSeq);
+    axiosAPi
+      .patch("/admin/review", {
+        adminSeq: adminSeq,
+        reviewSeq: review.reviewSeq,
+      })
+      .then((res) => {
+        console.log("요청보냄");
+        console.log(res);
+      })
+      .catch((e) => console.log(e));
     // 페이지 새로고침
     window.location.reload();
   };

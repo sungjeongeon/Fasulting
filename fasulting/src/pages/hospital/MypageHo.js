@@ -59,7 +59,7 @@ function MypageHo() {
           <ProfileTimeUpdate />
           <ProfileSubCategoryUpdate ctg_list={hospital.subCategoryName} />
           <ProfileDoctorUpdate doctors={hospital.doctor} />
-          {/* <ReviewInfo /> */}
+          <ReviewInfo detailhospital={hospital}/>
         </Grid>
         <Grid xs={3}></Grid>
       </Grid>

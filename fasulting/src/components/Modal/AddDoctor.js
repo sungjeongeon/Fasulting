@@ -13,7 +13,7 @@ function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
   // 미리보기 위한 src
   const [imgSrc, setImgSrc] = useState('')
   // img 파일 객체 (서버에 보내줄 것)
-  const [imgFile, setImgFile] = useState(null)
+  const [imgFile, setImgFile] = useState()
 
   // 의사 input value
   const onChange = (e) => {
@@ -29,10 +29,6 @@ function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
     setImgSrc(URL.createObjectURL(uploadImg))
   // }
   }
-
-  const deleteImgSrc = (e) => {
-    URL.revokeObjectURL(imgSrc);
-  }
   
   const prevent = (e) => {
     e.preventDefault()
@@ -40,6 +36,16 @@ function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
   // 병원 임시 id
   const psSeq = 1
   console.log(psSeq, docName, mainCtg, imgFile)
+  
+  // 재렌더링 할 수 있도록
+  console.log(doctorList)
+  const newDoc = {
+    name: docName,
+    profileImg: imgSrc,
+    mainCategoryName: mainCtg
+  }
+  
+
   const addDoctor = async () => {
     const formData = new FormData();
     formData.append("psSeq", psSeq)
@@ -54,19 +60,18 @@ function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
           "Content-Type": "multipart/form-data"
         },
       })
+      .then(() => {
+        ModalStateChange()
+        setDoctorList([...doctorList, newDoc])
+        setTimeout(() => {
+          URL.revokeObjectURL(imgSrc)
+        }, 2000);
+      })
     } catch (e) {
       console.log(e)
     }
   }
 
-  // 재렌더링 할 수 있도록
-  console.log(doctorList)
-  const newDoc = {
-    name: docName,
-    profileImg: imgSrc,
-    mainCategoryName: mainCtg
-  }
-  
 
 
   return (
@@ -110,11 +115,7 @@ function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
             <div className={styles.center}>
               <button
                 className={styles.register}
-                onClick={() => {
-                  ModalStateChange();
-                  addDoctor();
-                  deleteImgSrc();
-                }}>
+                onClick={addDoctor}>
                 등록
               </button>
             </div>

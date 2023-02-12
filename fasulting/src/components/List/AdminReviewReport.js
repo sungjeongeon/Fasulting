@@ -9,28 +9,6 @@ import Typography from "@mui/material/Typography";
 import AdminReviewDeleteModal from "../Modal/AdminReviewDeleteModel";
 
 function AdminSignupAcceptList({ reviewList }) {
-  const reviewListTemp = [
-    {
-      reviewSeq: 7,
-      userSeq: 1,
-      psSeq: 2,
-      userEmail: "test.com",
-      point: 3.0,
-      regDate: "2023.02.01",
-      content: "test review",
-      subCategoryName: ["쌍꺼풀"],
-    },
-    {
-      reviewSeq: 8,
-      userSeq: 3,
-      psSeq: 4,
-      userEmail: "test.com",
-      point: 3.0,
-      regDate: "2023.02.01",
-      content: "test review",
-      subCategoryName: ["쌍꺼풀"],
-    },
-  ];
   return (
     <div style={{ width: "40%" }}>
       <Typography variant="h5" gutterBottom>
@@ -38,7 +16,7 @@ function AdminSignupAcceptList({ reviewList }) {
       </Typography>
       <hr />
       <List sx={{ bgcolor: "background.paper" }}>
-        {reviewListTemp.map((obj) => {
+        {reviewList.map((obj) => {
           const labelId = `checkbox-list-label-${obj.psSeq}`;
 
           return (
