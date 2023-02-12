@@ -43,11 +43,14 @@ public class AdminReviewServiceImpl implements AdminReviewService {
 
             ReviewRespDto reviewRespDto = ReviewRespDto.builder()
                     .reviewSeq(review.getSeq())
+                    .userSeq(review.getUser().getSeq())
+                    .psSeq(review.getPs().getSeq())
+                    .psName(review.getPs().getName())
                     .userEmail(review.getUser().getEmail())
                     .point(review.getPoint())
                     .regDate(review.getRegDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                     .content(review.getContent())
-                    .subCategoryName(reviewSubRepository.getSubCategoryByDoctorSeq(review.getSeq()))
+                    .subCategoryName(reviewSubRepository.getSubCategoryByReviewSeq(review.getSeq()))
                     .build();
 
             accusedReviewList.add(reviewRespDto);
