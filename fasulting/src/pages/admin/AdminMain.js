@@ -13,6 +13,7 @@ function AdminMain() {
   useEffect(() => {
     axiosAPi.get("/admin/account/ps").then((res) => {
       setSignUpList(res.data.responseObj);
+      console.log(res);
     });
     axiosAPi.get("/admin/review").then((res) => {
       setReviewList(res.data.responseObj);

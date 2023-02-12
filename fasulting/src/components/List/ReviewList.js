@@ -30,9 +30,10 @@ function ReviewList({ reviews }) {
         <h2 className={styles.title}>최신 리뷰</h2>
         {/* <a href="#">전체 보기 ⇁</a> */}
       </div>
-      {reviews.map((review) => (
-        <ReviewListItem key={review.reviewSeq} review={review} />
-      ))}
+      {reviews &&
+        reviews.map((review) => (
+          <ReviewListItem key={review.reviewSeq} review={review} />
+        ))}
     </div>
   );
 }
