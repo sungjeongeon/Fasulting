@@ -286,7 +286,7 @@ public class PsServiceImpl implements PsService {
                     .point(review.getPoint())
                     .regDate(review.getRegDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                     .content(review.getContent())
-                    .subCategoryName(reviewSubRepository.getSubCategoryByDoctorSeq(review.getSeq()))
+                    .subCategoryName(reviewSubRepository.getSubCategoryByReviewSeq(review.getSeq()))
                     .build();
 
             reviewDtoList.add(reviewDto);
