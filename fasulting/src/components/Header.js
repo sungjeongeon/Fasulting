@@ -48,6 +48,19 @@ function Header() {
             <div>
               <div className={`${styles.mypageho} ${styles.common}`}>
                 <Link
+                  to={"/ps/download"}
+                  style={{ textDecoration: "none" }}
+                  className={
+                    nowpath === "/ps/download"
+                      ? styles.activate
+                      : styles.notactivate
+                  }
+                >
+                  마이페이지
+                </Link>
+              </div>
+              <div className={`${styles.mypageho} ${styles.common}`}>
+                <Link
                   to={"/mypageho"}
                   style={{ textDecoration: "none" }}
                   className={
