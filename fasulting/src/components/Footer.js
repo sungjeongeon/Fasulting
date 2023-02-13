@@ -65,7 +65,7 @@ const Footer = () => {
             </div>
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                상담 시간
+                ⏰ 상담 시간
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
                 상담 예약은 환자와 병원 간의 약속입니다.
