@@ -31,7 +31,9 @@ import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -629,7 +631,63 @@ public class PsServiceImpl implements PsService {
         return true;
     }
 
-    // 의사 현황 수정
+    // 운영 시간 수정 (설정) psOperating
+    @Transactional
+    @Override
+    public boolean modifyPsOperating(PsOperatingDto psOperatingDto) {
+
+        log.info(psOperatingDto.getPsSeq().toString());
+
+//        log.info("ps is " + psRepository.findById(psDefaultReqDto.getPsSeq()).isPresent());
+
+        PsEntity ps = psRepository.findById(psOperatingDto.getPsSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+
+        log.info(ps + " : " + ps.toString());
+
+
+        //////////// 현실 운영 시간 (달력)
+        // 오늘부터 2주치 psOperating delete
+        LocalDateTime current = LocalDateTime.now();
+        LocalDateTime post = current.plusDays(13);
+        psOperatingRepository.deleteAllByDateTime(psOperatingDto.getPsSeq(), current, post);
+
+        List<String> list = psOperatingDto.getOperatingTime();
+
+        // 하나씩 insert
+        for(String str : list) {
+            String[] dateTime = str.split("\\.");
+            log.info(Arrays.toString(dateTime));
+            int year = Integer.parseInt(dateTime[0]);
+            int month = Integer.parseInt(dateTime[1]);
+            int day = Integer.parseInt(dateTime[2]);
+            int startHour = Integer.parseInt(dateTime[3]);
+            int startMin = Integer.parseInt(dateTime[4]);
+
+            TimeEntity time = timeRepository.findByStartHourAndStartMin(startHour, startMin).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
+
+            OperatingCalEntity operatingCal = operatingCalRepository.findByYearAndMonthAndDay(year, month, day).orElseThrow(() -> {
+                throw new NullPointerException();
+            });
+
+
+            PsOperatingEntity psOperating = PsOperatingEntity.builder()
+                    .operatingCal(operatingCal)
+                    .ps(ps)
+                    .time(time)
+                    .build();
+
+            psOperatingRepository.save(psOperating);
+        }
+
+        return true;
+    }
+
+
+        // 의사 현황 수정
     @Override
     @Transactional
     public boolean addDoctor(DoctorReqDto doctor) {

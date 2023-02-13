@@ -26,4 +26,6 @@ public interface PsService {
 
     PsInfoRespDto getPsInfo(Long psSeq); // 병원 회원 정보 조회
 
+    boolean modifyPsOperating(PsOperatingDto psOperatingDto);
+
 }

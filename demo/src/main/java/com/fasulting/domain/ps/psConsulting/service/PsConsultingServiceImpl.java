@@ -1,5 +1,6 @@
 package com.fasulting.domain.ps.psConsulting.service;
 
+import com.fasulting.common.util.Date2String;
 import com.fasulting.common.util.FileManage;
 import com.fasulting.domain.ps.psConsulting.dto.ResultReqDto;
 import com.fasulting.entity.consulting.ConsultingEntity;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -38,11 +40,20 @@ public class PsConsultingServiceImpl implements PsConsultingService {
         });
 
         String beforeImgPath = reservation.getBeforeImgPath();
-        String beforeImgOrigin = reservation.getBeforeImgOrigin();
+        // 날짜_이름
+        int year = reservation.getReservationCal().getYear();
+        int month = reservation.getReservationCal().getMonth();
+        int day = reservation.getReservationCal().getDay();
+        int startHour = reservation.getTime().getStartHour();
+        int startMin = reservation.getTime().getStartMin();
+
+        String[] str = reservation.getBeforeImgOrigin().split("\\.");
+
+        String beforeImgName = Date2String.date2String(year, month, day, startHour, startMin) + "_" + reservation.getUser().getName() + "." + str[str.length - 1];
 
         Map<String, String> resp = new HashMap<>();
         resp.put("beforeImgPath", beforeImgPath);
-        resp.put("beforeImgOrigin", beforeImgOrigin);
+        resp.put("beforeImgOrigin", beforeImgName);
 
         return resp;
 

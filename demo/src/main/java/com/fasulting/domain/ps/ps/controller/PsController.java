@@ -287,6 +287,22 @@ public class PsController {
 
     }
 
+    /**
+     * 운영 시간 수정 (설정 - 셀)
+     */
+    @PutMapping("/operating/cell")
+    @ApiOperation(value = "운영 시간 수정", notes = "운영 시간 정보 받아 수정")
+    public ResponseEntity<?> modifyPsOperating(@RequestBody PsOperatingDto psOperatingDto) {
+
+        log.info("ps modifyPsOperating - call");
+
+        psService.modifyPsOperating(psOperatingDto);
+
+        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+
+
+    }
+
 //    @DeleteMapping("/delete/{url}")
 //    public ResponseEntity<?> deleteFile(@PathVariable  String url) {
 //        FileManage.deleteFile("https://hotsix.s3.ap-northeast-2.amazonaws.com/before/4648a77c-11ea-42a2-9317-0ef8d73bc1ec_5AD1H");

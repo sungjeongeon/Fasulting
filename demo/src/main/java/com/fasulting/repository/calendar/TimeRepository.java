@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface TimeRepository extends JpaRepository<TimeEntity, Long> {
     Optional<TimeEntity> findByNum(Integer num);
 
+    Optional<TimeEntity> findByStartHourAndStartMin(Integer startHour, Integer startMin);
 }
