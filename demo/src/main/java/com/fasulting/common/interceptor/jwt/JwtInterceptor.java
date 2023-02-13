@@ -28,6 +28,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         String accessToken = request.getHeader("Authorization");
 
+        log.info("header token in interceptor : " + accessToken);
+
         if (accessToken != null) {
             String userEmail = jwtTokenProvider.getUserEmail(accessToken);
             String domain = jwtTokenProvider.getDomain(accessToken);
