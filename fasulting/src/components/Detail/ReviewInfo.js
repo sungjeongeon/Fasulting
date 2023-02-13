@@ -3,6 +3,8 @@ import ReviewListItem from "../List/ReviewListItem";
 import styles from "./ReviewInfo.module.css";
 import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+
 import { useLocation } from "react-router-dom";
 import ReviewReport from "../Modal/ReviewReport";
 
@@ -55,7 +57,7 @@ function ReviewInfo({ detailhospital }) {
             </p>
           </div>
         </div>
-        <hr className={styles.hr} />
+        <Divider />
         <div>
           {!detailhospital.review
             ? "리뷰가 존재하지 않습니다."
