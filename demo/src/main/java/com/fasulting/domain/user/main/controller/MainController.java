@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/main")
-@CrossOrigin("*") // 수정
+//@CrossOrigin("*") // 수정
 public class MainController {
 
     private final MainService mainService;

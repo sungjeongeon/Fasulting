@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @RestController
 @RequestMapping("/email")
-@CrossOrigin("*") // 수정
+//@CrossOrigin("*") // 수정
 public class EmailController {
 
     private EmailService emailService;

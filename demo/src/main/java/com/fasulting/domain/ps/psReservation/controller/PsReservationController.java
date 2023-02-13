@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/ps-reservation")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class PsReservationController {
 
     private final PsReservationService psReservationService;

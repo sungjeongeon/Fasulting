@@ -29,7 +29,7 @@ import javax.annotation.PostConstruct;
 
 @Slf4j
 @RestController
-@CrossOrigin("*") // 수정
+//@CrossOrigin("*") // 수정
 public class ConsultingController {
 
     private ConsultingService consultingService;

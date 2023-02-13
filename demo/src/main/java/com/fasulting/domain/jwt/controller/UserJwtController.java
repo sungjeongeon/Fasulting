@@ -23,7 +23,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-@CrossOrigin("*") // 수정
+//@CrossOrigin("*") // 수정
 public class
 UserJwtController {
 
