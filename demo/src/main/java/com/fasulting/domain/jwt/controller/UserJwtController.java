@@ -36,14 +36,16 @@ UserJwtController {
      * @return userSeq
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletResponse response) {
+    public ResponseEntity<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletRequest request, HttpServletResponse response) {
 
         UserLoginRespDto userLoginRespDto = userJwtService.login(loginReqDto);
 
         if (userLoginRespDto != null) {
 
+            // 기존 쿠키 삭제
+            CookieUtil.deleteCookie(request, response, "refreshToken");
             // JWT 쿠키 저장(쿠키 명 : token)
-            CookieUtil.addCookie(response, "refershToken", userLoginRespDto.getRefreshToken());
+            CookieUtil.addCookie(response, "refreshToken", userLoginRespDto.getRefreshToken());
 
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.AUTHORIZATION, userLoginRespDto.getAccessToken());
@@ -61,7 +63,7 @@ UserJwtController {
 
         String accessToken = request.getHeader("Authorization");
 
-        if(userJwtService.logout(userSeq)){
+        if (userJwtService.logout(userSeq)) {
             HttpSession session = request.getSession();
             session.setAttribute(accessToken, accessToken);
             session.setMaxInactiveInterval(30 * 60);
