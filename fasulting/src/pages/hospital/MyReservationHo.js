@@ -30,7 +30,6 @@ function MyReservationHo() {
       <div style={{display: "flex", flexDirection:"column"}}>
         <p style={{fontSize: "1rem", color:"#72A1A6", fontWeight:"bold", marginTop:0}}>자세한 예약 현황을 보시려면 예약자 이름을 클릭하세요.</p>
         <ScheduleCard/>
-        {/* <WeekSchedule/> */}
       </div>:
         reservationId === undefined ? 
         <div></div> :

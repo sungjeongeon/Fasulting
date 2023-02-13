@@ -9,6 +9,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axiosApi from "../../api/axiosApi"
 import LastReservationHoItem from "./LastReservationHoItem";
+import { useDispatch } from "react-redux";
+import { changeLoadingTrue } from "../../redux/lastReservationHo"
+
 
 
 export default function LastReservationHo({search}) {
@@ -17,13 +20,16 @@ export default function LastReservationHo({search}) {
   // 현재 활성화된 예약 강조
   const [nowShow, setNowShow] = useState(0)
 
+  const dispatch = useDispatch()
   // 지난 예약 조회 axios
   const psId = 1
   useEffect(() => {
     axiosApi.get(`/ps-reservation/pre/${psId}`)
-      .then(res => 
+      .then(res => {
         // console.log(res.data.responseObj)
         setTotalRes(res.data.responseObj)
+        console.log("lastReservationHO")
+      }
       )
       .catch(err => console.log(err))
   }, [])
