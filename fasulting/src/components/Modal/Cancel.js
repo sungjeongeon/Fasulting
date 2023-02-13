@@ -1,15 +1,17 @@
 import React from "react";
 import styles from "./Cancel.module.css";
 import axiosAPi from "../../api/axiosApi";
+import { useSelector } from "react-redux";
 
 function Modal({ ModalStateChange, reservationSeq }) {
+  const userSeq = useSelector((store) => store.user.userSeq);
   const canselReservation = () => {
     // 취소 요청 api
     // reservationSeq랑 userSeq 리퀘스트
     axiosAPi
       .patch("/reservation", {
         // redux - userSeq로 변경 ㅍ
-        userSeq: 1,
+        userSeq: userSeq,
         reservationSeq,
       })
       .then((res) => {
