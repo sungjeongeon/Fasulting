@@ -61,7 +61,7 @@ public class ReviewServiceImpl implements ReviewService{
         reviewRepository.save(review);
 
         // 리뷰 서브 매핑관계 등록
-        List<SubCategoryEntity> subList = reservationSubRepository.findAllByReservation(consulting.getReservation());
+        List<SubCategoryEntity> subList = reservationSubRepository.getAllByReservation(consulting.getReservation().getSeq());
 
         for(SubCategoryEntity sub : subList) {
             ReviewSubEntity rs = ReviewSubEntity.builder()

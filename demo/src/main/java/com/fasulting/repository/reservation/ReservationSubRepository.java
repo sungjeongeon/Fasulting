@@ -17,5 +17,8 @@ public interface ReservationSubRepository extends JpaRepository<ReservationSubEn
     @Query("SELECT rs.subCategory.name " + "FROM ReservationSubEntity rs " + "WHERE rs.reservation.seq = :reservationSeq")
     List<String> getSubCategoryNameByReservationSeq(@Param("reservationSeq") Long reservationSeq);
 
-    List<SubCategoryEntity> findAllByReservation(ReservationEntity reservation);
+//    List<ReservationSubEntity> findAllByReservation(ReservationEntity reservation);
+
+    @Query("SELECT rs.subCategory " + "FROM ReservationSubEntity rs " + "WHERE rs.reservation.seq = :reservationSeq")
+    List<SubCategoryEntity> getAllByReservation(@Param("reservationSeq") Long reservationSeq);
 }
