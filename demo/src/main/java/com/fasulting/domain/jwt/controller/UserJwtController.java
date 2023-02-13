@@ -1,6 +1,7 @@
 package com.fasulting.domain.jwt.controller;
 
 import com.fasulting.common.resp.ResponseBody;
+import com.fasulting.common.util.CookieUtil;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
 import com.fasulting.domain.jwt.dto.respDtio.UserLoginRespDto;
 import com.fasulting.domain.jwt.service.UserJwtService;
@@ -42,12 +43,7 @@ UserJwtController {
         if (userLoginRespDto != null) {
 
             // JWT 쿠키 저장(쿠키 명 : token)
-            Cookie cookie = new Cookie("refreshToken", userLoginRespDto.getRefreshToken());
-            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
-//             httpOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
+            CookieUtil.addCookie(response, "refershToken", userLoginRespDto.getRefreshToken());
 
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.AUTHORIZATION, userLoginRespDto.getAccessToken());
