@@ -28,7 +28,7 @@ function ReviewList({ reviews }) {
   return (
     <div>
       <div>
-        <h2 className={styles.title}>최신 리뷰</h2>
+        <h2 className={styles.title}>나의 리뷰</h2>
         {/* <a href="#">전체 보기 ⇁</a> */}
       </div>
       {reviews ? (
