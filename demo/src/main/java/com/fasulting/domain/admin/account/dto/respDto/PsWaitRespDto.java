@@ -24,7 +24,7 @@ public class PsWaitRespDto {
     private List<String> mainCategoryList;
     private List<String> subCategoryList;
 
-    private MultipartFile registrationImg;
-    private MultipartFile profileImg;
+    private String registrationImg;
+    private String profileImg;
 
 }

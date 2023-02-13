@@ -43,13 +43,15 @@ public class AccountServiceImpl implements AccountService {
                     .name(ps.getName())
                     .address(ps.getAddress())
                     .zipcode(ps.getZipcode())
-                    .registration(domain + ps.getRegImgPath())
+                    .registration(ps.getRegImgPath())
                     .number(ps.getNumber())
                     .director(ps.getDirector())
                     .homepage(ps.getHomepage())
                     .intro(ps.getIntro())
                     .mainCategoryList(psMainRepository.getMainNameByPsSeq(ps.getSeq()))
                     .subCategoryList(psMainSubRepository.getSubNameByPsSeq(ps.getSeq()))
+                    .registrationImg(domain + ps.getRegImgPath())
+                    .profileImg(domain + ps.getProfileImgPath())
                     .build();
 
             psWaitList.add(psWait);
