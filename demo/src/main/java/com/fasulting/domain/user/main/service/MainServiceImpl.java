@@ -177,7 +177,7 @@ public class MainServiceImpl implements MainService {
             DoctorRespDto doctorRespDto = DoctorRespDto.builder()
                     .doctorSeq(doctor.getSeq())
                     .name(doctor.getName())
-                    .profileImg(doctor.getImgPath())
+                    .profileImg(domain + doctor.getImgPath())
                     .mainCategoryName(doctorMainRepository.getMainCategoryByDoctorSeq(doctor.getSeq()))
                     .build();
 

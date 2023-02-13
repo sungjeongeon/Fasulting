@@ -118,11 +118,15 @@ public class PsServiceImpl implements PsService {
 
         /////////////// 병원 저장 ///////////////
         MultipartFile profileImgFile = psInfo.getProfileImg();
-        log.info(profileImgFile.getOriginalFilename());
+        if(profileImgFile != null){
+            log.info(profileImgFile.getOriginalFilename());
+        }
         MultipartFile registrationImgFile = psInfo.getRegistrationImg();
-        log.info(registrationImgFile.getOriginalFilename());
-
+        if(registrationImgFile != null){
+            log.info(registrationImgFile.getOriginalFilename());
+        }
         String profileImgUrl = null;
+        String profileImgOrigin = null;
 
 
         if (profileImgFile != null && !profileImgFile.isEmpty()) {
@@ -130,16 +134,18 @@ public class PsServiceImpl implements PsService {
             UUID uuid = UUID.randomUUID();
 
             profileImgUrl = FileManage.uploadFile(profileImgFile, uuid, psProfileImgDirPath);
-
+            profileImgOrigin = profileImgFile.getOriginalFilename();
             log.info(profileImgUrl);
         }
 
         String registrationImgUrl = null;
+        String regImgOrigin = null;
 
         if (registrationImgFile != null && !registrationImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
             registrationImgUrl = FileManage.uploadFile(registrationImgFile, uuid, psRegImgDirPath);
+            regImgOrigin = registrationImgFile.getOriginalFilename();
             log.info(registrationImgUrl);
         }
 
@@ -151,12 +157,12 @@ public class PsServiceImpl implements PsService {
                 .address(psInfo.getAddress())
                 .registration(psInfo.getRegistration())
                 .regImgPath(registrationImgUrl)
-                .regImgOrigin(registrationImgFile.getOriginalFilename())
+                .regImgOrigin(regImgOrigin)
                 .number(psInfo.getNumber())
                 .director(psInfo.getDirector())
                 .homepage(psInfo.getHomepage())
                 .profileImgPath(profileImgUrl)
-                .profileImgOrigin(profileImgFile.getOriginalFilename())
+                .profileImgOrigin(profileImgOrigin)
                 .intro(psInfo.getIntro())
                 .build();
 

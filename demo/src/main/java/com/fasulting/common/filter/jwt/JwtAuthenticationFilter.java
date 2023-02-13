@@ -36,10 +36,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest  request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 헤더에서 JWT 를 받아옵니다.
         String token = jwtService.resolveToken(request);
+
+        log.info("token : " + token);
+        if(token != null){
+            log.info("isExpired : " + jwtService.isExpiredToken(token));
+            log.info("isValid : " + jwtService.isValidToken(token));
+            log.info("isBlocked : " + jwtService.isBlockedToken(request, token));
+        }
         
         // access 토큰이 만료되기 전일 때
         if (token != null && jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
                 !jwtService.isBlockedToken(request, token)) {
+            log.info("조건 1");
             // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
             Authentication authentication = jwtService.getAuthentication(token);
             // SecurityContext 에 Authentication 객체를 저장합니다.
@@ -48,12 +56,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // access 토큰이 만료되었을 때
         else if(token != null && !jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
                 !jwtService.isBlockedToken(request, token)){
+            log.info("조건 2");
             // 쿠키에 저장된 refreshToken
             String refreshToken = getRefreshToken(request);
             // 쿠키에 저장된 refreshToken 유효성 확인으로 새로운 accessToken 생성
             String newAccessToken = jwtService.validateRefreshToken(refreshToken);
             // 생성된 accessToken 에 대한 유효성 검증
             if(isValidRefreshToken(refreshToken, newAccessToken)){
+                log.info("조건 3");
                 // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
                 Authentication authentication = jwtService.getAuthentication(newAccessToken);
                 // SecurityContext 에 Authentication 객체를 저장합니다.
