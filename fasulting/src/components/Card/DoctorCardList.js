@@ -20,7 +20,7 @@ function DoctorCardList({ detailhospital }) {
       main_category: "안티에이징",
     },
   ];
-  console.log("doctor", detailhospital.doctor);
+  //console.log("doctor", detailhospital.doctor);
   return (
     <div>
       <p className={styles.title}>의사 현황</p>
@@ -33,6 +33,7 @@ function DoctorCardList({ detailhospital }) {
               key={doc.doctorSeq}
               name={doc.name}
               main_category={doc.mainCategoryName}
+              profileImg={doc.profileImg}
             />
           ))
         )}
