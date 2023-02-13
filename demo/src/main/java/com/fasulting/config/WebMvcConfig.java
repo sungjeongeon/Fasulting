@@ -30,7 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://127.0.0.1:3000", "https://172.22.0.5:3000", "https://apitest.hotsix.duckdns.org", "http://localhost:3000")
+                .allowedOrigins("https://apitest.hotsix.duckdns.org:3000", "http://localhost:3000")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .exposedHeaders("*")
