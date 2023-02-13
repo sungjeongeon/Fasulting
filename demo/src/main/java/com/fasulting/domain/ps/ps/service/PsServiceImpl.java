@@ -118,6 +118,8 @@ public class PsServiceImpl implements PsService {
     @Override
     public boolean psRegister(PsWithoutSeqReqDto psInfo) {
 
+        log.info("psRegister Service - Call");
+
         /////////////// 병원 저장 ///////////////
         MultipartFile profileImgFile = psInfo.getProfileImg();
         if(profileImgFile != null){
@@ -151,7 +153,6 @@ public class PsServiceImpl implements PsService {
             log.info(registrationImgUrl);
         }
 
-
         PsEntity ps = PsEntity.builder()
                 .email(psInfo.getEmail())
                 .password(passwordEncoder.encode(psInfo.getPassword()))
@@ -170,7 +171,7 @@ public class PsServiceImpl implements PsService {
 
         psRepository.save(ps);
 
-        log.info("save ps");
+        log.info("psRegister Service - END");
 
         return true;
     }
@@ -273,7 +274,7 @@ public class PsServiceImpl implements PsService {
             DoctorRespDto doctorRespDto = DoctorRespDto.builder()
                     .doctorSeq(doctor.getSeq())
                     .name(doctor.getName())
-                    .profileImg(domain + doctor.getImgPath())
+                    .profileImg(FileManage.domain + doctor.getImgPath())
                     .mainCategoryName(doctorMainRepository.getMainCategoryByDoctorSeq(doctor.getSeq()))
                     .build();
 
@@ -306,7 +307,7 @@ public class PsServiceImpl implements PsService {
                 .psName(ps.getName())
                 .psIntro(ps.getIntro())
                 .psAddress(ps.getAddress())
-                .psProfileImg(domain + ps.getProfileImgPath())
+                .psProfileImg(FileManage.domain + ps.getProfileImgPath())
                 .psNumber(ps.getNumber())
                 .psEmail(ps.getEmail())
                 .psHomepage(ps.getHomepage())

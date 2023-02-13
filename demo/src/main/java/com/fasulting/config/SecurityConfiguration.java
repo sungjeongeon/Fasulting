@@ -47,7 +47,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                           UsernamePasswordAuthenticationFilter.class);
     }
 
-    // .cors().disable() // cors 방지
     @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

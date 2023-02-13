@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/favorite")
-@CrossOrigin("*") // 수정
+//@CrossOrigin("*") // 수정
 public class FavoriteController {
 
     private final FavoriteService favoriteService;

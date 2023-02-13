@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/admin/account")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class AccountController {
 
     private AccountService accountService;

@@ -1,6 +1,7 @@
 package com.fasulting.domain.jwt.controller;
 
 import com.fasulting.common.resp.ResponseBody;
+import com.fasulting.common.util.CookieUtil;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
 import com.fasulting.domain.jwt.dto.respDtio.UserLoginRespDto;
 import com.fasulting.domain.jwt.service.UserJwtService;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +23,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-@CrossOrigin("*") // 수정
+//@CrossOrigin("*") // 수정
 public class
 UserJwtController {
 
@@ -34,19 +36,16 @@ UserJwtController {
      * @return userSeq
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletResponse response) {
+    public ResponseEntity<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletRequest request, HttpServletResponse response) {
 
         UserLoginRespDto userLoginRespDto = userJwtService.login(loginReqDto);
 
         if (userLoginRespDto != null) {
 
+            // 기존 쿠키 삭제
+            CookieUtil.deleteCookie(request, response, "refreshToken");
             // JWT 쿠키 저장(쿠키 명 : token)
-            Cookie cookie = new Cookie("loginReqDto", userLoginRespDto.getRefreshToken());
-//            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
-            // httpOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
-//            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
+            CookieUtil.addCookie(response, "refreshToken", userLoginRespDto.getRefreshToken());
 
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.AUTHORIZATION, userLoginRespDto.getAccessToken());
@@ -64,7 +63,7 @@ UserJwtController {
 
         String accessToken = request.getHeader("Authorization");
 
-        if(userJwtService.logout(userSeq)){
+        if (userJwtService.logout(userSeq)) {
             HttpSession session = request.getSession();
             session.setAttribute(accessToken, accessToken);
             session.setMaxInactiveInterval(30 * 60);

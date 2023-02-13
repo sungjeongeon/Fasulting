@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ps")
-@CrossOrigin("*") // 수정
+//@CrossOrigin("*") // 수정
 public class PsController {
 
     private final PsService psService;

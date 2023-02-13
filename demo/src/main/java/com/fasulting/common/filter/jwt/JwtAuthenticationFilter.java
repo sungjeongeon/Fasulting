@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         
         // access 토큰이 만료되기 전일 때
         if (token != null && jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
-                !jwtService.isBlockedToken(request, token)) {
+                jwtService.isBlockedToken(request, token)) {
             log.info("조건 1");
             // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
             Authentication authentication = jwtService.getAuthentication(token);
@@ -55,7 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         // access 토큰이 만료되었을 때
         else if(token != null && !jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
-                !jwtService.isBlockedToken(request, token)){
+                jwtService.isBlockedToken(request, token)){
             log.info("조건 2");
             // 쿠키에 저장된 refreshToken
             String refreshToken = getRefreshToken(request);
@@ -77,7 +77,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getRefreshToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        for(Cookie c : cookies){
+            log.info("arr cookie : " + c.getName());
+            log.info("arr cookie value : " + c.getValue());
+        }
+
         if (request.getCookies() != null) {
+            log.info("get refresh " + request.getCookies());
             return Arrays.stream(request.getCookies())
                     .filter(cookie -> cookie.getName().equals("refreshToken"))
                     .findFirst()

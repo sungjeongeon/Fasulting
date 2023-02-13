@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/reservation")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class ReservationController {
 
     private ReservationService reservationService;

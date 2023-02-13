@@ -51,7 +51,7 @@ import static com.fasulting.common.util.FileManage.domain;
 @Slf4j
 @RequestMapping("/ps-consulting")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class PsConsultingController {
 
     private final PsConsultingService psConsultingService;

@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/admin/review")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class AdminReviewController {
     private final ReviewRepository reviewRepository;
 
