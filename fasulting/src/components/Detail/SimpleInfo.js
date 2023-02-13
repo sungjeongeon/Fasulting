@@ -50,7 +50,7 @@ function SimpleInfo({ detailhospital }) {
       <div className={styles.profileImg}>
         <img
           className={styles.Img}
-          src="/assets/images/profile.jpg"
+          src={detailhospital.psProfileImg}
           alt="profile"
         />
       </div>

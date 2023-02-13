@@ -33,9 +33,15 @@ function HospitalListItem({ hospital }) {
           })}
         </div>
         {/* 오른쪽 */}
-        <div>
+        <div className={styles.rightDiv}>
           {/* 이미지 (임시) */}
-          <div className={styles.psProfileImg}>profile</div>
+          <div className={styles.divImg}>
+            <img
+              className={styles.img}
+              src={hospital.psProfileImg}
+              alt="profileImg"
+            />
+          </div>
           <p className={styles.rating}>
             <span>★</span>
             {/* {hospital.totalRatingResult.toFixed(1)} | 관련 후기{" "} */}

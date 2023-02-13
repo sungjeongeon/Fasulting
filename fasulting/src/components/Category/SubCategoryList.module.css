@@ -3,6 +3,11 @@
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
+.hr {
+  background-color: rgb(219, 219, 219);
+  /* width: 62rem; */
+  height: 0.06rem;
+}
 
 /*list item*/
 /* 선택안됨 */

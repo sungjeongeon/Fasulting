@@ -18,13 +18,14 @@ function Header() {
 
   const [islogin, setIslogin] = useState(false);
   const token = useSelector((state) => state.authToken);
+
   useEffect(() => {
     if (token.accessToken) {
       setIslogin(true);
     } else {
       setIslogin(false);
     }
-  }, [token]);
+  }, [token, islogin]);
 
   // 드롭다운 클릭 state
   const [open, setOpen] = useState(false);
@@ -72,11 +73,22 @@ function Header() {
                   예약관리
                 </Link>
               </div>
-              <div className={`${styles.greeting} ${styles.common}`}>
-                <span className={styles.activate}>{psData.psName}</span>
-                <span>님</span>
-                <br />
-                <span className={styles.center}>반갑습니다!</span>
+              <div
+                className={`${styles.greeting} ${styles.common}`}
+                onClick={openState}
+              >
+                <div>
+                  <span className={styles.activate}>{psData.psName}</span>
+                  <span>님</span>
+                  <br />
+                  <span className={styles.center}>
+                    반갑습니다!
+                    <div className={styles.btn}>
+                      {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                    </div>
+                  </span>
+                </div>
+                {open && <Dropdown />}
               </div>
             </div>
           ) : !userData.adminYn ? (

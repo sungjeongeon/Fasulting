@@ -57,7 +57,7 @@ export default function LoginForm() {
                 withCredentials: true,
               })
               .then((res) => {
-                if (res.data.message === "success") {
+                if (res.data.statusCode === 200) {
                   console.log(res.data);
                   dispatch(
                     loginUser({
@@ -95,6 +95,17 @@ export default function LoginForm() {
                       navigate("/");
                     }
                   }, 2000);
+                } else if (res.status === 204) {
+                  toast.error(
+                    <h3>
+                      아이디나 비밀번호를 <br />
+                      다시 확인해주세요.😢
+                    </h3>,
+                    {
+                      position: toast.POSITION.TOP_CENTER,
+                      autoClose: 2000,
+                    }
+                  );
                 }
               });
           } catch {}
@@ -106,6 +117,7 @@ export default function LoginForm() {
               })
               .then((res) => {
                 if (res.data.message === "success") {
+                  console.log(res);
                   if (res.data.responseObj.confirmYn === true) {
                     console.log(res.data);
                     dispatch(
@@ -154,6 +166,16 @@ export default function LoginForm() {
                       navigate("/");
                     }, 2000);
                   }
+                } else if (res.data.message === "fail") {
+                  toast.success(
+                    <h3>
+                      유저정보가 존재하지 않습니다. <br />
+                    </h3>,
+                    {
+                      position: toast.POSITION.TOP_CENTER,
+                      autoClose: 2000,
+                    }
+                  );
                 }
               });
           } catch (e) {

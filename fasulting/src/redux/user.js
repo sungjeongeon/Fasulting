@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { PURGE } from "redux-persist";
 //스토어가 식당이라고 하면 리듀서는 접시 같은 놈
 export const userSlice = createSlice({
   name: "user", //리듀서 이름

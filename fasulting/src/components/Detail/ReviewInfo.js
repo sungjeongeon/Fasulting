@@ -11,9 +11,9 @@ function ReviewInfo({ detailhospital }) {
   const totalScore = detailhospital.totalRatingResult;
 
   // 신고 버튼 누르면 해당 review id 넘버 받아옴 (e.target.value)
-  const [reviewId, setReviewId] = useState(0)
+  const [reviewId, setReviewId] = useState(0);
   const reviewClaim = (e) => {
-    setReviewId(e.target.value)
+    setReviewId(e.target.value);
   };
 
   const isHospitalPage =
@@ -23,8 +23,9 @@ function ReviewInfo({ detailhospital }) {
   const [ModalOpen, setModalOpen] = useState(false);
   const ModalStateChange = (e) => {
     setModalOpen((current) => !current);
-  }
+  };
 
+  console.log(detailhospital);
   return (
     <div>
       <p className={styles.title}>리뷰</p>
@@ -43,7 +44,7 @@ function ReviewInfo({ detailhospital }) {
             <div className={styles.star}>
               <Rating
                 name="half-rating"
-                value={totalScore}
+                value={totalScore || ""}
                 precision={0.1}
                 size="large"
                 readOnly
@@ -56,37 +57,41 @@ function ReviewInfo({ detailhospital }) {
         </div>
         <hr className={styles.hr} />
         <div>
-        {!detailhospital.review
-          ? "리뷰가 존재하지 않습니다."
-          : detailhospital.review.map((review) => (
-              <div key={review.reviewSeq} className={styles.reviewList}>
-                {isHospitalPage ? (
-                  <div className={styles.claimBtn}>
-                    <Button
-                      variant="text"
-                      className={styles.btn}
-                      color="error"
-                      value={review.reviewSeq}
-                      onClick={(e) => {
-                        ModalStateChange();
-                        reviewClaim(e)
-                      }}
-                    >
-                      <p className={styles.btnTextRed}>신고</p>
-                    </Button>
-                  </div>
-                ) : null}
+          {!detailhospital.review
+            ? "리뷰가 존재하지 않습니다."
+            : detailhospital.review.map((review) => (
+                <div key={review.reviewSeq} className={styles.reviewList}>
+                  {isHospitalPage ? (
+                    <div className={styles.claimBtn}>
+                      <Button
+                        variant="text"
+                        className={styles.btn}
+                        color="error"
+                        value={review.reviewSeq}
+                        onClick={(e) => {
+                          ModalStateChange();
+                          reviewClaim(e);
+                        }}
+                      >
+                        <p className={styles.btnTextRed}>신고</p>
+                      </Button>
+                    </div>
+                  ) : null}
 
-                <ReviewListItem
-                  key={detailhospital.review.reviewSeq}
-                  review={review}
-                />
-              </div>
-            ))}
-            {ModalOpen && (
-              <ReviewReport ModalStateChange={ModalStateChange} reviewId={reviewId} psSeq={detailhospital.psSeq}/>
-            )}
-            </div>
+                  <ReviewListItem
+                    key={detailhospital.review.reviewSeq}
+                    review={review}
+                  />
+                </div>
+              ))}
+          {ModalOpen && (
+            <ReviewReport
+              ModalStateChange={ModalStateChange}
+              reviewId={reviewId}
+              psSeq={detailhospital.psSeq}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

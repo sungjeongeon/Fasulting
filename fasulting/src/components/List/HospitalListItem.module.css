@@ -14,10 +14,12 @@
 }
 .leftDiv {
   margin-left: 24px;
+  width: 80%;
 }
 .innerDiv {
   display: flex;
   justify-content: space-between;
+  min-height: 12rem;
   /* width: 62rem; */
 }
 
@@ -69,17 +71,24 @@
   color: black;
 }
 
-.img {
-  width: 5.63rem;
-  height: 5.63rem;
-  margin: auto;
-  margin-top: 1.5rem;
-  background-color: gray;
-  border-radius: 0.3125rem;
+.divImg {
+  width: 6rem;
+  height: 6rem;
 }
-
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5%;
+}
+.rightDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
 .rating {
-  margin-right: 1.5rem;
   font-style: normal;
   font-weight: 700;
   font-size: 0.88rem;

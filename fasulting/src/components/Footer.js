@@ -21,7 +21,7 @@ const Footer = () => {
             </div>
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                상담 예약 전
+                🧑 상담 예약 전
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
                 정확한 상담을 위해 <br />
@@ -43,7 +43,7 @@ const Footer = () => {
             </div>
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                성형 관련
+                💉 성형 관련
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
                 과도한 욕심은 <strong>성형 중독</strong>으로 가는 지름길입니다.
