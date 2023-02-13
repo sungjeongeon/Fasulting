@@ -16,6 +16,7 @@ import { update } from '../../redux/appointments';
 import moment from 'moment';
 import { useState } from 'react';
 import axiosAPi from "../../api/axiosApi"
+import classNames from 'clsx';
 
 
 const AppointmentContent = ({ style, ...restProps }) => {
@@ -171,7 +172,17 @@ const Appointment = ({
           console.log("미포함됐던,,")
         }
         console.log(newList)
-        setTestList(newList)
+        // setTestList(newList)
+        axiosAPi.put('/ps/operating/cell', {
+          "psSeq": psSeq,
+          "operatingTime": newList
+        })
+        .then((res) => {
+          console.log(res.data.message)
+          setTestList(newList)
+        })
+        .catch(err => console.log(err))
+        
       }
     }
 
@@ -184,8 +195,37 @@ const Appointment = ({
       disabledCell: `${PREFIX}-disabledCell`,
       today: `${PREFIX}-today`,
       disabled: `${PREFIX}-disabled`,
+      
+      line: `${PREFIX}-line`,
+      circle: `${PREFIX}-circle`,
+      nowIndicator: `${PREFIX}-nowIndicator`,
       shadedPart: `${PREFIX}-shadedPart`,
+      appointment: `${PREFIX}-appointment`,
     };
+
+    const StyledDiv = styled('div', {
+      shouldForwardProp: prop => prop !== 'top',
+    })(({ theme, top }) => ({
+      [`& .${classes.line}`]: {
+        height: '2px',
+        borderTop: `3px ${theme.palette.primary.main} dotted`,
+        width: '100%',
+        transform: 'translate(0, -1px)',
+      },
+      [`& .${classes.circle}`]: {
+        width: theme.spacing(1.5),
+        height: theme.spacing(1.5),
+        borderRadius: '50%',
+        transform: 'translate(-50%, -50%)',
+        background: theme.palette.primary.main,
+      },
+      [`& .${classes.nowIndicator}`]: {
+        position: 'absolute',
+        zIndex: 1,
+        left: 0,
+        top,
+      },
+    }));
     
     const StyledWeekViewTimeTableCell = styled(WeekView.TimeTableCell)(({ theme, currentTimeIndicatorPosition }) => ({
       [`&.${classes.allCell}`]: {
@@ -209,7 +249,7 @@ const Appointment = ({
         backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
       },
       [`& .${classes.shadedPart}`]: {
-        backgroundColor: alpha(theme.palette.primary.main, 0.08),
+        backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
         position: 'absolute',
         height: currentTimeIndicatorPosition,
         width: '100%',
@@ -230,12 +270,24 @@ const Appointment = ({
       },
     }));
     
-    const TimeTableCell = (props) => {
-      const { startDate } = props;
-      const date = new Date(startDate);
+
+    const TimeIndicator = ({
+      top, ...restProps
+    }) => (
+      <StyledDiv top={top} {...restProps}>
+        <div className={classNames(classes.nowIndicator, classes.circle)} />
+        <div className={classNames(classes.nowIndicator, classes.line)} />
+      </StyledDiv>
+    );
+
+
+    const TimeTableCell = ({currentTimeIndicatorPosition, isShaded, startDate, ...restProps}) => {
+      const isNow = !!currentTimeIndicatorPosition;
+      const cellStartDate = startDate
+      const date = new Date(cellStartDate);
       const dateNow = new Date();
+      const lastDay = new Date(dateNow.getFullYear(), dateNow.getMonth(), 0).getDate()
       // onclick=((event)=> console.log(event.target.getAttribute('class')))
-      // onclick = ((e) => console.log(e.target.getAttribute('class').includes("include-time")))
       // onclick = ((e) => console.log(e.target.getAttribute('class').indexOf("date-")))
       // onclick = ((e) => console.log(e.target.getAttribute('class').substr(106,6)))
       onclick = ((e) => updateList(e.target.getAttribute('class').substr(e.target.getAttribute('class').indexOf("date-")+5,16)))
@@ -245,13 +297,40 @@ const Appointment = ({
     
       if (!loading) {
         
-      if (startDate.getMonth() === dateNow.getMonth()) {
-        if (date < dateNow || date.getDate() > dateNow.getDate()+13 ) {
-        return <StyledWeekViewTimeTableCell {...props} className={classes.fixedDisabledCell} />;
-      }} else {
-        return <StyledWeekViewTimeTableCell {...props} className={classes.fixedDisabledCell} />;
+      // if (cellStartDate.getMonth() === dateNow.getMonth()) {
+      //   if (date < dateNow || date.getDate() > dateNow.getDate()+13 ) {
+      //   return <StyledWeekViewTimeTableCell {...restProps} className={classes.fixedDisabledCell} />;
+      // }} else {
+      //   return <StyledWeekViewTimeTableCell {...restProps} className={classes.fixedDisabledCell} />;
+      // }
+      if (date < dateNow) {
+        return (
+          <StyledWeekViewTimeTableCell
+            isShaded={isShaded && !isNow}
+            currentTimeIndicatorPosition={currentTimeIndicatorPosition}
+            className={classNames({
+              [classes.fixedDisabledCell]: isShaded && !isNow,
+            })}
+            {...restProps}
+          >
+            {isNow && isShaded && (
+              <div className={classes.shadedPart} />
+            )}
+          </StyledWeekViewTimeTableCell>
+      )} else {
+        // 현재보다 이후 날짜 
+        if (date.getMonth() === dateNow.getMonth()) {
+          if (date.getDate() > dateNow.getDate()+13) {
+            return <StyledWeekViewTimeTableCell {...restProps} className={classes.fixedDisabledCell} />;
+          }
+        } else {
+          if (date.getDate() > dateNow.getDate()+13-lastDay) {
+            return <StyledWeekViewTimeTableCell {...restProps} className={classes.fixedDisabledCell} />;
+          }
+        }
       }
-      return <StyledWeekViewTimeTableCell {...props} className={testList.includes(dateStr) ? `${classes.allCell} ${`date-${dateStr}`} ${"include-time"}` : `${classes.disabledCell} ${classes.allCell} ${`date-${dateStr}`} ${"exclude-time"}`}/>;
+
+      return <StyledWeekViewTimeTableCell {...restProps} className={testList.includes(dateStr) ? `${classes.allCell} ${`date-${dateStr}`}` : `${classes.disabledCell} ${classes.allCell} ${`date-${dateStr}`}`}/>;
       }
     };
     
@@ -294,7 +373,8 @@ const Appointment = ({
             appointmentContentComponent={AppointmentContent}
           />
           <CurrentTimeIndicator
-            
+            indicatorComponent={TimeIndicator}
+            shadePreviousCells
           />
         </Scheduler>
       </Paper>

@@ -30,9 +30,13 @@ export const lastReservationHoSlice = createSlice({
     changeLoading: (state) => {
       state.loading = false
       return state
+    },
+    changeLoadingTrue: (state) => {
+      state.loading = true
+      return state
     }
   }
 })
 
-export const { changeReserveInfo, changeLoading } = lastReservationHoSlice.actions
+export const { changeReserveInfo, changeLoading, changeLoadingTrue } = lastReservationHoSlice.actions
 export default lastReservationHoSlice.reducer;

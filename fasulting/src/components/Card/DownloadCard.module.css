@@ -1,0 +1,14 @@
+.outer {
+  margin-top: 20px;
+  width: 100%;
+  background-color: #eeeeee;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gif {
+  width: 60%;
+  margin-right: 5%;
+}

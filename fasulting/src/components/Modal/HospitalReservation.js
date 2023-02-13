@@ -78,6 +78,15 @@ function HospitalReservation() {
           <p className={`${styles.color} ${styles.hospital}`}>
             {ReservationManage.name}
           </p>
+          <a
+            href={
+              "https://apitest.hotsix.duckdns.org/ps-consulting/download/" +
+              ReservationManage.reservationSeq
+            }
+            download="ㅎㅇc"
+          >
+            다운로드
+          </a>
           <div className={styles.line}></div>
           <div className={`${styles.flexrow} ${styles.mt}`}>
             <p className={`${styles.color} ${styles.mr}`}>예약 일정</p>
@@ -111,7 +120,14 @@ function HospitalReservation() {
               <div className={styles.flexcol}>
                 <div className={styles.flex}>
                   <button className={`${styles.okay} ${styles.mr}`}>
-                    이미지 다운로드
+                    <a
+                      href={
+                        "https://apitest.hotsix.duckdns.org/ps-consulting/download/" +
+                        ReservationManage.reservationSeq
+                      }
+                    >
+                      이미지 다운로드
+                    </a>
                   </button>
                   <button className={styles.okay} onClick={enterConsultingRoom}>
                     상담 입장
@@ -122,7 +138,14 @@ function HospitalReservation() {
               <div className={styles.flexcol}>
                 <div className={styles.flex}>
                   <button className={`${styles.okay} ${styles.mr}`}>
-                    이미지 다운로드
+                    <a
+                      href={
+                        "https://apitest.hotsix.duckdns.org/ps-consulting/download/" +
+                        ReservationManage.reservationSeq
+                      }
+                    >
+                      이미지 다운로드
+                    </a>
                   </button>
                   <button className={styles.yet}>상담 입장</button>
                 </div>

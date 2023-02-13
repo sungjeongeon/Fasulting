@@ -47,6 +47,19 @@ function Header() {
           psData.psSeq ? (
             //병원회원일때
             <div>
+              <div className={`${styles.download} ${styles.common}`}>
+                <Link
+                  to={"/ps/download"}
+                  style={{ textDecoration: "none" }}
+                  className={
+                    nowpath === "/ps/download"
+                      ? styles.activate
+                      : styles.notactivate
+                  }
+                >
+                  다운로드
+                </Link>
+              </div>
               <div className={`${styles.mypageho} ${styles.common}`}>
                 <Link
                   to={"/mypageho"}
