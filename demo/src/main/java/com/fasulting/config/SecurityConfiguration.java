@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/test").authenticated()
+//                .antMatchers("/test").authenticated()
                 .antMatchers("/ps/logout").access("hasAuthority('PS')")
                 .antMatchers("/user/logout").access("hasAuthority('USER')")
                 .antMatchers("/admin/logout").access("hasAuthority('ADMIN')")

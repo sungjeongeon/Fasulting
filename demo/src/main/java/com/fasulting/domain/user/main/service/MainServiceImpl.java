@@ -205,7 +205,7 @@ public class MainServiceImpl implements MainService {
                     .point(review.getPoint())
                     .regDate(review.getRegDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                     .content(review.getContent())
-                    .subCategoryName(reviewSubRepository.getSubCategoryByDoctorSeq(review.getSeq()))
+                    .subCategoryName(reviewSubRepository.getSubCategoryByReviewSeq(review.getSeq()))
                     .build();
 
             reviewRespDtoList.add(reviewRespDto);
