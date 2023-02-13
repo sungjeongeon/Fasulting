@@ -46,7 +46,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.fasulting.common.util.FileManage.beforeImgDirPath;
-import static com.fasulting.common.util.FileManage.domain;
 
 @Slf4j
 @Service
@@ -507,8 +506,8 @@ public class ReservationServiceImpl implements ReservationService {
                 .psHomepage(ps.getHomepage())
                 .psNumber(ps.getNumber())
                 .defaultTime(map)
-                .beforeImgPath(domain + report.getBeforeImgPath())
-                .afterImgPath(domain + report.getAfterImgPath())
+                .beforeImgPath(FileManage.domain + report.getBeforeImgPath())
+                .afterImgPath(FileManage.domain + report.getAfterImgPath())
                 .content(report.getContent())
                 .estimate(report.getEstimate())
                 .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))

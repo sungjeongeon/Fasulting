@@ -272,7 +272,7 @@ public class PsServiceImpl implements PsService {
             DoctorRespDto doctorRespDto = DoctorRespDto.builder()
                     .doctorSeq(doctor.getSeq())
                     .name(doctor.getName())
-                    .profileImg(domain + doctor.getImgPath())
+                    .profileImg(FileManage.domain + doctor.getImgPath())
                     .mainCategoryName(doctorMainRepository.getMainCategoryByDoctorSeq(doctor.getSeq()))
                     .build();
 
@@ -305,7 +305,7 @@ public class PsServiceImpl implements PsService {
                 .psName(ps.getName())
                 .psIntro(ps.getIntro())
                 .psAddress(ps.getAddress())
-                .psProfileImg(domain + ps.getProfileImgPath())
+                .psProfileImg(FileManage.domain + ps.getProfileImgPath())
                 .psNumber(ps.getNumber())
                 .psEmail(ps.getEmail())
                 .psHomepage(ps.getHomepage())
