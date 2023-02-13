@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fasulting.common.util.FileManage.domain;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -41,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
                     .name(ps.getName())
                     .address(ps.getAddress())
                     .zipcode(ps.getZipcode())
-                    .registration(ps.getRegistration())
+                    .registration(domain + ps.getRegImgPath())
                     .number(ps.getNumber())
                     .director(ps.getDirector())
                     .homepage(ps.getHomepage())
