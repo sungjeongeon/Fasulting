@@ -634,6 +634,7 @@ public class PsServiceImpl implements PsService {
         });
 
 
+        log.info("ps 완");
         /////////////// 병원 - 전문의 리스트 저장 ///////////////
         String doctorImgUrl = null;
 
@@ -641,8 +642,12 @@ public class PsServiceImpl implements PsService {
         if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
+            log.info("img 존재");
+
             doctorImgUrl = FileManage.uploadFile(doctorImgFile, uuid, doctorImgPath);
         }
+
+        log.info("filename: " +  doctorImgFile.getOriginalFilename());
 
         DoctorEntity doc = DoctorEntity.builder().ps(ps)
                 .imgPath(doctorImgUrl)
