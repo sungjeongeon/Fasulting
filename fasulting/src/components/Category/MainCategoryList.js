@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MainCategoryListItem from "./MainCategoryListItem";
 import styles from "./MainCategoryList.module.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -57,22 +56,15 @@ function MainCategoryList() {
     });
   }, []);
   const param = useParams();
+  console.log(param.seq)
 
   return (
     <div className={styles.list}>
       {maincategory.map((main, index) => (
         <Link to={`/pslist/${main.mainSeq}`} key={index}>
-          {/* <MainCategoryListItem
-            text={main.mainCategoryName}
-            seq={main.mainCategorySeq}
-            className={styles.listitem}
-          />
-          <div
-      className={`${styles.mainctg} ${param.seq == seq ? styles.select : ""}`}
-    > */}
           <div
             className={`${styles.mainctg} ${
-              param.seq === main.mainSeq ? styles.select : ""
+              Number(param.seq) === main.mainSeq ? styles.select : ""
             }`}
           >
             <img
