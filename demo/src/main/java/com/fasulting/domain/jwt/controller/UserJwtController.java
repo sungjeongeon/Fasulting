@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,11 +42,11 @@ UserJwtController {
         if (userLoginRespDto != null) {
 
             // JWT 쿠키 저장(쿠키 명 : token)
-            Cookie cookie = new Cookie("loginReqDto", userLoginRespDto.getRefreshToken());
-//            cookie.setPath("/");
+            Cookie cookie = new Cookie("refreshToken", userLoginRespDto.getRefreshToken());
+            cookie.setPath("/");
             cookie.setMaxAge(60 * 60 * 24 * 1); // 유효기간 1일
-            // httpOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
-//            cookie.setHttpOnly(true);
+//             httpOnly 옵션을 추가해 서버만 쿠키에 접근할 수 있게 설정
+            cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
             HttpHeaders headers = new HttpHeaders();

@@ -78,6 +78,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String getRefreshToken(HttpServletRequest request) {
         if (request.getCookies() != null) {
+            log.info("get refresh " + request.getCookies());
             return Arrays.stream(request.getCookies())
                     .filter(cookie -> cookie.getName().equals("refreshToken"))
                     .findFirst()
