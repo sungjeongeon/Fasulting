@@ -77,6 +77,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getRefreshToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        for(Cookie c : cookies){
+            log.info("arr cookie : " + c.getName());
+            log.info("arr cookie value : " + c.getValue());
+        }
+
         if (request.getCookies() != null) {
             log.info("get refresh " + request.getCookies());
             return Arrays.stream(request.getCookies())
