@@ -6,6 +6,7 @@ import {
   Scheduler,
   WeekView,
   Appointments,
+  CurrentTimeIndicator
 } from '@devexpress/dx-react-scheduler-material-ui';
 // import appointments from '../../demo-data/today-appointments';
 import { useSelector, useDispatch } from 'react-redux';
@@ -94,16 +95,24 @@ const Appointment = ({
     const [allAppointments, setAllAppointments] = useState([]) // 기존 전체 
     const [operatingTime, setOperatingTime] = useState([])
     useEffect(() => {
+      if (loading) {
       axiosAPi.get(`/ps-reservation/post/${psSeq}`)
         // .then(res => console.log(res.data.responseObj.reservation))
         .then(res => {
+          console.log(res.data.responseObj)
           setAllAppointments(res.data.responseObj.reservation)
           setOperatingTime(res.data.responseObj.operatingTime)
+          setLoading(false)
           // console.log(operatingTime)
+          // setupOperating()
+          // updateFirst(dayTimeList)
         })
-        .then(setLoading(false))
         .catch(err => console.log(err))
-    }, [])
+      } else {
+          setupOperating()
+          updateFirst(dayTimeList)
+      }
+    }, [loading])
 
     // axios로 요청한 데이터를 가공한 것을 appointments로 생성
     const appointments = 
@@ -126,22 +135,45 @@ const Appointment = ({
 
     // 필요한 데이터로 operating 다시 만들기
     let dayTimeList = []
-    operatingTime.map((obj) => {
-      let h = 0
-      let m = 0
-      obj.time.map((timeItem) => {
-        if (timeItem%2) {
-          h = 9+parseInt(timeItem/2)
-          m = '30'
-        } else {
-          h = 9+parseInt(timeItem/2)
-          m = '00'
-        }
-        // day + hour + minute을 문자열로 합침
-        dayTimeList.push(twolen(obj.day) + twolen(h) + m)
+    const setupOperating = () => {
+      operatingTime.map((obj) => {
+        let h = 0
+        let m = 0
+        obj.time.map((timeItem) => {
+          if (timeItem%2) {
+            h = 9+parseInt(timeItem/2)
+            m = '30'
+          } else {
+            h = 9+parseInt(timeItem/2)
+            m = '00'
+          }
+          // day + hour + minute을 문자열로 합침
+          dayTimeList.push(twolen(obj.year)+'.'+twolen(obj.month)+'.'+twolen(obj.day)+'.'+twolen(h)+'.'+m)
+        })
       })
-    })
+    }
+
     // console.log(dayTimeList)
+    const [testList, setTestList] = useState([])
+    const updateFirst = (list) => {
+      setTestList(list)
+    }
+
+    const updateList = (str) => {
+      // console.log(testList)
+      let newList = []
+      if (!isNaN(str.split('.').join(""))) {
+        if (testList.includes(str)) {
+          newList = testList.filter((testItem) => testItem !== str)
+          console.log("포함됐던,,")
+        } else {
+          newList = [...testList, str]
+          console.log("미포함됐던,,")
+        }
+        console.log(newList)
+        setTestList(newList)
+      }
+    }
 
 
     const PREFIX = 'Demo';
@@ -152,9 +184,10 @@ const Appointment = ({
       disabledCell: `${PREFIX}-disabledCell`,
       today: `${PREFIX}-today`,
       disabled: `${PREFIX}-disabled`,
+      shadedPart: `${PREFIX}-shadedPart`,
     };
     
-    const StyledWeekViewTimeTableCell = styled(WeekView.TimeTableCell)(({ theme }) => ({
+    const StyledWeekViewTimeTableCell = styled(WeekView.TimeTableCell)(({ theme, currentTimeIndicatorPosition }) => ({
       [`&.${classes.allCell}`]: {
         '&:hover': {
           backgroundColor: alpha(theme.palette.primary.main, 0.14),
@@ -175,6 +208,17 @@ const Appointment = ({
       [`&.${classes.disabledCell}`]: {
         backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
       },
+      [`& .${classes.shadedPart}`]: {
+        backgroundColor: alpha(theme.palette.primary.main, 0.08),
+        position: 'absolute',
+        height: currentTimeIndicatorPosition,
+        width: '100%',
+        left: 0,
+        top: 0,
+        'td:focus &': {
+          backgroundColor: alpha(theme.palette.primary.main, 0.12),
+        },
+      },
     }));
     
     const StyledWeekViewDayScaleCell = styled(WeekView.DayScaleCell)(({ theme }) => ({
@@ -194,20 +238,21 @@ const Appointment = ({
       // onclick = ((e) => console.log(e.target.getAttribute('class').includes("include-time")))
       // onclick = ((e) => console.log(e.target.getAttribute('class').indexOf("date-")))
       // onclick = ((e) => console.log(e.target.getAttribute('class').substr(106,6)))
+      onclick = ((e) => updateList(e.target.getAttribute('class').substr(e.target.getAttribute('class').indexOf("date-")+5,16)))
 
-      const dateStr = twolen(date.getDate()) + twolen(date.getHours()) + twolen(date.getMinutes())
+      // console.log(testList)
+      const dateStr = twolen(date.getFullYear())+'.'+twolen(date.getMonth()+1)+'.'+twolen(date.getDate())+'.'+twolen(date.getHours())+'.'+twolen(date.getMinutes())
     
-
-      if (date.getDate() < dateNow.getDate() || date.getDate() > dateNow.getDate()+13 ) {
+      if (!loading) {
+        
+      if (startDate.getMonth() === dateNow.getMonth()) {
+        if (date < dateNow || date.getDate() > dateNow.getDate()+13 ) {
         return <StyledWeekViewTimeTableCell {...props} className={classes.fixedDisabledCell} />;
-      } 
-      // if (!(dayTimeList.includes(dateStr))) {
-      //   return <StyledWeekViewTimeTableCell {...props} className={`${classes.disabledCell} ${classes.allCell}`} />;
-      // }
-      //  if (date.getDate() === new Date().getDate()) {
-      //   return <StyledWeekViewTimeTableCell {...props} className={classes.todayCell} />;
-      // } 
-        return <StyledWeekViewTimeTableCell {...props} className={dayTimeList.includes(dateStr) ? `${classes.allCell} ${`date-${dateStr}`} ${"include-time"}` : `${classes.disabledCell} ${classes.allCell} ${`date-${dateStr}`} ${"exclude-time"}`}/>;
+      }} else {
+        return <StyledWeekViewTimeTableCell {...props} className={classes.fixedDisabledCell} />;
+      }
+      return <StyledWeekViewTimeTableCell {...props} className={testList.includes(dateStr) ? `${classes.allCell} ${`date-${dateStr}`} ${"include-time"}` : `${classes.disabledCell} ${classes.allCell} ${`date-${dateStr}`} ${"exclude-time"}`}/>;
+      }
     };
     
     const DayScaleCell = (props) => {
@@ -216,9 +261,14 @@ const Appointment = ({
     
       if (today) {
         return <StyledWeekViewDayScaleCell {...props} className={classes.today} />;
-      } if (startDate < dateNow || startDate.getDate() > dateNow.getDate()+13) {
+      } 
+      if (startDate.getMonth() === dateNow.getMonth()) {
+        if (startDate.getDate() < dateNow.getDate() || startDate.getDate() > dateNow.getDate()+13) {
         return <StyledWeekViewDayScaleCell {...props} className={classes.disabled} />;
-      } return <StyledWeekViewDayScaleCell {...props} />;
+      }} else {
+        return <StyledWeekViewDayScaleCell {...props} className={classes.disabled} />;
+      }
+      return <StyledWeekViewDayScaleCell {...props} />;
     };
     
     
@@ -242,6 +292,9 @@ const Appointment = ({
           <Appointments
             appointmentComponent={Appointment}
             appointmentContentComponent={AppointmentContent}
+          />
+          <CurrentTimeIndicator
+            
           />
         </Scheduler>
       </Paper>
