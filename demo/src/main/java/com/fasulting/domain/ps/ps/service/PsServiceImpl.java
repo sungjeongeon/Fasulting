@@ -644,20 +644,20 @@ public class PsServiceImpl implements PsService {
         /////////////// 병원 - 전문의 리스트 저장 ///////////////
         String doctorImgUrl = null;
 
-        MultipartFile doctorImgFile = doctor.getImg();
-        if (doctorImgFile != null && !doctorImgFile.isEmpty()) {
+        String fileName = null;
+        if (doctor.getImg() != null && !doctor.getImg().isEmpty()) {
             UUID uuid = UUID.randomUUID();
 
-            log.info("img 존재");
+            fileName = doctor.getImg().getOriginalFilename();
 
-            doctorImgUrl = FileManage.uploadFile(doctorImgFile, uuid, doctorImgPath);
+            doctorImgUrl = FileManage.uploadFile(doctor.getImg(), uuid, doctorImgPath);
         }
 
-        log.info("filename: " +  doctorImgFile.getOriginalFilename());
+        log.info("fileName " + fileName);
 
         DoctorEntity doc = DoctorEntity.builder().ps(ps)
                 .imgPath(doctorImgUrl)
-                .imgOrigin(doctorImgFile.getOriginalFilename())
+                .imgOrigin(fileName)
                 .name(doctor.getName())
                 .build();
 
