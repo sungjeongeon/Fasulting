@@ -54,3 +54,13 @@
 .hr {
   margin-top: 1.44rem;
 }
+
+.content {
+  margin-left: 1.25rem;
+  margin-right: 1.5rem;
+  width: 90%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #7c7877;
+}

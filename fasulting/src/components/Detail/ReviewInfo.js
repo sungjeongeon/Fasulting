@@ -25,7 +25,7 @@ function ReviewInfo({ detailhospital }) {
     setModalOpen((current) => !current);
   };
 
-  console.log(detailhospital);
+  console.log(detailhospital.review);
   return (
     <div>
       <p className={styles.title}>리뷰</p>
@@ -57,8 +57,8 @@ function ReviewInfo({ detailhospital }) {
         </div>
         <hr className={styles.hr} />
         <div>
-          {!detailhospital.review
-            ? "리뷰가 존재하지 않습니다."
+          {!detailhospital.review || detailhospital.review.length === 0
+            ? <p className={styles.content}>리뷰가 존재하지 않습니다.</p>
             : detailhospital.review.map((review) => (
                 <div key={review.reviewSeq} className={styles.reviewList}>
                   {isHospitalPage ? (

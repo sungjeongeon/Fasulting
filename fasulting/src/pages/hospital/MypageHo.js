@@ -16,13 +16,14 @@ import ProfileDoctorUpdate from "../../components/Detail/ProfileDoctorUpdate";
 import ProfileTimeUpdate from "../../components/Detail/ProfileTimeUpdate";
 import { useEffect, useState } from "react";
 import axiosAPi from "../../api/axiosApi";
+import { useSelector } from "react-redux";
 
 function MypageHo() {
   const [loading, setLoading] = useState(true)
   const [hospital, setHospital] = useState(null)
   // 병원 정보 axios 요청
   // /ps/info/{seq}
-  const psSeq = 1
+  const psSeq = useSelector(state => state.ps.psSeq)
   const getInfo = async() => {
     try {
       const res = await axiosAPi.get(`/ps/info/${psSeq}`)
@@ -44,21 +45,22 @@ function MypageHo() {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0}>
         {/* 프로필(배경) 이미지 */}
-        <BackgroundImage hospital={hospital}/>
+        <BackgroundImage detailhospital={hospital}/>
         <Grid xs={12} style={{ height: "15rem" }}></Grid>
         <Grid xs={9}>
-          <ProfileImageUpdate name={hospital.psName} profileImg={hospital.psProfileImg}/>
+          <ProfileImageUpdate name={hospital.psName} profileImg={hospital.psProfileImg} psSeq={psSeq}/>
           <hr />
-          <ProfileUpdateForm title={"소개"} content={hospital.psIntro} />
-          <ProfileUpdateForm title={"주소"} content={hospital.psAddress} />
-          <ProfileUpdateForm title={"연락처"} content={hospital.psNumber} />
+          <ProfileUpdateForm title={"소개"} content={hospital.psIntro} psSeq={psSeq}/>
+          <ProfileUpdateForm title={"주소"} content={hospital.psAddress} psSeq={psSeq}/>
+          <ProfileUpdateForm title={"연락처"} content={hospital.psNumber} psSeq={psSeq}/>
           <ProfileUpdateForm
             title={"홈페이지"}
             content={hospital.psHomepage}
+            psSeq={psSeq}
           />
-          <ProfileTimeUpdate />
-          <ProfileSubCategoryUpdate ctg_list={hospital.subCategoryName} />
-          <ProfileDoctorUpdate doctors={hospital.doctor} />
+          <ProfileTimeUpdate psSeq={psSeq} defaultTime={hospital.defaultTime}/>
+          <ProfileSubCategoryUpdate ctg_list={hospital.subCategoryName} psSeq={psSeq} />
+          <ProfileDoctorUpdate doctors={hospital.doctor} psSeq={psSeq}/>
           <ReviewInfo detailhospital={hospital}/>
         </Grid>
         <Grid xs={3}></Grid>

@@ -6,12 +6,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import axiosAPi from "../../api/axiosApi";
 
 
-function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
+function AddDoctor({ModalStateChange, doctorList, setDoctorList, psSeq}) {
   const basicsrc = "../../assets/images/doctorBasic.png"
   const [docName, setDocName] = useState('')
   const [mainCtg, setMainCtg] = useState('')
   // 미리보기 위한 src
-  const [imgSrc, setImgSrc] = useState('')
+  const [imgSrc, setImgSrc] = useState(basicsrc)
   // img 파일 객체 (서버에 보내줄 것)
   const [imgFile, setImgFile] = useState('')
 
@@ -33,9 +33,7 @@ function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
   const prevent = (e) => {
     e.preventDefault()
   }
-  // 병원 임시 id
-  const psSeq = 1
-  console.log(psSeq, docName, mainCtg, imgFile)
+  // console.log(psSeq, docName, mainCtg, imgFile)
   
   // 재렌더링 할 수 있도록
   console.log(doctorList)
@@ -53,15 +51,14 @@ function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
     formData.append("mainCategory", mainCtg);
     if (imgFile) {
       formData.append("img", imgFile);
-      console.log("이미지 있음")
     }
-    for (var key of formData.keys()) {
-      console.log(key);
-    }
+    // for (var key of formData.keys()) {
+    //   console.log(key);
+    // }
 
-    for (var value of formData.values()) {
-      console.log(value);
-    }
+    // for (var value of formData.values()) {
+    //   console.log(value);
+    // }
 
     try {
       await axiosAPi.post("/ps/doctor", formData, {

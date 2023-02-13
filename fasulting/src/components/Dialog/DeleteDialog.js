@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axiosAPi from '../../api/axiosApi';
 
-export default function DeleteDialog({ DialogStateChange, doctorId, doctorList, setDoctorList }) {
+export default function DeleteDialog({ DialogStateChange, doctorId, doctorList, setDoctorList, psSeq }) {
   const [open, setOpen] = React.useState(true);
   console.log(doctorId)
 
@@ -16,8 +16,6 @@ export default function DeleteDialog({ DialogStateChange, doctorId, doctorList, 
   const handleClose = () => {
     setOpen(false);
   };
-  // 임시 psseq
-  const psSeq = 1
   //axios 삭제 요청
   const deleteDoc = () => {
     axiosAPi.delete('/ps/doctor', {

@@ -13,7 +13,7 @@ import PsRegistForm from "../../components/User/PsRegistForm";
 //     minHeight: "100vh",
 //   },
 // }));
-function Register() {
+function PsRegister() {
   // const classes = useStyles();
   return (
     <div>
@@ -25,4 +25,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default PsRegister;

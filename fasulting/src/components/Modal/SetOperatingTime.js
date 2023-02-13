@@ -4,8 +4,9 @@ import SetOperatingTimeItem from "./SetOperatingTimeItem";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import axiosAPi from "../../api/axiosApi";
+import CloseIcon from "@mui/icons-material/Close";
 
-function SetOperatingTime({ ModalStateChange }) {
+function SetOperatingTime({ ModalStateChange, psSeq }) {
   const week = [
     {
       id: 1,
@@ -45,7 +46,7 @@ function SetOperatingTime({ ModalStateChange }) {
   const saveSchedule = () => {
     axiosAPi
       .put("/ps/operating", {
-        psSeq: 1,
+        psSeq: psSeq,
         defaultTime: weekSchedule,
       })
       .then((res) => console.log(res));
@@ -55,6 +56,12 @@ function SetOperatingTime({ ModalStateChange }) {
     <div className={styles.background}>
       <div className={styles.modalbox}>
         <p className={styles.title}>운영시간 등록</p>
+        <CloseIcon
+          fontSize="large"
+          onClick={ModalStateChange}
+          color="error"
+          className={styles.back}
+        />
         <div className={styles.selectDiv}>
           {week.map((day) => (
             <SetOperatingTimeItem

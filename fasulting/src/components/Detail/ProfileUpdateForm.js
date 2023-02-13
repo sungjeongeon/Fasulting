@@ -4,12 +4,10 @@ import styles from "./ProfileUpdateForm.module.css";
 import TextField from "@mui/material/TextField";
 import axiosAPi from "../../api/axiosApi";
 
-function ProfileUpdateForm({ title, content }) {
+function ProfileUpdateForm({ title, content, psSeq }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newContent, setNewContent] = useState(content === null ? "" : content);
   
-  // 임시 id
-  const psSeq = 1
 
   const onClick = (e) => {
     setIsEditing((current) => !current);
@@ -93,7 +91,7 @@ function ProfileUpdateForm({ title, content }) {
             helperText={`변경된 ${title}를 입력해 주세요.`}
           />
         ) : (
-          <p>{newContent}</p>
+          content ? <p>{newContent}</p> : <p>{title} 정보가 등록되지 않았습니다.</p>
         )}
       </div>
       <hr className={styles.hr} />

@@ -4,7 +4,7 @@ import TagIcon from "@mui/icons-material/Tag";
 import Button from "@mui/material/Button";
 import AddCategory from "../Modal/AddCategory";
 
-function ProfileSubCategoryUpdate({ ctg_list }) {
+function ProfileSubCategoryUpdate({ ctg_list, psSeq }) {
   // useState로 재렌더링 수정해보기
   const [updateCtg, setUpdateCtg] = useState(ctg_list)
 
@@ -29,17 +29,23 @@ function ProfileSubCategoryUpdate({ ctg_list }) {
           ModalStateChange={onClick}
           ctg_list={updateCtg}
           setUpdateCtg={setUpdateCtg}
+          psSeq={psSeq}
         />}
       </div>
-      <div className={styles.subDiv}>
-        {updateCtg.map((sub, index) => {
-          return (
-            <button key={index} className={styles.subCategory}>
-              <TagIcon sx={{ fontSize: 12 }} /> {sub}
-            </button>
-          )
-        })}
-      </div>
+      { updateCtg.length !== 0 ? 
+        <div className={styles.subDiv}>
+          {updateCtg.map((sub, index) => {
+            return (
+              <button key={index} className={styles.subCategory}>
+                <TagIcon sx={{ fontSize: 12 }} /> {sub}
+              </button>
+            )
+          })}
+        </div> :
+        <div className={styles.content}>
+          <p>제공 수술을 등록해주시길 바랍니다.</p>
+        </div>
+      }
       <hr className={styles.hr} />
     </div>
   );

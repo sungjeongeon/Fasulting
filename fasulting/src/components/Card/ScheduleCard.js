@@ -89,7 +89,7 @@ const Appointment = ({
     };
 
     // axios 요청을 위한 resSeq 들고오기 (일단 임시 resSeq)
-    const psSeq = 1
+    const psSeq = useSelector(state => state.ps.psSeq)
     // loading 처리
     // // axios 요청으로 데이터 들고오기
     const [loading, setLoading] = useState(true)

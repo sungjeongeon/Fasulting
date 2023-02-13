@@ -35,7 +35,8 @@
   font-weight: 700;
   font-size: 1.25rem;
   /* margin: 2.25rem 0 1.75rem 1.75rem; */
-  margin-bottom: 1.75rem;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
 
   color: #000000;
 }
@@ -56,4 +57,10 @@
   font-weight: 600;
 
   color: #ffffff;
+}
+
+.back {
+  position: absolute;
+  top: 5%;
+  left: 88%;
 }

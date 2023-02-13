@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axiosApi from "../../api/axiosApi"
 import LastReservationHoItem from "./LastReservationHoItem";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeLoadingTrue } from "../../redux/lastReservationHo"
 
 
@@ -22,19 +22,17 @@ export default function LastReservationHo({search}) {
 
   const dispatch = useDispatch()
   // 지난 예약 조회 axios
-  const psId = 1
+  const psId = useSelector(state => state.ps.psSeq)
   useEffect(() => {
     axiosApi.get(`/ps-reservation/pre/${psId}`)
       .then(res => {
-        // console.log(res.data.responseObj)
-        setTotalRes(res.data.responseObj)
-        console.log("lastReservationHO")
+        res.data === "" ? setTotalRes([]) : setTotalRes(res.data.responseObj)
       }
       )
       .catch(err => console.log(err))
   }, [])
 
-
+  console.log(totalRes)
   //검색 결과와 확인 필요
   const searchRes = totalRes.filter(
       (item) => 
@@ -54,14 +52,20 @@ export default function LastReservationHo({search}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {searchRes.map((reservation) => (
+            {searchRes.length === 0 ?
+            <TableRow sx={{whiteSpace: "nowrap"}}>
+              &nbsp;&nbsp;지난 예약이 존재하지 않습니다.
+            </TableRow>  
+            : 
+            (searchRes.map((reservation) => (
               <LastReservationHoItem
                 key={reservation.consultingSeq}
                 reservation={reservation} 
                 nowShow={nowShow}
                 setNowShow={setNowShow}
               />
-            ))}
+            )))
+            }
           </TableBody>
         </Table>
       </TableContainer>

@@ -5,12 +5,11 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-function ProfileImageUpdate({ name, profileImg }) {
+function ProfileImageUpdate({ name, profileImg, psSeq }) {
   const [nowProfile, setNowProfile] = useState(profileImg)
+  const imgRoot = 'https://hotsix.s3.ap-northeast-2.amazonaws.com/null'
+  const basicSrc = "/assets/images/psBasicProfile.png";
 
-
-  // 병원 임시 id
-  const psSeq = 1
   const hospitalProfile = async (e) => {
     e.preventDefault()
     console.log(e.target.files[0])
@@ -40,7 +39,7 @@ function ProfileImageUpdate({ name, profileImg }) {
   return (
     <div className={styles.outerDiv}>
       <div className={styles.profileDiv}>
-        <img src={profileImg === null ? null : nowProfile} alt="프로필" className={styles.profileImg}/>
+        <img src={profileImg === imgRoot ? basicSrc : nowProfile} alt="프로필" className={styles.profileImg}/>
         <label htmlFor="hospital-profile" className={styles.label}>
           +
         </label>

@@ -3,7 +3,7 @@ import styles from "./ProfileTimeUpdate.module.css";
 import Button from "@mui/material/Button";
 import SetOperatingTime from "../Modal/SetOperatingTime";
 
-function ProfileTimeUpdate() {
+function ProfileTimeUpdate({psSeq, defaultTime}) {
   const [modal, setModal] = useState(false);
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
@@ -32,28 +32,12 @@ function ProfileTimeUpdate() {
     "19:30",
     "20:00",
   ];
-  // 임시 병원 운영시간 데이터
-  const weekSchedule = [
-    { id: 1, timetable: [] },
-    {
-      id: 2,
-      timetable: [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 15],
-    },
-    { id: 3, timetable: [2, 3] },
-    {
-      id: 4,
-      timetable: [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 15],
-    },
-    {
-      id: 5,
-      timetable: [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 15],
-    },
-    {
-      id: 6,
-      timetable: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-    },
-    { id: 7, timetable: [] },
-  ];
+
+  const objList = Object.entries(defaultTime).map((newList, index) => {
+    return newList
+  })
+  console.log(objList)
+
   const onClick = () => {
     setModal((current) => !current);
   };
@@ -94,15 +78,17 @@ function ProfileTimeUpdate() {
         <Button variant="text" className={styles.btn} onClick={onClick}>
           <p className={styles.btnTextGreen}>수정</p>
         </Button>
-        {modal && <SetOperatingTime ModalStateChange={onClick} />}
+        {modal && <SetOperatingTime ModalStateChange={onClick} psSeq={psSeq}/>}
       </div>
-      {weekSchedule.map((day) => {
-        return (
-          <div className={styles.dayDiv} key={day.id}>
-            <p className={styles.day}>{week[day.id]}</p>
-            {getTimeString(day.timetable)}
-          </div>
-        );
+      {objList.map((objListItem) => {
+        const dayOfWeek = objListItem[0]
+          return (
+            <div className={styles.dayDiv} key={dayOfWeek}>
+              <p className={styles.day}>{week[Number(dayOfWeek)-1]}</p>
+              {getTimeString(objListItem[1])}
+            </div>
+          );
+
       })}
       <hr className={styles.hr} />
     </div>

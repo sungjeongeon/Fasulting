@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import axiosAPi from '../../api/axiosApi';
 
-export default function AddCategory({ModalStateChange, ctg_list, setUpdateCtg}) {
+export default function AddCategory({ModalStateChange, ctg_list, setUpdateCtg, psSeq}) {
   // 카테고리 데이터 생성 
   const categorylists = [
     {
@@ -56,9 +56,6 @@ export default function AddCategory({ModalStateChange, ctg_list, setUpdateCtg}) 
 
     
   ]
-
-  //임시 id
-  const psSeq = 1
 
   const ctgcount = ctg_list.length
   // 선택된 서브 카테고리 총 개수
