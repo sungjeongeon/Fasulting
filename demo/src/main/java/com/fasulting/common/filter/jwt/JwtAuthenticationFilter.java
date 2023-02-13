@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         
         // access 토큰이 만료되기 전일 때
         if (token != null && jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
-                !jwtService.isBlockedToken(request, token)) {
+                jwtService.isBlockedToken(request, token)) {
             log.info("조건 1");
             // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
             Authentication authentication = jwtService.getAuthentication(token);
@@ -55,7 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         // access 토큰이 만료되었을 때
         else if(token != null && !jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
-                !jwtService.isBlockedToken(request, token)){
+                jwtService.isBlockedToken(request, token)){
             log.info("조건 2");
             // 쿠키에 저장된 refreshToken
             String refreshToken = getRefreshToken(request);

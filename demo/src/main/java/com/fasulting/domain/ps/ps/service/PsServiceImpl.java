@@ -116,6 +116,8 @@ public class PsServiceImpl implements PsService {
     @Override
     public boolean psRegister(PsWithoutSeqReqDto psInfo) {
 
+        log.info("psRegister Service - Call");
+
         /////////////// 병원 저장 ///////////////
         MultipartFile profileImgFile = psInfo.getProfileImg();
         if(profileImgFile != null){
@@ -149,7 +151,6 @@ public class PsServiceImpl implements PsService {
             log.info(registrationImgUrl);
         }
 
-
         PsEntity ps = PsEntity.builder()
                 .email(psInfo.getEmail())
                 .password(passwordEncoder.encode(psInfo.getPassword()))
@@ -168,7 +169,7 @@ public class PsServiceImpl implements PsService {
 
         psRepository.save(ps);
 
-        log.info("save ps");
+        log.info("psRegister Service - END");
 
         return true;
     }
