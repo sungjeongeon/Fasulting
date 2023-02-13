@@ -44,12 +44,12 @@ public class PsConsultingServiceImpl implements PsConsultingService {
         int year = reservation.getReservationCal().getYear();
         int month = reservation.getReservationCal().getMonth();
         int day = reservation.getReservationCal().getDay();
-        int startHour = reservation.getTime().getStartHour();
-        int startMin = reservation.getTime().getStartMin();
+//        int startHour = reservation.getTime().getStartHour();
+//        int startMin = reservation.getTime().getStartMin();
 
         String[] str = reservation.getBeforeImgOrigin().split("\\.");
 
-        String beforeImgName = Date2String.date2String(year, month, day, startHour, startMin) + "_" + reservation.getUser().getName() + "." + str[str.length - 1];
+        String beforeImgName = Date2String.date2String(year, month, day) + "_" + reservation.getUser().getName() + "." + str[str.length - 1];
 
         Map<String, String> resp = new HashMap<>();
         resp.put("beforeImgPath", beforeImgPath);
