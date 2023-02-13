@@ -113,7 +113,9 @@ export default function LastConsulting({ preConsult }) {
                 </TableRow>
               ))
             ) : (
-              <h5>지난 예약이 존재하지 않습니다.</h5>
+              <Typography variant="h5" sx={{ mx: 4, my: 4 }}>
+                지난 예약이 존재하지 않습니다.
+              </Typography>
             )}
           </TableBody>
         </Table>

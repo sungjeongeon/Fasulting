@@ -1,6 +1,7 @@
 import React from "react";
 import ReviewListItem from "./ReviewListItem";
 import styles from "./ReviewList.module.css";
+import NotFoundCard2 from "../Card/NotFoundCard2";
 function ReviewList({ reviews }) {
   // // 임시 데이터 (아이디, 리뷰 내용, 날짜, 병원, 세부 카테고리, 별점)
   // const reviews = [
@@ -27,13 +28,16 @@ function ReviewList({ reviews }) {
   return (
     <div>
       <div>
-        <h2 className={styles.title}>최신 리뷰</h2>
+        <h2 className={styles.title}>나의 리뷰</h2>
         {/* <a href="#">전체 보기 ⇁</a> */}
       </div>
-      {reviews &&
+      {reviews ? (
         reviews.map((review) => (
           <ReviewListItem key={review.reviewSeq} review={review} />
-        ))}
+        ))
+      ) : (
+        <NotFoundCard2 title="아직 작성한 리뷰가" />
+      )}
     </div>
   );
 }

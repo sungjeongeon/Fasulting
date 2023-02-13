@@ -73,23 +73,16 @@ export default function PsRegistForm() {
   const navigate = useNavigate();
   const [resimg, setResimg] = useState([]);
   const [proimg, setProimg] = useState([]);
+  const onChange = (e) => {
+    const uploadimg = e.target.files[0];
+    setResimg(uploadimg);
+  };
+
   const onSubmit = async (values) => {
-    window.alert(JSON.stringify(values, null, 2));
+    //window.alert(JSON.stringify(values, null, 2));
     // setSubmitting(false); //// Important
     console.log("values", values);
     const formData = new FormData();
-    // const dataSet = {
-    //   email: values.email,
-    //   password: values.password,
-    //   name: values.psname,
-    //   address: values.psaddress,
-    //   registration: values.psregistration,
-    //   number: values.psnumber,
-    //   director: values.psdirector,
-    //   hompage: values.pshompage,
-    //   intro: values.psintro,
-    // };
-    //console.log(dataSet);
     formData.append("email", values.email);
     formData.append("password", values.password);
     formData.append("name", values.psname);
@@ -97,23 +90,31 @@ export default function PsRegistForm() {
     formData.append("registration", values.psregistration);
     formData.append("number", values.psnumber);
     formData.append("director", values.psdirector);
-    formData.append("hompage", values.pshompage); //null가능
-    formData.append("intro", values.psintro); //null 가능
+    if (values.pshomepage === "") {
+    } else {
+      formData.append("hompage", values.pshompage); //null가능
+    }
+    if (values.psintro === "") {
+    } else {
+      formData.append("intro", values.psintro); //null 가능
+    }
     formData.append("registrationImg", resimg);
-    formData.append("profileImg", proimg); //null 가능
-    for (var key of formData.keys()) {
-      console.log(key);
+    if (proimg.length === 0) {
+    } else {
+      formData.append("profileImg", proimg); //null 가능
     }
+    // for (var key of formData.keys()) {
+    //   console.log(key);
+    // }
 
-    for (var value of formData.values()) {
-      console.log(value);
-    }
+    // for (var value of formData.values()) {
+    //   console.log(value);
+    // }
     try {
-      await axiosAPi.post("/ps/regist", {
+      await axiosAPi.post("/ps/regist", formData, {
         headers: {
-          "Content-Type": "multiaprt/form",
+          "Content-Type": "multipart/form-data",
         },
-        data: formData,
       });
       toast.success(
         <h3>
@@ -154,11 +155,11 @@ export default function PsRegistForm() {
               password: "",
               repassword: "",
               psname: "",
-              psprofile: null,
-              psintro: null,
+              psprofile: "",
+              psintro: "",
               psaddress: "",
               psnumber: "",
-              pshomepage: null,
+              pshomepage: "",
               psdirector: "",
               psregistration: "",
               psregistrationimg: "",
@@ -305,21 +306,18 @@ export default function PsRegistForm() {
 
               <div className={styles.inputItem}>
                 <div className={styles.label}>병원 사업자 등록증</div>
+                <label className={styles.inputfile} htmlFor="inputfile">
+                  파일 선택
+                </label>
                 <input
+                  id="inputfile"
                   placeholder="병원 사업자 등록증을 업로드 해주세요"
-                  // onChange={(event) => {
-                  //   props.setFieldValue(
-                  //     props.psregistrationimg.name,
-                  //     event.currentTarget.files[0]
-                  //   );
-                  //   //props.setFieldValue(event.currentTarget.files[0]);
-                  // }}
                   type="file"
-                  //name="psregistrationimg"
-                  onChange={(event) => {
-                    setResimg(event.currentTarget.files[0]);
-                  }}
-                />
+                  accept="image/jpg,impge/png,image/jpeg,image/gif"
+                  onChange={onChange}
+                  style={{ display: "none" }}
+                ></input>
+                {resimg.name}
               </div>
             </FormikStep>
           </FormikStepper>

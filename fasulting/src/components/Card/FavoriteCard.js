@@ -5,6 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Grid, IconButton } from "@mui/material";
+import Chip from "@mui/material/Chip";
 import StarIcon from "@mui/icons-material/Star";
 import styles from "./FavResCard.module.css";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +15,9 @@ import { useSelector } from "react-redux";
 function FavoriateCard({ fav }) {
   const navigate = useNavigate();
   const userSeq = useSelector((state) => state.user.userSeq);
+  const [subVisible, setSubVisible] = React.useState(
+    fav.subCategoryName.length > 2
+  );
   const [liked, setLiked] = React.useState(true);
 
   const moveDetail = () => {
@@ -44,24 +48,68 @@ function FavoriateCard({ fav }) {
     setLiked((current) => !current);
   };
 
+  const subVisibleChanged = (e) => {
+    e.stopPropagation();
+    setSubVisible((current) => !current);
+  };
   return (
     <div className={styles.column}>
       <div className={styles.card} onClick={moveDetail}>
         <div>
-          <Typography variant="h6" component="div">
+          <Typography variant="h6" component="div" sx={{ mt: 1, mb: 1 }}>
             {fav.psName}
           </Typography>
-          <Typography sx={{ mb: 0.1 }} color="text.secondary">
-            {fav.subCategoryName.join(" / ")}
-          </Typography>
+          {subVisible ? (
+            <>
+              {fav.subCategoryName.slice(0, 2).map((s) => (
+                <Chip
+                  label={s}
+                  sx={{ mx: 0.2, mt: 0.2 }}
+                  size="small"
+                  color="primary"
+                />
+              ))}
+              <Chip
+                label="...더보기"
+                variant="outlined"
+                sx={{ mx: 0.2, mt: 0.2 }}
+                size="small"
+                color="primary"
+                onClick={subVisibleChanged}
+              />
+            </>
+          ) : (
+            <>
+              {fav.subCategoryName.map((s) => (
+                <Chip
+                  label={s}
+                  sx={{ mx: 0.2, mt: 0.2 }}
+                  size="small"
+                  color="primary"
+                />
+              ))}
+              {fav.subCategoryName.length > 2 ? (
+                <Chip
+                  label="접기"
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  sx={{ mx: 0.2, mt: 0.2 }}
+                  onClick={subVisibleChanged}
+                />
+              ) : null}
+            </>
+          )}
         </div>
         <div>
-          <IconButton color="yellow" aria-label="favorite">
-            <StarIcon />
-            <Typography color="text.secondary">
-              {fav.totalRatingResult} | 관련후기 {fav.reviewTotalCount}개
-            </Typography>
-          </IconButton>
+          <Typography>
+            <IconButton color="yellow" aria-label="favorite">
+              <StarIcon />
+              <Typography color="text.secondary">
+                {fav.totalRatingResult} | 관련후기 {fav.reviewTotalCount}개
+              </Typography>
+            </IconButton>
+          </Typography>
           <IconButton color="error" aria-label="favorite">
             {liked ? (
               <FavoriteIcon

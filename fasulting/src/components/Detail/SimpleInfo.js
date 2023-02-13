@@ -10,23 +10,7 @@ import { useSelector } from "react-redux";
 
 function SimpleInfo({ detailhospital }) {
   console.log("디테일병원", detailhospital);
-  // const ps_name = "더성형외과의원";
-  // const ps_address = "부산 강서구 녹산산단 335로 7, 송삼빌딩 1층";
-  // const sub_category = [
-  //   "쌍커풀",
-  //   "트임시술",
-  //   "지방흡입",
-  //   "콧볼축소",
-  //   "코끝",
-  //   "입꼬리",
-  //   "보톡스",
-  //   "보톡스",
-  //   "보톡스",
-  //   "보톡스",
-  //   "보톡스",
-  //   "보톡스",
-  // ];
-  // console.log(detailhospital);
+
   // liked(좋아요 상태) t/f
   const [liked, setLiked] = useState(detailhospital.favorite);
   const userData = useSelector((state) => state.user);
@@ -44,23 +28,22 @@ function SimpleInfo({ detailhospital }) {
           setLiked((current) => !current);
         });
     } else {
-      console.log(liked, userData.userSeq, detailhospital.psSeq);
+      console.log("시러오", liked, userData.userSeq, detailhospital.psSeq);
       axiosAPi
         .delete("/favorite", {
-          userSeq: userData.userSeq,
-          psSeq: detailhospital.psSeq,
+          data: {
+            userSeq: userData.userSeq,
+            psSeq: detailhospital.psSeq,
+          },
         })
         .then((res) => setLiked((current) => !current))
         .catch((e) => console.log(e));
     }
   };
+
   useEffect(() => {
-    console.log("setLiked");
     setLiked(detailhospital.favorite);
-  }, []);
-  useEffect(() => {
-    console.log("liked", liked);
-  }, [liked]);
+  }, [detailhospital]);
   return (
     <div>
       {/* 프로필 사진 */}

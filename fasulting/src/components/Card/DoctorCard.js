@@ -8,8 +8,12 @@ function DoctorCard({ name, main_category, profileImg }) {
   // console.log(profileImg)
   return (
     <div className={styles.card}>
-      <div style={{height: '50px'}}>
-      <img src={profileImg === imgRoot ? basicSrc : profileImg} alt="프로필" className={styles.profileImage}/>
+      <div style={{ height: "50px" }}>
+        <img
+          src={profileImg === imgRoot ? basicSrc : profileImg}
+          alt="프로필"
+          className={styles.profileImage}
+        />
       </div>
       <p className={styles.name}>{name}</p>
       <button className={styles.mainCategory}>

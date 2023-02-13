@@ -10,20 +10,21 @@ import { useEffect } from "react";
 function Header() {
   // 로그인 여부에 따라, nav bar 링크가 달라지므로 state 이용
 
-  const [is_login, setIsLogin] = useState(false);
+  // 병원회원인지에 따라 nav bar 또 변경
   const userData = useSelector((store) => store.user);
-  console.log(userData);
-  useEffect(() => {
-    if (userData.userSeq) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, [userData]);
+  const psData = useSelector((store) => store.ps);
+
   const nowpath = useLocation().pathname;
 
-  // 병원회원인지에 따라 nav bar 또 변경
-  const [isHos, setIsHos] = useState(false);
+  const [islogin, setIslogin] = useState(false);
+  const token = useSelector((state) => state.authToken);
+  useEffect(() => {
+    if (token.accessToken) {
+      setIslogin(true);
+    } else {
+      setIslogin(false);
+    }
+  }, [token]);
 
   // 드롭다운 클릭 state
   const [open, setOpen] = useState(false);
@@ -39,8 +40,11 @@ function Header() {
             alt="logo"
           />
         </Link>
-        {is_login ? (
-          isHos ? (
+
+        {islogin ? (
+          //로그인된 상태일때
+          psData.psSeq ? (
+            //병원회원일때
             <div>
               <div className={`${styles.mypageho} ${styles.common}`}>
                 <Link
@@ -69,13 +73,14 @@ function Header() {
                 </Link>
               </div>
               <div className={`${styles.greeting} ${styles.common}`}>
-                <span className={styles.activate}>psname</span>
+                <span className={styles.activate}>{psData.psName}</span>
                 <span>님</span>
                 <br />
                 <span className={styles.center}>반갑습니다!</span>
               </div>
             </div>
-          ) : (
+          ) : !userData.adminYn ? (
+            //일반회원일때
             <div>
               <div className={`${styles.reserve} ${styles.common}`}>
                 <Link
@@ -121,9 +126,29 @@ function Header() {
                 {open && <Dropdown />}
               </div>
             </div>
-          )
-        ) : // 로그인 안되어있을 때 (+) 로그인이나 회원가입 페이지로 갔을 때는 logo 제외 안보이게끔
-        nowpath === "/login" || nowpath === "/register" ? null : (
+          ) : (
+            //관리자일때
+            <div>
+              <div
+                className={`${styles.greeting} ${styles.common}`}
+                onClick={openState}
+              >
+                <div>
+                  <span className={styles.activate}>관리자</span>
+                  <span>님</span>
+                  <br />
+                  <span className={styles.center}>
+                    반갑습니다!
+                    <div className={styles.btn}>
+                      {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                    </div>
+                  </span>
+                </div>
+                {open && <Dropdown />}
+              </div>
+            </div>
+          ) // 로그인상태가 아닐때 // 로그인 안되어있을 때 (+) 로그인이나 회원가입 페이지로 갔을 때는 logo 제외 안보이게끔
+        ) : nowpath === "/login" || nowpath === "/register" ? null : (
           <div>
             <div className={`${styles.login} ${styles.common}`}>
               <Link
