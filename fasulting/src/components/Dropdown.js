@@ -22,6 +22,7 @@ function Dropdown() {
             // "Access-Control-Allow-Origin": "*",
             // "Access-Control-Allow-Credentials": "true",
           },
+          withCredentials: true,
         })
         .then((res) => {
           toast.success(<h3>로그아웃 완료</h3>, {

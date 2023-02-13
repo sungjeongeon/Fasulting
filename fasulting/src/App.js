@@ -8,6 +8,7 @@ import PsList from "./pages/client/PsList";
 import Register from "./pages/client/Register";
 import Detail from "./pages/client/Detail";
 import MyActivity from "./pages/client/MyActivity.js";
+import Download from "./pages/hospital/Download.js";
 import { Container } from "@mui/system";
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -110,6 +111,8 @@ function App() {
               <Route path="/mypageho" element={<MypageHo />} />
               {/* 병원 예약관리 */}
               <Route path="/myreservationho" element={<MyReservationHo />} />
+              {/* 병원 프로그램 다운로드 */}
+              <Route path="/ps/download" element={<Download />} />
               {/* ========= admin ========== */}
               <Route path="/admin" element={<AdminMain />} />
               {/* 모달 테스트용 페이지욤.. */}
