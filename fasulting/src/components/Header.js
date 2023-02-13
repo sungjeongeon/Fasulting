@@ -46,7 +46,7 @@ function Header() {
           psData.psSeq ? (
             //병원회원일때
             <div>
-              <div className={`${styles.mypageho} ${styles.common}`}>
+              <div className={`${styles.download} ${styles.common}`}>
                 <Link
                   to={"/ps/download"}
                   style={{ textDecoration: "none" }}
@@ -56,7 +56,7 @@ function Header() {
                       : styles.notactivate
                   }
                 >
-                  마이페이지
+                  다운로드
                 </Link>
               </div>
               <div className={`${styles.mypageho} ${styles.common}`}>

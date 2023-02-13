@@ -87,6 +87,11 @@
   left: 71.5%;
   top: 0.5rem;
 }
+.download {
+  position: absolute;
+  left: 64%;
+  top: 0.5rem;
+}
 
 .manage {
   position: absolute;

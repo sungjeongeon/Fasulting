@@ -7,21 +7,19 @@ import styles from "./DownloadCard.module.css";
 function DownloadCard() {
   return (
     <div className={styles.outer}>
-      <div className={styles.bg}>
-        <img src="/assets/images/fegan.gif" className={styles.gif} />
-      </div>
+      <img src="/assets/images/fegan.gif" className={styles.gif} />
       <div className={styles.center}>
-        <Typography variant="h4" align="center" gutterBottom>
-          다운로드
+        <Typography variant="h5" align="center" gutterBottom>
+          SC-FEGAN 다운로드
         </Typography>
         <Button
           variant="contained"
-          href="https://bit.ly/facesulting"
+          href="https://drive.google.com/u/0/uc?id=1MTmfeQysjKt1dE9Dp_9kpT_5X4opx0Xz&export=download"
           target="_blank"
-          sx={{ width: "300px", height: "50px" }}
+          sx={{ width: "200px", height: "50px" }}
           endIcon={<DownloadIcon size="large" />}
         >
-          Download FE-GAN
+          Download
         </Button>
       </div>
     </div>
