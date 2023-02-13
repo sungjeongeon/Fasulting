@@ -16,6 +16,8 @@ function DownloadCard() {
         </Typography>
         <Button
           variant="contained"
+          href="https://bit.ly/facesulting"
+          target="_blank"
           sx={{ width: "300px", height: "50px" }}
           endIcon={<DownloadIcon size="large" />}
         >
