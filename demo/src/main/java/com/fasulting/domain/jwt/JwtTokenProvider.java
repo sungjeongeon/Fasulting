@@ -1,6 +1,7 @@
 package com.fasulting.domain.jwt;
 
 import com.fasulting.common.RoleType;
+import com.fasulting.exception.UnAuthorizedException;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class JwtTokenProvider {
 
     private String secretKey = "myprojectsecret";
 
-    // 토큰 유효시간 30분
+    // 토큰 유효시간 30분 - 1분 == 60 * 1000L
     private final long ACCESS_TOKEN_VALID_TIME = 1 * 60 * 1000L;
     // refresh 토큰 유효시간 하루
     private final long REFRESH_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000L;
@@ -70,32 +71,44 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
+        try {
+            String email = this.getUserEmail(token);
+            String domain = this.getDomain(token);
+            UserDetails userDetails = null;
 
-        String email = this.getUserEmail(token);
-        String domain = this.getDomain(token);
-        UserDetails userDetails = null;
+            // domain 에 따라 구현한 UserDetailService 사용
+            if (domain.equals(RoleType.USER) || domain.equals(RoleType.ADMIN)) {
+                userDetails = customUserDetailService.loadUserByUsername(email);
+            } else if (domain.equals(RoleType.PS)) {
+                userDetails = customPsDetailService.loadUserByUsername(email);
+            }
 
-        // domain 에 따라 구현한 UserDetailService 사용
-        if(domain.equals(RoleType.USER) || domain.equals(RoleType.ADMIN)) {
-            userDetails = customUserDetailService.loadUserByUsername(email);
+
+            log.info(userDetails.getAuthorities().toString());
+
+            return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        } catch (Exception e) {
+            throw new UnAuthorizedException();
         }
-        else if(domain.equals(RoleType.PS)) {
-            userDetails = customPsDetailService.loadUserByUsername(email);
-        }
 
 
-        log.info(userDetails.getAuthorities().toString());
-
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     // 토큰에서 회원 정보 추출
     public String getUserEmail(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        try {
+            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        } catch (Exception e) {
+            throw new UnAuthorizedException();
+        }
     }
 
     public String getDomain(String token) {
-        return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("domain");
+        try {
+            return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("domain");
+        } catch (Exception e) {
+            throw new UnAuthorizedException();
+        }
     }
 
     // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
@@ -108,9 +121,10 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
 
-            long min = (claims.getBody().getExpiration().getTime() - new Date().getTime()) / 6000L; // 분
+            long min = (claims.getBody().getExpiration().getTime() - new Date().getTime()) / 60000L; // 분
 
             log.info("token expired time : " + claims.getBody().getExpiration().getTime());
+            log.info("now date : " + new Date().getTime());
             log.info("min : " + min);
 
             return min > 30L;
@@ -125,7 +139,7 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return true;
         } catch (Exception e) {
-            return false;
+            throw new UnAuthorizedException();
         }
     }
 
@@ -151,10 +165,7 @@ public class JwtTokenProvider {
                 return recreationAccessToken(claims.getBody().get("sub").toString(), claims.getBody().get("role"), claims.getBody().get("domain"));
             }
         } catch (Exception e) {
-
-            //refresh 토큰이 만료되었을 경우, 로그인이 필요합니다.
-            return null;
-
+            throw new UnAuthorizedException();
         }
 
         return null;
