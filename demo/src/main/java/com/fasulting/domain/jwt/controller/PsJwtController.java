@@ -22,7 +22,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ps")
-@CrossOrigin("*") // 수정
+//@CrossOrigin("*") // 수정
 public class PsJwtController {
 
     private final PsJwtService psJwtService;
