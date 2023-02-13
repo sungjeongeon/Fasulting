@@ -16,7 +16,7 @@
 
   /* 최상단 위치 */
   z-index: 999;
-  
+
   /* 중앙 배치 */
   /* top, bottom, left, right 는 브라우저 기준으로 작동한다. */
   /* translate는 본인의 크기 기준으로 작동한다. */
@@ -57,7 +57,6 @@
   margin-bottom: 0.2rem;
 }
 
-
 .flexcol {
   display: flex;
   justify-content: center;
@@ -87,24 +86,24 @@
 .line {
   width: 75%;
   height: 0.15rem;
-  background: #D9D9D9;
+  background: #d9d9d9;
 }
 
 .color {
-  color: #72A1A6;
+  color: #72a1a6;
   font-weight: bold;
 }
 
 .warning {
   width: 65%;
-  color: #E56565;
+  color: #e56565;
   font-weight: bold;
   /* text-align: center; */
   word-break: keep-all;
 }
 
 .yet {
-  background: #D9D4CF;
+  background: #d9d4cf;
   width: 9rem;
   height: 2rem;
   border-radius: 0.625rem;
@@ -116,7 +115,7 @@
 }
 
 .okay {
-  background: #72A1A6;
+  background: #72a1a6;
   width: 9rem;
   height: 2rem;
   border-radius: 0.625rem;
@@ -138,9 +137,9 @@
   width: 9rem;
   height: 2rem;
   border-radius: 0.625rem;
-  border: 1px solid #E56565;
+  border: 1px solid #e56565;
 
-  color: #E56565;
+  color: #e56565;
   font-size: 0.9rem;
   font-weight: bold;
 }
@@ -149,4 +148,9 @@
   display: flex;
   align-items: center;
   margin-top: 0.5rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }

@@ -120,7 +120,14 @@ function HospitalReservation() {
               <div className={styles.flexcol}>
                 <div className={styles.flex}>
                   <button className={`${styles.okay} ${styles.mr}`}>
-                    이미지 다운로드
+                    <a
+                      href={
+                        "https://apitest.hotsix.duckdns.org/ps-consulting/download/" +
+                        ReservationManage.reservationSeq
+                      }
+                    >
+                      이미지 다운로드
+                    </a>
                   </button>
                   <button className={styles.okay} onClick={enterConsultingRoom}>
                     상담 입장
@@ -131,7 +138,14 @@ function HospitalReservation() {
               <div className={styles.flexcol}>
                 <div className={styles.flex}>
                   <button className={`${styles.okay} ${styles.mr}`}>
-                    이미지 다운로드
+                    <a
+                      href={
+                        "https://apitest.hotsix.duckdns.org/ps-consulting/download/" +
+                        ReservationManage.reservationSeq
+                      }
+                    >
+                      이미지 다운로드
+                    </a>
                   </button>
                   <button className={styles.yet}>상담 입장</button>
                 </div>
