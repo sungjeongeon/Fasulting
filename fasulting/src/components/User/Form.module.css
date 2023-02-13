@@ -55,6 +55,9 @@
 .errorColor {
   color: #e64c3c;
 }
+.trueColor {
+  color: green;
+}
 input[type="radio"]:after {
   width: 15px;
   height: 15px;
@@ -88,4 +91,22 @@ input[type="radio"]:checked:after {
   display: flex;
   align-items: center;
   margin-right: 20px;
+}
+.textfield {
+  width: 80%;
+}
+.btn {
+  padding: 10px;
+  border-color: #72a1a6;
+  border-radius: 4px;
+  color: #72a1a6;
+  border: 2px solid #72a1a6;
+  cursor: pointer;
+  text-align: center;
+  line-height: 100%;
+}
+.flexInput {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

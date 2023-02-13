@@ -9,7 +9,6 @@ import {
   CheckBoxField,
 } from "formik-stepper";
 import { Formik, Field, ErrorMessage, useFormik } from "formik";
-import styles from "./Form.module.css";
 import { useState } from "react";
 import "formik-stepper/dist/style.css";
 import { FormGroup, Input, TextField } from "@mui/material";
@@ -19,7 +18,7 @@ import { Container } from "@mui/system";
 import { CssBaseline, Paper, Typography } from "@mui/material";
 import axiosAPi from "../../api/axiosApi";
 import { useNavigate } from "react-router-dom";
-
+import styles from "./PsRegistForm.module.css";
 const validationSchema = yup.object().shape({
   email: yup
     .string()
@@ -77,7 +76,10 @@ export default function PsRegistForm() {
     const uploadimg = e.target.files[0];
     setResimg(uploadimg);
   };
-
+  const onChangepro = (e) => {
+    const uploadimg = e.target.files[0];
+    setProimg(uploadimg);
+  };
   const onSubmit = async (values) => {
     //window.alert(JSON.stringify(values, null, 2));
     // setSubmitting(false); //// Important
@@ -218,18 +220,22 @@ export default function PsRegistForm() {
                 <div className={styles.labelFirst}>병원명</div>
                 <InputField placeholder="병원명을 입력해주세요" name="psname" />
               </div>
-              <div className={styles.inputItem}>
-                <div className={styles.label}>병원 프로필사진 (선택)</div>
-                {/* <Button >Upload a file</Button> */}
+              <div className={`${styles.inputItem} ${styles.marginBottom}`}>
+                <div className={`${styles.label} ${styles.margin}`}>
+                  병원 프로필사진 (선택)
+                </div>
+                <label className={styles.inputfile} htmlFor="inputfile">
+                  파일 선택
+                </label>
                 <input
+                  id="inputfile"
                   placeholder="병원 프로필사진"
-                  //name="psprofile"
                   type="file"
-                  //name="psregistrationimg"
-                  onChange={(event) => {
-                    setProimg(event.currentTarget.files[0]);
-                  }}
-                />
+                  accept="image/jpg,impge/png,image/jpeg,image/gif"
+                  onChange={onChangepro}
+                  style={{ display: "none" }}
+                ></input>
+                {proimg.name}
               </div>
               <div className={styles.inputItem}>
                 <div className={styles.label}>병원 한줄 소개 (선택)</div>
@@ -304,8 +310,10 @@ export default function PsRegistForm() {
                 />
               </div>
 
-              <div className={styles.inputItem}>
-                <div className={styles.label}>병원 사업자 등록증</div>
+              <div className={`${styles.inputItem} ${styles.marginBottom}`}>
+                <div className={`${styles.label} ${styles.margin}`}>
+                  병원 사업자 등록증
+                </div>
                 <label className={styles.inputfile} htmlFor="inputfile">
                   파일 선택
                 </label>

@@ -4,6 +4,7 @@ import * as yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import {
   TextField,
   Button,
@@ -16,8 +17,9 @@ import {
 } from "@mui/material";
 import styles from "./Form.module.css";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
 import axiosAPi from "../../api/axiosApi";
+import { persistReducer } from "redux-persist";
+import { classNames } from "clsx";
 
 const validationSchema = yup.object({
   email: yup
@@ -55,6 +57,24 @@ const validationSchema = yup.object({
 
 export default function RegisterForm() {
   const navigate = useNavigate();
+
+  const [useable, setUseable] = useState(null);
+  //아이디 중복체크
+  const idCheck = (e) => {
+    e.preventDefault();
+    axiosAPi.get(`/user/${formik.values.email}`).then((response) => {
+      console.log(response.data);
+      if (response.status === 200) {
+        //alert("이미 존재하는 아이디입니다."); // 백엔드로 보낸 데이터 결과 200 일 경우
+        setUseable(false);
+      } else if (response.status === 204) {
+        //alert("사용 가능한 아이디입니다.");
+        setUseable(true);
+      } else {
+        alert("사용 불가한 아이디입니다.");
+      }
+    });
+  };
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -95,13 +115,6 @@ export default function RegisterForm() {
         // 서버에서 받은 에러 메시지 출력
         console.log(e.response.data.message);
       }
-      // console.log(
-      //   JSON.stringify(
-      //     values,
-      //     ["email", "password", "repassword", "name", "birth", "phone"],
-      //     2
-      //   )
-      // );
     },
   });
   return (
@@ -119,15 +132,31 @@ export default function RegisterForm() {
           <form onSubmit={formik.handleSubmit}>
             <div className={styles.inputItem}>
               <div className={styles.labelFirst}>이메일</div>
-              <TextField
-                fullWidth
-                placeholder="id@fasulting.com"
-                name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email ? formik.errors.email : ""}
-              />
+              <div class={styles.flexInput}>
+                <TextField
+                  className={styles.textfield}
+                  placeholder="id@fasulting.com"
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email ? formik.errors.email : ""}
+                />
+                <span className={styles.btn} onClick={idCheck}>
+                  중복확인
+                </span>
+              </div>
+              {useable === null ? (
+                ""
+              ) : useable ? (
+                <span className={styles.trueColor}>
+                  사용가능한 아이디입니다.
+                </span>
+              ) : (
+                <span className={styles.errorColor}>
+                  이미 사용중인 아이디 입니다.
+                </span>
+              )}
             </div>
             <div className={styles.inputItem}>
               <div className={styles.label}>비밀번호</div>
