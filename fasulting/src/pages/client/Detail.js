@@ -44,7 +44,7 @@ function Detail() {
         {/* 프로필(배경) 이미지 */}
         <BackgroundImage />
         <Grid xs={12} style={{ height: "15rem" }}></Grid>
-        <Grid xs={9}>
+        <Grid xs={8}>
           <SimpleInfo detailhospital={detailhospital} />
           <hr />
           <HospitalInfo detailhospital={detailhospital} />
@@ -53,6 +53,7 @@ function Detail() {
           <hr />
           <ReviewInfo detailhospital={detailhospital} />
         </Grid>
+        <Grid xs={1}></Grid>
         <Grid xs={3}>
           <ReserveCard reshospital={reshospital} />
         </Grid>
