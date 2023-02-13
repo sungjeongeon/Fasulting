@@ -62,7 +62,11 @@ function AdminSignupAcceptModal({ ps }) {
             tabIndex={-1}
             sx={{ mt: 3, mb: 4 }}
           >
-            <img src={ps.profileImg} alt="프로필이미지" />
+            <img
+              src={ps.profileImg}
+              alt="프로필이미지"
+              style={{ width: "100%" }}
+            />
             <hr />
             id : {ps.psSeq}
             <br />
@@ -88,7 +92,11 @@ function AdminSignupAcceptModal({ ps }) {
             <hr />
             사업자등록증 : {ps.registeration}
             <br />
-            <img src={ps.registerationImg} alt="사업자등록증" />
+            <img
+              src={ps.registrationImg}
+              alt="사업자등록증"
+              style={{ width: "100%" }}
+            />
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ mx: 4, mb: 3 }}>
