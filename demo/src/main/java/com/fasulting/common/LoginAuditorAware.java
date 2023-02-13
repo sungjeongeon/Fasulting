@@ -27,10 +27,8 @@ public class LoginAuditorAware implements AuditorAware<String> {
         }
 
         Object authenticObj = authentication.getPrincipal();
-        log.info("auditor : " + authentication.getPrincipal());
 
         String role = findRole(authentication);
-        log.info("auditor role : " + role);
 
         if (role != null) {
 
@@ -44,7 +42,6 @@ public class LoginAuditorAware implements AuditorAware<String> {
             }
             if (role.equals(RoleType.PS)) {
                 PsEntity ps = (PsEntity) authenticObj;
-                log.info("auditor ps : " + ps.getName());
                 return Optional.of(RoleType.PS + "_" + ps.getSeq());
             }
         }
@@ -55,8 +52,6 @@ public class LoginAuditorAware implements AuditorAware<String> {
     public static String findRole(Authentication authentication) {
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
-        log.info(authorities.toString());
 
         if (authorities.stream().filter(o -> o.getAuthority().equals(RoleType.ADMIN)).findAny().isPresent()) {
             return RoleType.ADMIN;

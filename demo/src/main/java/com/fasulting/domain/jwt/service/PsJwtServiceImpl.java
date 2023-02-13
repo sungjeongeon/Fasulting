@@ -2,6 +2,7 @@ package com.fasulting.domain.jwt.service;
 
 import com.fasulting.common.RoleType;
 import com.fasulting.common.util.CheckInfo;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.jwt.JwtTokenProvider;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
 import com.fasulting.domain.jwt.dto.respDtio.PsLoginRespDto;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import static com.fasulting.common.util.LogCurrent.*;
+
 @RequiredArgsConstructor
 @Slf4j
 @Service
@@ -30,9 +33,16 @@ public class PsJwtServiceImpl implements PsJwtService {
     private final PasswordEncoder passwordEncoder;
 
 
+    /**
+     * ps login
+     * @param userInfo
+     * @return
+     */
     @Transactional
     @Override
     public PsLoginRespDto login(LoginReqDto userInfo) {
+
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         PsEntity ps = psRepository.findPsByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
 
         if (passwordEncoder.matches(userInfo.getPassword(), ps.getPassword())) {
@@ -40,17 +50,11 @@ public class PsJwtServiceImpl implements PsJwtService {
             String accessToken = jwtService.createAccessToken(ps.getEmail(), RoleType.PS, RoleType.PS);
             String refreshToken = jwtService.createRefreshToken(ps.getEmail(), RoleType.PS, RoleType.PS);
 
-            log.info(ps.toString());
-
             TokenEntity token = TokenEntity.builder()
                     .refreshToken(refreshToken)
                     .build();
 
-            log.info(token.toString());
-
             tokenRepository.save(token);
-
-            log.info(tokenRepository.findByRefreshToken(refreshToken).get().toString());
 
             // 기존 refresh 토큰 삭제
             if (psTokenRepository.findByPs(ps).isPresent()) {
@@ -68,10 +72,6 @@ public class PsJwtServiceImpl implements PsJwtService {
                         .token(tokenRepository.findByRefreshToken(refreshToken).get())
                         .build();
 
-                log.info(ps.toString());
-                log.info(psToken.toString());
-
-                psTokenRepository.save(psToken);
                 log.info(psToken.toString());
             }
 
@@ -83,15 +83,23 @@ public class PsJwtServiceImpl implements PsJwtService {
                     .confirmYn(ps.getConfirmYn())
                     .build();
 
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return psLoginRespDto;
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return null;
     }
 
+    /**
+     * ps logout
+     * @param psSeq
+     * @return
+     */
     @Transactional
     @Override
     public boolean logout(Long psSeq) {
+
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         PsEntity ps = psRepository.findById(psSeq).orElseThrow(
                 () -> {
                     throw new NullPointerException();
@@ -111,9 +119,10 @@ public class PsJwtServiceImpl implements PsJwtService {
             psTokenRepository.delete(psToken);
             tokenRepository.delete(preToken);
 
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return true;
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return false;
     }
 }

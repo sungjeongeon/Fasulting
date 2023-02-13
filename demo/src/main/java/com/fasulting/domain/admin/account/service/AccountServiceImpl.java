@@ -1,6 +1,7 @@
 package com.fasulting.domain.admin.account.service;
 
 import com.fasulting.common.RoleType;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.admin.account.dto.reqDto.ConfirmPsReqDto;
 import com.fasulting.domain.admin.account.dto.respDto.PsWaitRespDto;
 import com.fasulting.entity.ps.PsEntity;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.fasulting.common.util.FileManage.domain;
+import static com.fasulting.common.util.LogCurrent.*;
 
 @Service
 @Slf4j
@@ -30,9 +32,15 @@ public class AccountServiceImpl implements AccountService {
     private final PsMainSubRepository psMainSubRepository;
     private final RoleRepository roleRepository;
 
+    /**
+     * 병원 승인 대기 계정 조회
+     * @return List<PsWaitRespDto>
+     */
     @Transactional
     @Override
     public List<PsWaitRespDto> getPsWaitList() {
+
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         List<PsEntity> psList = psRepository.findAllByConfirmYn("N");
 
         List<PsWaitRespDto> psWaitList = new ArrayList<>();
@@ -56,13 +64,19 @@ public class AccountServiceImpl implements AccountService {
 
             psWaitList.add(psWait);
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return psWaitList;
     }
 
+    /**
+     * 병원 계정 가입 승인
+     * @param confirmPsReqDto
+     * @return true or false
+     */
     @Transactional
     @Override
     public boolean approvePs(ConfirmPsReqDto confirmPsReqDto) {
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         RoleEntity role = roleRepository.findById(confirmPsReqDto.getAdminSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -75,7 +89,7 @@ public class AccountServiceImpl implements AccountService {
         }
 
         ps.updateByConfirm(RoleType.ADMIN + "_" + confirmPsReqDto.getAdminSeq(), LocalDateTime.now());
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return true;
     }
 

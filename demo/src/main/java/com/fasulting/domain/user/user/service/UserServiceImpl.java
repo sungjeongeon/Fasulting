@@ -1,13 +1,11 @@
 package com.fasulting.domain.user.user.service;
 
 import com.fasulting.common.RoleType;
-import com.fasulting.common.util.CheckInfo;
 import com.fasulting.domain.user.user.dto.reqDto.UserSeqReqDto;
 import com.fasulting.domain.user.user.dto.reqDto.UserWithoutSeqReqDto;
 import com.fasulting.domain.user.user.dto.respDto.UserInfoRespDto;
 import com.fasulting.entity.user.RoleEntity;
 import com.fasulting.entity.user.UserEntity;
-import com.fasulting.exception.UnAuthorizedException;
 import com.fasulting.repository.role.RoleRepository;
 import com.fasulting.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import static com.fasulting.common.util.LogCurrent.*;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -27,10 +27,16 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    
-    // 회원 가입
+
+    /**
+     * 회원 가입
+     * @param userInfo
+     * @return
+     */
     @Override
+    @Transactional
     public boolean userRegister(UserWithoutSeqReqDto userInfo) {
+        log.info(logCurrent(getClassName(), getMethodName(), START));
         // User save
         UserEntity user = UserEntity.builder()
                 .email(userInfo.getEmail())
@@ -50,32 +56,33 @@ public class UserServiceImpl implements UserService {
 
         roleRepository.save(roleEntity);
 
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return true;
     }
 
-
-    // 비밀번호 수정 (재설정)
+    /**
+     * 비밀번호 수정 (재설정)
+     * @param userInfo
+     * @return
+     */
     @Transactional
     @Override
     public boolean resetPassword(UserWithoutSeqReqDto userInfo) {
-
+        log.info(logCurrent(getClassName(), getMethodName(), START));
         // userEmail이 있다면
         UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).orElseThrow(() -> {
             throw new NullPointerException();
         });
 
-
-        log.info(userInfo.getPassword());
-
         if (passwordEncoder.matches(userInfo.getPassword(), user.getPassword())) {
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return false;
         }
 
         // password update
         user.resetPassword(passwordEncoder.encode(userInfo.getPassword()));
-//        userRepository.save(user);
 
-
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return true;
 
     }
@@ -88,6 +95,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfoRespDto getUserInfo(Long seq) {
 
+        log.info(logCurrent(getClassName(), getMethodName(), START));
         UserEntity user = userRepository.findById(seq).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -99,28 +107,37 @@ public class UserServiceImpl implements UserService {
                 .userName(user.getName())
                 .build();
 
-
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return userInfo;
 
     }
 
-    // 회원 이메일 조회 및 중복 확인
+    /**
+     * 이메일 조회 및 중복 확인
+     * @param email
+     * @return
+     */
     @Override
     public boolean checkEmail(String email) {
+        log.info(logCurrent(getClassName(), getMethodName(), START));
         if (userRepository.findUserByEmail(email).isPresent()) {
-            log.info("회원 이메일 존재");
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return true;
         } else {
-            log.info("회원 이메일 존재하지 않음");
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return false;
         }
     }
 
-    // 회원 탈퇴
+    /**
+     * 회원 탈퇴
+     * @param userInfo
+     * @return
+     */
     @Override
     @Transactional
     public boolean withdrawUser(UserSeqReqDto userInfo) {
-
+        log.info(logCurrent(getClassName(), getMethodName(), START));
         UserEntity user = userRepository.findById(userInfo.getSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -128,24 +145,29 @@ public class UserServiceImpl implements UserService {
         user.updateByWithdrawal("Y", RoleType.USER + "" + userInfo.getSeq(), LocalDateTime.now());
 
         userRepository.save(user);
-
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return true;
 
     }
 
-    // 비밀번호 확인
+    /**
+     * 비밀번호 확인
+     * @param userInfo
+     * @return
+     */
     @Override
     public boolean checkPassword(UserSeqReqDto userInfo) {
 
-
+        log.info(logCurrent(getClassName(), getMethodName(), START));
         String password = userRepository.findById(userInfo.getSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         }).getPassword();
 
         if (passwordEncoder.matches(userInfo.getPassword(), password)) {
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return true;
         }
-
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return false;
 
     }

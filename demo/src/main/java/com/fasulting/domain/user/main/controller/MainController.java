@@ -2,31 +2,32 @@ package com.fasulting.domain.user.main.controller;
 
 import com.fasulting.common.dto.respDto.MainCategoryRespDto;
 import com.fasulting.common.dto.respDto.SubCategoryRespDto;
+import com.fasulting.common.resp.ResponseBody;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.user.main.dto.respDto.PsDetailRespDto;
 import com.fasulting.domain.user.main.dto.respDto.PsListRespDto;
 import com.fasulting.domain.user.main.service.MainService;
-import com.fasulting.common.resp.ResponseBody;
 import io.swagger.annotations.Api;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static com.fasulting.common.util.LogCurrent.*;
 
 @Api(value = "상담자 메인 페이지 API", tags = {"MainController"})
 @Slf4j
 @RestController
 @RequestMapping("/main")
-//@CrossOrigin("*") // 수정
+@RequiredArgsConstructor
 public class MainController {
 
     private final MainService mainService;
-
-    @Autowired
-    public MainController(MainService mainService) {
-        this.mainService = mainService;
-    }
 
     /**
      * 메인 카테고리 조회
@@ -34,12 +35,15 @@ public class MainController {
      */
     @GetMapping
     public ResponseEntity<?> getMainList() {
+
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         List<MainCategoryRespDto> resp = mainService.getMainCategoryList();
 
         if (!resp.isEmpty()) {
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
@@ -50,12 +54,15 @@ public class MainController {
      */
     @GetMapping("/sub/{mainSeq}")
     public ResponseEntity<?> getSubList(@PathVariable Long mainSeq) {
+
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         List<SubCategoryRespDto> resp = mainService.getSubcategoryList(mainSeq);
 
         if (!resp.isEmpty()) {
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
@@ -66,12 +73,14 @@ public class MainController {
      */
     @GetMapping("/ps-list/{mainSeq}")
     public ResponseEntity<?> getPsList(@PathVariable Long mainSeq) {
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         List<PsListRespDto> resp = mainService.getPsList(mainSeq);
 
         if (!resp.isEmpty()) {
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
@@ -84,14 +93,14 @@ public class MainController {
     @GetMapping("/ps-detail/{userSeq}/{psSeq}")
     public ResponseEntity<?> getPsDetail(@PathVariable Long userSeq, @PathVariable Long psSeq) {
 
-        log.info("getPsDetail - call");
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         PsDetailRespDto resp = mainService.getPsDetail(userSeq, psSeq);
 
         if (resp != null) {
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", resp));
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 }

@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface AccountService {
     List<PsWaitRespDto> getPsWaitList();
-
     boolean approvePs(ConfirmPsReqDto confirmPsReqDto);
 }

@@ -2,6 +2,7 @@ package com.fasulting.domain.ps.psReview.service;
 
 
 import com.fasulting.common.RoleType;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.ps.psReview.dto.reqDto.AccuseReviewReq;
 import com.fasulting.entity.ps.TotalRatingEntity;
 import com.fasulting.entity.review.ReviewEntity;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+
+import static com.fasulting.common.util.LogCurrent.*;
 
 @Service
 @Slf4j
@@ -32,14 +35,7 @@ public class PsReviewServiceImpl implements PsReviewService {
     @Transactional
     @Override
     public boolean accuseReview(AccuseReviewReq accuseReviewReq) {
-
-        if(!reviewRepository.findById(accuseReviewReq.getReviewSeq()).isPresent()){
-            return false;
-        }
-
-        if(!psRepository.findById(accuseReviewReq.getPsSeq()).isPresent()){
-            return false;
-        }
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
         ReviewEntity review = reviewRepository.findById(accuseReviewReq.getReviewSeq()).orElseThrow(() -> {
             throw new NullPointerException();
@@ -54,7 +50,7 @@ public class PsReviewServiceImpl implements PsReviewService {
         totalRating.updateByDel(review.getPoint());
 
         totalRatingRepository.save(totalRating);
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return true;
     }
 

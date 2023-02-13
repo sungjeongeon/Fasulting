@@ -11,6 +11,7 @@ public interface PsConsultingService {
     Map<String, String> getBeforeImg(Long reservationSeq);
 
     ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params);
+
     ResponseEntity<String> createConnection(@PathVariable("sessionId") String sessionId,
                                             @RequestBody(required = false) Map<String, Object> params);
 

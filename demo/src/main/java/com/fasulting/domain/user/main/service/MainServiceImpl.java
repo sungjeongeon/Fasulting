@@ -4,6 +4,7 @@ import com.fasulting.common.dto.respDto.DoctorRespDto;
 import com.fasulting.common.dto.respDto.MainCategoryRespDto;
 import com.fasulting.common.dto.respDto.ReviewRespDto;
 import com.fasulting.common.dto.respDto.SubCategoryRespDto;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.user.main.dto.respDto.PsDetailRespDto;
 import com.fasulting.domain.user.main.dto.respDto.PsListRespDto;
 import com.fasulting.entity.category.MainCategoryEntity;
@@ -24,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.fasulting.common.util.FileManage.domain;
+import static com.fasulting.common.util.LogCurrent.*;
 
 @Service
 @Slf4j
@@ -51,15 +52,18 @@ public class MainServiceImpl implements MainService {
     private final DoctorMainRepository doctorMainRepository;
     private final ReviewSubRepository reviewSubRepository;
 
+    /**
+     * 메인 카테고리 리스트 조회
+     * @return
+     */
     @Override
     public List<MainCategoryRespDto> getMainCategoryList(){
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         List<MainCategoryEntity> list = mainCategoryRepository.findAll();
 
         if(list == null) {
-            // custom exception
-
-            log.info("main category list is NULL");
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return  null;
         }
 
@@ -74,13 +78,19 @@ public class MainServiceImpl implements MainService {
             returnList.add(resp);
         }
 
-        log.info("main category list success" + returnList.toString());
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return returnList;
     }
 
+    /**
+     * 메인 카테고리 선택 후 서브 카테고리 조회
+     * @param mainSeq
+     * @return
+     */
     @Override
     public List<SubCategoryRespDto> getSubcategoryList(Long mainSeq) {
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         MainCategoryEntity main = mainCategoryRepository.findById(mainSeq).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -88,9 +98,7 @@ public class MainServiceImpl implements MainService {
         List<SubCategoryEntity> list = subCategoryRepository.findByMainCategory(main);
 
         if(list == null) {
-            // custom exception
-
-            log.info("sub category list is NULL");
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return  null;
         }
 
@@ -105,16 +113,23 @@ public class MainServiceImpl implements MainService {
             resp.add(subList);
         }
 
-        log.info("sub category list success" + resp.toString());
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return resp;
     }
 
+    /**
+     * 메인 카테고리 선택 후 병원 리스트 조회
+     * @param mainSeq
+     * @return
+     */
     @Override
     public List<PsListRespDto> getPsList(Long mainSeq) {
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         List<PsEntity> psList = psMainRepository.findPsByMainSeq(mainSeq);
 
         if(psList == null) {
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return null;
         }
 
@@ -138,11 +153,20 @@ public class MainServiceImpl implements MainService {
 
         }
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return respList;
     }
 
+    /**
+     * 병원 정보 상세 조회
+     * @param userSeq
+     * @param psSeq
+     * @return
+     */
     @Override
     public PsDetailRespDto getPsDetail(Long userSeq, Long psSeq) {
+
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -167,7 +191,6 @@ public class MainServiceImpl implements MainService {
 
         }
 
-
         // 의사
         List<DoctorEntity> docList = doctorRepository.findAllByPsSeq(psSeq);
 
@@ -187,7 +210,6 @@ public class MainServiceImpl implements MainService {
 
         // 리뷰
         List<ReviewEntity> reviewList = reviewRepository.findAllByPsSeq(psSeq);
-
 
         List<ReviewRespDto> reviewRespDtoList = new ArrayList<>();
 
@@ -229,7 +251,7 @@ public class MainServiceImpl implements MainService {
                 .defaultTime(map)
                 .build();
 
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return resp;
     }
 }
