@@ -16,7 +16,6 @@ import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import MyReservation from "./pages/client/MyReservation";
 import MyEstimate from "./pages/client/MyEstimate";
-import ModalTest from "./pages/client/ModalTest";
 import MypageHo from "./pages/hospital/MypageHo";
 import PsRegister from "./pages/hospital/PsRegister";
 import MyReservationHo from "./pages/hospital/MyReservationHo";
@@ -26,6 +25,7 @@ import { SignLanguage } from "@mui/icons-material";
 import AdminMain from "./pages/admin/AdminMain";
 import PrivateRoute from "./api/PrivateRoute";
 import { useSelector } from "react-redux";
+import NotFound from "./pages/NotFound";
 
 const GlobalStyle = createGlobalStyle`
 text: {
@@ -115,12 +115,12 @@ function App() {
               <Route path="/ps/download" element={<Download />} />
               {/* ========= admin ========== */}
               <Route path="/admin" element={<AdminMain />} />
-              {/* 모달 테스트용 페이지욤.. */}
-              <Route path="/test" element={<ModalTest />} />
               {/* 상담page */}
               <Route path="/consult" element={<OpenViduRoom />} />
               {/* 메인 */}
               <Route path="/" element={<Home />} />
+              {/* 404 */}
+              <Route path="*" element={<NotFound />}/>
             </Routes>
           </Router>
         </Container>
