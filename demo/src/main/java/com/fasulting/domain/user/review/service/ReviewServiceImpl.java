@@ -78,13 +78,12 @@ public class ReviewServiceImpl implements ReviewService{
 
             totalRatingRepository.save(totalRating);
         }
-
-        // 통계 평점 최신화
-        TotalRatingEntity totalRating = totalRatingRepository.findByPs(ps).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
-        totalRating.updateByReg(reviewReqDto.getPoint());
-        totalRatingRepository.save(totalRating);
+        else{
+            // 통계 평점 최신화
+            TotalRatingEntity totalRating = totalRatingRepository.findByPs(ps).get();
+            totalRating.updateByReg(reviewReqDto.getPoint());
+            totalRatingRepository.save(totalRating);
+        }
 
         return true;
     }
