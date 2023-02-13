@@ -9,4 +9,5 @@
 .cardList {
   display: flex;
   margin: 0 1.38rem 1.56rem 1.06rem;
+  flex-wrap: wrap;
 }
