@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import propTypes from "prop-types";
 import styles from "./ReviewListItem.module.css";
 import StarIcon from "@mui/icons-material/Star";
+import Divider from "@mui/material/Divider";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
@@ -41,7 +42,7 @@ function ReviewListItem({ review }) {
       </div>
       <p className={styles.content}>{review.content}</p>
       <p className={styles.date}>{review.regDate}</p>
-      <hr />
+      <Divider />
     </div>
   );
 }

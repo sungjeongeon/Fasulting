@@ -16,7 +16,6 @@
   display: flex;
   justify-content: space-between;
   margin-top: 8rem;
-  margin-bottom: 0.8125rem;
   margin-right: 2.93rem;
 }
 
@@ -31,6 +30,7 @@
 .address {
   display: flex;
   margin-bottom: 0.8rem;
+  margin-top: 0;
   height: 1.5rem;
   line-height: 1.5rem;
   font-style: normal;
@@ -38,6 +38,9 @@
   font-size: 0.88rem;
   align-items: center;
   color: #7c7877;
+}
+.address p {
+  margin: 0;
 }
 
 .subCategory {

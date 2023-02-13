@@ -1,0 +1,21 @@
+.label {
+  font-weight: bold;
+}
+.labelFirst {
+  font-weight: bold;
+}
+.inputfile {
+  padding: 2px 10px;
+  border-color: rgb(158, 158, 158);
+  border-radius: 4px;
+  color: rgb(158, 158, 158);
+  border: 2px solid rgb(158, 158, 158);
+  cursor: pointer;
+  margin-top: 5px;
+}
+.marginBottom {
+  margin-bottom: 2rem;
+}
+.margin {
+  margin-bottom: 10px;
+}
