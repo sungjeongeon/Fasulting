@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.fasulting.common.util.LogCurrent.*;
+
 
 // >> Spring Security - Filter
 // >> Interceptor
@@ -29,7 +31,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-//@CrossOrigin("*") // 수정
 public class UserController {
 
     private final UserService userService;
@@ -43,10 +44,13 @@ public class UserController {
     @PostMapping("/regist")
     @ApiOperation(value = "상담자 계정 회원 가입", notes = "기본 정보 기입하여 회원 가입")
     public ResponseEntity<?> userRegister(@RequestBody  @ApiParam(value = "회원 가입 정보", required = true) UserWithoutSeqReqDto userInfo) {
-        log.info("userRegister - Call");
-
-        userService.userRegister(userInfo);
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        log.info(logCurrent(getClassName(), getMethodName(), START));
+        if(userService.userRegister(userInfo)) {
+            log.info(logCurrent(getClassName(), getMethodName(), END));
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        log.info(logCurrent(getClassName(), getMethodName(), END));
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
     
 
@@ -60,13 +64,13 @@ public class UserController {
     @GetMapping("/{email}")
     @ApiOperation(value = "이메일 조회 및 중복 확인", notes = "이메일 받아서 DB 조회 및 중복 확인")
     public ResponseEntity<?> checkEmail(@PathVariable @ApiParam(value = "회원 이메일", required = true) String email) {
-        log.info("check Email - Call");
+        log.info(logCurrent(getClassName(), getMethodName(), START));
         if(userService.checkEmail(email)) {
             // 이메일 존재
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-
-        // userEmail & DB userEmail 비교
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
@@ -79,14 +83,13 @@ public class UserController {
     @PatchMapping("/reset")
     @ApiOperation(value = "비밀번호 수정", notes = "..")
     public ResponseEntity<?> restPassword(@RequestBody @ApiParam(value = "로그아웃 정보 (email, password)", required = true) UserWithoutSeqReqDto userInfo) {
-        log.info("reset Password - Call");
+        log.info(logCurrent(getClassName(), getMethodName(), START));
 
         if(userService.resetPassword(userInfo)){
-            log.info("성공");
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-
-        // 회원 수정 실패
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
@@ -98,15 +101,14 @@ public class UserController {
     @GetMapping("/info/{seq}")
     @ApiOperation(value = "회원 정보 조회", notes = "seq 받아서 회원 정보 조회")
     public ResponseEntity<?> getUserInfo(@PathVariable @ApiParam(value = "User seq", required = true)  Long seq) {
-        log.info("getUserInfo - Call");
-
-        // 로그인 했는지 검사 필요
-
+        log.info(logCurrent(getClassName(), getMethodName(), START));
         UserInfoRespDto userInfo = userService.getUserInfo(seq);
 
-        if(userInfo != null)
+        if(userInfo != null) {
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", userInfo));
-
+        }
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
     }
 
@@ -118,11 +120,14 @@ public class UserController {
     @PatchMapping("/withdraw")
     @ApiOperation(value = "회원 탈퇴", notes = "회원 seq받아 탈퇴 처리")
     public ResponseEntity<?> withdrawUser(@RequestBody @ApiParam(value = "User seq", required = true) UserSeqReqDto userInfo) {
-        log.info("withdraw - Call");
+        log.info(logCurrent(getClassName(), getMethodName(), END));
 
-        // 로그인 했는지 검사 필요
-        userService.withdrawUser(userInfo);
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        if (userService.withdrawUser(userInfo)) {
+            log.info(logCurrent(getClassName(), getMethodName(), END));
+            return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+        }
+        log.info(logCurrent(getClassName(), getMethodName(), END));
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
     /**
@@ -133,14 +138,16 @@ public class UserController {
     @PostMapping("/passcheck")
     @ApiOperation(value = "비밀번호 확인", notes = "User seq, 비밀번호 받아 DB의 기존 비밀번호와 비교")
     public ResponseEntity<?> checkPassword(@RequestBody @ApiParam(value = "User seq, 비밀번호", required = true) UserSeqReqDto userInfo) {
-        log.info("checkPassword - Call");
+        log.info(logCurrent(getClassName(), getMethodName(), START));
         // 로그인 했는지 검사 필요
         if(userService.checkPassword(userInfo)) {
             // 비밀 번호 같음
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
         // 비밀번호 다름
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "fail"));
+        log.info(logCurrent(getClassName(), getMethodName(), END));
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
 

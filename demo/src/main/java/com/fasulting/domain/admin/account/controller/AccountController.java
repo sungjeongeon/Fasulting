@@ -1,64 +1,62 @@
 package com.fasulting.domain.admin.account.controller;
 
+import com.fasulting.common.resp.ResponseBody;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.admin.account.dto.reqDto.ConfirmPsReqDto;
 import com.fasulting.domain.admin.account.dto.respDto.PsWaitRespDto;
 import com.fasulting.domain.admin.account.service.AccountService;
-import com.fasulting.common.resp.ResponseBody;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.fasulting.common.util.LogCurrent.*;
+
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/admin/account")
-//@CrossOrigin("*")
 public class AccountController {
 
-    private AccountService accountService;
-
-    @Autowired
-    public AccountController(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
+    private final AccountService accountService;
 
     /**
-     * 1. 병원 승인 대기 계정 조회
-     * @return 병원 승인 계정 리스트
+     * 병원 승인 대기 계정 조회
+     * @return List<PsWaitRespDto>
      */
     @GetMapping("/ps")
     public ResponseEntity<?> getPsWaitList() {
 
-        log.info("getPsWaitList - Call");
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         List<PsWaitRespDto> psWaitList = accountService.getPsWaitList();
 
         if (!psWaitList.isEmpty()) {
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success", psWaitList));
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(204).body(ResponseBody.create(204, "fail"));
 
     }
 
     /**
-     * 2. 병원 계정 가입 승인
+     * 병원 계정 가입 승인
      * @param confirmPsReqDto
      * @return success or fail
      */
     @PatchMapping("/ps")
-    public ResponseEntity<?> ApprovePs(@RequestBody ConfirmPsReqDto confirmPsReqDto) {
+    public ResponseEntity<?> approvePs(@RequestBody ConfirmPsReqDto confirmPsReqDto) {
 
-        log.info("ApprovePs - Call");
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
         if (accountService.approvePs(confirmPsReqDto)) {
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-
-        return ResponseEntity.status(401).body(ResponseBody.create(401, "fail")); // 권한 없음
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
+        return ResponseEntity.status(500).body(ResponseBody.create(500, "fail")); // 권한 없음
 
     }
 

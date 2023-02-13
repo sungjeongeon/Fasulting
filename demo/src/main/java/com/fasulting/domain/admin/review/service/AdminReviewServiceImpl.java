@@ -1,6 +1,7 @@
 package com.fasulting.domain.admin.review.service;
 
 import com.fasulting.common.RoleType;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.admin.review.dto.reqDto.AdminReviewReqDto;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
@@ -15,6 +16,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.fasulting.common.util.LogCurrent.*;
 
 @Service
 @Slf4j
@@ -32,10 +35,9 @@ public class AdminReviewServiceImpl implements AdminReviewService {
     @Override
     public List<ReviewRespDto> getAccusedReviewList() {
 
-        // 삭제 안 됐고 
-        // 신고된 리뷰 리스트
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
+        // 삭제 안 된 신고된 리뷰 리스트
         List<ReviewEntity> reviewList = reviewRepository.findAllByDecYnAndDelYn("Y", "N");
-
 
         List<ReviewRespDto> accusedReviewList = new ArrayList<>();
 
@@ -56,6 +58,7 @@ public class AdminReviewServiceImpl implements AdminReviewService {
             accusedReviewList.add(reviewRespDto);
         }
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return accusedReviewList;
     }
 
@@ -68,10 +71,12 @@ public class AdminReviewServiceImpl implements AdminReviewService {
     @Override
     public boolean deleteReview(AdminReviewReqDto adminReviewReqDto) {
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         ReviewEntity review = reviewRepository.findById(adminReviewReqDto.getReviewSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         review.updateByDel(RoleType.ADMIN + "_" + adminReviewReqDto.getAdminSeq(), LocalDateTime.now());
 
         reviewRepository.save(review);

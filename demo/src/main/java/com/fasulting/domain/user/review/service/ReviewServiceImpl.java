@@ -23,6 +23,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fasulting.common.util.LogCurrent.*;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -34,10 +36,16 @@ public class ReviewServiceImpl implements ReviewService{
     private final TotalRatingRepository totalRatingRepository;
     private final ReservationSubRepository reservationSubRepository;
 
+    /**
+     * 리뷰 등록
+     * @param reviewReqDto
+     * @return
+     */
     @Transactional
     @Override
     public boolean regReview(ReviewReqDto reviewReqDto) {
 
+        log.info(logCurrent(getClassName(), getMethodName(), START));
         Long consultingSeq = reviewReqDto.getConsultingSeq();
 
         ConsultingEntity consulting = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
@@ -47,6 +55,7 @@ public class ReviewServiceImpl implements ReviewService{
         UserEntity user = consulting.getUser();
 
         if(reviewRepository.findByConsulting(consulting).isPresent()){
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return false;
         }
 
@@ -85,13 +94,19 @@ public class ReviewServiceImpl implements ReviewService{
             totalRatingRepository.save(totalRating);
         }
 
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return true;
     }
 
+    /**
+     * 작성한 리뷰 조회
+     * @param userSeq
+     * @return
+     */
     @Override
     public List<ReviewRespDto> getReviewList(Long userSeq) {
 
-        log.info(userSeq + "");
+        log.info(logCurrent(getClassName(), getMethodName(), START));
 
         // 리뷰
         List<ReviewEntity> reviewList = reviewRepository.findAllByUserSeq(userSeq);
@@ -115,8 +130,7 @@ public class ReviewServiceImpl implements ReviewService{
             reviewRespDtoList.add(reviewRespDto);
         }
 
-        log.info(reviewRespDtoList.toString());
-
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return reviewRespDtoList;
     }
 }

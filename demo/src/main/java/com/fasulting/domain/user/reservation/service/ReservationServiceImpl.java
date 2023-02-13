@@ -46,6 +46,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.fasulting.common.util.FileManage.beforeImgDirPath;
+import static com.fasulting.common.util.LogCurrent.*;
 
 @Slf4j
 @Service
@@ -80,7 +81,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationTableRespDto getReservationTable(Long psSeq, LocalDateTime current) {
 
-        log.info("getReservationTable Service Call");
+        log.info(logCurrent(getClassName(), getMethodName(), START));
 
         PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> new NullPointerException());
 
@@ -91,9 +92,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<PsOperatingEntity> psOperatingList = psOperatingRepository.getByPsSeqAndCurrent(psSeq, current, post);
 
-        log.info(current.toString() + " now");
         current = current.plusHours(2);
-        log.info(current.toString() + "plus 2");
 
         for (PsOperatingEntity po : psOperatingList) {
 
@@ -176,6 +175,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .mainCategoryList(mainList)
                 .build();
 
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return respList;
     }
 
@@ -188,15 +188,12 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public boolean addReservation(RegReservationReqDto regReservationReqDto) {
 
-        log.info("addReservation Service Call");
+        log.info(logCurrent(getClassName(), getMethodName(), START));
 
         int year = regReservationReqDto.getYear();
         int month = regReservationReqDto.getMonth();
         int day = regReservationReqDto.getDay();
         int timeNum = regReservationReqDto.getTime();
-
-        log.info(year + "," + month + "," + day);
-
 
         ///// 병원 운영 시간(operating)에서 해당 시간 유효한가 확인 ////
 
@@ -204,21 +201,18 @@ public class ReservationServiceImpl implements ReservationService {
         // time(num)으로 time 구하기
         // 위 두개로 PsOperating 구하기
 
-
         // operating_cal 구하기
-        log.info("operating_cal 구하기");
         if (!operatingCalRepository.findByYearAndMonthAndDay(year, month, day).isPresent()) {
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return false;
         }
         OperatingCalEntity oc = operatingCalRepository.findByYearAndMonthAndDay(year, month, day).orElseThrow(() -> {
             throw new NullPointerException();
         });
 
-        log.info(oc.toString());
-
         // time 구하기
-        log.info("time 구하기");
         if (!timeRepository.findByNum(timeNum).isPresent()) {
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return false;
         }
         TimeEntity t = timeRepository.findByNum(timeNum).orElseThrow(() -> {
@@ -231,17 +225,16 @@ public class ReservationServiceImpl implements ReservationService {
                 .time(t.getSeq())
                 .build();
 
-        log.info(regReservationReqDto.getPsSeq() + " " + oc.getSeq() + " " + t.getSeq());
-
         if (!psOperatingRepository.findById(poId).isPresent()) {
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return false;
         }
         PsOperatingEntity po = psOperatingRepository.findById(poId).orElseThrow(() -> {
             throw new NullPointerException();
         });
 
-        log.info(" 예약 등록");
         if (!reservationCalRepository.findByYearAndMonthAndDay(year, month, day).isPresent()) {
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return false;
         }
 
@@ -261,8 +254,6 @@ public class ReservationServiceImpl implements ReservationService {
         if (beforeImgFile != null && !beforeImgFile.isEmpty()) {
             // 파일 중복명 방지 uuid 생성
             UUID uuid = UUID.randomUUID();
-
-
             beforeImgPath = FileManage.uploadFile(beforeImgFile, uuid, beforeImgDirPath);
 
         }
@@ -278,7 +269,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.save(reservation);
 
-        log.info(" 예약 - 서브 카테고리 매핑");
         // 예약 - 서브 카테고리 매핑
         List<Long> subSeqList = regReservationReqDto.getSubCategory();
 
@@ -298,7 +288,7 @@ public class ReservationServiceImpl implements ReservationService {
         //// 병원 운영 시간(operating)에서 해당 시간 삭제 ////
         psOperatingRepository.delete(po);
 
-
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return true;
     }
 
@@ -311,7 +301,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<PreReservationRespDto> getPreReservationList(Long userSeq) {
 
-        log.info("getPreReservationList Service Call");
+        log.info(logCurrent(getClassName(), getMethodName(), START));
 
         List<PreReservationRespDto> respList = new ArrayList<>();
 
@@ -319,15 +309,9 @@ public class ReservationServiceImpl implements ReservationService {
             throw new NullPointerException();
         }).getSeq());
 
-//        log.info(cList.toString());
-
         for (ConsultingEntity c : cList) {
-
-            log.info(c.toString());
-
             String estimate = "";
             boolean isReported = false;
-
 
             if (reportRepository.findByConsulting(c).isPresent()) {
                 estimate = reportRepository.findByConsulting(c).get().getEstimate();
@@ -352,6 +336,7 @@ public class ReservationServiceImpl implements ReservationService {
             respList.add(respDto);
         }
 
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return respList;
     }
 
@@ -364,7 +349,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<PostReservationRespDto> getPostReservationList(Long userSeq) {
 
-        log.info("getPostReservationList Service Call");
+        log.info(logCurrent(getClassName(), getMethodName(), START));
 
         List<PostReservationRespDto> respList = new ArrayList<>();
 
@@ -394,6 +379,7 @@ public class ReservationServiceImpl implements ReservationService {
             }
         }
 
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return respList;
     }
 
@@ -407,7 +393,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public boolean cancelReservation(CancelReservationReqDto cancelReservationReqDto) {
 
-        log.info("cancelReservation - call");
+        log.info(logCurrent(getClassName(), getMethodName(), START));
 
         Long rSeq = cancelReservationReqDto.getReservationSeq();
         Long uSeq = cancelReservationReqDto.getUserSeq();
@@ -451,22 +437,30 @@ public class ReservationServiceImpl implements ReservationService {
 
             psOperatingRepository.save(psOperating);
 
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return true;
         }
-
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return false;
     }
 
+    /**
+     * 상담 결과(견젹서) 조회
+     * @param userSeq
+     * @param consultingSeq
+     * @return
+     */
     @Override
     public ReportRespDto getReport(Long userSeq, Long consultingSeq) {
 
-        log.info("getReport Service - Call");
+        log.info(logCurrent(getClassName(), getMethodName(), START));
 
         ConsultingEntity c = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
             throw new NullPointerException();
         });
 
         if (c.getUser().getSeq() != userSeq) {
+            log.info(logCurrent(getClassName(), getMethodName(), END));
             return null;
         }
 
@@ -513,8 +507,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
                 .build();
 
+        log.info(logCurrent(getClassName(), getMethodName(), END));
         return respDto;
-
-
     }
 }

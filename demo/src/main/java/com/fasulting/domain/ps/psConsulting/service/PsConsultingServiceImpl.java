@@ -2,6 +2,7 @@ package com.fasulting.domain.ps.psConsulting.service;
 
 import com.fasulting.common.util.Date2String;
 import com.fasulting.common.util.FileManage;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.ps.psConsulting.dto.ResultReqDto;
 import com.fasulting.entity.consulting.ConsultingEntity;
 import com.fasulting.entity.consulting.ReportEntity;
@@ -15,13 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import static com.fasulting.common.util.FileManage.afterImgDirPath;
-import static com.fasulting.common.util.FileManage.domain;
+import static com.fasulting.common.util.LogCurrent.*;
 
 @Service
 @Slf4j
@@ -31,10 +31,14 @@ public class PsConsultingServiceImpl implements PsConsultingService {
     private final ConsultingRepository consultingRepository;
     private final ReservationRepository reservationRepository;
 
-
+    /**
+     * 비포 사진 다운로드
+     * @param reservationSeq
+     * @return
+     */
     @Override
     public Map<String, String> getBeforeImg(Long reservationSeq) {
-        log.info("getBeforeImg Service - Call");
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         ReservationEntity reservation = reservationRepository.findById(reservationSeq).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -44,8 +48,6 @@ public class PsConsultingServiceImpl implements PsConsultingService {
         int year = reservation.getReservationCal().getYear();
         int month = reservation.getReservationCal().getMonth();
         int day = reservation.getReservationCal().getDay();
-//        int startHour = reservation.getTime().getStartHour();
-//        int startMin = reservation.getTime().getStartMin();
 
         String[] str = reservation.getBeforeImgOrigin().split("\\.");
 
@@ -55,6 +57,7 @@ public class PsConsultingServiceImpl implements PsConsultingService {
         resp.put("beforeImgPath", beforeImgPath);
         resp.put("beforeImgOrigin", beforeImgName);
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return resp;
 
     }
@@ -71,7 +74,7 @@ public class PsConsultingServiceImpl implements PsConsultingService {
 
     @Override
     public boolean writeResult(ResultReqDto resultReq) {
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         ReservationEntity reservation = reservationRepository.findById(resultReq.getReservationSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -96,7 +99,6 @@ public class PsConsultingServiceImpl implements PsConsultingService {
             afterImgUrl = FileManage.uploadFile(afterImgFile, uuid, afterImgDirPath);
         }
 
-
         // consulting.reservationId로 before이미지 얻어오기
         ReportEntity report = ReportEntity.builder()
                 .beforeImgPath(consulting.getReservation().getBeforeImgPath())
@@ -109,7 +111,7 @@ public class PsConsultingServiceImpl implements PsConsultingService {
                 .build();
 
         reportRepository.save(report);
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return true;
     }
 }

@@ -1,27 +1,25 @@
 package com.fasulting.domain.email.controller;
 
+import com.fasulting.common.resp.ResponseBody;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.email.dto.reqDto.EmailReqDto;
 import com.fasulting.domain.email.service.EmailService;
-import com.fasulting.common.resp.ResponseBody;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+import static com.fasulting.common.util.LogCurrent.*;
+
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/email")
-//@CrossOrigin("*") // 수정
 public class EmailController {
 
-    private EmailService emailService;
-
-    @Autowired
-    public EmailController(EmailService emailService) {
-        this.emailService = emailService;
-    }
+    private final EmailService emailService;
 
     /**
      * 이메일 인증 코드 발송 (회원 가입)
@@ -33,7 +31,7 @@ public class EmailController {
      */
     @GetMapping("/regist/{email}")
     public ResponseEntity<?> registSendEmailCode(@PathVariable String email, HttpSession session){
-        log.info("regist - sendEmailCode - Call");
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
         String code = null;
         try {
@@ -44,11 +42,11 @@ public class EmailController {
 
         } catch (Exception e) {
 
-            log.info(e.getMessage());
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(400).body(ResponseBody.create(400, "fail"));
         }
 
-        log.info("인증코드: " + code);
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(200).body("success");
     }
 
@@ -62,7 +60,7 @@ public class EmailController {
      */
     @GetMapping("/reset/{email}")
     public ResponseEntity<? extends ResponseBody> ResetSendEmailCode(@PathVariable String email, HttpSession session){
-        log.info("reset - sendEmailCode - Call");
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
         String code = null;
         try {
@@ -72,10 +70,10 @@ public class EmailController {
             session.setMaxInactiveInterval(3*60); // 3분
 
         } catch (Exception e) {
-            log.info(e.getMessage());
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(400).body(ResponseBody.create(400, "fail"));
         }
-        log.info("인증코드: " + code);
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
     }
 
@@ -88,16 +86,16 @@ public class EmailController {
         // 이메일 인증 코드 & Server에서 전송한 이메일 코드 일치 여부 확인
         // 인증코드 발송 시 인증코드를 담아서 전송 후 프론트단에서 일치 여부 확인
 
-        String code = (String)session.getAttribute("emailCode");
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
-        log.info("session code : " + code);
-        log.info("user code : " + emailReqDto.getEmailCode());
+        String code = (String)session.getAttribute("emailCode");
 
         if(code.equals(emailReqDto.getEmailCode())){
             session.removeAttribute("emailCode");
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return ResponseEntity.status(400).body(ResponseBody.create(500, "fail"));
     }
 }

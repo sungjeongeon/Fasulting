@@ -1,5 +1,6 @@
 package com.fasulting.domain.user.favorite.service;
 
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.user.favorite.dto.reqDto.FavoriteReq;
 import com.fasulting.domain.user.favorite.dto.respDto.FavoriteResp;
 import com.fasulting.entity.ps.PsEntity;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.fasulting.common.util.LogCurrent.*;
 
 @Service
 @Slf4j
@@ -44,10 +47,11 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     public List<FavoriteResp> getFavoriteList(Long userSeq) {
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         List<FavoriteResp> favoriteRespList = new ArrayList<>();
         List<FavoriteEntity> list = favoriteRepository.findAllByUserSeq(userSeq);
 
-        for(FavoriteEntity favorite : list){
+        for (FavoriteEntity favorite : list) {
             PsEntity ps = favorite.getPs();
             Long psSeq = favorite.getPs().getSeq();
 
@@ -62,16 +66,14 @@ public class FavoriteServiceImpl implements FavoriteService {
             favoriteRespList.add(favoriteResp);
         }
 
-        for(FavoriteResp favorite : favoriteRespList){
-            log.info(favorite.toString());
-        }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return favoriteRespList;
     }
 
     @Override
     public boolean addFavorite(FavoriteReq favoriteReq) {
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         UserEntity user = userRepository.findById(favoriteReq.getUserSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -79,7 +81,7 @@ public class FavoriteServiceImpl implements FavoriteService {
             throw new NullPointerException();
         });
 
-        if(user != null && ps != null){
+        if (user != null && ps != null) {
             FavoriteEntity favorite = FavoriteEntity.builder()
                     .user(user)
                     .ps(ps)
@@ -87,16 +89,18 @@ public class FavoriteServiceImpl implements FavoriteService {
 
             favoriteRepository.save(favorite);
 
-            log.info("success insert favorite " + favorite.toString());
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return true;
         }
 
-        log.info("fail insert favorite");
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return false;
     }
 
     @Override
     public boolean deleteFavorite(FavoriteReq favoriteReq) {
+
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         UserEntity user = userRepository.findById(favoriteReq.getUserSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -107,20 +111,20 @@ public class FavoriteServiceImpl implements FavoriteService {
         });
         Long psSeq = ps.getSeq();
 
-        if(userSeq != null && psSeq != null){
+        if (userSeq != null && psSeq != null) {
             FavoriteEntity favorite = favoriteRepository.findByUserSeqPsSeq(userSeq, psSeq).orElseThrow(() -> {
                 throw new NullPointerException();
             });
 
-            if(favorite != null) {
+            if (favorite != null) {
                 favoriteRepository.delete(favorite);
 
-                log.info("success delete favorite");
+                log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
                 return true;
             }
         }
 
-        log.info("fail delete favorite");
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));;
         return false;
     }
 }

@@ -1,6 +1,7 @@
 package com.fasulting.domain.email.service;
 
 
+import com.fasulting.common.util.LogCurrent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
+
+import static com.fasulting.common.util.LogCurrent.*;
 
 @PropertySource("classpath:application.properties")
 @Slf4j
@@ -31,14 +34,12 @@ public class EmailServiceImpl implements EmailService {
 
     /**
      * 보낼 메일 생성
-     *
      * @param to: 보낼 메일 주소
      * @return: 보낼 이메일, 인증 번호 등이 담긴 content를 담은 객체 msg
      */
     public MimeMessage createRegistCodeMessage(String to) throws MessagingException, UnsupportedEncodingException {
 
-        log.info("보낼 이메일: " + to);
-        log.info("인증 번호: " + code);
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
         MimeMessage msg = javaMailSender.createMimeMessage();
 
@@ -76,12 +77,13 @@ public class EmailServiceImpl implements EmailService {
         msg.setText(content.toString(), "utf-8", "html");
         msg.setFrom(new InternetAddress(id, "fasulting")); // email, 이름
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return msg;
 
     }
 
     /**
-     *
+     * 재설정 인증코드 생성
      * @param to
      * @return
      * @throws MessagingException
@@ -89,8 +91,7 @@ public class EmailServiceImpl implements EmailService {
      */
     public MimeMessage createResetCodeMessage(String to) throws MessagingException, UnsupportedEncodingException {
 
-        log.info("보낼 이메일: " + to);
-        log.info("인증 번호: " + code);
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
         MimeMessage msg = javaMailSender.createMimeMessage();
 
@@ -128,12 +129,15 @@ public class EmailServiceImpl implements EmailService {
         msg.setText(content.toString(), "utf-8", "html");
         msg.setFrom(new InternetAddress(id, "fasulting")); // email, 이름
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return msg;
 
     }
 
     // 인증 코드 생성
     public static String createKey() {
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
+
         StringBuffer key = new StringBuffer();
         Random rand = new Random();
 
@@ -141,6 +145,7 @@ public class EmailServiceImpl implements EmailService {
             key.append((rand.nextInt(10)));
         }
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return key.toString();
     }
 
@@ -151,6 +156,7 @@ public class EmailServiceImpl implements EmailService {
      */
     @Override
     public String sendRegistCodeMessage(String to) throws Exception {
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         MimeMessage msg = createRegistCodeMessage(to); // 전송할 메일의 내용 담기
 
         try {
@@ -159,12 +165,13 @@ public class EmailServiceImpl implements EmailService {
             e.printStackTrace();
             throw new IllegalArgumentException();
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return code;
     }
 
     @Override
     public String sendResetCodeMessage(String to) throws Exception {
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         MimeMessage msg = createResetCodeMessage(to); // 전송할 메일의 내용 담기
 
         try {
@@ -173,7 +180,7 @@ public class EmailServiceImpl implements EmailService {
             e.printStackTrace();
             throw new IllegalArgumentException();
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return code;
     }
 }

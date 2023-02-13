@@ -2,6 +2,7 @@ package com.fasulting.domain.ps.psReservation.service;
 
 import com.fasulting.common.RoleType;
 import com.fasulting.common.util.DayOfWeek2String;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.entity.calendar.OperatingCalEntity;
 import com.fasulting.entity.calendar.ReservationCalEntity;
 import com.fasulting.entity.calendar.TimeEntity;
@@ -40,6 +41,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import static com.fasulting.common.util.FileManage.domain;
+import static com.fasulting.common.util.LogCurrent.*;
 
 @Service
 @Slf4j
@@ -65,8 +67,7 @@ public class PsReservationServiceImpl implements PsReservationService {
     @Override
     public boolean cancelReservation(ReservationReqDto reservationReqDto) {
 
-        log.info("cancelReservation - call");
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         Long rSeq = reservationReqDto.getReservationSeq();
         Long pSeq = reservationReqDto.getPsSeq();
 
@@ -111,9 +112,10 @@ public class PsReservationServiceImpl implements PsReservationService {
 
             psOperatingRepository.save(psOperating);
 
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return true;
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return false;
 
     }
@@ -128,6 +130,7 @@ public class PsReservationServiceImpl implements PsReservationService {
     @Override
     public PsPostRespDto getPostReservationList(Long psSeq, LocalDateTime current) {
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         // 미래 예약 조회
         List<PostReservationRespDto> respList = new ArrayList<>();
 
@@ -199,7 +202,6 @@ public class PsReservationServiceImpl implements PsReservationService {
 
         List<PsOperatingRespDto> poList = new ArrayList<>();
         for (Map.Entry<String, PsOperatingRespDto> entrySet : map.entrySet()) {
-//            log.info(entrySet.getKey() + " : " + entrySet.getValue());
             poList.add(entrySet.getValue());
         }
 
@@ -208,6 +210,7 @@ public class PsReservationServiceImpl implements PsReservationService {
                 .operatingTime(poList)
                 .build();
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return postReservationRespDto;
     }
 
@@ -221,7 +224,7 @@ public class PsReservationServiceImpl implements PsReservationService {
     @Override
     public List<PreReservationRespDto> getPreReservationList(Long psSeq, LocalDateTime current) {
 
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         List<PreReservationRespDto> respList = new ArrayList<>();
 
         PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> {
@@ -229,8 +232,6 @@ public class PsReservationServiceImpl implements PsReservationService {
         });
 
         List<ConsultingEntity> cList = consultingRepository.getAllByPsSeq(ps.getSeq());
-
-//        log.info(cList.toString());
 
         for (ConsultingEntity c : cList) {
 
@@ -259,7 +260,7 @@ public class PsReservationServiceImpl implements PsReservationService {
 
         }
 
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return respList;
     }
 
@@ -269,6 +270,7 @@ public class PsReservationServiceImpl implements PsReservationService {
     @Transactional
     @Override
     public PreDetailRespDto getPreDetail(Long consultingSeq) {
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         ConsultingEntity consulting = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -293,9 +295,8 @@ public class PsReservationServiceImpl implements PsReservationService {
                 .afterImg(domain + report.getAfterImgPath())
                 .build();
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return preDetail;
     }
 
-
 }
-

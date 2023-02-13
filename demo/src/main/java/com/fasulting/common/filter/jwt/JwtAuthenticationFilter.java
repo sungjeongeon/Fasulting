@@ -36,18 +36,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest  request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 헤더에서 JWT 를 받아옵니다.
         String token = jwtService.resolveToken(request);
-
-        log.info("token : " + token);
-        if(token != null){
-            log.info("isExpired : " + jwtService.isExpiredToken(token));
-            log.info("isValid : " + jwtService.isValidToken(token));
-            log.info("isBlocked : " + jwtService.isBlockedToken(request, token));
-        }
         
         // access 토큰이 만료되기 전일 때
         if (token != null && jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
                 jwtService.isBlockedToken(request, token)) {
-            log.info("조건 1");
+//            log.info("조건 1");
             // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
             Authentication authentication = jwtService.getAuthentication(token);
             // SecurityContext 에 Authentication 객체를 저장합니다.
@@ -56,14 +49,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // access 토큰이 만료되었을 때
         else if(token != null && !jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
                 jwtService.isBlockedToken(request, token)){
-            log.info("조건 2");
+//            log.info("조건 2");
             // 쿠키에 저장된 refreshToken
             String refreshToken = getRefreshToken(request);
             // 쿠키에 저장된 refreshToken 유효성 확인으로 새로운 accessToken 생성
             String newAccessToken = jwtService.validateRefreshToken(refreshToken);
             // 생성된 accessToken 에 대한 유효성 검증
             if(isValidRefreshToken(refreshToken, newAccessToken)){
-                log.info("조건 3");
+//                log.info("조건 3");
                 // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
                 Authentication authentication = jwtService.getAuthentication(newAccessToken);
                 // SecurityContext 에 Authentication 객체를 저장합니다.
@@ -77,14 +70,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getRefreshToken(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        for(Cookie c : cookies){
-            log.info("arr cookie : " + c.getName());
-            log.info("arr cookie value : " + c.getValue());
-        }
 
         if (request.getCookies() != null) {
-            log.info("get refresh " + request.getCookies());
             return Arrays.stream(request.getCookies())
                     .filter(cookie -> cookie.getName().equals("refreshToken"))
                     .findFirst()
@@ -98,16 +85,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private boolean isValidRefreshToken(String refreshToken, String accessToken) {
         String userEmail = jwtService.getUserEmail(accessToken);
         String domain = jwtService.getDomain(accessToken);
-        log.info("userEmail : " + userEmail);
-        log.info("user domain : " + domain);
 
         if(tokenRepository.findByRefreshToken(refreshToken).isPresent()){
             if(RoleType.USER.equals(domain)){
                 UserEntity user = userTokenRepository.findByToken((tokenRepository.findByRefreshToken(refreshToken).get())).get().getUser();
                 String email = user.getEmail();
                 String authority = user.getRole().getAuthority();
-
-                log.info("role : " + authority);
 
                 if(userEmail.equals(email) && RoleType.USER.equals(authority)){
                     return true;

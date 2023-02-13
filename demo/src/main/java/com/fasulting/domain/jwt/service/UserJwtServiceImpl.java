@@ -2,12 +2,13 @@ package com.fasulting.domain.jwt.service;
 
 import com.fasulting.common.RoleType;
 import com.fasulting.common.util.CheckInfo;
+import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.jwt.JwtTokenProvider;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
 import com.fasulting.domain.jwt.dto.respDtio.UserLoginRespDto;
 import com.fasulting.entity.token.TokenEntity;
-import com.fasulting.entity.user.UserEntity;
 import com.fasulting.entity.token.UserTokenEntity;
+import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.token.TokenRepository;
 import com.fasulting.repository.token.UserTokenRepository;
 import com.fasulting.repository.user.UserRepository;
@@ -17,8 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
+
+import static com.fasulting.common.util.LogCurrent.*;
 
 @RequiredArgsConstructor
 @Service
@@ -31,37 +32,37 @@ public class UserJwtServiceImpl implements UserJwtService {
     private final JwtTokenProvider jwtService;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * user & admin login
+     * @param userInfo
+     * @return
+     */
     @Override
     @Transactional
     public UserLoginRespDto login(LoginReqDto userInfo) {
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
 
         if (passwordEncoder.matches(userInfo.getPassword(), user.getPassword())) {
             String accessToken = null;
             String refreshToken = null;
             boolean adminYn = false;
-            if(user.getRole().getAuthority().equals(RoleType.USER)) {
+            if (user.getRole().getAuthority().equals(RoleType.USER)) {
                 accessToken = jwtService.createAccessToken(user.getEmail(), user.getRole().getAuthority(), RoleType.USER);
                 refreshToken = jwtService.createRefreshToken(user.getEmail(), user.getRole().getAuthority(), RoleType.USER);
             }
-            if(user.getRole().getAuthority().equals(RoleType.ADMIN)){
+            if (user.getRole().getAuthority().equals(RoleType.ADMIN)) {
                 accessToken = jwtService.createAccessToken(user.getEmail(), user.getRole().getAuthority(), RoleType.ADMIN);
                 refreshToken = jwtService.createRefreshToken(user.getEmail(), user.getRole().getAuthority(), RoleType.ADMIN);
                 adminYn = true;
             }
 
-            log.info(user.toString());
-
             TokenEntity token = TokenEntity.builder()
                     .refreshToken(refreshToken)
                     .build();
 
-            log.info(token.toString());
-
             tokenRepository.save(token);
-
-            log.info(tokenRepository.findByRefreshToken(refreshToken).get().toString());
 
             // 기존 refresh 토큰 삭제
             if (userTokenRepository.findByUser(user).isPresent()) {
@@ -79,11 +80,7 @@ public class UserJwtServiceImpl implements UserJwtService {
                         .token(tokenRepository.findByRefreshToken(refreshToken).get())
                         .build();
 
-                log.info(user.toString());
-                log.info(userToken.toString());
-
                 userTokenRepository.save(userToken);
-                log.info(userToken.toString());
             }
 
             UserLoginRespDto userLoginRespDto = UserLoginRespDto.builder()
@@ -94,16 +91,25 @@ public class UserJwtServiceImpl implements UserJwtService {
                     .adminYn(adminYn)
                     .build();
 
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return userLoginRespDto;
 
         }
 
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return null;
     }
 
+    /**
+     * user & admin logout
+     * @param userSeq
+     * @return
+     */
     @Transactional
     @Override
     public boolean logout(Long userSeq) {
+
+        log.info("UserJwtServiceImpl logout Start");
 
         UserEntity user = userRepository.findById(userSeq).orElseThrow(
                 () -> {
@@ -124,9 +130,10 @@ public class UserJwtServiceImpl implements UserJwtService {
             userTokenRepository.delete(userToken);
             tokenRepository.delete(preToken);
 
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return true;
         }
-
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return false;
 
     }
