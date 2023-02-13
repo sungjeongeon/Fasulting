@@ -98,38 +98,54 @@ export default function LoginForm() {
           try {
             await axiosAPi.post("/ps/login", values).then((res) => {
               if (res.data.message === "success") {
-                console.log(res.data);
-                dispatch(
-                  loginPs({
-                    psSeq: res.data.responseObj.psSeq,
-                    psName: res.data.responseObj.psName,
-                    psEmail: values.email,
-                    psPwd: values.password,
-                  })
-                );
-                //토큰 받아오기
-                const accessToken = res.data.responseObj.accessToken;
-                //console.log(accessToken);
-                dispatch(setToken({ accessToken: accessToken }));
-                // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-                // axiosAPi.defaults.headers.common[
-                //   "Authorization"
-                // ] = `Bearer ${accessToken}`;
-                //setAuthorizationToken(accessToken);
-                //console.log(res.data);
-                toast.success(
-                  <h3>
-                    로그인 완료 <br />
-                    반갑습니다 !{" "}
-                  </h3>,
-                  {
-                    position: toast.POSITION.TOP_CENTER,
-                    autoClose: 2000,
-                  }
-                );
-                setTimeout(() => {
-                  navigate("/myreservationho");
-                }, 2000);
+                if (res.data.responseObj.confirmYn === true) {
+                  console.log(res.data);
+                  dispatch(
+                    loginPs({
+                      psSeq: res.data.responseObj.psSeq,
+                      psName: res.data.responseObj.psName,
+                      psEmail: values.email,
+                      psPwd: values.password,
+                    })
+                  );
+                  //토큰 받아오기
+                  const accessToken = res.data.responseObj.accessToken;
+                  //console.log(accessToken);
+                  dispatch(setToken({ accessToken: accessToken }));
+                  // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+                  // axiosAPi.defaults.headers.common[
+                  //   "Authorization"
+                  // ] = `Bearer ${accessToken}`;
+                  //setAuthorizationToken(accessToken);
+                  //console.log(res.data);
+                  toast.success(
+                    <h3>
+                      로그인 완료 <br />
+                      반갑습니다 !{" "}
+                    </h3>,
+                    {
+                      position: toast.POSITION.TOP_CENTER,
+                      autoClose: 2000,
+                    }
+                  );
+                  setTimeout(() => {
+                    navigate("/mypageho");
+                  }, 2000);
+                } else {
+                  toast.error(
+                    <h3>
+                      승인 대기중인 계정입니다. <br />
+                      잠시후 다시 로그인해주세요!{" "}
+                    </h3>,
+                    {
+                      position: toast.POSITION.TOP_CENTER,
+                      autoClose: 2000,
+                    }
+                  );
+                  setTimeout(() => {
+                    navigate("/");
+                  }, 2000);
+                }
               }
             });
           } catch (e) {
