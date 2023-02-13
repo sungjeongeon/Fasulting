@@ -25,9 +25,12 @@ export default function CancelDialog({ReservationManage, modalClose}) {
       "reservationSeq": id,
       "psSeq": psSeq
     })
-      .then(res => console.log(res.data.message))
+      .then(res => {
+        console.log(res.data.message)
+        window.location.reload();
+      })
       .catch(err => console.log(err))
-    window.location.reload();
+    // window.location.reload();
   }
 
   return (

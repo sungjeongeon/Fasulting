@@ -13,7 +13,7 @@ function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
   // 미리보기 위한 src
   const [imgSrc, setImgSrc] = useState('')
   // img 파일 객체 (서버에 보내줄 것)
-  const [imgFile, setImgFile] = useState()
+  const [imgFile, setImgFile] = useState('')
 
   // 의사 input value
   const onChange = (e) => {
@@ -51,7 +51,17 @@ function AddDoctor({ModalStateChange, doctorList, setDoctorList}) {
     formData.append("psSeq", psSeq)
     formData.append("name", docName);
     formData.append("mainCategory", mainCtg);
-    formData.append("img", imgFile);
+    if (imgFile) {
+      formData.append("img", imgFile);
+      console.log("이미지 있음")
+    }
+    for (var key of formData.keys()) {
+      console.log(key);
+    }
+
+    for (var value of formData.values()) {
+      console.log(value);
+    }
 
     try {
       await axiosAPi.post("/ps/doctor", formData, {
