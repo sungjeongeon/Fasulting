@@ -46,6 +46,7 @@ function SubCategoryList({ subcategory, selectedSub, selectSub }) {
 
   return (
     <div className={styles.subCategoryList}>
+      <button className={styles.subCategory}>세부항목</button>
       {subcategory.map((sub, index) => {
         return (
           // <SubCategoryListItem
