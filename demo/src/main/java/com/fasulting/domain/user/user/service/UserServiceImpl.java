@@ -1,11 +1,13 @@
 package com.fasulting.domain.user.user.service;
 
 import com.fasulting.common.RoleType;
+import com.fasulting.common.util.CheckInfo;
 import com.fasulting.domain.user.user.dto.reqDto.UserSeqReqDto;
 import com.fasulting.domain.user.user.dto.reqDto.UserWithoutSeqReqDto;
 import com.fasulting.domain.user.user.dto.respDto.UserInfoRespDto;
 import com.fasulting.entity.user.RoleEntity;
 import com.fasulting.entity.user.UserEntity;
+import com.fasulting.exception.UnAuthorizedException;
 import com.fasulting.repository.role.RoleRepository;
 import com.fasulting.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -100,6 +102,11 @@ public class UserServiceImpl implements UserService {
             throw new NullPointerException();
         });
 
+        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+            log.error(logCurrent(getClassName(), getMethodName(), END));
+            throw new UnAuthorizedException();
+        }
+
         UserInfoRespDto userInfo = UserInfoRespDto.builder()
                 .userBirth(user.getBirth())
                 .userEmail(user.getEmail())
@@ -142,6 +149,11 @@ public class UserServiceImpl implements UserService {
             throw new NullPointerException();
         });
 
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
         user.updateByWithdrawal("Y", RoleType.USER + "" + userInfo.getSeq(), LocalDateTime.now());
 
         userRepository.save(user);
@@ -159,11 +171,17 @@ public class UserServiceImpl implements UserService {
     public boolean checkPassword(UserSeqReqDto userInfo) {
 
         log.info(logCurrent(getClassName(), getMethodName(), START));
-        String password = userRepository.findById(userInfo.getSeq()).orElseThrow(() -> {
-            throw new NullPointerException();
-        }).getPassword();
 
-        if (passwordEncoder.matches(userInfo.getPassword(), password)) {
+        UserEntity user = userRepository.findById(userInfo.getSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
+        if (passwordEncoder.matches(userInfo.getPassword(), user.getPassword())) {
             log.info(logCurrent(getClassName(), getMethodName(), END));
             return true;
         }

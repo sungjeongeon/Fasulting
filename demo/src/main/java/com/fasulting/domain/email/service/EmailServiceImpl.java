@@ -14,6 +14,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static com.fasulting.common.util.LogCurrent.*;
@@ -26,8 +28,6 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
 
-    // 인증코드 생성
-    private final String code = createKey();
 
     @Value("${spring.mail.username}")
     private String id;
@@ -37,11 +37,13 @@ public class EmailServiceImpl implements EmailService {
      * @param to: 보낼 메일 주소
      * @return: 보낼 이메일, 인증 번호 등이 담긴 content를 담은 객체 msg
      */
-    public MimeMessage createRegistCodeMessage(String to) throws MessagingException, UnsupportedEncodingException {
+    public Map<String, Object> createRegistCodeMessage(String to) throws MessagingException, UnsupportedEncodingException {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
+        Map<String, Object> map = new HashMap<>();
         MimeMessage msg = javaMailSender.createMimeMessage();
+        String code = createKey();
 
         msg.addRecipients(MimeMessage.RecipientType.TO, to); // 보내는 대상
         msg.setSubject("fasulting 회원가입 인증 코드"); // 메일 제목
@@ -77,8 +79,10 @@ public class EmailServiceImpl implements EmailService {
         msg.setText(content.toString(), "utf-8", "html");
         msg.setFrom(new InternetAddress(id, "fasulting")); // email, 이름
 
+        map.put("msg", msg);
+        map.put("code", code);
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
-        return msg;
+        return map;
 
     }
 
@@ -89,11 +93,13 @@ public class EmailServiceImpl implements EmailService {
      * @throws MessagingException
      * @throws UnsupportedEncodingException
      */
-    public MimeMessage createResetCodeMessage(String to) throws MessagingException, UnsupportedEncodingException {
+    public Map<String, Object> createResetCodeMessage(String to) throws MessagingException, UnsupportedEncodingException {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
+        Map<String, Object> map = new HashMap<>();
         MimeMessage msg = javaMailSender.createMimeMessage();
+        String code = createKey();
 
         msg.addRecipients(MimeMessage.RecipientType.TO, to); // 보내는 대상
         msg.setSubject("fasulting 비밀번호 재설정 인증 코드"); // 메일 제목
@@ -129,8 +135,10 @@ public class EmailServiceImpl implements EmailService {
         msg.setText(content.toString(), "utf-8", "html");
         msg.setFrom(new InternetAddress(id, "fasulting")); // email, 이름
 
+        map.put("msg", msg);
+        map.put("code", code);
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
-        return msg;
+        return map;
 
     }
 
@@ -157,7 +165,9 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public String sendRegistCodeMessage(String to) throws Exception {
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
-        MimeMessage msg = createRegistCodeMessage(to); // 전송할 메일의 내용 담기
+        Map<String, Object> map = createRegistCodeMessage(to); // 전송할 메일의 내용 담기
+        MimeMessage msg = (MimeMessage) map.get("msg");
+        String code = (String) map.get("code");
 
         try {
             javaMailSender.send(msg);
@@ -172,8 +182,9 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public String sendResetCodeMessage(String to) throws Exception {
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
-        MimeMessage msg = createResetCodeMessage(to); // 전송할 메일의 내용 담기
-
+        Map<String, Object> map = createResetCodeMessage(to); // 전송할 메일의 내용 담기
+        MimeMessage msg = (MimeMessage) map.get("msg");
+        String code = (String) map.get("code");
         try {
             javaMailSender.send(msg);
         } catch (MailException e) {
