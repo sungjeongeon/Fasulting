@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@AllArgsConstructor
+@Builder
+@ToString
 public class TokenRespDto {
 
     protected String accessToken;

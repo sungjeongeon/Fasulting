@@ -6,6 +6,7 @@ import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.jwt.JwtTokenProvider;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
 import com.fasulting.domain.jwt.dto.respDtio.PsLoginRespDto;
+import com.fasulting.domain.jwt.dto.respDtio.TokenRespDto;
 import com.fasulting.entity.ps.PsEntity;
 import com.fasulting.entity.token.PsTokenEntity;
 import com.fasulting.entity.token.TokenEntity;
@@ -18,6 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.fasulting.common.util.LogCurrent.*;
 
@@ -40,7 +44,7 @@ public class PsJwtServiceImpl implements PsJwtService {
      */
     @Transactional
     @Override
-    public PsLoginRespDto login(LoginReqDto userInfo) {
+    public Map<String, Object> login(LoginReqDto userInfo) {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         PsEntity ps = psRepository.findPsByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
@@ -76,15 +80,21 @@ public class PsJwtServiceImpl implements PsJwtService {
             }
 
             PsLoginRespDto psLoginRespDto = PsLoginRespDto.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
                     .psName(ps.getName())
                     .psSeq(ps.getSeq())
                     .confirmYn(ps.getConfirmYn())
                     .build();
+            TokenRespDto tokenRespDto = TokenRespDto.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("psLoginRespDto", psLoginRespDto);
+            map.put("tokenRespDto", tokenRespDto);
 
             log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
-            return psLoginRespDto;
+            return map;
         }
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
         return null;

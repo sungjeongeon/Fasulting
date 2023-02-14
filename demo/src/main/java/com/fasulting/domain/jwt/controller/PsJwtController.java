@@ -5,6 +5,7 @@ import com.fasulting.common.util.CookieUtil;
 import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
 import com.fasulting.domain.jwt.dto.respDtio.PsLoginRespDto;
+import com.fasulting.domain.jwt.dto.respDtio.TokenRespDto;
 import com.fasulting.domain.jwt.service.PsJwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import java.util.Map;
 
 import static com.fasulting.common.util.LogCurrent.*;
 
@@ -37,17 +40,19 @@ public class PsJwtController {
     public ResponseEntity<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletRequest request, HttpServletResponse response) {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
-        PsLoginRespDto psLoginRespDto = psJwtService.login(loginReqDto);
+        Map<String, Object> respMap = psJwtService.login(loginReqDto);
+        PsLoginRespDto psLoginRespDto = (PsLoginRespDto)respMap.get("psLoginRespDto");
+        TokenRespDto tokenRespDto = (TokenRespDto) respMap.get("tokenRespDto");
 
         if (psLoginRespDto != null) {
 
             // 기존 쿠키 삭제
             CookieUtil.deleteCookie(request, response, "refreshToken");
             // JWT 쿠키 저장(쿠키 명 : token)
-            CookieUtil.addCookie(response, "refreshToken", psLoginRespDto.getRefreshToken());
+            CookieUtil.addCookie(response, "refreshToken", tokenRespDto.getRefreshToken());
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.AUTHORIZATION, psLoginRespDto.getAccessToken());
+            headers.add(HttpHeaders.AUTHORIZATION, tokenRespDto.getAccessToken());
 
             log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).headers(headers).body(ResponseBody.create(200, "success", psLoginRespDto));

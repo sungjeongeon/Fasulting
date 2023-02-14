@@ -4,6 +4,7 @@ import com.fasulting.common.resp.ResponseBody;
 import com.fasulting.common.util.CookieUtil;
 import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
+import com.fasulting.domain.jwt.dto.respDtio.TokenRespDto;
 import com.fasulting.domain.jwt.dto.respDtio.UserLoginRespDto;
 import com.fasulting.domain.jwt.service.UserJwtService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import java.util.Map;
 
 import static com.fasulting.common.util.LogCurrent.*;
 
@@ -35,17 +38,19 @@ public class UserJwtController {
     public ResponseEntity<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletRequest request, HttpServletResponse response) {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
-        UserLoginRespDto userLoginRespDto = userJwtService.login(loginReqDto);
+        Map<String, Object> map = userJwtService.login(loginReqDto);
+        UserLoginRespDto userLoginRespDto = (UserLoginRespDto) map.get("userLoginRespDto");
+        TokenRespDto tokenRespDto = (TokenRespDto) map.get("tokenRespDto");
 
         if (userLoginRespDto != null) {
 
             // 기존 쿠키 삭제
             CookieUtil.deleteCookie(request, response, "refreshToken");
             // JWT 쿠키 저장(쿠키 명 : token)
-            CookieUtil.addCookie(response, "refreshToken", userLoginRespDto.getRefreshToken());
+            CookieUtil.addCookie(response, "refreshToken", tokenRespDto.getRefreshToken());
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.AUTHORIZATION, userLoginRespDto.getAccessToken());
+            headers.add(HttpHeaders.AUTHORIZATION, tokenRespDto.getAccessToken());
             log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).headers(headers).body(ResponseBody.create(200, "success", userLoginRespDto));
         }
