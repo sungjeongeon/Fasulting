@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
   /*배너에 왜 패딩이 생길까..*/
-  margin: 0 24px 0 24px;
+  margin: 0 24px 24px 24px;
 }
 
 .logo {

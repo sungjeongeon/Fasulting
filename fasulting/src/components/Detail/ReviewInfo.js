@@ -11,7 +11,7 @@ import ReviewReport from "../Modal/ReviewReport";
 function ReviewInfo({ detailhospital }) {
   // 별점 평균
   const totalScore = detailhospital.totalRatingResult;
-
+  
   // 신고 버튼 누르면 해당 review id 넘버 받아옴 (e.target.value)
   const [reviewId, setReviewId] = useState(0);
   const reviewClaim = (e) => {
@@ -46,7 +46,7 @@ function ReviewInfo({ detailhospital }) {
             <div className={styles.star}>
               <Rating
                 name="half-rating"
-                value={totalScore || ""}
+                value={totalScore || 0}
                 precision={0.1}
                 size="large"
                 readOnly

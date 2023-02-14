@@ -50,7 +50,7 @@ function Detail() {
     setValue(newValue);
   };
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, scrollBehavior: "smooth" }}>
       <Grid container spacing={0}>
         {/* 프로필(배경) 이미지 */}
         <BackgroundImage detailhospital={detailhospital} />
@@ -70,13 +70,13 @@ function Detail() {
             <Tab value="two" label="의사 현황" href="#doc" />
             <Tab value="three" label="리뷰" href="#review" />
           </Tabs>
-          <a name="hos"> </a>
+          <a id="hos"> </a>
           <HospitalInfo detailhospital={detailhospital} />
           <Divider />
-          <a name="doc"> </a>
+          <a id="doc"> </a>
           <DoctorCardList detailhospital={detailhospital} />
           <Divider />
-          <a name="review"> </a>
+          <a id="review"> </a>
           <ReviewInfo detailhospital={detailhospital} />
         </Grid>
         <Grid xs={1}></Grid>

@@ -47,3 +47,20 @@
   font-family: "Pretendard-Regular";
   padding: 0 0.7rem 0 0.7rem;
 }
+/* 선택해주세요 */
+.subCategory {
+  margin-left: 0.31rem;
+  margin-right: 0.31rem;
+  background-color: #ffffff;
+  color: #72a1a6;
+  border: 1px solid #72a1a6;
+  width: max-content;
+  height: 1.88rem;
+  font-size: 0.81rem;
+  border-radius: 1.25rem;
+  align-items: center;
+  text-align: center;
+  line-height: 1.88rem;
+  font-family: "Pretendard-Regular";
+  padding: 0 0.7rem 0 0.7rem;
+}

@@ -5,6 +5,9 @@ import TagIcon from "@mui/icons-material/Tag";
 import { Link, useNavigate } from "react-router-dom";
 
 function HospitalListItem({ hospital }) {
+  const imgRoot = 'https://hotsix.s3.ap-northeast-2.amazonaws.com/null'
+  const basicSrc = "/assets/images/psBasicProfile.png";
+
   const navigate = useNavigate();
 
   const onClick = () => {
@@ -39,7 +42,7 @@ function HospitalListItem({ hospital }) {
           <div className={styles.divImg}>
             <img
               className={styles.img}
-              src={hospital.psProfileImg}
+              src={hospital.psProfileImg === imgRoot ? basicSrc : hospital.psProfileImg}
               alt="profileImg"
             />
           </div>
