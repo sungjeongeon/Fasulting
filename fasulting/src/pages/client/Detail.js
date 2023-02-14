@@ -50,7 +50,7 @@ function Detail() {
     setValue(newValue);
   };
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, scrollBehavior: "smooth" }}>
       <Grid container spacing={0}>
         {/* 프로필(배경) 이미지 */}
         <BackgroundImage detailhospital={detailhospital} />
