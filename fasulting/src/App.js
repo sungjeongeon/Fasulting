@@ -26,6 +26,8 @@ import AdminMain from "./pages/admin/AdminMain";
 import PrivateRoute from "./api/PrivateRoute";
 import { useSelector } from "react-redux";
 import NotFound from "./pages/NotFound";
+import PublicRoute from "./api/PublicRoute";
+import ForbiddenPage from "./pages/ForbiddenPage";
 
 const GlobalStyle = createGlobalStyle`
 text: {
@@ -82,12 +84,17 @@ function App() {
               {/* ========= client ========== */}
               {/* 비밀번호 찾기 */}
               <Route path="/findpw" element={<FindPw />} />
-              {/* 로그인 */}
-              <Route path="/login" element={<Login />} />
+              {/* 로그인 - 로그인된 회원 접근 금지 => 403페이지로*/}
+              {/* <Route path="/login" element={<Login />} /> */}
+              <Route path="/login" element={<Login/>} />
               {/* 병원리스트 */}
               <Route path="/pslist/:seq" element={<PsList />} />
               {/* 회원가입 */}
-              <Route path="/register" element={<Register />} />
+              <Route path="/register" element={
+                <PublicRoute 
+                  component={<Register/>}
+                />
+              } />
               {/* 상세페이지 */}
               <Route
                 path="/detail/:psSeq"
@@ -106,7 +113,11 @@ function App() {
               <Route path="/myestimate/:consultSeq" element={<MyEstimate />} />
               {/* ========= hospital ========== */}
               {/* 병원 회원가입 */}
-              <Route path="/psregist" element={<PsRegister />} />
+              <Route path="/psregist" element={
+                <PublicRoute 
+                  component={<PsRegister/>}
+                />
+              } />
               {/* 병원 마이페이지 */}
               <Route path="/mypageho" element={<MypageHo />} />
               {/* 병원 예약관리 */}
@@ -120,6 +131,7 @@ function App() {
               {/* 메인 */}
               <Route path="/" element={<Home />} />
               {/* 404 */}
+              <Route path="/403" element={<ForbiddenPage />}/>
               <Route path="*" element={<NotFound />}/>
             </Routes>
           </Router>

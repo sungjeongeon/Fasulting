@@ -33,10 +33,13 @@ function ProfileTimeUpdate({psSeq, defaultTime}) {
     "20:00",
   ];
 
+  
   const objList = Object.entries(defaultTime).map((newList, index) => {
     return newList
   })
   console.log(objList)
+  // 재렌더링
+  const [operatingTime, setOperatingTime] = useState(objList)
 
   const onClick = () => {
     setModal((current) => !current);
@@ -78,9 +81,9 @@ function ProfileTimeUpdate({psSeq, defaultTime}) {
         <Button variant="text" className={styles.btn} onClick={onClick}>
           <p className={styles.btnTextGreen}>수정</p>
         </Button>
-        {modal && <SetOperatingTime ModalStateChange={onClick} psSeq={psSeq}/>}
+        {modal && <SetOperatingTime ModalStateChange={onClick} psSeq={psSeq} setOperatingTime={setOperatingTime}/>}
       </div>
-      {objList.map((objListItem) => {
+      {operatingTime.map((objListItem) => {
         const dayOfWeek = objListItem[0]
           return (
             <div className={styles.dayDiv} key={dayOfWeek}>

@@ -1,11 +1,12 @@
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Link from "@mui/material/Link";
 import { useSelector } from "react-redux";
-
-function NotFound() {
+function ForbiddenPage () {
+  // const nowLogin = useSelector(state => state.authToken.authenticated)
   const nowUser = useSelector(state => state.user)
   const isUser =  nowUser.userSeq === "" ? false : true 
   const isAdmin = nowUser.adminYn === false ? false : true
+  
   return (
     <div
       style={{
@@ -23,15 +24,15 @@ function NotFound() {
         style={{
           width: "25rem",
         }}
-        src="/assets/images/notFound404.png"
-        alt="404 NOT FOUND"
+        src="/assets/images/403Fobidden.png"
+        alt="403 Forbidden"
       />
       <h2
         style={{
           margin: "0",
         }}
       >
-        페이지를 찾을 수 없어요 :(
+        접근할 수 없는 페이지입니다 :(
       </h2>
       <div
         style={{
@@ -59,7 +60,6 @@ function NotFound() {
         }
       </div>
     </div>
-  );
+  )
 }
-
-export default NotFound;
+export default ForbiddenPage;

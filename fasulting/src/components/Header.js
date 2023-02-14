@@ -30,6 +30,8 @@ function Header() {
   // 드롭다운 클릭 state
   const [open, setOpen] = useState(false);
   const openState = () => setOpen((current) => !current);
+  const closeState = () => setOpen(false)
+  useEffect(() => closeState(), [nowpath])
 
   return (
     <div>

@@ -53,9 +53,7 @@ export default function LastReservationHo({search}) {
           </TableHead>
           <TableBody>
             {searchRes.length === 0 ?
-            <TableRow sx={{whiteSpace: "nowrap"}}>
-              &nbsp;&nbsp;지난 예약이 존재하지 않습니다.
-            </TableRow>  
+            null
             : 
             (searchRes.map((reservation) => (
               <LastReservationHoItem
