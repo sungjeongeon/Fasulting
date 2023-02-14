@@ -37,10 +37,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.httpBasic().disable()
                 .authorizeRequests()
-//                .antMatchers("/test").authenticated()
-                .antMatchers("/ps/logout").access("hasAuthority('PS')")
-                .antMatchers("/user/logout").access("hasAuthority('USER')")
-                .antMatchers("/admin/logout").access("hasAuthority('ADMIN')")
+
+//                .antMatchers("/user/logout/**").access("hasAnyAuthority('USER', 'ADMIN')")
+//                .antMatchers("/user/info/**", "/user/withdraw", "/user/passcheck", "/user/edit",
+//                        "/favorite/**", "/main/ps-detail/**", "/reservation/**", "/review/**").access("hasAuthority('USER')")
+//                .antMatchers("/ps/logout/**", "/ps/address", "/ps/intro", "/ps/number", "/ps/homepage", "/ps/category", "/ps/operating/**",
+//                        "/ps/profile", "/ps/doctor", "/ps/withdraw", "/ps/passcheck", "/ps/info/**", "/ps-reservation/**",
+//                        "/ps-consulting/download/**", "/ps-consulting/result/**", "/ps-review/**").access("hasAuthority('PS')")
+//                .antMatchers("/admin/**").access("hasAuthority('ADMIN')")
+
+
                 .antMatchers("/**").permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtService, userTokenRepository, psTokenRepository, tokenRepository),
