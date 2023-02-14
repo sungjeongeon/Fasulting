@@ -19,7 +19,7 @@ const StyledSlider = styled(Slider)`
 
   // dots
   .slick-dots {
-    bottom: 45px;
+    bottom: 48px;
 
     li {
       margin: 0;
