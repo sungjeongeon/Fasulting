@@ -92,12 +92,12 @@ public class EmailController {
         // 인증코드 발송 시 인증코드를 담아서 전송 후 프론트단에서 일치 여부 확인
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
-        
+
         HttpSession session = request.getSession();
         String code = (String)session.getAttribute(emailReqDto.getEmail());
 
         if(code.equals(emailReqDto.getEmailCode())){
-            session.removeAttribute("emailCode");
+            session.removeAttribute(emailReqDto.getEmail());
             log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
         }
