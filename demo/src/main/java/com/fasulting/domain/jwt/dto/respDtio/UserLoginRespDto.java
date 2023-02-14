@@ -7,15 +7,14 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class UserLoginRespDto extends TokenRespDto {
+public class UserLoginRespDto {
 
     private Long userSeq;
     private String userName;
     private boolean adminYn;
 
     @Builder
-    public UserLoginRespDto(String accessToken, String refreshToken, Long userSeq, String userName, boolean adminYn) {
-        super(accessToken, refreshToken);
+    public UserLoginRespDto(Long userSeq, String userName, boolean adminYn) {
         this.userSeq = userSeq;
         this.userName = userName;
         this.adminYn = adminYn;

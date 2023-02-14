@@ -6,15 +6,14 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class PsLoginRespDto extends TokenRespDto {
+public class PsLoginRespDto {
 
     private Long psSeq;
     private String psName;
     private boolean confirmYn;
 
     @Builder
-    public PsLoginRespDto(String accessToken, String refreshToken, Long psSeq, String psName, String confirmYn) {
-        super(accessToken, refreshToken);
+    public PsLoginRespDto(Long psSeq, String psName, String confirmYn) {
         this.psSeq = psSeq;
         this.psName = psName;
 

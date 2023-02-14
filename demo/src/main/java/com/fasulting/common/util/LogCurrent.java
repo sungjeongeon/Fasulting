@@ -13,7 +13,8 @@ public class LogCurrent {
      * @return 클래스명
      */
     public static String getClassName() {
-        return Thread.currentThread().getStackTrace()[2].getClassName();
+        String classFullName = Thread.currentThread().getStackTrace()[2].getClassName();
+        return classFullName.substring(classFullName.lastIndexOf(".") + 1);
     }
 
     /**

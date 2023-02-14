@@ -5,6 +5,7 @@ import com.fasulting.common.util.CheckInfo;
 import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.jwt.JwtTokenProvider;
 import com.fasulting.domain.jwt.dto.reqDto.LoginReqDto;
+import com.fasulting.domain.jwt.dto.respDtio.TokenRespDto;
 import com.fasulting.domain.jwt.dto.respDtio.UserLoginRespDto;
 import com.fasulting.entity.token.TokenEntity;
 import com.fasulting.entity.token.UserTokenEntity;
@@ -18,6 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.fasulting.common.util.LogCurrent.*;
 
@@ -39,7 +43,7 @@ public class UserJwtServiceImpl implements UserJwtService {
      */
     @Override
     @Transactional
-    public UserLoginRespDto login(LoginReqDto userInfo) {
+    public Map<String, Object> login(LoginReqDto userInfo) {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
@@ -84,15 +88,21 @@ public class UserJwtServiceImpl implements UserJwtService {
             }
 
             UserLoginRespDto userLoginRespDto = UserLoginRespDto.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
                     .userName(user.getName())
                     .userSeq(user.getSeq())
                     .adminYn(adminYn)
                     .build();
 
+            TokenRespDto tokenRespDto = TokenRespDto.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("userLoginRespDto", userLoginRespDto);
+            map.put("tokenRespDto", tokenRespDto);
             log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
-            return userLoginRespDto;
+            return map;
 
         }
 

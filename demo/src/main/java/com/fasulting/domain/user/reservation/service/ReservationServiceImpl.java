@@ -136,7 +136,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<PsOperatingRespDto> poList = new ArrayList<>();
         for (Map.Entry<String, PsOperatingRespDto> entrySet : map.entrySet()) {
-            log.info(entrySet.getKey() + " : " + entrySet.getValue());
             poList.add(entrySet.getValue());
         }
 

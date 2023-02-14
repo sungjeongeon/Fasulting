@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface UserJwtService{
 
-    UserLoginRespDto login(LoginReqDto userInfo);
+    Map<String, Object> login(LoginReqDto userInfo);
 
     boolean logout(Long userSeq);
 }
