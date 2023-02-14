@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class EmailReqDto {
 
+    private String email;
     private String emailCode;
 }
