@@ -102,10 +102,10 @@ public class UserServiceImpl implements UserService {
             throw new NullPointerException();
         });
 
-        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
-            log.error(logCurrent(getClassName(), getMethodName(), END));
-            throw new UnAuthorizedException();
-        }
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         UserInfoRespDto userInfo = UserInfoRespDto.builder()
                 .userBirth(user.getBirth())
