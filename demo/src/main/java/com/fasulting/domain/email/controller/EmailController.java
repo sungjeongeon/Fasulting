@@ -88,7 +88,11 @@ public class EmailController {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
+        log.info("email code 1");
+
         String code = (String)session.getAttribute("emailCode");
+
+        log.info("email code 2");
 
         if(code.equals(emailReqDto.getEmailCode())){
             session.removeAttribute("emailCode");
