@@ -110,3 +110,11 @@ input[type="radio"]:checked:after {
   justify-content: space-between;
   align-items: center;
 }
+.codeForm {
+  display: flex;
+  justify-content: space-between;
+}
+.emailForm {
+  display: flex;
+  justify-content: space-between;
+}
