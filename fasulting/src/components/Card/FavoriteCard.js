@@ -11,6 +11,7 @@ import styles from "./FavResCard.module.css";
 import { useNavigate } from "react-router-dom";
 import axiosAPi from "../../api/axiosApi";
 import { useSelector } from "react-redux";
+import Link from "@mui/material/Link";
 
 function FavoriateCard({ fav }) {
   const navigate = useNavigate();
@@ -102,14 +103,16 @@ function FavoriateCard({ fav }) {
           )}
         </div>
         <div>
-          <Typography>
-            <IconButton color="yellow" aria-label="favorite">
-              <StarIcon />
-              <Typography color="text.secondary">
-                {fav.totalRatingResult} | 관련후기 {fav.reviewTotalCount}개
-              </Typography>
-            </IconButton>
-          </Typography>
+          <Link href={`/detail/${fav.psSeq}#review`}>
+            <Typography>
+              <IconButton color="yellow" aria-label="favorite">
+                <StarIcon />
+                <Typography color="text.secondary">
+                  {fav.totalRatingResult} | 관련후기 {fav.reviewTotalCount}개
+                </Typography>
+              </IconButton>
+            </Typography>
+          </Link>
           <IconButton color="error" aria-label="favorite">
             {liked ? (
               <FavoriteIcon
