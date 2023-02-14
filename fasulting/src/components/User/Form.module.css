@@ -35,6 +35,8 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  color: #72a1a6;
+  cursor: pointer;
 }
 .flex {
   display: flex;

@@ -117,6 +117,10 @@ export default function RegisterForm() {
       }
     },
   });
+
+  const navigatePsregist = () => {
+    navigate("/psregist");
+  };
   return (
     <>
       <ToastContainer />
@@ -270,13 +274,9 @@ export default function RegisterForm() {
               회원가입
             </Button>
           </form>
-          <Link
-            to={"/psregist"}
-            style={{ textDecoration: "none" }}
-            className={styles.flexCenter}
-          >
+          <span onClick={navigatePsregist} className={styles.flexCenter}>
             의사로 회원가입 하시나요?
-          </Link>
+          </span>
         </Paper>
       </Container>
     </>

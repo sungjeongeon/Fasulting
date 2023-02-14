@@ -19,3 +19,24 @@
 .margin {
   margin-bottom: 10px;
 }
+.btn {
+  padding: 10px;
+  border-color: #72a1a6;
+  border-radius: 4px;
+  color: #72a1a6;
+  border: 2px solid #72a1a6;
+  cursor: pointer;
+  text-align: center;
+  line-height: 100%;
+}
+.errorColor {
+  color: #e64c3c;
+}
+.trueColor {
+  color: green;
+}
+.flexInput {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

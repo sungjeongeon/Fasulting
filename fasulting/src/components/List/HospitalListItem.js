@@ -2,12 +2,13 @@ import React from "react";
 import styles from "./HospitalListItem.module.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import TagIcon from "@mui/icons-material/Tag";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function HospitalListItem({ hospital }) {
   const navigate = useNavigate();
 
   const onClick = () => {
+    //<Link to={`/detail/${hospital.psSeq}`} />;
     navigate(`/detail/${hospital.psSeq}`);
   };
   return (

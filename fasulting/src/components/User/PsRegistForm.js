@@ -8,7 +8,13 @@ import {
   SelectField,
   CheckBoxField,
 } from "formik-stepper";
-import { Formik, Field, ErrorMessage, useFormik } from "formik";
+import {
+  Formik,
+  Field,
+  ErrorMessage,
+  useFormik,
+  useFormikContext,
+} from "formik";
 import { useState } from "react";
 import "formik-stepper/dist/style.css";
 import { FormGroup, Input, TextField } from "@mui/material";
@@ -19,6 +25,7 @@ import { CssBaseline, Paper, Typography } from "@mui/material";
 import axiosAPi from "../../api/axiosApi";
 import { useNavigate } from "react-router-dom";
 import styles from "./PsRegistForm.module.css";
+import { useRef } from "react";
 const validationSchema = yup.object().shape({
   email: yup
     .string()
@@ -72,6 +79,7 @@ export default function PsRegistForm() {
   const navigate = useNavigate();
   const [resimg, setResimg] = useState([]);
   const [proimg, setProimg] = useState([]);
+
   const onChange = (e) => {
     const uploadimg = e.target.files[0];
     setResimg(uploadimg);
@@ -80,62 +88,158 @@ export default function PsRegistForm() {
     const uploadimg = e.target.files[0];
     setProimg(uploadimg);
   };
-  const onSubmit = async (values) => {
-    //window.alert(JSON.stringify(values, null, 2));
-    // setSubmitting(false); //// Important
-    console.log("values", values);
-    const formData = new FormData();
-    formData.append("email", values.email);
-    formData.append("password", values.password);
-    formData.append("name", values.psname);
-    formData.append("address", values.psaddress);
-    formData.append("registration", values.psregistration);
-    formData.append("number", values.psnumber);
-    formData.append("director", values.psdirector);
-    if (values.pshomepage === "") {
-    } else {
-      formData.append("hompage", values.pshompage); //null가능
-    }
-    if (values.psintro === "") {
-    } else {
-      formData.append("intro", values.psintro); //null 가능
-    }
-    formData.append("registrationImg", resimg);
-    if (proimg.length === 0) {
-    } else {
-      formData.append("profileImg", proimg); //null 가능
-    }
-    // for (var key of formData.keys()) {
-    //   console.log(key);
-    // }
 
-    // for (var value of formData.values()) {
-    //   console.log(value);
-    // }
-    try {
-      await axiosAPi.post("/ps/regist", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      toast.success(
-        <h3>
-          회원가입이 완료되었습니다.
-          <br />
-          승인 대기중입니다.
-        </h3>,
-        {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
-        }
-      );
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-    } catch (e) {
-      console.log(e.response.data.message);
-    }
+  //아이디 중복체크
+  const [changeEmail, setChangeemail] = useState("");
+  const [useable, setUseable] = useState(null);
+  const idCheck = (e) => {
+    e.preventDefault();
+    console.log(formik);
+    axiosAPi.get(`/ps/${changeEmail}`).then((response) => {
+      console.log(response.data);
+      if (response.status === 200) {
+        //alert("이미 존재하는 아이디입니다."); // 백엔드로 보낸 데이터 결과 200 일 경우
+        setUseable(false);
+      } else if (response.status === 204) {
+        //alert("사용 가능한 아이디입니다.");
+        setUseable(true);
+      } else {
+        alert("사용 불가한 아이디입니다.");
+      }
+    });
   };
+
+  console.log(validationSchema, "value");
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      repassword: "",
+      psname: "",
+      psprofile: "",
+      psintro: "",
+      psaddress: "",
+      psnumber: "",
+      pshomepage: "",
+      psdirector: "",
+      psregistration: "",
+      psregistrationimg: "",
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      //window.alert(JSON.stringify(values, null, 2));
+      // setSubmitting(false); //// Important
+      console.log("values", values);
+      const formData = new FormData();
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      formData.append("name", values.psname);
+      formData.append("address", values.psaddress);
+      formData.append("registration", values.psregistration);
+      formData.append("number", values.psnumber);
+      formData.append("director", values.psdirector);
+      if (values.pshomepage === "") {
+      } else {
+        formData.append("hompage", values.pshompage); //null가능
+      }
+      if (values.psintro === "") {
+      } else {
+        formData.append("intro", values.psintro); //null 가능
+      }
+      formData.append("registrationImg", resimg);
+      if (proimg.length === 0) {
+      } else {
+        formData.append("profileImg", proimg); //null 가능
+      }
+      // for (var key of formData.keys()) {
+      //   console.log(key);
+      // }
+
+      // for (var value of formData.values()) {
+      //   console.log(value);
+      // }
+      try {
+        await axiosAPi.post("/ps/regist", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        toast.success(
+          <h3>
+            회원가입이 완료되었습니다.
+            <br />
+            승인 대기중입니다.
+          </h3>,
+          {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000,
+          }
+        );
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } catch (e) {
+        console.log(e.response.data.message);
+      }
+    },
+  });
+  // const onSubmit = async (values) => {
+  //   //window.alert(JSON.stringify(values, null, 2));
+  //   // setSubmitting(false); //// Important
+  //   console.log("values", values);
+  //   const formData = new FormData();
+  //   formData.append("email", values.email);
+  //   formData.append("password", values.password);
+  //   formData.append("name", values.psname);
+  //   formData.append("address", values.psaddress);
+  //   formData.append("registration", values.psregistration);
+  //   formData.append("number", values.psnumber);
+  //   formData.append("director", values.psdirector);
+  //   if (values.pshomepage === "") {
+  //   } else {
+  //     formData.append("hompage", values.pshompage); //null가능
+  //   }
+  //   if (values.psintro === "") {
+  //   } else {
+  //     formData.append("intro", values.psintro); //null 가능
+  //   }
+  //   formData.append("registrationImg", resimg);
+  //   if (proimg.length === 0) {
+  //   } else {
+  //     formData.append("profileImg", proimg); //null 가능
+  //   }
+  //   // for (var key of formData.keys()) {
+  //   //   console.log(key);
+  //   // }
+
+  //   // for (var value of formData.values()) {
+  //   //   console.log(value);
+  //   // }
+  //   try {
+  //     await axiosAPi.post("/ps/regist", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     toast.success(
+  //       <h3>
+  //         회원가입이 완료되었습니다.
+  //         <br />
+  //         승인 대기중입니다.
+  //       </h3>,
+  //       {
+  //         position: toast.POSITION.TOP_CENTER,
+  //         autoClose: 2000,
+  //       }
+  //     );
+  //     setTimeout(() => {
+  //       navigate("/");
+  //     }, 2000);
+  //   } catch (e) {
+  //     console.log(e.response.data.message);
+  //   }
+  // };
 
   return (
     <>
@@ -151,21 +255,8 @@ export default function PsRegistForm() {
           </Typography>
           <FormikStepper
             /// Accept all Formik props
-            onSubmit={onSubmit} /// onSubmit Function
-            initialValues={{
-              email: "",
-              password: "",
-              repassword: "",
-              psname: "",
-              psprofile: "",
-              psintro: "",
-              psaddress: "",
-              psnumber: "",
-              pshomepage: "",
-              psdirector: "",
-              psregistration: "",
-              psregistrationimg: "",
-            }}
+            onSubmit={formik.handleSubmit} /// onSubmit Function
+            initialValues={formik.initialValues}
             validationSchema={validationSchema}
             labelsColor="secondary" /// The text label color can be root variables or css => #fff
             withStepperLine /// false as default and If it is false, it hides stepper line
@@ -187,7 +278,27 @@ export default function PsRegistForm() {
             >
               <div className={styles.inputItem}>
                 <div className={styles.labelFirst}>이메일</div>
-                <InputField placeholder="id@fasulting.com" name="email" />
+                <div>
+                  <input
+                    placeholder="example@example.com"
+                    name="email"
+                    onChange={(e) => setChangeemail(e.target.value)}
+                  />
+                  <span className={styles.btn} onClick={idCheck}>
+                    중복확인
+                  </span>
+                </div>
+                {useable === null ? (
+                  ""
+                ) : useable ? (
+                  <span className={styles.trueColor}>
+                    사용가능한 아이디입니다.
+                  </span>
+                ) : (
+                  <span className={styles.errorColor}>
+                    이미 사용중인 아이디 입니다.
+                  </span>
+                )}
               </div>
               <div className={styles.inputItem}>
                 <div className={styles.label}>비밀번호</div>
