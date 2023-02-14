@@ -25,7 +25,7 @@ public class LogCurrent {
         return Thread.currentThread().getStackTrace()[2].getMethodName();
     }
 
-    public static String logCurrent(String className, String methodName, String startOrEnd) {
-        return String.format("[CALL] %s %s %s %s", className, methodName, startOrEnd, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+    public static String logCurrent(String className, String methodName, String state) {
+        return String.format("[CALL] : [CLASS] %s - [METHOD] %s - [STATE] %s", className, methodName, state);
     }
 }

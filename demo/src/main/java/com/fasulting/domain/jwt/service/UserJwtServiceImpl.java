@@ -119,7 +119,7 @@ public class UserJwtServiceImpl implements UserJwtService {
     @Override
     public boolean logout(Long userSeq) {
 
-        log.info("UserJwtServiceImpl logout Start");
+        log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
 
         UserEntity user = userRepository.findById(userSeq).orElseThrow(
                 () -> {
