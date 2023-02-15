@@ -38,11 +38,11 @@ public class TotalRatingEntity extends BaseEntity {
    	@Column(name = "count")
 	private BigDecimal count;
 	@Builder
-	public TotalRatingEntity(PsEntity ps) {
+	public TotalRatingEntity(PsEntity ps, BigDecimal point) {
 		this.ps = ps;
-		this.result = BigDecimal.ZERO;
-		this.sum = BigDecimal.ZERO;
-		this.count = BigDecimal.ZERO;
+		this.result = point;
+		this.sum = point;
+		this.count = BigDecimal.ONE;
 	}
 
 	public void updateByReg(BigDecimal point){
