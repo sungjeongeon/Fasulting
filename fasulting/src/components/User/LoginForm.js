@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/user";
-import { setToken } from "../../redux/auth";
+import { changeLoading, setToken } from "../../redux/auth";
 import axiosAPi from "../../api/axiosApi";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -94,6 +94,7 @@ export default function LoginForm() {
                     } else {
                       navigate("/");
                     }
+                    dispatch(changeLoading())
                   }, 2000);
                 } else if (res.status === 204) {
                   toast.error(
@@ -150,6 +151,7 @@ export default function LoginForm() {
                     );
                     setTimeout(() => {
                       navigate("/mypageho");
+                      dispatch(changeLoading())
                     }, 2000);
                   } else {
                     toast.error(

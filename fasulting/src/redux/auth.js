@@ -8,6 +8,7 @@ export const tokenSlice = createSlice({
   initialState: {
     authenticated: false,
     accessToken: null,
+    loading: true,
   },
   reducers: {
     setToken: (state, action) => {
@@ -18,8 +19,11 @@ export const tokenSlice = createSlice({
       state.authenticated = false;
       state.accessToken = null;
     },
+    changeLoading: (state) => {
+      state.loading = false
+    }
   },
 });
 
-export const { setToken, deleteToken } = tokenSlice.actions;
+export const { setToken, deleteToken, changeLoading } = tokenSlice.actions;
 export default tokenSlice.reducer;
