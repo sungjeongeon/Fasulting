@@ -88,6 +88,7 @@ export default function LoginForm() {
   const submitCode = () => {
     axiosAPi
       .post("/email/access", {
+        email: emailFormik.values.email,
         emailCode: code,
       })
       .then((res) => console.log(res))
