@@ -84,6 +84,8 @@ public class ReviewServiceImpl implements ReviewService{
                     .review(review)
                     .subCategory(sub)
                     .build();
+
+            reviewSubRepository.save(rs);
         }
 
         // 통계 평점이 없을 경우 생성
