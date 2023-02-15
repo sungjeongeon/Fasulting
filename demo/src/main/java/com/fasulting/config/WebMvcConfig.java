@@ -33,7 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedOrigins("https://hotsix.duckdns.org", "https://fasulting.hotsix.duckdns.org", "http://localhost:3000", "http://localhost:8080")
                 .allowedMethods("*")
                 .allowedHeaders("*")
-                .exposedHeaders("*")
+                .exposedHeaders("Authorization")
                 .allowCredentials(true);
     }
 
