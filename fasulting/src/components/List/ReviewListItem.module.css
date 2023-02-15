@@ -26,6 +26,7 @@
 .oneLine {
   display: flex;
   margin-bottom: 0.31rem;
+  margin-top: 0.2rem;
 }
 
 .content {
