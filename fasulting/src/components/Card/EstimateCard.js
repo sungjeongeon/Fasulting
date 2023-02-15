@@ -27,15 +27,7 @@ function EstimateCard({ report }) {
         >
           상담 부위
         </Typography>
-        {/* <div className={styles.my}>
-          {report.subCategoryName.map((part, index) => {
-            return (
-              <span key={index} className={styles.parts}>
-                {part}
-              </span>
-            );
-          })}
-        </div> */}
+        <p>{report.subCategoryName.join(", ")}</p>
         <Typography
           color="text.secondary"
           fontWeight={"bold"}
