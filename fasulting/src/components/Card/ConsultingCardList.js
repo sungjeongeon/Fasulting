@@ -1,10 +1,5 @@
 import ConsultingCard from "./ConsultingCard";
-import { Grid } from "@mui/material";
 import styles from "./FavResCard.module.css";
-import axios from "axios";
-import { useEffect } from "react";
-import axiosAPi from "../../api/axiosApi";
-import { useState } from "react";
 import NotFoundCard2 from "./NotFoundCard2";
 function ConsultingCardList({ consulting }) {
   return (
