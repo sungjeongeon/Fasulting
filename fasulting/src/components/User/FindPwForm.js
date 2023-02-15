@@ -24,7 +24,7 @@ const passwordValidationSchema = yup.object({
     .required("비밀번호를 재입력해주세요."),
 });
 
-export default function LoginForm() {
+export default function FindPwForm() {
   const [isSended, setIsSended] = useState(false);
   const [timer, setTimer] = useState(0);
   const [code, setCode] = useState("");
