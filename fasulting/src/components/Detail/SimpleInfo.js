@@ -44,13 +44,17 @@ function SimpleInfo({ detailhospital }) {
   useEffect(() => {
     setLiked(detailhospital.favorite);
   }, [detailhospital]);
+
+  const imgRoot = 'https://hotsix.s3.ap-northeast-2.amazonaws.com/null'
+  const basicSrc = "/assets/images/psBasicProfile.png"
+
   return (
     <div>
       {/* 프로필 사진 */}
       <div className={styles.profileImg}>
         <img
           className={styles.Img}
-          src={detailhospital.psProfileImg}
+          src={detailhospital.psProfileImg === imgRoot ? basicSrc : detailhospital.psProfileImg}
           alt="profile"
         />
       </div>
