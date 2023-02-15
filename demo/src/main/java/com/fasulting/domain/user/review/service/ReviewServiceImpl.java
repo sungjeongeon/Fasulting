@@ -90,6 +90,7 @@ public class ReviewServiceImpl implements ReviewService{
         if(!totalRatingRepository.findByPs(ps).isPresent()){
             TotalRatingEntity totalRating = TotalRatingEntity.builder()
                     .ps(ps)
+                    .point(reviewReqDto.getPoint())
                     .build();
 
             totalRatingRepository.save(totalRating);
