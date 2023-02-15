@@ -71,7 +71,9 @@ const theme = createTheme({
 });
 function App() {
   const token = useSelector((state) => state.authToken);
-  console.log(token);
+
+
+
   return (
     <ThemeProvider theme={theme}>
       <React.Fragment>
@@ -83,15 +85,21 @@ function App() {
             <Routes>
               {/* ========= client ========== */}
               {/* 비밀번호 찾기 */}
-              <Route path="/findpw" element={<FindPw />} />
+              <Route path="/findpw" element={<FindPw/>} 
+              />
               {/* 로그인 - 로그인된 회원 접근 금지 => 403페이지로*/}
-              {/* <Route path="/login" element={<Login />} /> */}
-              <Route path="/login" element={<Login/>} />
+              <Route path="/login" element={
+                <PublicRoute 
+                  authenticated={token.authenticated}
+                  component={<Login/>}
+                />
+              } />
               {/* 병원리스트 */}
               <Route path="/pslist/:seq" element={<PsList />} />
               {/* 회원가입 */}
               <Route path="/register" element={
                 <PublicRoute 
+                  authenticated={token.authenticated}
                   component={<Register/>}
                 />
               } />
@@ -100,32 +108,83 @@ function App() {
                 path="/detail/:psSeq"
                 element={
                   <PrivateRoute
-                    authenticated={token.accessToken}
+                    role="user"
+                    // authenticated={token.accessToken}
+                    authenticated={token.authenticated}
                     component={<Detail />}
                   />
                 }
               />
               {/* 나의 예약 */}
-              <Route path="/myreservation" element={<MyReservation />} />
+              <Route path="/myreservation" element={
+                <PrivateRoute
+                  role="user"
+                  authenticated={token.authenticated}
+                  component={<MyReservation />}
+                />
+              } 
+
+              />
               {/* 나의 활동 */}
-              <Route path="/myactivity" element={<MyActivity />} />
+              <Route path="/myactivity" element={
+                <PrivateRoute
+                  role="user"
+                  authenticated={token.authenticated}
+                  component={<MyActivity />}
+              />
+              } 
+              
+              />
               {/* 나의 견적서 */}
-              <Route path="/myestimate/:consultSeq" element={<MyEstimate />} />
+              <Route path="/myestimate/:consultSeq" element={
+                <PrivateRoute
+                  role="user"
+                  authenticated={token.authenticated}
+                  component={<MyEstimate />}
+              />
+              } 
+
+              />
               {/* ========= hospital ========== */}
               {/* 병원 회원가입 */}
               <Route path="/psregist" element={
                 <PublicRoute 
+                  authenticated={token.authenticated}
                   component={<PsRegister/>}
                 />
               } />
               {/* 병원 마이페이지 */}
-              <Route path="/mypageho" element={<MypageHo />} />
+              <Route path="/mypageho" element={
+                <PrivateRoute
+                  role="ps"
+                  authenticated={token.authenticated}
+                  component={<MypageHo />}
+                />
+                } 
+              />
               {/* 병원 예약관리 */}
-              <Route path="/myreservationho" element={<MyReservationHo />} />
+              <Route path="/myreservationho" element={
+                <PrivateRoute
+                  role="ps"
+                  authenticated={token.authenticated}
+                  component={<MyReservationHo />}
+              />
+              } />
               {/* 병원 프로그램 다운로드 */}
-              <Route path="/ps/download" element={<Download />} />
+              <Route path="/ps/download" element={
+                <PrivateRoute
+                  role="ps"
+                  authenticated={token.authenticated}
+                  component={<Download />}
+                />
+              } />
               {/* ========= admin ========== */}
-              <Route path="/admin" element={<AdminMain />} />
+              <Route path="/admin" element={
+                <PrivateRoute
+                  role="admin"
+                  authenticated={token.authenticated}
+                  component={<AdminMain />}
+              />} />
               {/* 상담page */}
               <Route path="/consult" element={<OpenViduRoom />} />
               {/* 메인 */}

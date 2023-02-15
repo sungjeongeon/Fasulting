@@ -39,7 +39,7 @@ function a11yProps(index) {
   };
 }
 
-export default function ReservationManage({handleChange, value}) {
+export default function ReservationManage({handleChange, value, nowShow, setNowShow}) {
   // const [value, setValue] = React.useState(0);
 
   // const handleChange = (event, newValue) => {
@@ -55,7 +55,7 @@ export default function ReservationManage({handleChange, value}) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0} children={<CalendarCard/>}></TabPanel>
-      <TabPanel value={value} index={1} children={<OldReservationList/>}></TabPanel>
+      <TabPanel value={value} index={1} children={<OldReservationList nowShow={nowShow} setNowShow={setNowShow}/>}></TabPanel>
     </Box>
   );
 }

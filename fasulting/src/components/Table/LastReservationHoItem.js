@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch } from "react-redux";
-import { changeReserveInfo, changeLoading, changeLoadingTrue } from "../../redux/lastReservationHo"
+import { changeReserveInfo, changeLoading } from "../../redux/lastReservationHo"
 import axiosAPi from "../../api/axiosApi";
 
 

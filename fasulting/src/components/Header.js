@@ -20,7 +20,8 @@ function Header() {
   const token = useSelector((state) => state.authToken);
 
   useEffect(() => {
-    if (token.accessToken) {
+    // if (token.accessToken) {
+    if (token.authenticated) {
       setIslogin(true);
     } else {
       setIslogin(false);

@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import LastReservationHo from "../Table/LastReservationHo"
 
-function OldReservationList() {
+function OldReservationList({nowShow, setNowShow}) {
   const [search, setSearch] = useState("")
   const onChange = (e) => setSearch(e.target.value)
 
@@ -29,7 +29,7 @@ function OldReservationList() {
           onChange={onChange}
         ></input>
       </form>
-      <LastReservationHo search={search}/>
+      <LastReservationHo search={search} nowShow={nowShow} setNowShow={setNowShow}/>
     </div>
   )
 }
