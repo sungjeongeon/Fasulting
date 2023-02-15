@@ -51,6 +51,7 @@ public class UserJwtController {
 
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.AUTHORIZATION, tokenRespDto.getAccessToken());
+            log.info("AccessToken : {}", tokenRespDto.getAccessToken() );
             log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return ResponseEntity.status(200).headers(headers).body(ResponseBody.create(200, "success", userLoginRespDto));
         }
