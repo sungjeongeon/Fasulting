@@ -92,7 +92,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<PsOperatingEntity> psOperatingList = psOperatingRepository.getByPsSeqAndCurrent(psSeq, current, post);
 
-        current = current.plusHours(2);
+//        current = current.plusHours(2);
 
         for (PsOperatingEntity po : psOperatingList) {
 
