@@ -14,6 +14,7 @@ export const lastReservationHoSlice = createSlice({
     beforeImg: null,
     afterImg: null,
     loading: true,
+    nowShow: 0,
   },
   reducers: {
     changeReserveInfo: (state, action) => {
@@ -30,13 +31,9 @@ export const lastReservationHoSlice = createSlice({
     changeLoading: (state) => {
       state.loading = false
       return state
-    },
-    changeLoadingTrue: (state) => {
-      state.loading = true
-      return state
     }
   }
 })
 
-export const { changeReserveInfo, changeLoading, changeLoadingTrue } = lastReservationHoSlice.actions
+export const { changeReserveInfo, changeLoading } = lastReservationHoSlice.actions
 export default lastReservationHoSlice.reducer;

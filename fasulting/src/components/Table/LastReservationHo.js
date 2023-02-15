@@ -10,21 +10,22 @@ import Paper from "@mui/material/Paper";
 import axiosApi from "../../api/axiosApi"
 import LastReservationHoItem from "./LastReservationHoItem";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLoadingTrue } from "../../redux/lastReservationHo"
 
 
 
-export default function LastReservationHo({search}) {
+
+export default function LastReservationHo({search, nowShow, setNowShow}) {
   // search 결과를 렌더링해야함 + 처음에는 모든 지난 예약 보기
   const [totalRes, setTotalRes] = useState([])
   // 현재 활성화된 예약 강조
-  const [nowShow, setNowShow] = useState(0)
+  // const [nowShow, setNowShow] = useState(0)
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   // 지난 예약 조회 axios
   const psId = useSelector(state => state.ps.psSeq)
   useEffect(() => {
-    axiosApi.get(`/ps-reservation/pre/${psId}`)
+    // axiosApi.get(`/ps-reservation/pre/${psId}`)
+    axiosApi.get('/ps-reservation/pre/1')
       .then(res => {
         res.data === "" ? setTotalRes([]) : setTotalRes(res.data.responseObj)
       }
