@@ -254,6 +254,7 @@ public class MainServiceImpl implements MainService {
                 .psProfileImg(domain + ps.getProfileImgPath())
                 .psNumber(ps.getNumber())
                 .psEmail(ps.getEmail())
+                .psHomepage(ps.getHomepage())
                 .isFavorite(favoriteRepository.findByUserSeqPsSeq(userSeq, psSeq).isPresent())
                 .subCategoryName(psMainSubRepository.getSubNameByPsSeq(psSeq))
                 .totalRatingResult(totalRatingRepository.getResultByPsSeq(psSeq))
