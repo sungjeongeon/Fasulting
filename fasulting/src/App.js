@@ -85,13 +85,7 @@ function App() {
             <Routes>
               {/* ========= client ========== */}
               {/* 비밀번호 찾기 */}
-              <Route path="/findpw" element={
-                <PrivateRoute 
-                  role="all"
-                  authenticated={token.authenticated}
-                  component={<FindPw />}
-                />
-                } 
+              <Route path="/findpw" element={<FindPw/>} 
               />
               {/* 로그인 - 로그인된 회원 접근 금지 => 403페이지로*/}
               <Route path="/login" element={

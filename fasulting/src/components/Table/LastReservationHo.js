@@ -24,8 +24,7 @@ export default function LastReservationHo({search, nowShow, setNowShow}) {
   // 지난 예약 조회 axios
   const psId = useSelector(state => state.ps.psSeq)
   useEffect(() => {
-    // axiosApi.get(`/ps-reservation/pre/${psId}`)
-    axiosApi.get('/ps-reservation/pre/1')
+    axiosApi.get(`/ps-reservation/pre/${psId}`)
       .then(res => {
         res.data === "" ? setTotalRes([]) : setTotalRes(res.data.responseObj)
       }
