@@ -58,7 +58,7 @@ export default function LoginForm() {
               })
               .then((res) => {
                 if (res.data.statusCode === 200) {
-                  console.log(res.data);
+                  //console.log(res.data);
                   dispatch(
                     loginUser({
                       userSeq: res.data.responseObj.userSeq,
@@ -69,7 +69,7 @@ export default function LoginForm() {
                     })
                   );
                   //토큰 받아오기
-                  const accessToken = res.data.responseObj.accessToken;
+                  const accessToken = res.headers.get("authorization");
                   //console.log(accessToken);
                   dispatch(setToken({ accessToken: accessToken }));
                   // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
@@ -129,7 +129,7 @@ export default function LoginForm() {
                       })
                     );
                     //토큰 받아오기
-                    const accessToken = res.data.responseObj.accessToken;
+                    const accessToken = res.headers.get("Authorization");
                     //console.log(accessToken);
                     dispatch(setToken({ accessToken: accessToken }));
                     // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
