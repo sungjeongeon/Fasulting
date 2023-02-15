@@ -38,7 +38,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable()
                 .authorizeRequests()
 
-//                .antMatchers("/user/logout/**").access("hasAnyAuthority('USER', 'ADMIN')")
+                .antMatchers("/user/logout/**").access("hasAnyAuthority('USER', 'ADMIN')")
+                .antMatchers("/ps/logout/**").access("hasAnyAuthority('PS')")
 //                .antMatchers("/user/info/**", "/user/withdraw", "/user/passcheck", "/user/edit",
 //                        "/favorite/**", "/main/ps-detail/**", "/reservation/**", "/review/**").access("hasAuthority('USER')")
 //                .antMatchers("/ps/logout/**", "/ps/address", "/ps/intro", "/ps/number", "/ps/homepage", "/ps/category", "/ps/operating/**",
