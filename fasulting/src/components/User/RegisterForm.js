@@ -88,32 +88,40 @@ export default function RegisterForm() {
     validationSchema,
     onSubmit: async (values) => {
       const { email, password, repassword, name, birth, number } = values;
-      try {
-        await axiosAPi.post("/user/regist", {
-          email,
-          password,
-          repassword,
-          name,
-          birth,
-          number,
+      if (!useable) {
+        toast.error(<h3>이메일 중복확인 필요</h3>, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+          hideProgressBar: true,
         });
-        toast.success(
-          <h3>
-            회원가입이 완료되었습니다.
-            <br />
-            로그인 하세요😄
-          </h3>,
-          {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 2000,
-          }
-        );
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
-      } catch (e) {
-        // 서버에서 받은 에러 메시지 출력
-        console.log(e.response.data.message);
+      } else {
+        try {
+          await axiosAPi.post("/user/regist", {
+            email,
+            password,
+            repassword,
+            name,
+            birth,
+            number,
+          });
+          toast.success(
+            <h3>
+              회원가입이 완료되었습니다.
+              <br />
+              로그인 하세요😄
+            </h3>,
+            {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 2000,
+            }
+          );
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
+        } catch (e) {
+          // 서버에서 받은 에러 메시지 출력
+          console.log(e.response.data.message);
+        }
       }
     },
   });
