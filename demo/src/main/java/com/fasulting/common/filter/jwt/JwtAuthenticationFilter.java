@@ -36,8 +36,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest  request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 헤더에서 JWT 를 받아옵니다.
         String token = jwtService.resolveToken(request);
-
-        log.info("in the filter");
         
         // access 토큰이 만료되기 전일 때
         if (token != null && jwtService.isExpiredToken(token) && jwtService.isValidToken(token) &&
