@@ -32,7 +32,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("https://hotsix.duckdns.org", "https://fasulting.hotsix.duckdns.org", "http://localhost:3000", "http://localhost:8080")
                 .allowedMethods("*")
-                .allowedHeaders("*")
+                .allowedHeaders("Authorization", "*")
                 .exposedHeaders("authorization", "*")
                 .allowCredentials(true);
     }
