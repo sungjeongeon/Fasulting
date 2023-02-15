@@ -76,7 +76,7 @@ public class PsJwtServiceImpl implements PsJwtService {
                         .token(tokenRepository.findByRefreshToken(refreshToken).get())
                         .build();
 
-                log.info(psToken.toString());
+                psTokenRepository.save(psToken);
             }
 
             PsLoginRespDto psLoginRespDto = PsLoginRespDto.builder()
