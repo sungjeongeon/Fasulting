@@ -8,6 +8,7 @@ import { useState } from "react";
 
 function ReviewListItem({ review }) {
   const [displayHospital, setDisplayHospital] = useState();
+  console.log(review);
   const path = useLocation().pathname.slice(1, 7);
   // 현재 path가 detail이거나 (병원)mypage 이면 병원이름 보여주지 않음
   useEffect(() => {
