@@ -14,6 +14,7 @@ import com.fasulting.repository.ps.TotalRatingRepository;
 import com.fasulting.repository.reservation.ReservationSubRepository;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
+import com.fasulting.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ public class ReviewServiceImpl implements ReviewService{
     private final ReviewSubRepository reviewSubRepository;
     private final TotalRatingRepository totalRatingRepository;
     private final ReservationSubRepository reservationSubRepository;
+    private final UserRepository userRepository;
 
     /**
      * 리뷰 등록
@@ -53,6 +55,11 @@ public class ReviewServiceImpl implements ReviewService{
         });
         PsEntity ps = consulting.getPs();
         UserEntity user = consulting.getUser();
+
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         if(reviewRepository.findByConsulting(consulting).isPresent()){
             log.info(logCurrent(getClassName(), getMethodName(), END));
@@ -107,6 +114,12 @@ public class ReviewServiceImpl implements ReviewService{
     public List<ReviewRespDto> getReviewList(Long userSeq) {
 
         log.info(logCurrent(getClassName(), getMethodName(), START));
+
+        UserEntity user = userRepository.findById(userSeq).orElseThrow(() -> new NullPointerException());
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         // 리뷰
         List<ReviewEntity> reviewList = reviewRepository.findAllByUserSeq(userSeq);
