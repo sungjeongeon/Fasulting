@@ -6,6 +6,7 @@ import com.fasulting.common.dto.respDto.DoctorRespDto;
 import com.fasulting.common.dto.respDto.MainCategoryRespDto;
 import com.fasulting.common.dto.respDto.ReviewRespDto;
 import com.fasulting.common.dto.respDto.SubCategoryRespDto;
+import com.fasulting.common.util.CheckInfo;
 import com.fasulting.common.util.FileManage;
 import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.ps.ps.dto.reqDto.*;
@@ -20,6 +21,8 @@ import com.fasulting.entity.doctor.DoctorEntity;
 import com.fasulting.entity.doctor.DoctorMainEntity;
 import com.fasulting.entity.ps.*;
 import com.fasulting.entity.review.ReviewEntity;
+import com.fasulting.entity.user.UserEntity;
+import com.fasulting.exception.UnAuthorizedException;
 import com.fasulting.repository.calendar.DefaultCalRepository;
 import com.fasulting.repository.calendar.OperatingCalRepository;
 import com.fasulting.repository.calendar.TimeRepository;
@@ -234,6 +237,10 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         // 운영시간
         List<PsDefaultEntity> psDefaultList = psDefaultRepository.findAllByPsSeq(psSeq);
@@ -354,18 +361,21 @@ public class PsServiceImpl implements PsService {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         Long seq = psInfo.getSeq();
-        if (psRepository.findById(seq).isPresent()) {
-            PsEntity ps = psRepository.findById(seq).get();
 
-            ps.updateByWithdrawal(RoleType.PS + "_" + psInfo.getSeq(), LocalDateTime.now());
+        PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
-            psRepository.save(ps);
+        ps.updateByWithdrawal(RoleType.PS + "_" + psInfo.getSeq(), LocalDateTime.now());
 
-            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
-            return true;
-        }
+        psRepository.save(ps);
+
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
-        return false;
+        return true;
     }
 
     /**
@@ -382,6 +392,10 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         if (passwordEncoder.matches(psInfo.getPassword(), ps.getPassword())) {
             log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
@@ -406,6 +420,11 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
 
         if (psInfo.getAddress() != null) {
             ps.updateAddress(psInfo.getAddress());
@@ -431,6 +450,11 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
 
         if (psInfo.getIntro() != null) {
             ps.updateIntro(psInfo.getIntro());
@@ -457,6 +481,10 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         if (psInfo.getNumber() != null) {
             ps.updateNumber(psInfo.getNumber());
@@ -482,6 +510,10 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         if (psInfo.getHomepage() != null) {
             ps.updateHomepage(psInfo.getHomepage());
@@ -505,6 +537,15 @@ public class PsServiceImpl implements PsService {
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         Long seq = psInfo.getSeq();
 
+        PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
+
         if (psInfo.getSubCategoryList().isEmpty()) {
             log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
             return false;
@@ -513,10 +554,6 @@ public class PsServiceImpl implements PsService {
         // delete 하고
         psMainSubRepository.deleteMainSubByPs(seq);
         psMainRepository.deleteMainByPs(seq);
-
-        PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
 
         /////////////// 병원 - 메인 - 서브 카테고리 매핑 저장 ///////////////
         for (String name : psInfo.getSubCategoryList()) {
@@ -562,6 +599,10 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(seq).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         MultipartFile profileImgFile = psInfo.getProfileImg();
         String profileImgUrl;
@@ -596,6 +637,14 @@ public class PsServiceImpl implements PsService {
         Long psSeq = doctorDelReqDto.getPsSeq();
         Long doctorSeq = doctorDelReqDto.getDoctorSeq();
 
+        PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
         DoctorEntity doctor = doctorRepository.findById(doctorSeq).orElseThrow(() -> new NullPointerException());
 
         if (doctor.getPs().getSeq() != psSeq) {
@@ -624,6 +673,10 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(psDefaultReqDto.getPsSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         //////////// default 운영 시간
         // delete
@@ -706,6 +759,10 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(psOperatingDto.getPsSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         //////////// 현실 운영 시간 (달력)
         // 오늘부터 2주치 psOperating delete
@@ -760,6 +817,10 @@ public class PsServiceImpl implements PsService {
         PsEntity ps = psRepository.findById(doctor.getPsSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         /////////////// 병원 - 전문의 리스트 저장 ///////////////
         String doctorImgUrl = null;

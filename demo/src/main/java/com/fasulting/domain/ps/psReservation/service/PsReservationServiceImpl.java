@@ -71,6 +71,14 @@ public class PsReservationServiceImpl implements PsReservationService {
         Long rSeq = reservationReqDto.getReservationSeq();
         Long pSeq = reservationReqDto.getPsSeq();
 
+        PsEntity ps = psRepository.findById(pSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
         // 예약 delYn >> Y로 변경
         if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).orElseThrow(() -> {
             throw new NullPointerException();
@@ -89,8 +97,6 @@ public class PsReservationServiceImpl implements PsReservationService {
             // 예약에서 date 구하기
             // 예약에서 시간 구하기
             // 병원 date(operating_cal) 시간(time) 으로 운영 시간(ps_operating) 추가
-
-            PsEntity ps = r.getPs();
 
             OperatingCalEntity op = operatingCalRepository.findByYearAndMonthAndDay(
                             r.getReservationCal().getYear(),
@@ -131,6 +137,15 @@ public class PsReservationServiceImpl implements PsReservationService {
     public PsPostRespDto getPostReservationList(Long psSeq, LocalDateTime current) {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
+
+        PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
         // 미래 예약 조회
         List<PostReservationRespDto> respList = new ArrayList<>();
 
@@ -230,13 +245,14 @@ public class PsReservationServiceImpl implements PsReservationService {
         PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> {
             throw new NullPointerException();
         });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         List<ConsultingEntity> cList = consultingRepository.getAllByPsSeq(ps.getSeq());
 
         for (ConsultingEntity c : cList) {
-
-            log.info(c.toString());
-
             String estimate = "";
 
             if (reportRepository.findByConsulting(c).isPresent()) {
@@ -274,6 +290,15 @@ public class PsReservationServiceImpl implements PsReservationService {
         ConsultingEntity consulting = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
             throw new NullPointerException();
         });
+
+        PsEntity ps = psRepository.findById(consulting.getPs().getSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
         UserEntity user = consulting.getUser();
         ReportEntity report = reportRepository.findByConsulting(consulting).orElseThrow(() -> {
             throw new NullPointerException();

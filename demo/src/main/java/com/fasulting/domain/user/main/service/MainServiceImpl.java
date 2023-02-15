@@ -13,6 +13,7 @@ import com.fasulting.entity.doctor.DoctorEntity;
 import com.fasulting.entity.ps.PsDefaultEntity;
 import com.fasulting.entity.ps.PsEntity;
 import com.fasulting.entity.review.ReviewEntity;
+import com.fasulting.entity.user.UserEntity;
 import com.fasulting.repository.category.MainCategoryRepository;
 import com.fasulting.repository.category.SubCategoryRepository;
 import com.fasulting.repository.doctor.DoctorMainRepository;
@@ -21,6 +22,7 @@ import com.fasulting.repository.ps.*;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
 import com.fasulting.repository.user.FavoriteRepository;
+import com.fasulting.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,7 @@ public class MainServiceImpl implements MainService {
     private final DoctorRepository doctorRepository;
     private final DoctorMainRepository doctorMainRepository;
     private final ReviewSubRepository reviewSubRepository;
+    private final UserRepository userRepository;
 
     /**
      * 메인 카테고리 리스트 조회
@@ -167,6 +170,15 @@ public class MainServiceImpl implements MainService {
     public PsDetailRespDto getPsDetail(Long userSeq, Long psSeq) {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
+
+        UserEntity user = userRepository.findById(userSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
         PsEntity ps = psRepository.findById(psSeq).orElseThrow(() -> {
             throw new NullPointerException();
         });
