@@ -7,7 +7,7 @@ import styles from "./DownloadCard.module.css";
 function DownloadCard() {
   return (
     <div className={styles.outer}>
-      <img src="/assets/images/fegan.gif" className={styles.gif} />
+      <img src="/assets/images/fegan.gif" className={styles.gif} alt="FE-GAN"/>
       <div className={styles.center}>
         <Typography
           variant="h5"

@@ -40,8 +40,6 @@ const CalendarCard = () => {
         maximumDate={maxValue}
         shouldHighlightWeekends
       />
-      {/* <p className={styles.p}>새로운 예약 알림</p> */}
-      {/* <NewReservationCard/> */}
     </div>
 
   );

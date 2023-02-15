@@ -1,6 +1,4 @@
 import FavoriteCard from "./FavoriteCard";
-import { Grid } from "@mui/material";
-// import Box from "@mui/material/Box";
 import styles from "./FavResCard.module.css";
 import NotFoundCard1 from "./NotFoundCard1";
 function FavoriateCardList({ favorite }) {

@@ -10,10 +10,9 @@ import Checkbox from "@mui/material/Checkbox";
 import styles from "./ReserveCard.module.css";
 import ReserveCardDateItem from "./ReserveCardDateItem";
 import ReserveCardTimeItem from "./ReserveCardTimeItem";
-import MainCategoryListSmall from "../Category/MainCategoryListSmall";
 import ReserveCardCategoryItem from "./ReserveCardCategoryItem";
 import Reservation from "../Modal/Reservation";
-import Detail from "../../pages/client/Detail";
+
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />

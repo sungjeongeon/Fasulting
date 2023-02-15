@@ -1,10 +1,7 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Grid, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import StarIcon from "@mui/icons-material/Star";
 import styles from "./FavResCard.module.css";
