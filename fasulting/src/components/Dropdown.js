@@ -48,8 +48,6 @@ function Dropdown() {
           .get(`/ps/logout/${psData.psSeq}`, {
             headers: {
               Authorization: token.accessToken,
-              // "Access-Control-Allow-Origin": "*",
-              // "Access-Control-Allow-Credentials": "true",
             },
             withCredentials: true,
           })
