@@ -41,11 +41,10 @@ public class PsJwtController {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         Map<String, Object> respMap = psJwtService.login(loginReqDto);
-        PsLoginRespDto psLoginRespDto = (PsLoginRespDto)respMap.get("psLoginRespDto");
-        TokenRespDto tokenRespDto = (TokenRespDto) respMap.get("tokenRespDto");
 
-        if (psLoginRespDto != null) {
-
+        if (respMap != null) {
+            PsLoginRespDto psLoginRespDto = (PsLoginRespDto)respMap.get("psLoginRespDto");
+            TokenRespDto tokenRespDto = (TokenRespDto) respMap.get("tokenRespDto");
             // 기존 쿠키 삭제
             CookieUtil.deleteCookie(request, response, "refreshToken");
             // JWT 쿠키 저장(쿠키 명 : token)

@@ -46,7 +46,13 @@ public class UserJwtServiceImpl implements UserJwtService {
     public Map<String, Object> login(LoginReqDto userInfo) {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
-        UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
+        
+        // 계정 정보가 없는 경우
+        if(!userRepository.findUserByEmail(userInfo.getEmail()).isPresent()){
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
+            return null;
+        }
+        UserEntity user = userRepository.findUserByEmail(userInfo.getEmail()).get();
 
         if (passwordEncoder.matches(userInfo.getPassword(), user.getPassword())) {
             String accessToken = null;

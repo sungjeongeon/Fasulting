@@ -39,10 +39,10 @@ public class UserJwtController {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
         Map<String, Object> map = userJwtService.login(loginReqDto);
-        UserLoginRespDto userLoginRespDto = (UserLoginRespDto) map.get("userLoginRespDto");
-        TokenRespDto tokenRespDto = (TokenRespDto) map.get("tokenRespDto");
 
-        if (userLoginRespDto != null) {
+        if (map != null) {
+            UserLoginRespDto userLoginRespDto = (UserLoginRespDto) map.get("userLoginRespDto");
+            TokenRespDto tokenRespDto = (TokenRespDto) map.get("tokenRespDto");
 
             // 기존 쿠키 삭제
             CookieUtil.deleteCookie(request, response, "refreshToken");
