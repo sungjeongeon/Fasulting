@@ -32,9 +32,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("https://hotsix.duckdns.org", "https://fasulting.hotsix.duckdns.org", "http://localhost:3000", "http://localhost:8080")
-                .allowedMethods("*")
-                .allowedHeaders(HttpHeaders.AUTHORIZATION, "*")
-                .exposedHeaders(HttpHeaders.AUTHORIZATION, "*")
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+                .allowedHeaders(HttpHeaders.AUTHORIZATION)
+                .exposedHeaders(HttpHeaders.AUTHORIZATION)
                 .allowCredentials(true);
     }
 
