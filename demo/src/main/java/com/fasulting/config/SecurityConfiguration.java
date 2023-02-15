@@ -8,7 +8,6 @@ import com.fasulting.repository.token.UserTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -38,8 +37,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable()
                 .authorizeRequests()
 
-                .antMatchers("/user/logout/**").access("hasAnyAuthority('USER', 'ADMIN')")
-                .antMatchers("/ps/logout/**").access("hasAnyAuthority('PS')")
+                .antMatchers("/user/logout").access("hasAnyAuthority('USER', 'ADMIN')")
+                .antMatchers("/ps/logout").access("hasAnyAuthority('PS')")
 //                .antMatchers("/user/info/**", "/user/withdraw", "/user/passcheck", "/user/edit",
 //                        "/favorite/**", "/main/ps-detail/**", "/reservation/**", "/review/**").access("hasAuthority('USER')")
 //                .antMatchers("/ps/logout/**", "/ps/address", "/ps/intro", "/ps/number", "/ps/homepage", "/ps/category", "/ps/operating/**",
