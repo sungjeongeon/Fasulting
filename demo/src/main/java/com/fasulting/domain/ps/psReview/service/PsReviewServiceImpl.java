@@ -4,6 +4,7 @@ package com.fasulting.domain.ps.psReview.service;
 import com.fasulting.common.RoleType;
 import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.ps.psReview.dto.reqDto.AccuseReviewReq;
+import com.fasulting.entity.ps.PsEntity;
 import com.fasulting.entity.ps.TotalRatingEntity;
 import com.fasulting.entity.review.ReviewEntity;
 import com.fasulting.repository.ps.PsRepository;
@@ -40,6 +41,14 @@ public class PsReviewServiceImpl implements PsReviewService {
         ReviewEntity review = reviewRepository.findById(accuseReviewReq.getReviewSeq()).orElseThrow(() -> {
             throw new NullPointerException();
         });
+
+        PsEntity ps = psRepository.findById(review.getPs().getSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(ps.getSeq(), ps.getEmail(), RoleType.PS)){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         review.updateByDec(RoleType.PS + "_" + accuseReviewReq.getPsSeq(), LocalDateTime.now());
         reviewRepository.save(review);

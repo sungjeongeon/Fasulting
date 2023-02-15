@@ -189,10 +189,25 @@ public class ReservationServiceImpl implements ReservationService {
 
         log.info(logCurrent(getClassName(), getMethodName(), START));
 
+        UserEntity user = userRepository.findById(regReservationReqDto.getUserSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
         int year = regReservationReqDto.getYear();
         int month = regReservationReqDto.getMonth();
         int day = regReservationReqDto.getDay();
         int timeNum = regReservationReqDto.getTime();
+
+        ReservationCalEntity rc = reservationCalRepository.findByYearAndMonthAndDay(year, month, day).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+        PsEntity ps = psRepository.findById(regReservationReqDto.getPsSeq()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         ///// 병원 운영 시간(operating)에서 해당 시간 유효한가 확인 ////
 
@@ -201,10 +216,6 @@ public class ReservationServiceImpl implements ReservationService {
         // 위 두개로 PsOperating 구하기
 
         // operating_cal 구하기
-        if (!operatingCalRepository.findByYearAndMonthAndDay(year, month, day).isPresent()) {
-            log.info(logCurrent(getClassName(), getMethodName(), END));
-            return false;
-        }
         OperatingCalEntity oc = operatingCalRepository.findByYearAndMonthAndDay(year, month, day).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -224,28 +235,10 @@ public class ReservationServiceImpl implements ReservationService {
                 .time(t.getSeq())
                 .build();
 
-        if (!psOperatingRepository.findById(poId).isPresent()) {
-            log.info(logCurrent(getClassName(), getMethodName(), END));
-            return false;
-        }
         PsOperatingEntity po = psOperatingRepository.findById(poId).orElseThrow(() -> {
             throw new NullPointerException();
         });
 
-        if (!reservationCalRepository.findByYearAndMonthAndDay(year, month, day).isPresent()) {
-            log.info(logCurrent(getClassName(), getMethodName(), END));
-            return false;
-        }
-
-        ReservationCalEntity rc = reservationCalRepository.findByYearAndMonthAndDay(year, month, day).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
-        PsEntity ps = psRepository.findById(regReservationReqDto.getPsSeq()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
-        UserEntity user = userRepository.findById(regReservationReqDto.getUserSeq()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
 
         MultipartFile beforeImgFile = regReservationReqDto.getBeforeImg();
 
@@ -302,6 +295,14 @@ public class ReservationServiceImpl implements ReservationService {
 
         log.info(logCurrent(getClassName(), getMethodName(), START));
 
+        UserEntity user = userRepository.findById(userSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
         List<PreReservationRespDto> respList = new ArrayList<>();
 
         List<ConsultingEntity> cList = consultingRepository.getAllByUserSeq(userRepository.findById(userSeq).orElseThrow(() -> {
@@ -350,6 +351,14 @@ public class ReservationServiceImpl implements ReservationService {
 
         log.info(logCurrent(getClassName(), getMethodName(), START));
 
+        UserEntity user = userRepository.findById(userSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
+
         List<PostReservationRespDto> respList = new ArrayList<>();
 
         String current = LocalDateTime.now().minusMinutes(30).format(DateTimeFormatter.ofPattern("yyyyMMddHHss"));
@@ -396,6 +405,14 @@ public class ReservationServiceImpl implements ReservationService {
 
         Long rSeq = cancelReservationReqDto.getReservationSeq();
         Long uSeq = cancelReservationReqDto.getUserSeq();
+
+        UserEntity user = userRepository.findById(uSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         // 예약 delYn >> Y로 변경
         if (reservationRepository.findById(rSeq).isPresent() && reservationRepository.findById(rSeq).orElseThrow(() -> {
@@ -453,6 +470,14 @@ public class ReservationServiceImpl implements ReservationService {
     public ReportRespDto getReport(Long userSeq, Long consultingSeq) {
 
         log.info(logCurrent(getClassName(), getMethodName(), START));
+
+        UserEntity user = userRepository.findById(userSeq).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+//        if (!CheckInfo.checkLoginInfo(user.getSeq(), user.getEmail(), user.getRole().getAuthority())){
+//            log.error(logCurrent(getClassName(), getMethodName(), END));
+//            throw new UnAuthorizedException();
+//        }
 
         ConsultingEntity c = consultingRepository.findById(consultingSeq).orElseThrow(() -> {
             throw new NullPointerException();
