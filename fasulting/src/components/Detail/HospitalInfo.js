@@ -8,7 +8,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useEffect } from "react";
 
 function HospitalInfo({ detailhospital }) {
-  // console.log(detailhospital.defaultTime.values());
+  console.log("test", detailhospital.defaultTime);
 
   const week = ["", "일", "월", "화", "수", "목", "금", "토"];
   const timeTable = [

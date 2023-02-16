@@ -78,15 +78,7 @@ function HospitalReservation() {
           <p className={`${styles.color} ${styles.hospital}`}>
             {ReservationManage.name}
           </p>
-          <a
-            href={
-              "https://apitest.hotsix.duckdns.org/ps-consulting/download/" +
-              ReservationManage.reservationSeq
-            }
-            download="ㅎㅇc"
-          >
-            다운로드
-          </a>
+
           <div className={styles.line}></div>
           <div className={`${styles.flexrow} ${styles.mt}`}>
             <p className={`${styles.color} ${styles.mr}`}>예약 일정</p>

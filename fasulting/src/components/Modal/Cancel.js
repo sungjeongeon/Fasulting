@@ -17,10 +17,10 @@ function Modal({ ModalStateChange, reservationSeq }) {
       .then((res) => {
         console.log(res);
         // setLoading(false);
+        window.location.reload();
       });
     console.log(reservationSeq);
     // 취소 후 페이지 새로고침
-    window.location.reload();
   };
   return (
     <div className={styles.background}>

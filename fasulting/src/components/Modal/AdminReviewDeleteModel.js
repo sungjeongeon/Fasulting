@@ -31,10 +31,10 @@ function AdminReviewDeleteModal({ review }) {
       .then((res) => {
         console.log("요청보냄");
         console.log(res);
+        window.location.reload();
       })
       .catch((e) => console.log(e));
     // 페이지 새로고침
-    window.location.reload();
   };
 
   return (
