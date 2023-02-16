@@ -3,8 +3,9 @@ import styles from "./ProfileTimeUpdate.module.css";
 import Button from "@mui/material/Button";
 import SetOperatingTime from "../Modal/SetOperatingTime";
 
-function ProfileTimeUpdate({psSeq, defaultTime}) {
+function ProfileTimeUpdate({ psSeq, defaultTime }) {
   const [modal, setModal] = useState(false);
+  const [defaultTimeTable, setDefaultTimeTable] = useState(defaultTime);
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const timeTable = [
@@ -33,13 +34,12 @@ function ProfileTimeUpdate({psSeq, defaultTime}) {
     "20:00",
   ];
 
-  
   const objList = Object.entries(defaultTime).map((newList, index) => {
-    return newList
-  })
-  console.log(objList)
+    return newList;
+  });
+  console.log(objList);
   // 재렌더링
-  const [operatingTime, setOperatingTime] = useState(objList)
+  const [operatingTime, setOperatingTime] = useState(objList);
 
   const onClick = () => {
     setModal((current) => !current);
@@ -81,9 +81,15 @@ function ProfileTimeUpdate({psSeq, defaultTime}) {
         <Button variant="text" className={styles.btn} onClick={onClick}>
           <p className={styles.btnTextGreen}>수정</p>
         </Button>
-        {modal && <SetOperatingTime ModalStateChange={onClick} psSeq={psSeq} setOperatingTime={setOperatingTime}/>}
+        {modal && (
+          <SetOperatingTime
+            ModalStateChange={onClick}
+            psSeq={psSeq}
+            setDefaultTimeTable={setDefaultTimeTable}
+          />
+        )}
       </div>
-      {operatingTime.map((objListItem) => {
+      {/* {operatingTime.map((objListItem) => {
         const dayOfWeek = objListItem[0]
           return (
             <div className={styles.dayDiv} key={dayOfWeek}>
@@ -92,7 +98,16 @@ function ProfileTimeUpdate({psSeq, defaultTime}) {
             </div>
           );
 
-      })}
+      })} */}
+      {defaultTimeTable &&
+        Object.values(defaultTimeTable).map((time, index) => {
+          return (
+            <div className={styles.dayDiv} key={index}>
+              <p className={styles.day}>{week[index]}</p>
+              {getTimeString(time)}
+            </div>
+          );
+        })}
       <hr className={styles.hr} />
     </div>
   );

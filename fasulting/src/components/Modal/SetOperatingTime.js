@@ -6,7 +6,7 @@ import { useState } from "react";
 import axiosAPi from "../../api/axiosApi";
 import CloseIcon from "@mui/icons-material/Close";
 
-function SetOperatingTime({ ModalStateChange, psSeq, setOperatingTime }) {
+function SetOperatingTime({ ModalStateChange, psSeq, setDefaultTimeTable }) {
   const week = [
     {
       id: 1,
@@ -38,13 +38,13 @@ function SetOperatingTime({ ModalStateChange, psSeq, setOperatingTime }) {
     },
   ];
   const [weekSchedule, setWeekSchedule] = useState({});
-  const newWeekSchedule = Object.entries(weekSchedule).map((newList, index) => {
-    return newList
-  })
-  console.log(newWeekSchedule)
-  const changeSchedule = () => {
-    setOperatingTime(newWeekSchedule)
-  }
+  // const newWeekSchedule = Object.entries(weekSchedule).map((newList, index) => {
+  //   return newList
+  // })
+  // console.log(newWeekSchedule)
+  // const changeSchedule = () => {
+  //   setDefaultTimeTable(newWeekSchedule);
+  // };
 
   const getSchedule = (s) => {
     setWeekSchedule((currentObj) => {
@@ -58,7 +58,7 @@ function SetOperatingTime({ ModalStateChange, psSeq, setOperatingTime }) {
         defaultTime: weekSchedule,
       })
       .then((res) => console.log(res))
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
   };
   return (
     <div className={styles.background}>
@@ -86,7 +86,7 @@ function SetOperatingTime({ ModalStateChange, psSeq, setOperatingTime }) {
             onClick={() => {
               ModalStateChange();
               saveSchedule();
-              changeSchedule();
+              setDefaultTimeTable(weekSchedule);
             }}
           >
             저 장
