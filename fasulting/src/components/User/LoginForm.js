@@ -94,7 +94,7 @@ export default function LoginForm() {
                     } else {
                       navigate("/");
                     }
-                    dispatch(changeLoading())
+                    dispatch(changeLoading());
                   }, 2000);
                 } else if (res.status === 204) {
                   toast.error(
@@ -151,7 +151,7 @@ export default function LoginForm() {
                     );
                     setTimeout(() => {
                       navigate("/mypageho");
-                      dispatch(changeLoading())
+                      dispatch(changeLoading());
                     }, 2000);
                   } else {
                     toast.error(
@@ -321,7 +321,7 @@ export default function LoginForm() {
                     style={{ textDecoration: "none", color: "#72a1a6" }}
                   >
                     {" "}
-                    의사 회원가입
+                    병원 회원가입
                   </Link>
                 </div>
               </div>

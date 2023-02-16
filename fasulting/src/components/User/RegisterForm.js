@@ -279,7 +279,7 @@ export default function RegisterForm() {
             </Button>
           </form>
           <span onClick={navigatePsregist} className={styles.flexCenter}>
-            의사로 회원가입 하시나요?
+            병원으로 회원가입 하시나요?
           </span>
         </Paper>
       </Container>
