@@ -33,7 +33,7 @@ function ProfileTimeUpdate({psSeq, defaultTime}) {
     "20:00",
   ];
 
-  
+  console.log(defaultTime)
   const objList = Object.entries(defaultTime).map((newList, index) => {
     return newList
   })
