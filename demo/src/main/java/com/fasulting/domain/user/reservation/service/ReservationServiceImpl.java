@@ -242,7 +242,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         MultipartFile beforeImgFile = regReservationReqDto.getBeforeImg();
 
-        beforeImgFile = FileManage.resizeImage(beforeImgFile);
+//        beforeImgFile = FileManage.resizeImage(beforeImgFile);
 
         String beforeImgPath = null;
         if (beforeImgFile != null && !beforeImgFile.isEmpty()) {

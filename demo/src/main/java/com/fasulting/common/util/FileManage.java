@@ -109,7 +109,7 @@ public class FileManage {
             BufferedImage image = ImageIO.read(originalImage.getInputStream());
             // newWidth : newHeight = originWidth : originHeight
             int newWidth = 512;
-            int newHeight =512;
+            int newHeight = 512;
 
 
             Image resizeImage = image.getScaledInstance(newWidth, newHeight, Image.SCALE_FAST);
@@ -124,7 +124,7 @@ public class FileManage {
             String formatName = str[str.length - 1];
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(newImage, formatName, baos );
+            ImageIO.write(newImage, formatName, baos);
             baos.flush();
 
             MultipartFile multipartFile = new MultipartImage(baos.toByteArray(), originalImage.getName(), originalImage.getOriginalFilename(),
