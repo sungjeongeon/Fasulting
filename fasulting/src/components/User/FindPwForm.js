@@ -186,7 +186,7 @@ export default function LoginForm() {
             </div>
             {success ? (
               ""
-            ) : (
+            ) : isSended ? (
               <Typography
                 variant="subtitle1"
                 sx={{ mt: 1 }}
@@ -196,7 +196,7 @@ export default function LoginForm() {
                 인증번호가 전송되었습니다 ( 남은 시간 {parseInt(timer / 60)} :{" "}
                 {String(timer % 60).padStart(2, "0")} )
               </Typography>
-            )}
+            ) : null}
             {/* 인증코드 확인 Form */}
             <div className={styles.label}>인증코드</div>
             <div className={styles.codeForm}>

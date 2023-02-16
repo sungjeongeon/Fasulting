@@ -4,7 +4,7 @@ import styles from "./ReviewList.module.css";
 import NotFoundCard2 from "../Card/NotFoundCard2";
 function ReviewList({ reviews }) {
   return (
-    <div>
+    <div style={{ marginBottom: "200px" }}>
       <div>
         <h2 className={styles.title}>나의 리뷰</h2>
       </div>

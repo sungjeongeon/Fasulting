@@ -5,6 +5,7 @@ import StreamComponent from "./stream/StreamComponent";
 import styles from "./VideoRoom.module.css";
 import Button from "@mui/material/Button";
 import Skeleton from "@mui/material/Skeleton";
+import Link from "@mui/material/Link";
 
 import OpenViduLayout from "./layout/openvidu-layout";
 import UserModel from "./models/user-model";
@@ -564,6 +565,7 @@ class VideoRoom extends Component {
     await this.leaveSession();
     await this.joinSession();
   }
+
   render() {
     const localUser = this.state.localUser;
     const mySessionId = this.state.mySessionId;
@@ -635,6 +637,15 @@ class VideoRoom extends Component {
                     <p className={styles.title}>
                       ✅ 상담방에 입장하기 전 오디오와 비디오를 체크해주세요.
                     </p>
+                    <p className={styles.title}>
+                      ✅ 상담 전 상담자 사전 제출 이미지 다운로드와
+                      성형편집기(SC-FEGAN) 다운로드 및 실행을 완료해주세요.
+                    </p>
+                    <Link href="/ps/download">
+                      <p className={styles.download}>
+                        &gt; SC-FEGAN 다운로드 바로가기
+                      </p>
+                    </Link>
 
                     <h1 className={styles.warning}>🤔 주의하세요!</h1>
                     <p className={styles.content}>
