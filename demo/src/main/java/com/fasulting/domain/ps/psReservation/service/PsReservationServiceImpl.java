@@ -267,6 +267,7 @@ public class PsReservationServiceImpl implements PsReservationService {
                     .subCategoryName(reservationSubRepository.getSubCategoryNameByReservationSeq(c.getReservation().getSeq()))
                     .year(c.getReservation().getReservationCal().getYear())
                     .month(c.getReservation().getReservationCal().getMonth())
+                    .day(c.getReservation().getReservationCal().getDay())
                     .hour(c.getReservation().getTime().getStartHour())
                     .minute(c.getReservation().getTime().getStartMin())
                     .dayOfWeek(c.getReservation().getReservationCal().getDayOfWeek())
