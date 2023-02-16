@@ -7,7 +7,7 @@ function ReviewReport({ ModalStateChange, reviewId, psSeq }) {
   // console.log(reviewId)
   const reviewReport = () => {
     axiosAPi
-      .patch("/ps-review/accuse", {
+      .put("/ps-review/accuse", {
         reviewSeq: reviewId,
         psSeq: psSeq,
       })
