@@ -55,9 +55,12 @@ public class TotalRatingEntity extends BaseEntity {
 	}
 
 	public void updateByDel(BigDecimal point){
-		this.sum = this.sum.subtract(point);
-		this.count = this.sum.subtract(BigDecimal.ONE);
-		this.result = this.sum.divide(this.count, 1);
+		BigDecimal newSum = this.sum.subtract(point);
+		this.sum = newSum;
+
+		BigDecimal newCnt = this.count.subtract(BigDecimal.ONE);
+		this.count = newCnt;
+		this.result = newSum.divide(newCnt, 1);
 	}
 
 
