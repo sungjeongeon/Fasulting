@@ -10,7 +10,7 @@ function Review({ ModalStateChange, consultingSeq }) {
 
   const [value, setValue] = React.useState(0);
   const [content, setContent] = useState("");
-
+  console.log(consultingSeq);
   // 리뷰 내용 onChange
   const contentChanged = (e) => {
     setContent(e.target.value);
@@ -27,10 +27,12 @@ function Review({ ModalStateChange, consultingSeq }) {
         reviewContent: content,
         point: value,
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
       .catch((e) => console.log(e));
     // 모달 창 닫기 -> 페이지 새로고침
-    window.location.reload();
   };
   return (
     <div className={styles.background}>
