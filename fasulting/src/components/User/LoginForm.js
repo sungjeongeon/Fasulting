@@ -117,7 +117,7 @@ export default function LoginForm() {
                 withCredentials: true,
               })
               .then((res) => {
-                if (res.data.message === "success") {
+                if (res.data.statusCode === 200) {
                   console.log(res);
                   if (res.data.responseObj.confirmYn === true) {
                     console.log(res.data);
@@ -156,7 +156,8 @@ export default function LoginForm() {
                   } else {
                     toast.error(
                       <h3>
-                        승인 대기중인 계정입니다. <br />
+                        승인 대기중인 계정입니다.⏱
+                        <br />
                         잠시후 다시 로그인해주세요!{" "}
                       </h3>,
                       {
@@ -168,10 +169,11 @@ export default function LoginForm() {
                       navigate("/");
                     }, 2000);
                   }
-                } else if (res.data.message === "fail") {
-                  toast.success(
+                } else if (res.status === 204) {
+                  toast.error(
                     <h3>
-                      유저정보가 존재하지 않습니다. <br />
+                      아이디나 비밀번호를 <br />
+                      다시 확인해주세요.😢
                     </h3>,
                     {
                       position: toast.POSITION.TOP_CENTER,
