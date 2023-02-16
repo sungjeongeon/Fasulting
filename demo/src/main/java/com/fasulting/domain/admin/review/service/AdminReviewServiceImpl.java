@@ -84,12 +84,16 @@ public class AdminReviewServiceImpl implements AdminReviewService {
 
         reviewRepository.save(review);
 
-                TotalRatingEntity totalRating = totalRatingRepository.findByPs(review.getPs()).orElseThrow(() -> {
+        TotalRatingEntity totalRating = totalRatingRepository.findByPs(review.getPs()).orElseThrow(() -> {
             throw new NullPointerException();
         });
-        totalRating.updateByDel(review.getPoint());
-
-        totalRatingRepository.save(totalRating);
+        if(totalRating.getCount().equals(1)){
+            totalRatingRepository.delete(totalRating);
+        }
+        else {
+            totalRating.updateByDel(review.getPoint());
+            totalRatingRepository.save(totalRating);
+        }
         return true;
     }
 }
