@@ -15,8 +15,9 @@ function MyEstimate() {
 
   const [before, setBefore] = useState("");
   const [after, setAfter] = useState("");
-  const [report, setReport] = useState({});
-  const [psInfo, setPsInfo] = useState({});
+  const [report, setReport] = useState("");
+  const [psInfo, setPsInfo] = useState("");
+
   useEffect(() => {
     axiosAPi
       .get(`/reservation/report/${userSeq}/${consultingSeq}`)
@@ -78,11 +79,11 @@ function MyEstimate() {
       </div>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         <div style={{ width: "60%", marginTop: "2.5rem" }}>
-          <EstimateCard report={report} />
+          {report && <EstimateCard report={report} />}
         </div>
         {/* 병원 정보 div */}
         <div style={{ width: "30%", marginTop: "2.5rem" }}>
-          <HospitalInfo detailhospital={psInfo} />
+          {psInfo && <HospitalInfo detailhospital={psInfo} />}
         </div>
       </div>
     </Container>
