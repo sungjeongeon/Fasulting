@@ -46,8 +46,8 @@ export default function LastReservationHo({search, nowShow, setNowShow}) {
           {/* <TableHead className={classes.root}> */}
           <TableHead>
             <TableRow>
-              <TableCell sx={{fontWeight: "bold", color: "#72A1A6", width: '25%'}}>상담자</TableCell>
-              <TableCell sx={{fontWeight: "bold", color: "#72A1A6", width: '33%'}}>상담 내용</TableCell>
+              <TableCell sx={{fontWeight: "bold", color: "#72A1A6", width: '22%'}}>상담자</TableCell>
+              <TableCell sx={{fontWeight: "bold", color: "#72A1A6", width: '36%'}}>상담 내용</TableCell>
               <TableCell sx={{fontWeight: "bold", color: "#72A1A6", width: '42%'}}>상담 일시</TableCell>
             </TableRow>
           </TableHead>

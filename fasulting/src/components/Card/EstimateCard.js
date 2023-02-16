@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import styles from "./EstimateCard.module.css";
 
 function EstimateCard({ report }) {
+  console.log(report)
   return (
     <Card
       sx={{ marginLeft: "4rem", marginTop: "2.5rem", marginBottom: "3rem" }}
