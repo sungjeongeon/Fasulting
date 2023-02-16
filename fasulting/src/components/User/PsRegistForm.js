@@ -1,34 +1,15 @@
 import React from "react";
 import * as yup from "yup";
-import {
-  FormikStepper,
-  FormikStep,
-  InputField,
-  RadioField,
-  SelectField,
-  CheckBoxField,
-} from "formik-stepper";
-import {
-  Formik,
-  Field,
-  ErrorMessage,
-  useFormik,
-  useFormikContext,
-} from "formik";
+import { FormikStepper, FormikStep, InputField } from "formik-stepper";
 import { useState } from "react";
 import "formik-stepper/dist/style.css";
-import { FormGroup, Input, TextField } from "@mui/material";
-import { Label } from "@mui/icons-material";
 import { toast, ToastContainer } from "react-toastify";
 import { Container } from "@mui/system";
 import { CssBaseline, Paper, Typography } from "@mui/material";
 import axiosAPi from "../../api/axiosApi";
 import { useNavigate } from "react-router-dom";
 import styles from "./PsRegistForm.module.css";
-import { useRef } from "react";
-import inputEmail from "./InputEmail";
 import InputEmail from "./InputEmail";
-import e from "cors";
 
 const validationSchema = yup.object().shape({
   password: yup

@@ -6,21 +6,9 @@ import { Container } from "@mui/system";
 import Footer from "../../components/Footer";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 import axiosAPi from "../../api/axiosApi";
 
 function Home() {
-  //통신 테스트
-  // axios.get("/main").then((res) => {
-  //   console.log(res);
-  // });
-  // const [maincategory, setMaincategory] = useState([]);
-  // useEffect(() => {
-  //   axiosApi.get("/main").then((res) => {
-  //     setMaincategory(res.data.responseObj);
-  //   });
-  // }, []);
-
   const [maincategory, setMaincategory] = useState([]);
   useEffect(() => {
     axiosAPi.get("/main").then((res) => {

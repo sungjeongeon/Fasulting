@@ -1,12 +1,11 @@
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Link from "@mui/material/Link";
 import { useSelector } from "react-redux";
-function ForbiddenPage () {
-  // const nowLogin = useSelector(state => state.authToken.authenticated)
-  const nowUser = useSelector(state => state.user)
-  const isUser =  nowUser.userSeq === "" ? false : true 
-  const isAdmin = nowUser.adminYn === false ? false : true
-  
+function ForbiddenPage() {
+  const nowUser = useSelector((state) => state.user);
+  const isUser = nowUser.userSeq === "" ? false : true;
+  const isAdmin = nowUser.adminYn === false ? false : true;
+
   return (
     <div
       style={{
@@ -44,22 +43,23 @@ function ForbiddenPage () {
         }}
       >
         <ArrowBackIosIcon fontSize="small" />
-        { 
-          isUser ? 
-            isAdmin ? 
+        {isUser ? (
+          isAdmin ? (
             <Link href="/admin">
               <h5>관리자 페이지로 돌아가기</h5>
-            </Link> :
+            </Link>
+          ) : (
             <Link href="/">
               <h5>메인페이지로 돌아가기</h5>
-            </Link> 
-            : 
+            </Link>
+          )
+        ) : (
           <Link href="/mypageho">
             <h5>마이페이지로 돌아가기</h5>
           </Link>
-        }
+        )}
       </div>
     </div>
-  )
+  );
 }
 export default ForbiddenPage;

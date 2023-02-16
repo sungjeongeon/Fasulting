@@ -13,28 +13,6 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useNavigate } from "react-router-dom";
 import Review from "../Modal/Review";
-
-// const preConsult = [
-//   {
-//     consultingSeq: 1,
-//     psName: "김싸피병원",
-//     estimate: 200,
-//     subCategoryName: ["쌍커풀, 안검하수"],
-//     date: "2023.01.23(월요일) 09시",
-//     reviewed: false,
-//     reported: false,
-//   },
-//   {
-//     consultingSeq: 2,
-//     psName: "장싸피병원",
-//     estimate: 300,
-//     subCategoryName: ["쌍커풀, 안검하수"],
-//     date: "2023.01.20(금요일) 17시 30분",
-//     reviewed: true,
-//     reported: false,
-//   },
-// ];
-
 export default function LastConsulting({ preConsult }) {
   const navigate = useNavigate();
 

@@ -30,13 +30,6 @@ export default function LeaveConsulting({ leaveSession, reservationSeq, who }) {
 
   const submitReport = async () => {
     leaveSession();
-    // 소견서 제출 api ( + 상담 id )
-    // {
-    //   "reservationSeq" : "예약 seq",
-    //   "reportContent" : "상담 소견",
-    //   "reportEstimate" : "예상 견적",
-    //   "afterImg" : "after 사진 파일"
-    // }
     const formData = new FormData();
     formData.append("reservationSeq", reservationSeq);
     formData.append("reportContent", content);

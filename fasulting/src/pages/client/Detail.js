@@ -16,7 +16,6 @@ import DoctorCardList from "../../components/Card/DoctorCardList";
 import ReviewInfo from "../../components/Detail/ReviewInfo";
 import { useEffect } from "react";
 import { useState } from "react";
-import axios from "axios";
 import axiosAPi from "../../api/axiosApi";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";

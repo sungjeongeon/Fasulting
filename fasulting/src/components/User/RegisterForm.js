@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -8,7 +8,6 @@ import { useState } from "react";
 import {
   TextField,
   Button,
-  Link,
   Checkbox,
   Typography,
   Container,
@@ -18,9 +17,6 @@ import {
 import styles from "./Form.module.css";
 import Paper from "@mui/material/Paper";
 import axiosAPi from "../../api/axiosApi";
-import { persistReducer } from "redux-persist";
-import { classNames } from "clsx";
-
 const validationSchema = yup.object({
   email: yup
     .string()

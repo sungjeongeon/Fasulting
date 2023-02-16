@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
@@ -12,7 +12,6 @@ import ReserveCardDateItem from "./ReserveCardDateItem";
 import ReserveCardTimeItem from "./ReserveCardTimeItem";
 import ReserveCardCategoryItem from "./ReserveCardCategoryItem";
 import Reservation from "../Modal/Reservation";
-
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -59,18 +58,6 @@ export default function ReserveCard({ reshospital }) {
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
-  // 임시 data
-  const operatingTime = [
-    { id: 2, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 2 },
-    { id: 3, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 5 },
-    { id: 1, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 1 },
-    { id: 4, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 9 },
-    { id: 5, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 11 },
-    { id: 6, year: 2023, month: 1, day: 27, day_of_week: 5, hour: 13 },
-    { id: 7, year: 2023, month: 1, day: 28, day_of_week: 6, hour: 14 },
-    { id: 8, year: 2023, month: 1, day: 28, day_of_week: 6, hour: 3 },
-  ];
-  // ==========================================================
 
   // 선택된 일자 + 상담 항목 정보 (서버에 넘길 것)
   const [year, setYear] = useState(0);
