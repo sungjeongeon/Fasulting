@@ -60,8 +60,9 @@ public class PsConsultingServiceImpl implements PsConsultingService {
         int day = reservation.getReservationCal().getDay();
 
         String[] str = reservation.getBeforeImgOrigin().split("\\.");
+        String userId = reservation.getUser().getEmail().split("@")[0];
 
-        String beforeImgName = Date2String.date2String(year, month, day) + "_" + reservation.getUser().getName() + "." + str[str.length - 1];
+        String beforeImgName = Date2String.date2String(year, month, day) + "_" + userId + "." + str[str.length - 1];
 
         Map<String, String> resp = new HashMap<>();
         resp.put("beforeImgPath", beforeImgPath);

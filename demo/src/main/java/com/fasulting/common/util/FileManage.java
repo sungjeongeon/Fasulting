@@ -11,12 +11,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Random;
 import java.util.UUID;
 
@@ -71,7 +77,6 @@ public class FileManage {
 
 //        log.info(imgFile.getOriginalFilename());
 //        log.info(objMeta.getContentLength());
-
 //        log.info("ddddd " + imgSaveUrl);
 
         try {
@@ -87,7 +92,6 @@ public class FileManage {
     //파일 삭제
     public static boolean deleteFile(String path) {
 
-
         try {
             amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, path));
         } catch (AmazonServiceException e) {
@@ -98,4 +102,38 @@ public class FileManage {
         return true;
     }
 
+    // 이미지 크기 줄이기
+    public static MultipartFile resizeImage(MultipartFile originalImage) {
+        try {
+            // MultipartFile -> BufferedImage Convert
+            BufferedImage image = ImageIO.read(originalImage.getInputStream());
+            // newWidth : newHeight = originWidth : originHeight
+            int newWidth = 512;
+            int newHeight = 512;
+
+
+            Image resizeImage = image.getScaledInstance(newWidth, newHeight, Image.SCALE_FAST);
+            BufferedImage newImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+
+            Graphics2D graphics2D = newImage.createGraphics();
+            graphics2D.drawImage(resizeImage, 0, 0, newWidth, newHeight, null);
+            graphics2D.dispose();
+
+            // 확장자 구하기
+            String[] str = originalImage.getOriginalFilename().split("\\.");
+            String formatName = str[str.length - 1];
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(newImage, formatName, baos);
+            baos.flush();
+
+            MultipartFile multipartFile = new MultipartImage(baos.toByteArray(), originalImage.getName(), originalImage.getOriginalFilename(),
+                    originalImage.getContentType(), baos.toByteArray().length);
+
+            return  multipartFile;
+
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 리사이즈에 실패했습니다.");
+        }
+    }
 }

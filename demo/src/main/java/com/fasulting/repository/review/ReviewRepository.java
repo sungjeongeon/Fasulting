@@ -15,20 +15,20 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
 
     @Query("SELECT COUNT(r) " + "FROM ReviewEntity r " +
             "WHERE r.ps.seq = :psSeq " +
-            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" +
-            "AND ( r.decYn LIKE 'N' OR r.decYn IS NULL )")
+            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" /*+
+            "AND ( r.decYn LIKE 'N' OR r.decYn IS NULL )"*/)
     int getCountByPsSeq(@Param("psSeq") Long psSeq);
 
     @Query("SELECT r " + "FROM ReviewEntity r " +
             "WHERE r.ps.seq = :psSeq " +
-            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" +
-            "AND ( r.decYn LIKE 'N' OR r.decYn IS NULL )")
+            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" /*+
+            "AND ( r.decYn LIKE 'N' OR r.decYn IS NULL )"*/)
     List<ReviewEntity> findAllByPsSeq(@Param("psSeq") Long psSeq);
 
     @Query("SELECT r " + "FROM ReviewEntity r " +
             "WHERE r.user.seq = :userSeq " +
-            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" +
-            "AND ( r.decYn LIKE 'N' OR r.decYn IS NULL )")
+            "AND ( r.delYn LIKE 'N' OR r.delYn IS NULL )" /*+
+            "AND ( r.decYn LIKE 'N' OR r.decYn IS NULL )"*/)
     List<ReviewEntity> findAllByUserSeq(@Param("userSeq") Long userSeq);
 
     Optional<ReviewEntity> findByConsulting(ConsultingEntity consulting);

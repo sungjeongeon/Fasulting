@@ -3,6 +3,8 @@ package com.fasulting.domain.admin.review.service;
 import com.fasulting.common.RoleType;
 import com.fasulting.common.util.LogCurrent;
 import com.fasulting.domain.admin.review.dto.reqDto.AdminReviewReqDto;
+import com.fasulting.entity.ps.TotalRatingEntity;
+import com.fasulting.repository.ps.TotalRatingRepository;
 import com.fasulting.repository.review.ReviewRepository;
 import com.fasulting.repository.review.ReviewSubRepository;
 import com.fasulting.common.dto.respDto.ReviewRespDto;
@@ -26,6 +28,7 @@ public class AdminReviewServiceImpl implements AdminReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ReviewSubRepository reviewSubRepository;
+    private final TotalRatingRepository totalRatingRepository;
 
     /**
      * 신고된 리뷰 리스트 반환
@@ -80,6 +83,17 @@ public class AdminReviewServiceImpl implements AdminReviewService {
         review.updateByDel(RoleType.ADMIN + "_" + adminReviewReqDto.getAdminSeq(), LocalDateTime.now());
 
         reviewRepository.save(review);
+
+        TotalRatingEntity totalRating = totalRatingRepository.findByPs(review.getPs()).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+        if(totalRating.getCount().equals(1)){
+            totalRatingRepository.delete(totalRating);
+        }
+        else {
+            totalRating.updateByDel(review.getPoint());
+            totalRatingRepository.save(totalRating);
+        }
         return true;
     }
 }

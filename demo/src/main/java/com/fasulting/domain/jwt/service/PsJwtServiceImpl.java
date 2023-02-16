@@ -47,7 +47,13 @@ public class PsJwtServiceImpl implements PsJwtService {
     public Map<String, Object> login(LoginReqDto userInfo) {
 
         log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), START));
-        PsEntity ps = psRepository.findPsByEmail(userInfo.getEmail()).orElseThrow(() -> new NullPointerException());
+        
+        // 계정 정보가 없는 경우
+        if(!psRepository.findPsByEmail(userInfo.getEmail()).isPresent()){
+            log.info(LogCurrent.logCurrent(getClassName(), getMethodName(), END));
+            return null;
+        }
+        PsEntity ps = psRepository.findPsByEmail(userInfo.getEmail()).get();
 
         if (passwordEncoder.matches(userInfo.getPassword(), ps.getPassword())) {
 
