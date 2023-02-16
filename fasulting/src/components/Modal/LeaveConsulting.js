@@ -128,7 +128,9 @@ export default function LeaveConsulting({ leaveSession, reservationSeq, who }) {
               </DialogContentText>
               <div>
                 {/* <p className={styles.ptag}>반드시 정면이 나온 사진을 첨부해주세요</p> */}
-                <label htmlFor="inputfile">파일 선택</label>
+                <label htmlFor="inputfile" className={styles.inputfile}>
+                  파일 선택
+                </label>
                 <input
                   type="file"
                   id="inputfile"

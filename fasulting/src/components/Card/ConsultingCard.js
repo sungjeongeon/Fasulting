@@ -49,7 +49,8 @@ function ConsultingCard({ consult }) {
     }
   };
 
-  const enterConsultingRoom = () => {
+  const enterConsultingRoom = (e) => {
+    e.stopPropagation();
     navigate("/consult", {
       state: {
         userSeq: userData.userSeq,
@@ -58,6 +59,10 @@ function ConsultingCard({ consult }) {
         who: "client",
       },
     });
+  };
+
+  const moveDetail = () => {
+    navigate(`/detail/${consult.psSeq}`);
   };
   useEffect(() => {
     // 렌더링 시 상담일자 로딩바 % 구하기
@@ -82,12 +87,22 @@ function ConsultingCard({ consult }) {
   return (
     <div className={styles.column}>
       <ToastContainer />
-      <div className={styles.card}>
+      <div className={styles.card} style={{ cursor: "default" }}>
         <div>
-          <Typography variant="h6" component="div">
+          <Typography
+            variant="h6"
+            component="div"
+            onClick={moveDetail}
+            style={{ cursor: "pointer" }}
+          >
             {consult.psName}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          <Typography
+            sx={{ mb: 1.5 }}
+            color="text.secondary"
+            onClick={moveDetail}
+            style={{ cursor: "pointer" }}
+          >
             {consult.subCategoryName.join(" / ")}
           </Typography>
           <Typography sx={{ mb: 1 }} variant="body2">

@@ -14,25 +14,26 @@ function AdminSignupAcceptList({ signUpList }) {
       </Typography>
       <hr />
       <List sx={{ bgcolor: "background.paper" }}>
-        {signUpList.map((obj) => {
-          const labelId = `checkbox-list-label-${obj.psSeq}`;
+        {signUpList &&
+          signUpList.map((obj) => {
+            const labelId = `checkbox-list-label-${obj.psSeq}`;
 
-          return (
-            <ListItem
-              key={obj.psSeq}
-              secondaryAction={<AdminSignupAcceptModal ps={obj} />}
-              disablePadding
-            >
-              <ListItemButton role={undefined} dense>
-                <ListItemText
-                  id={labelId}
-                  primary={obj.name}
-                  secondary={obj.address}
-                />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
+            return (
+              <ListItem
+                key={obj.psSeq}
+                secondaryAction={<AdminSignupAcceptModal ps={obj} />}
+                disablePadding
+              >
+                <ListItemButton role={undefined} dense>
+                  <ListItemText
+                    id={labelId}
+                    primary={obj.name}
+                    secondary={obj.address}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
       </List>
       {/* <Pagination count={10} color="primary" /> */}
     </div>

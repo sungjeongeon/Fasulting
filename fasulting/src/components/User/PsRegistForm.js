@@ -90,7 +90,7 @@ export default function PsRegistForm() {
     formData.append("director", values.psdirector);
     if (values.pshomepage === "") {
     } else {
-      formData.append("hompage", values.pshompage); //null가능
+      formData.append("homepage", values.pshompage); //null가능
     }
     if (values.psintro === "") {
     } else {
