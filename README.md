@@ -89,12 +89,24 @@
 
 ## 2. Gantt chart
 
+[간트차트](./exec/docs/%EA%B0%84%ED%8A%B8%EC%B0%A8%ED%8A%B8.md)
+
 ## 3. 기능 명세서
+
+[기능명세서](./exec/docs/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.md)
 
 ## 4. Entity Relationship Diagram
 
+[ERD](./exec/docs/ERD.md)
+
 ## 5. API 연동 규격서
+
+[API 연동 규격서](./exec/docs/API%EC%97%B0%EB%8F%99%EA%B7%9C%EA%B2%A9%EC%84%9C.md)
 
 ## 6. Wireframe
 
+[Wireframe](./exec/docs/Wireframe.md)
+
 ## 7. Sequence Diagram
+
+[SequenceDiagram](./exec/docs/seqDiagram.md)
