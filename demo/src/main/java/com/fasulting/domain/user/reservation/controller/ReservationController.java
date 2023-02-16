@@ -106,7 +106,11 @@ public class ReservationController {
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
-    // 예약 취소
+    /**
+     * 예약 취소
+     * @param cancelReservationReqDto
+     * @return
+     */
     @PatchMapping
     public ResponseEntity<?> cancelReservation(@RequestBody CancelReservationReqDto cancelReservationReqDto) {
 
@@ -119,7 +123,12 @@ public class ReservationController {
         return ResponseEntity.status(500).body(ResponseBody.create(500, "fail"));
     }
 
-    // 상담 결과 상세 조회
+    /**
+     * 상담 결과 상세 조회
+     * @param userSeq
+     * @param consultingSeq
+     * @return
+     */
     @GetMapping("/report/{userSeq}/{consultingSeq}")
     public ResponseEntity<?> getReport(@PathVariable Long userSeq, @PathVariable Long consultingSeq) {
 

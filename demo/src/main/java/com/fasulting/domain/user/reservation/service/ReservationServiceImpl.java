@@ -242,6 +242,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         MultipartFile beforeImgFile = regReservationReqDto.getBeforeImg();
 
+        beforeImgFile = FileManage.resizeImage(beforeImgFile);
+
         String beforeImgPath = null;
         if (beforeImgFile != null && !beforeImgFile.isEmpty()) {
             // 파일 중복명 방지 uuid 생성
