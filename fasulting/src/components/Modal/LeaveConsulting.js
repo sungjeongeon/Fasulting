@@ -19,6 +19,7 @@ import styles from "./LeaveConsulting.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import axiosAPi from "../../api/axiosApi";
+import { useSelector } from "react-redux";
 
 export default function LeaveConsulting({ leaveSession, reservationSeq, who }) {
   const navigate = useNavigate();
@@ -26,7 +27,8 @@ export default function LeaveConsulting({ leaveSession, reservationSeq, who }) {
   const [img, setImg] = useState([]);
   const [content, setContent] = useState("");
   const [cost, setCost] = useState(0);
-  const subCategory = ["쌍커풀", "앞트임"];
+  const subCategory = useSelector((state) => state.modalInfo.subList);
+  const userName = useSelector((state) => state.modalInfo.userName);
 
   const submitReport = async () => {
     leaveSession();
@@ -116,7 +118,7 @@ export default function LeaveConsulting({ leaveSession, reservationSeq, who }) {
           </div>
         ) : (
           <div className={styles.modalbody}>
-            <DialogTitle>OOO 님 소견서</DialogTitle>
+            <DialogTitle>{userName} 님 소견서</DialogTitle>
             <DialogContent>
               <DialogContentText>
                 상담 내용을 기반으로 추천 시술, 견적 등 상담자에게 제공될 소견을
