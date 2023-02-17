@@ -67,35 +67,35 @@
 
 ## 기술스택
 
-![Untitled](Images/stack.PNG)
+![Untitled](./etc/readme_imgs/stack.PNG)
 
 ## 개발환경
 
-![Untitled](Images/develop.PNG)
+![Untitled](./etc/readme_imgs/develop.PNG)
 
 ## Gantt chart
 
-[간트차트](./exec/docs/%EA%B0%84%ED%8A%B8%EC%B0%A8%ED%8A%B8.md)
+[간트차트](./etc/docs/%EA%B0%84%ED%8A%B8%EC%B0%A8%ED%8A%B8.md)
 
 ## 기능 명세서
 
-[기능명세서](./exec/docs/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.md)
+[기능명세서](./etc/docs/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.md)
 
 ## Entity Relationship Diagram
 
-[ERD](./exec/docs/ERD.md)
+[ERD](./etc/docs/ERD.md)
 
 ## API 연동 규격서
 
-[API 연동 규격서](./exec/docs/API%EC%97%B0%EB%8F%99%EA%B7%9C%EA%B2%A9%EC%84%9C.md)
+[API 연동 규격서](./etc/docs/API%EC%97%B0%EB%8F%99%EA%B7%9C%EA%B2%A9%EC%84%9C.md)
 
 ## Wireframe
 
-[Wireframe](./exec/docs/Wireframe.md)
+[Wireframe](./etc/docs/Wireframe.md)
 
 ## Sequence Diagram
 
-[SequenceDiagram](./exec/docs/seqDiagram.md)
+[SequenceDiagram](./etc/docs/seqDiagram.md)
 
 <br />
 
