@@ -1,6 +1,6 @@
 # 👩🧑 페이설팅 (face + consulting)
 
-![Untitled](./etc/readme_imgs/fasulting_logo.PNG)
+![](./etc/readme_imgs/fasulting_logo.png)
 
 ## ✨ 주제
 
@@ -67,11 +67,11 @@
 
 ## 기술스택
 
-![Untitled](./etc/readme_imgs/stack.PNG)
+![](./etc/readme_imgs/stack.PNG)
 
 ## 개발환경
 
-![Untitled](./etc/readme_imgs/develop.PNG)
+![](./etc/readme_imgs/develop.PNG)
 
 ## Gantt chart
 
