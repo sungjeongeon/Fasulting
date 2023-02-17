@@ -1,6 +1,6 @@
 # 👩🧑 페이설팅 (face + consulting)
 
-<img src="Images/fasulting_logo.png" width="500"/>
+![Untitled](./etc/readme_imgs/fasulting_logo.PNG)
 
 ## ✨ 주제
 
