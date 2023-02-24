@@ -1,6 +1,6 @@
 # 👩🧑 페이설팅 (face + consulting)
 
-<img src="Images/fasulting_logo.png" width="500"/>
+<img src="Images/fasulting_logo.png" width="400"/>
 
 ## ✨ 주제
 
@@ -99,16 +99,144 @@
 
 <br />
 
-# 📌 기능 소개
+# 📌 시연 시나리오
 
-(추가 예정)
+### 메인화면
 
-1. 메인화면
-2. 상담자
-3. 병원
+> 메인 배너 캐러셀 활용
+
+<img src="Images/gif/main.gif" width="400" />
 
 <br />
 
-# 📽 시연 연상 & UCC
+### 병원 리스트 검색
 
-(추가 예정)
+> 메인 카테고리 확인 / 세부 카테고리 필터링 확인
+
+  <img src="Images/gif/main_ctg.gif" width="400"/>
+
+<br />
+
+### 병원 디테일 페이지
+
+> 병원정보, 의사 현황, 리뷰 탭 눌러 해당 인덱싱으로 이동 가능
+
+  <img src="Images/gif/user_detail.gif" width="400"/>
+
+<br />
+
+### 예약 진행
+
+> 날짜 및 시간 선택
+
+> 메인 카테고리, 세부 카테고리 최대 3개까지 선택
+
+> 비포 사진 업로드 후 예약 가능
+
+<img src="Images/gif/user_res.gif" width="400"/>
+
+<br />
+
+<!-- 5. 나의 예약, 나의 활동 페이지
+   - 나의 예약
+     ![예약 후 나의 예약 페이지로 자동으로 이동](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/372a8435-e226-410d-92ac-4d499b5bc747/Untitled.png)
+     예약 후 나의 예약 페이지로 자동으로 이동
+     ![하루 전까지 예약 취소 가능](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/af273e3a-8b75-4ddb-9cfd-cf61593865b9/Untitled.png)
+     하루 전까지 예약 취소 가능
+   - 나의 활동
+     ![즐겨찾기 및 작성한 리뷰 확인 가능](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/43b988ec-46af-4f81-a30c-242307197a52/Untitled.png)
+     즐겨찾기 및 작성한 리뷰 확인 가능 -->
+
+### 상담 대기
+
+> 상담 대기 방에서 마이크, 캠 확인 가능
+
+  <img src="Images/gif/user_start.gif" width="400"/>
+
+<br />
+
+# 🏥 병원 계정
+
+### 병원 정보 수정
+
+> 기본 정보 수정 가능
+
+<img src="Images/gif/hos_modi.gif" width="400"/>
+
+<br />
+
+### 다운로드
+
+> 상담에 필요한 프로그램 다운로드 가능
+
+<img src="Images/gif/hos_modi.gif" width="400"/>
+
+<br />
+
+### 예약 확인
+
+> 스케줄표로 예약 확인 가능
+
+> 이미지 다운로드 시 상담자의 비포 이미지 저장 가능
+
+> 상담 시간 30분 전부터 상담 입장 버튼 활성화
+
+<img src="Images/gif/hos_reserve.gif" width="400"/>
+
+<br />
+
+### 상담 대기
+
+> 의사 상담 방에서는 추가적으로 프로그램 다운로드 페이지로 링크되도록
+
+   <img src="Images/gif/hos_start.gif" width="400"/>
+
+<br />
+
+### 상담 진행
+
+> SC-FEGAN 프로그램 공유 화면
+
+> 마스킹, 스케치를 통해 ai 성형 상담 진행
+
+<img src="Images/gif/consulting.gif" width="400"/>
+
+<br />
+
+# ✍️ 상담 후
+
+### 병원 - 견적서 작성
+
+> 상담 끝난 후 병원은 소견서 작성
+
+> 지난예약보기 최상단에서 최신 지난 예약 소견서 확인 가능
+
+  <img src="Images/gif/hos_sog.gif" width="400"/>
+
+<br />
+
+### 상담자 - 리뷰 작성 및 견적서 확인
+
+> 상담 끝난 후 상담자에게 소견서 관련 모달 공지
+
+> 완료된 상담은 지난예약에서 견적상세 클릭 시 소견서 확인 가능
+
+> 견적 상세 옆 리뷰 작성 버튼을 통해, 상담 리뷰 작성 가능
+
+<img src="Images/gif/user_end.gif" width="400"/>
+
+<br />
+
+# 👨‍🔧 관리자
+
+병원 승인
+<img src="Images/gif/admin_ap.gif" width="400"/>
+
+신고된 리뷰 삭제
+<img src="Images/gif/admin_ap.gif" width="400"/>
+
+<br />
+
+# 📽 페이설팅 UCC
+
+[![Fasulting UCC](https://img.youtube.com/vi/6geIUEYqqJA/0.jpg)](https://youtu.be/6geIUEYqqJA)
