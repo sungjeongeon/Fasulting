@@ -1,6 +1,6 @@
 # 👩🧑 페이설팅 (face + consulting)
 
-<img src="Images/fasulting_logo.png" width="400"/>
+<img src="./etc/readme_imgs/6팀_시연gif/fasulting_logo.png" width="400"/>
 
 ## ✨ 주제
 
@@ -16,14 +16,25 @@
 
 ## 👪 참여 인원 및 역할
 
-- 강민정 BackEnd
-- 구태희 BackEnd & Team Leader
-- 권성현 FrontEnd
-- 성정언 FrontEnd
-- 장미림 FrontEnd
-- 정원웅 Server
+| 이름   | 역할                  | GitHub                                           |
+| ------ | --------------------- | ------------------------------------------------ |
+| 강민정 | BackEnd               | [@mingmingeeee](https://github.com/mingmingeeee) |
+| 구태희 | BackEnd & Team Leader | [@good-da22](https://github.com/good-da22)       |
+| 권성현 | FrontEnd              | [@sshh121](https://github.com/sshh121)           |
+| 성정언 | FrontEnd              | [@sungjeongeon](https://github.com/sungjeongeon) |
+| 장미림 | FrontEnd              | [@Mirimy](https://github.com/Mirimy)             |
+| 정원웅 | Server                | [@wonoong27](https://github.com/wonoong27)       |
+
+## 💎 목차
+
+1. [**프로젝트 컨셉 및 주요 기능**](#1)
+1. [**개발 환경 및 문서**](#2)
+1. [**시연 시나리오**](#3)
+1. [**페이설팅 UCC**](#4)
 
 <br />
+
+<div id="1"></div>
 
 # ⚙︎ 프로젝트 컨셉 및 주요 기능
 
@@ -62,6 +73,7 @@
 - 실시간으로 성형 후 모습을 보여줌으로써 환자의 만족감을 높이고 의사의 부담감을 줄일 수 있다.
 
 <br />
+<div id="2"></div>
 
 # 📃 개발 환경 및 문서
 
@@ -98,6 +110,7 @@
 [SequenceDiagram](./etc/docs/seqDiagram.md)
 
 <br />
+<div id="3"></div>
 
 # 📌 시연 시나리오
 
@@ -105,7 +118,7 @@
 
 - 메인 배너 캐러셀 활용
 
-  <img src="Images/gif/main.gif"  />
+  <img src="./etc/readme_imgs/6팀_시연gif/main.gif"  />
 
 <br />
 
@@ -113,7 +126,7 @@
 
 - 메인 카테고리 확인 / 세부 카테고리 필터링 확인
 
-  <img src="Images/gif/main_ctg.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/main_ctg.gif" />
 
 <br />
 
@@ -121,7 +134,7 @@
 
 - 병원정보, 의사 현황, 리뷰 탭 눌러 해당 인덱싱으로 이동 가능
 
-  <img src="Images/gif/user_detail.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/user_detail.gif" />
 
 <br />
 
@@ -133,7 +146,7 @@
 
 - 비포 사진 업로드 후 예약 가능
 
-  <img src="Images/gif/user_res.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/user_res.gif" />
 
 <br />
 
@@ -151,7 +164,7 @@
 
 - 상담 대기 방에서 마이크, 캠 확인 가능
 
-  <img src="Images/gif/user_start.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/user_start.gif" />
 
 <br />
 
@@ -161,7 +174,7 @@
 
 - 기본 정보 수정 가능
 
-  <img src="Images/gif/hos_modi.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/hos_modi.gif" />
 
 <br />
 
@@ -169,7 +182,7 @@
 
 - 상담에 필요한 프로그램 다운로드 가능
 
-  <img src="Images/gif/hos_modi.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/hos_modi.gif" />
 
 <br />
 
@@ -181,7 +194,7 @@
 
 - 상담 시간 30분 전부터 상담 입장 버튼 활성화
 
-  <img src="Images/gif/hos_reserve.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/hos_reserve.gif" />
 
 <br />
 
@@ -189,7 +202,7 @@
 
 - 의사 상담 방에서는 추가적으로 프로그램 다운로드 페이지로 링크되도록
 
-   <img src="Images/gif/hos_start.gif" />
+   <img src="./etc/readme_imgs/6팀_시연gif/hos_start.gif" />
 
 <br />
 
@@ -199,7 +212,7 @@
 
 - 마스킹, 스케치를 통해 ai 성형 상담 진행
 
-  <img src="Images/gif/consulting.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/consulting.gif" />
 
 <br />
 
@@ -211,7 +224,7 @@
 
 - 지난예약보기 최상단에서 최신 지난 예약 소견서 확인 가능
 
-  <img src="Images/gif/hos_sog.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/hos_sog.gif" />
 
 <br />
 
@@ -223,7 +236,7 @@
 
 - 견적 상세 옆 리뷰 작성 버튼을 통해, 상담 리뷰 작성 가능
 
-  <img src="Images/gif/user_end.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/user_end.gif" />
 
 <br />
 
@@ -233,16 +246,18 @@
 
 - 병원 승인 후 병원 로그인 가능
 
-  <img src="Images/gif/admin_ap.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/admin_ap.gif" />
 
 ### 신고된 리뷰 삭제
 
 - 신고된 리뷰 삭제 가능
 
-  <img src="Images/gif/admin_ap.gif"/>
+  <img src="./etc/readme_imgs/6팀_시연gif/admin_ap.gif"/>
 
 <br />
+<div id="4"></div>
 
 # 📽 페이설팅 UCC
 
+👇 click ! 👇
 [![Fasulting UCC](https://img.youtube.com/vi/6geIUEYqqJA/0.jpg)](https://youtu.be/6geIUEYqqJA)
