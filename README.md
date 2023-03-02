@@ -22,7 +22,7 @@
 | 구태희 | BackEnd & Team Leader | [@good-da22](https://github.com/good-da22)       |
 | 권성현 | FrontEnd              | [@sshh121](https://github.com/sshh121)           |
 | 성정언 | FrontEnd              | [@sungjeongeon](https://github.com/sungjeongeon) |
-| 장미림 | FrontEnd              | [@Mirimy](https://github.com/Mirimy)             |
+| 장미림 | FrontEnd              | [@mirimy97 ](https://github.com/mirimy97)        |
 | 정원웅 | Server                | [@wonoong27](https://github.com/wonoong27)       |
 
 ## 💎 목차
