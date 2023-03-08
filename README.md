@@ -1,6 +1,6 @@
 # 👩🧑 페이설팅 (face + consulting)
 
-<img src="etc/readme_imgs/6팀_시연gif/fasulting_logo.png" width="400"/>
+<img src="./etc/readme_imgs/6팀_시연gif/fasulting_logo.png" width="400"/>
 
 ## ✨ 주제
 
@@ -79,35 +79,35 @@
 
 ## 기술스택
 
-![](etc/readme_imgs/stack.PNG)
+![](./etc/readme_imgs/stack.PNG)
 
 ## 개발환경
 
-![](etc/readme_imgs/develop.PNG)
+![](./etc/readme_imgs/develop.PNG)
 
 ## Gantt chart
 
-[간트차트](etc/docs/%EA%B0%84%ED%8A%B8%EC%B0%A8%ED%8A%B8.md)
+[간트차트](./etc/docs/%EA%B0%84%ED%8A%B8%EC%B0%A8%ED%8A%B8.md)
 
 ## 기능 명세서
 
-[기능명세서](etc/docs/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.md)
+[기능명세서](./etc/docs/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.md)
 
 ## Entity Relationship Diagram
 
-[ERD](etc/docs/ERD.md)
+[ERD](./etc/docs/ERD.md)
 
 ## API 연동 규격서
 
-[API 연동 규격서](etc/docs/API%EC%97%B0%EB%8F%99%EA%B7%9C%EA%B2%A9%EC%84%9C.md)
+[API 연동 규격서](./etc/docs/API%EC%97%B0%EB%8F%99%EA%B7%9C%EA%B2%A9%EC%84%9C.md)
 
 ## Wireframe
 
-[Wireframe](etc/docs/Wireframe.md)
+[Wireframe](./etc/docs/Wireframe.md)
 
 ## Sequence Diagram
 
-[SequenceDiagram](etc/docs/seqDiagram.md)
+[SequenceDiagram](./etc/docs/seqDiagram.md)
 
 <br />
 <div id="3"></div>
@@ -118,7 +118,7 @@
 
 - 메인 배너 캐러셀 활용
 
-  <img src="etc/readme_imgs/6팀_시연gif/main.gif"  />
+  <img src="./etc/readme_imgs/6팀_시연gif/main.gif"  />
 
 <br />
 
@@ -126,7 +126,7 @@
 
 - 메인 카테고리 확인 / 세부 카테고리 필터링 확인
 
-  <img src="etc/readme_imgs/6팀_시연gif/main_ctg.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/main_ctg.gif" />
 
 <br />
 
@@ -134,7 +134,7 @@
 
 - 병원정보, 의사 현황, 리뷰 탭 눌러 해당 인덱싱으로 이동 가능
 
-  <img src="etc/readme_imgs/6팀_시연gif/user_detail.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/user_detail.gif" />
 
 <br />
 
@@ -146,7 +146,7 @@
 
 - 비포 사진 업로드 후 예약 가능
 
-  <img src="etc/readme_imgs/6팀_시연gif/user_res.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/user_res.gif" />
 
 <br />
 
@@ -164,7 +164,7 @@
 
 - 상담 대기 방에서 마이크, 캠 확인 가능
 
-  <img src="etc/readme_imgs/6팀_시연gif/user_start.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/user_start.gif" />
 
 <br />
 
@@ -174,7 +174,7 @@
 
 - 기본 정보 수정 가능
 
-  <img src="etc/readme_imgs/6팀_시연gif/hos_modi.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/hos_modi.gif" />
 
 <br />
 
@@ -182,7 +182,7 @@
 
 - 상담에 필요한 프로그램 다운로드 가능
 
-  <img src="etc/readme_imgs/6팀_시연gif/hos_modi.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/hos_modi.gif" />
 
 <br />
 
@@ -194,7 +194,7 @@
 
 - 상담 시간 30분 전부터 상담 입장 버튼 활성화
 
-  <img src="etc/readme_imgs/6팀_시연gif/hos_reserve.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/hos_reserve.gif" />
 
 <br />
 
@@ -202,7 +202,7 @@
 
 - 의사 상담 방에서는 추가적으로 프로그램 다운로드 페이지로 링크되도록
 
-   <img src="etc/readme_imgs/6팀_시연gif/hos_start.gif" />
+   <img src="./etc/readme_imgs/6팀_시연gif/hos_start.gif" />
 
 <br />
 
@@ -212,7 +212,7 @@
 
 - 마스킹, 스케치를 통해 ai 성형 상담 진행
 
-  <img src="etc/readme_imgs/6팀_시연gif/consulting.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/consulting.gif" />
 
 <br />
 
@@ -224,7 +224,7 @@
 
 - 지난예약보기 최상단에서 최신 지난 예약 소견서 확인 가능
 
-  <img src="etc/readme_imgs/6팀_시연gif/hos_sog.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/hos_sog.gif" />
 
 <br />
 
@@ -236,7 +236,7 @@
 
 - 견적 상세 옆 리뷰 작성 버튼을 통해, 상담 리뷰 작성 가능
 
-  <img src="etc/readme_imgs/6팀_시연gif/user_end.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/user_end.gif" />
 
 <br />
 
@@ -246,13 +246,13 @@
 
 - 병원 승인 후 병원 로그인 가능
 
-  <img src="etc/readme_imgs/6팀_시연gif/admin_ap.gif" />
+  <img src="./etc/readme_imgs/6팀_시연gif/admin_ap.gif" />
 
 ### 신고된 리뷰 삭제
 
 - 신고된 리뷰 삭제 가능
 
-  <img src="etc/readme_imgs/6팀_시연gif/admin_ap.gif"/>
+  <img src="./etc/readme_imgs/6팀_시연gif/admin_ap.gif"/>
 
 <br />
 <div id="4"></div>
