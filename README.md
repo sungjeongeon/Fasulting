@@ -2,6 +2,8 @@
 
 <img src="./etc/readme_imgs/demo_gif/fasulting_logo.png" width="400"/>
 
+<br />
+
 ## ✨ 주제
 
 - Face Edit GAN을 이용한 온라인 성형 상담
